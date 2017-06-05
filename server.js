@@ -95,6 +95,10 @@ app.get('/users', function (req, res) {
   res.send('{ users: marcelo }');
 });
 
+app.get('/positions', function (req, res) {
+  res.send('{ positions: 123 }');
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
