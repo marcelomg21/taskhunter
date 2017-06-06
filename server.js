@@ -98,7 +98,7 @@ app.post('/api/position', function (req, res) {
   }
   if (db) {
     var col = db.collection('positions');
-    col.insert({position: req.body.name, date: Date.now()});
+    col.insert({position: req.body, date: Date.now()});
   }  
 });
 
