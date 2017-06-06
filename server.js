@@ -94,7 +94,7 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.post('/api/position', function (req, res) {
-  if(!req.body.name || typeof req.body.name != "string") {
+  if(!req.body.name) {
      res.status(400).send("400 Bad Request")
   }
   if (!db) {
