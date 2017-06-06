@@ -3,10 +3,11 @@ var express = require('express'),
     fs      = require('fs'),
     app     = express(),
     eps     = require('ejs'),
-    morgan  = require('morgan');
+    morgan  = require('morgan'),
+    bodyParser = require('body-parser');
     
 Object.assign=require('object-assign')
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
@@ -91,15 +92,14 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
-app.get('/api/position', function (req, res) {
+app.post('/api/position', function (req, res) {
   if (!db) {
     initDb(function(err){});
   }
   if (db) {
     var col = db.collection('positions');
-    col.insert({ip: req.ip, date: Date.now()});
-  }
-  res.send('{ message: added }');
+    col.insert({position: req.body.name, date: Date.now()});
+  }  
 });
 
 app.get('/api/positions', function (req, res) {
