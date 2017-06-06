@@ -7,6 +7,7 @@ var express = require('express'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign')
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
@@ -93,12 +94,15 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.post('/api/position', function (req, res) {
+  if(!req.body.name || typeof req.body.name != "string") {
+     res.status(400).send("400 Bad Request")
+  }
   if (!db) {
     initDb(function(err){});
   }
   if (db) {
     var col = db.collection('positions');
-    col.insert({position: req.body, date: Date.now()});
+    col.insert({position: req.body.name, date: Date.now()});
   }  
 });
 
