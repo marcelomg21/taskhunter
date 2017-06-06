@@ -121,7 +121,7 @@ app.get('/api/positions', function (req, res) {
     //});
     var col = db.collection('positions');
     var near = {"near": {"type": "Point","coordinates": [ -30.014234, -51.087205 ]}, "maxDistance": 0.09 * 1609,"spherical": true,"distanceField": "distance","distanceMultiplier": 0.000621371};
-    res.send('{ near results: ' + col.aggregate([{ "$geoNear": near}]).pretty() +  '}');
+    res.send(col.aggregate([{ "$geoNear": near}]).pretty());
   }
 });
 
