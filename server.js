@@ -91,12 +91,26 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
-app.get('/users', function (req, res) {
-  res.send('{ users: marcelo }');
+app.get('/api/position', function (req, res) {
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('positions');
+    col.insert({ip: req.ip, date: Date.now()});
+  }
+  res.send('{ message: added }');
 });
 
-app.get('/positions', function (req, res) {
-  res.send('{ positions: 123 }');
+app.get('/api/positions', function (req, res) {
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    db.collection('positions').count(function(err, count ){
+      res.send('{ position: ' + count + '}');
+    });
+  }
 });
 
 // error handling
