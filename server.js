@@ -95,7 +95,7 @@ app.get('/pagecount', function (req, res) {
 
 app.post('/api/position', function (req, res) {
   if(!req.body.name || !req.body.lat || !req.body.lon) {
-     res.status(400).send("400 Bad Request")
+     res.status(400).send('400 Bad Request')
   }
   if (!db) {
     initDb(function(err){});
