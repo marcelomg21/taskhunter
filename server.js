@@ -103,7 +103,8 @@ app.post('/api/position', function (req, res) {
   if (db) {
     var col = db.collection('positions');
     col.insert({position: req.body.name, date: Date.now()});
-  }  
+  }
+  res.end();
 });
 
 app.get('/api/positions', function (req, res) {
