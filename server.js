@@ -94,9 +94,9 @@ app.get('/pagecount', function (req, res) {
 });
 
 app.post('/api/position', function (req, res) {
-  if((!req.body.name || typeof req.body.name != "string") &&
-    (!req.body.lat || typeof req.body.lat != "string") &&
-    (!req.body.lon || typeof req.body.lon != "string")) {
+  if(!req.body.name || typeof req.body.name != "string" ||
+     !req.body.lat || typeof req.body.lat != "string" ||
+     !req.body.lon || typeof req.body.lon != "string") {
      res.status(400).send("400 Bad Request")
   }
   if (!db) {
@@ -105,7 +105,8 @@ app.post('/api/position', function (req, res) {
   if (db) {
     var col = db.collection('positions');
     //col.insert({position: req.body.name, date: Date.now()});
-    col.insert({name: req.body.name, location: {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]}});
+    var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+    col.insert({name: req.body.name, location: point});
   }
   res.end();
 });
@@ -119,7 +120,8 @@ app.get('/api/positions', function (req, res) {
     //  res.send('{ position: ' + count + '}');
     //});
     var col = db.collection('positions');
-    res.send('{ near results: ' + col.aggregate([{ "$geoNear": {"near": {"type": "Point","coordinates": [ -30.014234, -51.087205 ]}, 
+    var point = "near": {"type": "Point","coordinates": [ -30.014234, -51.087205 ]};
+    res.send('{ near results: ' + col.aggregate([{ "$geoNear": {point, 
                                            "maxDistance": 0.09 * 1609,
                                            "spherical": true,
                                            "distanceField": "distance",
