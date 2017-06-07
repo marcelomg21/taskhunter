@@ -126,8 +126,8 @@ app.get('/api/positions', function (req, res) {
                         $spherical : true, 
                         $distanceField : 'distance', 
                         $distanceMultiplier : 0.000621371}
-      ]).each(function(err, doc) {      
-      res.send('err: ' + err + ', doc:' + doc);      
+      ]).pretty(function(err, doc) {      
+      res.send('doc: ' + doc);      
     });
     res.send('ok positions!');
   }
