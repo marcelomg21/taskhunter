@@ -125,7 +125,7 @@ app.get('/api/positions', function (req, res) {
                         $maxDistance : 0.09 * 1609, 
                         $spherical : true, 
                         $distanceField : 'distance', 
-                        $distanceMultiplier : 0.000621371}}
+                        $distanceMultiplier : 0.000621371}
       ]).each(function(err, doc) {      
       res.send('err: ' + err + ', doc:' + doc);      
     });
