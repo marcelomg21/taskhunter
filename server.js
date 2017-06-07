@@ -131,7 +131,7 @@ app.get('/api/positions', function (req, res) {
               }
           }
       ]);
-    res.send('ok positions! ' + result._id);
+    res.send('ok positions! ' + result);
   }
 });
 
