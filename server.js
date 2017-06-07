@@ -126,7 +126,7 @@ app.get('/api/positions', function (req, res) {
                         $spherical : true, 
                         $distanceField : 'distance', 
                         $distanceMultiplier : 0.000621371}
-      ]).pretty();
+      ]);
     res.send('ok positions! ' + result);
   }
 });
