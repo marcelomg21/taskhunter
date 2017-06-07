@@ -104,7 +104,8 @@ app.post('/api/position', function (req, res) {
     var col = db.collection('positions');
     //col.insert({position: req.body.name, date: Date.now()});
     //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert({name: req.body.name, location: {type : 'Point', coordinates : [req.body.lat, req.body.lon]}});    
+    col.insert({name: req.body.name, location: {type : 'Point', coordinates : [parseFloat(req.body.lat), parseFloat(req.body.lon)]}});
+    col.insert({name: req.body.name, location: {type : 'Point', coordinates : [-30.015498, -51.085918]}});
   } 
   res.end();
 });
