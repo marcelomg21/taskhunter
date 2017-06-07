@@ -127,7 +127,7 @@ app.get('/api/positions', function (req, res) {
                         $distanceField : 'distance', 
                         $distanceMultiplier : 0.000621371}
       ]);
-    res.send('ok positions! ' + result);
+    res.send('ok positions! ' + result._id);
   }
 });
 
