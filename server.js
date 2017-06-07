@@ -104,7 +104,8 @@ app.post('/api/position', function (req, res) {
     var col = db.collection('positions');
     //col.insert({position: req.body.name, date: Date.now()});
     //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert({name: req.body.name, location: {type : 'Point', coordinates : [req.body.lat, req.body.lon]}});    
+    col.insert({name: req.body.name, location: {type : 'Point', coordinates : [req.body.lat, req.body.lon]}});
+    col.insert({name: req.body.name, location: {type : 'Point', coordinates : [-30.015498, -51.085918]}});
   } 
   res.end();
 });
@@ -120,18 +121,20 @@ app.get('/api/positions', function (req, res) {
     var col = db.collection('positions');
     //var near = {"near": {"type": "Point","coordinates": [ -30.014234, -51.087205 ]}, "maxDistance": 0.09 * 1609,"spherical": true,"distanceField": "distance","distanceMultiplier": 0.000621371};
     //col.aggregate([{ '$geoNear' : {'near' : {'type': 'Point', 'coordinates' : [ -30.014234, -51.087205 ]}, 'maxDistance' : 0.09 * 1609, 'spherical' : true, 'distanceField' : 'distance', 'distanceMultiplier' : 0.000621371}}]).pretty();
-    var result = col.aggregate([
+    col.aggregate([
           { 
               $geoNear : {
                 near : { type: 'Point', coordinates : [ -30.014234, -51.087205 ] }, 
-                        maxDistance : 0.09 * 1609, 
+                        maxDistance : 10.09 * 1609, 
                         spherical : true, 
                         distanceField : 'distance', 
                         distanceMultiplier : 0.000621371
               }
           }
-      ]);
-    res.send('ok positions! ' + result);
+      ], function(err, result) {
+            return res.send(result[0]);
+        });
+    //res.send('ok positions!');
   }
 });
 
