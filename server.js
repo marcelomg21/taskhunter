@@ -136,6 +136,10 @@ app.get('/api/positions', function (req, res) {
   }
 });
 
+app.get('/api/position/:id', function (req, res) {
+  res.send('param: ' + req.params.id);
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
