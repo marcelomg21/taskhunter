@@ -4,6 +4,7 @@ var express = require('express'),
     app     = express(),
     eps     = require('ejs'),
     morgan  = require('morgan'),
+    jwt     = require('jsonwebtoken'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign')
@@ -138,6 +139,20 @@ app.get('/api/positions', function (req, res) {
 
 app.get('/api/position/:id', function (req, res) {
   res.send('param: ' + req.params.id);
+});
+
+app.get('/api/oauth2', function (req, res) {
+    var tokenData = {
+        username: 'marcelo.goncalves',
+        id: '2145590999'
+    };
+    var result = {
+        username: 'marcelo.goncalves',
+        token: Jwt.sign(tokenData, '37LvDSm4XvjYOh9Y')
+    };
+
+    return res.json(result);
+    //res.send('param: ' + req.params.id);
 });
 
 // error handling
