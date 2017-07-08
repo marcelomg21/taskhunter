@@ -148,7 +148,7 @@ app.get('/api/oauth2', function (req, res) {
     };
     var result = {
         username: 'marcelo.goncalves',
-        token: Jwt.sign(tokenData, '37LvDSm4XvjYOh9Y')
+        token: jwt.sign(tokenData, '37LvDSm4XvjYOh9Y')
     };
 
     //return res.json(result);
