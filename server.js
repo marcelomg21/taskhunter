@@ -141,7 +141,7 @@ app.get('/api/position/:id', function (req, res) {
   res.send('param: ' + req.params.id);
 });
 
-app.get('/api/oauth2', function (req, res) {
+app.post('/connect/oauth/token', function (req, res) {
     var tokenData = {
         username: 'marcelo.goncalves',
         id: '1520675761317155'
@@ -156,7 +156,6 @@ app.get('/api/oauth2', function (req, res) {
     };
 
     return res.json(result);
-    //res.send('param: oauth2 success');
 });
 
 // error handling
