@@ -151,8 +151,8 @@ app.get('/api/oauth2', function (req, res) {
         token: Jwt.sign(tokenData, '37LvDSm4XvjYOh9Y')
     };
 
-    return res.json(result);
-    //res.send('param: ' + req.params.id);
+    //return res.json(result);
+    res.send('param: oauth2 success');
 });
 
 // error handling
