@@ -158,6 +158,20 @@ app.post('/connect/oauth/token', function (req, res) {
     return res.json(result);
 });
 
+app.get('/api/users/:user_id', function (req, res) {
+  var result = {
+          data: {
+              id: req.params.user_id,
+              age: 33,        
+              firstName: 'Marcelo',
+              gender: 'M',
+              matchingPreferences: {ageMax: 30, ageMin: 20, female:1, male: 0}
+          }        
+    };
+    
+    return res.json(result);    
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
