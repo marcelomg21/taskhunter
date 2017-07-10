@@ -165,7 +165,13 @@ app.get('/api/users/:user_id', function (req, res) {
               age: 33,        
               first_name: 'Marcelo',
               gender: 'M',
-              matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 }
+              birth_date: '30-01-1980',
+              matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
+              notification_settings: { charms: 0, match: 0, messages:0 },
+              stats: { nb_invites: 0, nb_charms: 0, nb_crushes },
+              credits: 0,
+              unread_conversations: 0,
+              unread_notifications: 0              
           }        
     };
     
