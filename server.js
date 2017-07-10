@@ -163,9 +163,9 @@ app.get('/api/users/:user_id', function (req, res) {
           data: {
               id: req.params.user_id,
               age: 33,        
-              firstName: 'Marcelo',
+              first_name: 'Marcelo',
               gender: 'M',
-              matchingPreferences: {ageMax: 30, ageMin: 20, female:1, male: 0}
+              matching_preferences: { age_max: 30, age_min: 20, female:1, female: 0 }
           }        
     };
     
