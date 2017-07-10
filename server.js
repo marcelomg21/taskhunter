@@ -164,7 +164,7 @@ app.get('/api/users/:user_id', function (req, res) {
               id: req.params.user_id,
               age: 33,        
               first_name: 'Marcelo',
-              gender: 'M',
+              gender: 'male',
               birth_date: '30-01-1980',
               matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
               notification_settings: { charms: 0, match: 0, messages:0 },
