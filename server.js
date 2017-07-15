@@ -184,11 +184,35 @@ app.get('/api/users/:user_id', function (req, res) {
 app.get('/api/users/:user_id/crossings', function (req, res) {
   var result = {
           data: {
-              id: req.params.user_id,
-              age: 33,        
-              first_name: 'Marcelo',              
-              modification_date: '2017-07-05',              
-              matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },              
+              id: req.params.user_id,              
+              modification_date: '2017-07-05',
+              notification_type: '471,524,525,526,529,530,531,565,791,792',
+              notifier: { 
+                  id: 30, 
+                  type:,
+                  job:,
+                  is_accepted:,
+                  workplace:,
+                  my_relation:,
+                  distance:,
+                  gender:,
+                  is_charmed:,
+                  nb_photos:,
+                  first_name: 'Alberto',
+                  age: 30,
+                  already_charmed:,
+                  has_charmed_me:,
+                  availability:,
+                  is_invited:,
+                  last_invite_received:,
+                  profiles: {
+                      id:,
+                      mode:,
+                      url:,
+                      width:,
+                      height:
+                  }
+              },
               is_notified: false,
               nb_times: 0,
               type: 'type1',
