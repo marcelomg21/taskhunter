@@ -189,35 +189,43 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
                   id: 30, 
-                  type:,
-                  job:,
-                  is_accepted:,
-                  workplace:,
-                  my_relation:,
-                  distance:,
-                  gender:,
-                  is_charmed:,
-                  nb_photos:,
+                  type: 'type',
+                  job: 'Analista',
+                  is_accepted: true,
+                  workplace: 'Centro',
+                  my_relation: 1,
+                  distance: 20.90,
+                  gender: 'F',
+                  is_charmed: false,
+                  nb_photos: 1,
                   first_name: 'Alberto',
                   age: 30,
-                  already_charmed:,
-                  has_charmed_me:,
-                  availability:,
-                  is_invited:,
-                  last_invite_received:,
+                  already_charmed: false,
+                  has_charmed_me: false,
+                  availability: {
+                      time_left: 100,
+                      availability_type: {
+                          color: 'Branco',
+                          duration: 10,
+                          label: 'label2',
+                          type: 'type2'
+                      }
+                  },
+                  is_invited: false,
+                  last_invite_received: {
+                      color: 'Roxo',
+                          duration: 20,
+                          label: 'label3',
+                          type: 'type3'
+                  },
                   profiles: {
-                      id:,
-                      mode:,
-                      url:,
-                      width:,
-                      height:
+                      id: 130,
+                      mode: 0,
+                      url: 'https://pt.wikipedia.org/wiki/Shaggy_Rogers#/media/File:Salsicha_Rogers.jpg',
+                      width: 50,
+                      height: 50
                   }
-              },
-              is_notified: false,
-              nb_times: 0,
-              type: 'type1',
-              unread_conversations: 0,
-              unread_notifications: 0
+              }
           }        
     };
     
