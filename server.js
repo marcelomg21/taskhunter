@@ -181,6 +181,25 @@ app.get('/api/users/:user_id', function (req, res) {
     return res.json(result);    
 });
 
+app.get('/api/users/:user_id/crossings', function (req, res) {
+  var result = {
+          data: {
+              id: req.params.user_id,
+              age: 33,        
+              first_name: 'Marcelo',              
+              modification_date: '2017-07-05',              
+              matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },              
+              is_notified: false,
+              nb_times: 0,
+              type: 'type1',
+              unread_conversations: 0,
+              unread_notifications: 0
+          }        
+    };
+    
+    return res.json(result);    
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
