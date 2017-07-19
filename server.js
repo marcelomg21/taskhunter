@@ -182,7 +182,7 @@ app.get('/api/users/:user_id', function (req, res) {
 });
 
 app.get('/api/users/:user_id/crossings', function (req, res) {
-  var result =  {
+  var result =  
            [{
               id: req.params.user_id,              
               modification_date: '2017-07-05',
@@ -226,8 +226,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                       height: 50
                   }
               }
-          }]
-    };
+          }];
+    
     
     return res.json(result);    
 });
