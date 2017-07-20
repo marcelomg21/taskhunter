@@ -182,8 +182,8 @@ app.get('/api/users/:user_id', function (req, res) {
 });
 
 app.get('/api/users/:user_id/crossings', function (req, res) {
-  var result =  
-           [{
+  var result =  {
+           data: [{
               id: req.params.user_id,              
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
@@ -218,15 +218,16 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                           label: 'label3',
                           type: 'type3'
                   },
-                  profiles: {
+                  profiles: [{
                       id: 130,
                       mode: 0,
                       url: 'https://pt.wikipedia.org/wiki/Shaggy_Rogers#/media/File:Salsicha_Rogers.jpg',
                       width: 50,
                       height: 50
-                  }
+                  }]
               }
-          }];
+          }]
+    };
     
     
     return res.json(result);    
