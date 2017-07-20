@@ -183,6 +183,7 @@ app.get('/api/users/:user_id', function (req, res) {
 
 app.get('/api/users/:user_id/crossings', function (req, res) {
   var result =  {
+           success: true,
            data: [{
               id: req.params.user_id,              
               modification_date: '2017-07-05',
