@@ -308,23 +308,20 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   first_name: 'Maciel Orlando',
                   gender: 'F'
               }],
-              participants: [{
-                  success: true,
-                  data: {
-                      id: '123456789',
-                      user: {
-                          id: '10222', 
-                          type: 'type1',
-                          first_name: 'Moacir',
-                          is_moderator: false,
-                          profiles: [{
-                              id: 130,
-                              mode: 0,
-                              url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
-                              width: 50,
-                              height: 50
-                          }]
-                      }
+              participants: [{                  
+                  id: '123456789',
+                  user: {
+                      id: '10222', 
+                      type: 'type1',
+                      first_name: 'Moacir',
+                      is_moderator: false,
+                      profiles: [{
+                          id: 130,
+                          mode: 0,
+                          url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
+                          width: 50,
+                          height: 50
+                      }]
                   }
               }]              
           }]
