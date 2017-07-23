@@ -311,7 +311,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       profiles: [{
                           id: 130,
                           mode: 0,
-                          url: 'http://www.laerskoolkanonkop.co.za/Images/cartoon%202.jpg',
+                          url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
                           width: 50,
                           height: 50
                       }]
