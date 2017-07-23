@@ -303,6 +303,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               },
               participants: [{
+                  success: true,
                   data: {
                       id: '123456789',
                       user: {
