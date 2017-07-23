@@ -303,7 +303,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               },
               real_participants: [{
-                  id: 304, 
+                  id: '304', 
                   type: 'type2',
                   first_name: 'Maciel Orlando',
                   gender: 'F'
@@ -313,7 +313,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   data: {
                       id: '123456789',
                       user: {
-                          id: 102, 
+                          id: '10222', 
                           type: 'type1',
                           first_name: 'Moacir',
                           is_moderator: false,
