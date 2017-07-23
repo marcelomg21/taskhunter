@@ -280,8 +280,46 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
               }
           }]
     };
-    
-    
+        
+    return res.json(result);    
+});
+
+app.get('/api/users/:user_id/conversations', function (req, res) {
+  var result =  {
+           success: true,
+           data: [{
+              id: req.params.user_id,              
+              modification_date: '2017-07-22',
+              is_read: false,
+              creation_date: '2017-07-20',
+              last_message: {
+                  creation_date: 100,
+                  message: 100,
+                  sender: {
+                      id: 102, 
+                      type: 'type1',
+                      first_name: 'Moacir',
+                      gender: 'M'
+                  }
+              },
+              participants: {
+                  user: {
+                      id: 102, 
+                      type: 'type1',
+                      first_name: 'Moacir',
+                      is_moderator: false,
+                      profiles: [{
+                          id: 130,
+                          mode: 0,
+                          url: 'http://www.laerskoolkanonkop.co.za/Images/cartoon%202.jpg',
+                          width: 50,
+                          height: 50
+                      }]
+                  }                  
+              }
+          }]
+    };
+        
     return res.json(result);    
 });
 
