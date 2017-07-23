@@ -293,8 +293,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
               is_read: false,
               creation_date: '2017-07-20',
               last_message: {
-                  creation_date: 100,
-                  message: 100,
+                  creation_date: '2017-07-21',
+                  message: 'This is a new message',
                   sender: {
                       id: 102, 
                       type: 'type1',
@@ -303,20 +303,22 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               },
               participants: [{
-                  user: {
-                      id: 102, 
-                      type: 'type1',
-                      first_name: 'Moacir',
-                      is_moderator: false,
-                      profiles: [{
-                          id: 130,
-                          mode: 0,
-                          url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
-                          width: 50,
-                          height: 50
-                      }]
-                  }                  
-              }]
+                  data: {
+                      user: {
+                          id: 102, 
+                          type: 'type1',
+                          first_name: 'Moacir',
+                          is_moderator: false,
+                          profiles: [{
+                              id: 130,
+                              mode: 0,
+                              url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
+                              width: 50,
+                              height: 50
+                          }]
+                      }
+                  }
+              }]              
           }]
     };
         
