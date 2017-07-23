@@ -302,7 +302,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       gender: 'M'
                   }
               },
-              participants: {
+              participants: [{
                   user: {
                       id: 102, 
                       type: 'type1',
@@ -316,7 +316,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                           height: 50
                       }]
                   }                  
-              }
+              }]
           }]
     };
         
