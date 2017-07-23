@@ -302,6 +302,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       gender: 'M'
                   }
               },
+              real_participants: [{
+                  id: 304, 
+                  type: 'type2',
+                  first_name: 'Maciel Orlando',
+                  gender: 'F'
+              }],
               participants: [{
                   success: true,
                   data: {
