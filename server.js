@@ -303,15 +303,15 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               },
               real_participants: [{
-                  id: '304', 
-                  type: 'type2',
+                  id: 304, 
+                  type: 'type1',
                   first_name: 'Maciel Orlando',
                   gender: 'F'
               }],
               participants: [{                  
-                  id: '123456789',
+                  id: 1234,
                   user: {
-                      id: '10222', 
+                      id: 10222, 
                       type: 'type1',
                       first_name: 'Moacir',
                       is_moderator: false,
