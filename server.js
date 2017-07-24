@@ -330,6 +330,22 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
     return res.json(result);    
 });
 
+app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
+  if(!req.body.alt || !req.body.latitude || !req.body.longitude) {
+     res.status(400).send('400 Bad Request')
+  }
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('positions');
+    //col.insert({position: req.body.name, date: Date.now()});
+    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+    col.insert({user_id: req.params.user_id, location: {type : 'Point', coordinates : [parseFloat(req.body.latitude), parseFloat(req.body.longitude)]}});    
+  } 
+  res.end();
+});
+
 // error handling
 app.use(function(err, req, res, next){
   console.error(err.stack);
