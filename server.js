@@ -402,7 +402,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
         {
             user_id: req.params.user_id, 
             device: {
-                device_id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token,
+                device_id: req.params.device_id,
                 adid : req.body.adid,
                 androidId : req.body.androidId,
                 appBuild : req.body.appBuild,
