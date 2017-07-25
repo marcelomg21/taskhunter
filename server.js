@@ -362,9 +362,11 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   if(!req.body.androidId) {
      res.status(400).send('400 Bad Request 1234 teste')
   }
+    
   if (!db) {
     initDb(function(err){});
   }
+  
   if (db) {
     var col = db.collection('devices');
     //col.insert({position: req.body.name, date: Date.now()});
@@ -373,15 +375,15 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
         {
             user_id: req.params.user_id, 
             device: {
-                device_id: req.params.user_id + '_' + req.headers['androidId'] + '_' + req.headers['token'],                
-                androidId : req.headers['androidId'],
-                appBuild : req.headers['appBuild'],
-                countryId : req.headers['countryId'],
-                idfa : req.headers['idfa'],
-                languageId : req.headers['languageId'],
-                osBuild : req.headers['osBuild'],
-                token : req.headers['token'],
-                type : req.headers['type']
+                device_id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token,                
+                androidId : req.body.androidId,
+                appBuild : req.body.appBuild,
+                countryId : req.body.countryId,
+                idfa : req.body.idfa,
+                languageId : req.body.languageId,
+                osBuild : req.body.osBuild,
+                token : req.body.token,
+                type : req.body.type
             }
         });    
   } 
@@ -398,12 +400,16 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
 
 //update device
 app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
-  if(!req.headers['androidId']) {
-     res.status(400).send('400 Bad Request')
+  app.use(bodyParser.json());  
+    
+  if(!req.body.androidId) {
+     res.status(400).send('400 Bad Request 1234 teste')
   }
+    
   if (!db) {
     initDb(function(err){});
   }
+  
   if (db) {
     var col = db.collection('devices');
     //col.insert({position: req.body.name, date: Date.now()});
@@ -413,14 +419,14 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
             user_id: req.params.user_id, 
             device: {
                 device_id: req.params.device_id,                
-                androidId : req.headers['androidId'],
-                appBuild : req.headers['appBuild'],
-                countryId : req.headers['countryId'],
-                idfa : req.headers['idfa'],
-                languageId : req.headers['languageId'],
-                osBuild : req.headers['osBuild'],
-                token : req.headers['token'],
-                type : req.headers['type']
+                androidId : req.body.androidId,
+                appBuild : req.body.appBuild,
+                countryId : req.body.countryId,
+                idfa : req.body.idfa,
+                languageId : req.body.languageId,
+                osBuild : req.body.osBuild,
+                token : req.body.token,
+                type : req.body.type
             }
         });    
   } 
