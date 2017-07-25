@@ -362,7 +362,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
         {
             user_id: req.params.user_id, 
             device: {
-                device_id: req.params.user_id + '_' + req.header['androidId'] + '_' + req.body.token'],                
+                device_id: req.params.user_id + '_' + req.header['androidId'] + '_' + req.header['token'],                
                 androidId : req.header['androidId'],
                 appBuild : req.header['appBuild'],
                 countryId : req.header['countryId'],
