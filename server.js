@@ -373,7 +373,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
          }
    };
         
-    return res.json(result);
+    res.json(result);
 });
 
 //update device
@@ -393,7 +393,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
          }
    };
         
-    return res.json(result);
+    res.json(result);
 });
 
 // error handling
