@@ -8,7 +8,7 @@ var express = require('express'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign')
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
@@ -357,36 +357,13 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
   
-  //app.use(bodyParser.json());  
+  app.use(bodyParser.json());  
     
   if(!req.body.androidId) {
-     res.status(400).send('400 Bad Request 1234 teste')
+     res.status(400).send('400 Bad Request - ERRO SAVE NEW')
   }
     
-  if (!db) {
-    initDb(function(err){});
-  }
-  
-  if (db) {
-    var col = db.collection('devices');
-    //col.insert({position: req.body.name, date: Date.now()});
-    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert(
-        {
-            user_id: req.params.user_id, 
-            device: {
-                device_id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token,                
-                androidId : req.body.androidId,
-                appBuild : req.body.appBuild,
-                countryId : req.body.countryId,
-                idfa : req.body.idfa,
-                languageId : req.body.languageId,
-                osBuild : req.body.osBuild,
-                token : req.body.token,
-                type : req.body.type
-            }
-        });    
-  } 
+  //aqui db
   
   var result =  {
          success: true,
@@ -400,41 +377,18 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
 
 //update device
 app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
-  app.use(bodyParser.json());  
+  app.use(bodyParser.urlencoded({ extended: true }));
     
   if(!req.body.androidId) {
-     res.status(400).send('400 Bad Request 1234 teste')
+     res.status(400).send('400 Bad Request - ERRO UPDATE')
   }
     
-  if (!db) {
-    initDb(function(err){});
-  }
-  
-  if (db) {
-    var col = db.collection('devices');
-    //col.insert({position: req.body.name, date: Date.now()});
-    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert(
-        {
-            user_id: req.params.user_id, 
-            device: {
-                device_id: req.params.device_id,                
-                androidId : req.body.androidId,
-                appBuild : req.body.appBuild,
-                countryId : req.body.countryId,
-                idfa : req.body.idfa,
-                languageId : req.body.languageId,
-                osBuild : req.body.osBuild,
-                token : req.body.token,
-                type : req.body.type
-            }
-        });    
-  } 
+  //aqui db
     
   var result =  {
          success: true,
          data: {
-             id: req.params.device_id
+             id: req.params.device_id + '_' + req.body.androidId + '_' + req.body.token
          }
    };
         
