@@ -142,6 +142,14 @@ app.get('/api/position/:id', function (req, res) {
 });
 
 app.post('/connect/oauth/token', function (req, res) {
+    app.use(bodyParser.urlencoded({ extended: true }));
+    
+    if(!req.body.androidId) {
+         res.status(400).send('400 Bad Request --> connect/oauth/token')
+    }
+    
+    res.send('{ androidId: ' + req.body.androidId + '}');
+    
     var tokenData = {
         username: 'marcelo.goncalves',
         id: '1520675761317155'
