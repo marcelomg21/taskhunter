@@ -348,8 +348,8 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
 
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
-  if(!req.headers['androidId']) {
-     res.status(400).send('400 Bad Request')
+  if(!req.body.androidId) {
+     res.status(400).send('400 Bad Request 1234 teste')
   }
   if (!db) {
     initDb(function(err){});
