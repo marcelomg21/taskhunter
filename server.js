@@ -338,7 +338,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
     return res.json(result);    
 });
 
-app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
+//device set position
+app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
   if(!req.body.alt || !req.body.latitude || !req.body.longitude) {
      res.status(400).send('400 Bad Request')
   }
@@ -368,7 +369,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token
+             id: 'teste123'
          }
    };
         
