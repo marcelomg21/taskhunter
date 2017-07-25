@@ -8,7 +8,7 @@ var express = require('express'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
