@@ -353,7 +353,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   //if(!req.body.androidId) {
   //   res.status(400).send('400 Bad Request - ERRO SAVE NEW')
   //}
-    
+  console.log('---MARCELO---> ' + req);  
   //aqui db
   
   var result =  {
