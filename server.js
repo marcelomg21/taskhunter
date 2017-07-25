@@ -348,7 +348,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
 
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
-  if(!req.header['androidId']) {
+  if(!req.headers['androidId']) {
      res.status(400).send('400 Bad Request')
   }
   if (!db) {
@@ -362,15 +362,15 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
         {
             user_id: req.params.user_id, 
             device: {
-                device_id: req.params.user_id + '_' + req.header['androidId'] + '_' + req.header['token'],                
-                androidId : req.header['androidId'],
-                appBuild : req.header['appBuild'],
-                countryId : req.header['countryId'],
-                idfa : req.header['idfa'],
-                languageId : req.header['languageId'],
-                osBuild : req.header['osBuild'],
-                token : req.header['token'],
-                type : req.header['type']
+                device_id: req.params.user_id + '_' + req.headers['androidId'] + '_' + req.headers['token'],                
+                androidId : req.headers['androidId'],
+                appBuild : req.headers['appBuild'],
+                countryId : req.headers['countryId'],
+                idfa : req.headers['idfa'],
+                languageId : req.headers['languageId'],
+                osBuild : req.headers['osBuild'],
+                token : req.headers['token'],
+                type : req.headers['type']
             }
         });    
   } 
@@ -378,7 +378,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.header['androidId'] + '_' + req.header['token']
+             id: req.params.user_id + '_' + req.headers['androidId'] + '_' + req.headers['token']
          }
    };
         
@@ -387,7 +387,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
 
 //update device
 app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
-  if(!req.body.androidId) {
+  if(!req.headers['androidId']) {
      res.status(400).send('400 Bad Request')
   }
   if (!db) {
@@ -402,14 +402,14 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
             user_id: req.params.user_id, 
             device: {
                 device_id: req.params.device_id,                
-                androidId : req.header['androidId'],
-                appBuild : req.header['appBuild'],
-                countryId : req.header['countryId'],
-                idfa : req.header['idfa'],
-                languageId : req.header['languageId'],
-                osBuild : req.header['osBuild'],
-                token : req.header['token'],
-                type : req.header['type']
+                androidId : req.headers['androidId'],
+                appBuild : req.headers['appBuild'],
+                countryId : req.headers['countryId'],
+                idfa : req.headers['idfa'],
+                languageId : req.headers['languageId'],
+                osBuild : req.headers['osBuild'],
+                token : req.headers['token'],
+                type : req.headers['type']
             }
         });    
   } 
