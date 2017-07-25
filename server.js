@@ -378,7 +378,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token
+             id: req.params.user_id + '_' + req.header['androidId'] + '_' + req.header['token']
          }
    };
         
@@ -402,14 +402,14 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
             user_id: req.params.user_id, 
             device: {
                 device_id: req.params.device_id,                
-                androidId : req.body.androidId,
-                appBuild : req.body.appBuild,
-                countryId : req.body.countryId,
-                idfa : req.body.idfa,
-                languageId : req.body.languageId,
-                osBuild : req.body.osBuild,
-                token : req.body.token,
-                type : req.body.type
+                androidId : req.header['androidId'],
+                appBuild : req.header['appBuild'],
+                countryId : req.header['countryId'],
+                idfa : req.header['idfa'],
+                languageId : req.header['languageId'],
+                osBuild : req.header['osBuild'],
+                token : req.header['token'],
+                type : req.header['type']
             }
         });    
   } 
@@ -417,7 +417,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token
+             id: req.params.device_id
          }
    };
         
