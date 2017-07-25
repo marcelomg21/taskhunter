@@ -9,7 +9,7 @@ var express = require('express'),
     
 Object.assign=require('object-assign')
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
 
