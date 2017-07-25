@@ -391,7 +391,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.headers['androidId'] + '_' + req.headers['token']
+             id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token
          }
    };
         
