@@ -359,7 +359,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.body
+             id: req
          }
    };
         
