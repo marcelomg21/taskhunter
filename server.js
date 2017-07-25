@@ -350,7 +350,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
 
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
-  if(!req.body.androidId) {
+  if(!req.body.deviceRequestModel.androidId) {
      res.status(400).send('400 Bad Request - ERRO SAVE NEW')
   }
     
@@ -367,7 +367,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
             user_id: req.params.user_id, 
             device: {
                 device_id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token,                
-                androidId : req.body.androidId,
+                androidId : req.body.deviceRequestModel.androidId,
                 appBuild : req.body.appBuild,
                 countryId : req.body.countryId,
                 idfa : req.body.idfa,
@@ -382,7 +382,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token
+             id: req.params.user_id + '_' + req.body.deviceRequestModel.androidId + '_' + req.body.token
          }
    };
         
@@ -390,6 +390,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
 });
 
 app.post('/api/users/:user_id/devices/body', function (req, res) {
+  console.log('MARCELO -> ' + req.body);  
     
   var result =  {
          success: true,
