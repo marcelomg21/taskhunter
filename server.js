@@ -8,7 +8,7 @@ var express = require('express'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign')
-app.use(bodyParser.json())
+//app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: true }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'))
@@ -356,6 +356,9 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
 
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
+  
+  app.use(bodyParser.json());  
+    
   if(!req.body.androidId) {
      res.status(400).send('400 Bad Request 1234 teste')
   }
