@@ -353,13 +353,36 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   if(!req.body.androidId) {
      res.status(400).send('400 Bad Request - ERRO SAVE NEW')
   }
-  console.log('---MARCELO---> ' + req.body);  
-  //aqui db
+    
+  if (!db) {
+    initDb(function(err){});
+  }
+  
+  if (db) {
+    var col = db.collection('devices');
+    //col.insert({position: req.body.name, date: Date.now()});
+    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+    col.insert(
+        {
+            user_id: req.params.user_id, 
+            device: {
+                device_id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token,                
+                androidId : req.body.androidId,
+                appBuild : req.body.appBuild,
+                countryId : req.body.countryId,
+                idfa : req.body.idfa,
+                languageId : req.body.languageId,
+                osBuild : req.body.osBuild,
+                token : req.body.token,
+                type : req.body.type
+            }
+        });    
+  } 
   
   var result =  {
          success: true,
          data: {
-             id: req.body.androidId
+             id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token
          }
    };
         
@@ -373,12 +396,35 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
      res.status(400).send('400 Bad Request - ERRO UPDATE')
   }
     
-  //aqui db
+  if (!db) {
+    initDb(function(err){});
+  }
+  
+  if (db) {
+    var col = db.collection('devices');
+    //col.insert({position: req.body.name, date: Date.now()});
+    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+    col.insert(
+        {
+            user_id: req.params.user_id, 
+            device: {
+                device_id: req.params.device_id,                
+                androidId : req.body.androidId,
+                appBuild : req.body.appBuild,
+                countryId : req.body.countryId,
+                idfa : req.body.idfa,
+                languageId : req.body.languageId,
+                osBuild : req.body.osBuild,
+                token : req.body.token,
+                type : req.body.type
+            }
+        });    
+  } 
     
   var result =  {
          success: true,
          data: {
-             id: req.params.device_id + '_' + req.body.androidId
+             id: req.params.device_id
          }
    };
         
