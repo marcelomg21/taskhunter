@@ -363,7 +363,8 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
          }
    };
         
-    res.json(result);
+    //res.json(result);
+    res.send(result);
 });
 
 //update device
