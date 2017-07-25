@@ -389,6 +389,18 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
     res.json(result);
 });
 
+app.post('/api/users/:user_id/devices/body', function (req, res) {
+    
+  var result =  {
+         success: true,
+         data: {
+             id: req.body
+         }
+   };
+        
+    res.json(result);
+});
+
 //update device
 app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
   
