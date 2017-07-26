@@ -367,12 +367,11 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
             user_id: req.params.user_id, 
             device: {
                 device_id: req.params.user_id + '_' + req.body.android_id + '_' + req.body.token,                
-                androidId : req.body.DeviceRequestModel.android_id,
-                appBuild : req.body.appBuild,
-                countryId : req.body.countryId,
-                idfa : req.body.idfa,
-                languageId : req.body.languageId,
-                osBuild : req.body.osBuild,
+                androidId : req.body.android_id,
+                appBuild : req.body.app_build,
+                countryId : req.body.country_id,                
+                languageId : req.body.language_id,
+                osBuild : req.body.os_build,
                 token : req.body.token,
                 type : req.body.type
             }
@@ -382,7 +381,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   var result =  {
          success: true,
          data: {
-             id: req.params.user_id + '_' + req.body.deviceRequestModel.androidId + '_' + req.body.token
+             id: req.params.user_id + '_' + req.body.android_id
          }
    };
         
@@ -413,7 +412,7 @@ app.post('/api/users/:user_id/devices/body/two', function (req, res) {
 //update device
 app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
   
-  if(!req.body.androidId) {
+  if(!req.body.android_id) {
      res.status(400).send('400 Bad Request - ERRO UPDATE')
   }
     
@@ -430,12 +429,11 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
             user_id: req.params.user_id, 
             device: {
                 device_id: req.params.device_id,                
-                androidId : req.body.androidId,
-                appBuild : req.body.appBuild,
-                countryId : req.body.countryId,
-                idfa : req.body.idfa,
-                languageId : req.body.languageId,
-                osBuild : req.body.osBuild,
+                androidId : req.body.android_id,
+                appBuild : req.body.app_build,
+                countryId : req.body.country_id,                
+                languageId : req.body.language_id,
+                osBuild : req.body.os_build,
                 token : req.body.token,
                 type : req.body.type
             }
