@@ -8,8 +8,8 @@ var express = require('express'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
-app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 
@@ -350,7 +350,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
 
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
-  if(!req.body.deviceRequestModel.androidId) {
+  if(!req.body.android_id) {
      res.status(400).send('400 Bad Request - ERRO SAVE NEW')
   }
     
@@ -366,8 +366,8 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
         {
             user_id: req.params.user_id, 
             device: {
-                device_id: req.params.user_id + '_' + req.body.androidId + '_' + req.body.token,                
-                androidId : req.body.deviceRequestModel.androidId,
+                device_id: req.params.user_id + '_' + req.body.android_id + '_' + req.body.token,                
+                androidId : req.body.DeviceRequestModel.android_id,
                 appBuild : req.body.appBuild,
                 countryId : req.body.countryId,
                 idfa : req.body.idfa,
@@ -389,17 +389,25 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
     res.json(result);
 });
 
-app.post('/api/users/:user_id/devices/body', function (req, res) {
-  console.log('MARCELO -> ' + req.body);  
+app.post('/api/users/:user_id/devices/body/one', function (req, res) {
+  console.log('MARCELO -> ' + req.body.android_id);  
     
   var result =  {
          success: true,
          data: {
-             id: req.body
+             id: req.body.android_id
          }
    };
         
     res.json(result);
+});
+
+app.post('/api/users/:user_id/devices/body/two', function (req, res) {
+  console.log('MARCELO -> ' + req.body);  
+    
+  
+        
+    res.send(req.body.android_id);
 });
 
 //update device
