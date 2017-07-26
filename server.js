@@ -366,7 +366,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
         {
             user_id: req.params.user_id, 
             device: {
-                device_id: req.params.user_id + '_' + req.body.android_id + '_' + req.body.token,                
+                device_id: req.params.user_id + '_' + req.body.android_id,                
                 androidId : req.body.android_id,
                 appBuild : req.body.app_build,
                 countryId : req.body.country_id,                
@@ -386,27 +386,6 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
    };
         
     res.json(result);
-});
-
-app.post('/api/users/:user_id/devices/body/one', function (req, res) {
-  console.log('MARCELO -> ' + req.body.android_id);  
-    
-  var result =  {
-         success: true,
-         data: {
-             id: req.body.android_id
-         }
-   };
-        
-    res.json(result);
-});
-
-app.post('/api/users/:user_id/devices/body/two', function (req, res) {
-  console.log('MARCELO -> ' + req.body);  
-    
-  
-        
-    res.send(req.body.android_id);
 });
 
 //update device
