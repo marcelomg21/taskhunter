@@ -190,7 +190,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 30, 
+                  id: 303, 
                   type: 'type',
                   job: 'Analista',
                   is_accepted: true,
@@ -234,7 +234,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 30, 
+                  id: 305, 
                   type: 'type',
                   job: 'Analista',
                   is_accepted: true,
@@ -278,7 +278,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 30, 
+                  id: 306, 
                   type: 'type',
                   job: 'Analista',
                   is_accepted: true,
@@ -322,7 +322,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 30, 
+                  id: 307, 
                   type: 'type',
                   job: 'Analista',
                   is_accepted: true,
