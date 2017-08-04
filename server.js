@@ -223,7 +223,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 131,
                       mode: 0,
-                      url: '',
+                      
                       width: 50,
                       height: 50
                   }]
@@ -267,7 +267,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 132,
                       mode: 0,
-                      url: '',
+                      
                       width: 50,
                       height: 50
                   }]
@@ -311,7 +311,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 133,
                       mode: 0,
-                      url: '',
+                      
                       width: 50,
                       height: 50
                   }]
@@ -355,7 +355,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 134,
                       mode: 0,
-                      url: '',
+                      
                       width: 50,
                       height: 50
                   }]
@@ -451,7 +451,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       profiles: [{
                           id: 130,
                           mode: 0,
-                          url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
+                          url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
                           width: 50,
                           height: 50
                       }]
