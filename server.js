@@ -194,7 +194,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   type: 'type',
                   job: 'Serviços Gerais',
                   is_accepted: true,
-                  workplace: '(Eletricista, Pintor, Encanador)',
+                  workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Bazalto)',
                   my_relation: 1,
                   distance: 20.90,
                   gender: 'F',
