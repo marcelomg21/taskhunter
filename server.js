@@ -223,7 +223,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 131,
                       mode: 0,
-                      url: 'http://brandaopinturas.com.br/Uploads/Imagens/1853/pintor-e-servicos-de-pintura-na-cidade-jardim.jpg?02082017',
+                      url: '',
                       width: 50,
                       height: 50
                   }]
@@ -267,7 +267,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 132,
                       mode: 0,
-                      url: 'http://viacarreira.com/wp-content/uploads/2017/04/curso-de-pedreiro-no-senai-saiba-tudo-sobre-essa-formacao-2.jpg',
+                      url: '',
                       width: 50,
                       height: 50
                   }]
@@ -311,7 +311,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 133,
                       mode: 0,
-                      url: 'http://www.portaldaconstrucaoereforma.com.br/img/produtos_fotos/Eletricista_profissional_Faco_leitura_de_planta_eletrica_Predial_18_23_50.jpg',
+                      url: '',
                       width: 50,
                       height: 50
                   }]
@@ -355,7 +355,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 134,
                       mode: 0,
-                      url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
+                      url: '',
                       width: 50,
                       height: 50
                   }]
