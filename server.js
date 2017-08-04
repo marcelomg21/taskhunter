@@ -223,7 +223,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 131,
                       mode: 0,
-                      url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAEZJh3ret8sdZ4La0zf_yDtTwVv8ePpivAMttDGjqEp9tEhwV6Q',
+                      url: 'http://brandaopinturas.com.br/Uploads/Imagens/1853/pintor-e-servicos-de-pintura-na-cidade-jardim.jpg?02082017',
                       width: 50,
                       height: 50
                   }]
@@ -267,7 +267,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 132,
                       mode: 0,
-                      url: 'https://s-media-cache-ak0.pinimg.com/736x/a9/9e/9f/a99e9f0eab4b2f41e29310430200c23c--cute-minions-minion-stuff.jpg',
+                      url: 'http://viacarreira.com/wp-content/uploads/2017/04/curso-de-pedreiro-no-senai-saiba-tudo-sobre-essa-formacao-2.jpg',
                       width: 50,
                       height: 50
                   }]
@@ -311,7 +311,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 133,
                       mode: 0,
-                      url: 'http://cdn.playbuzz.com/cdn/93a9df5b-e6ba-4b9c-841d-09edf90e23dd/52bb520b-33af-422a-9413-ea1d4ea1b0c3.jpg',
+                      url: 'http://www.portaldaconstrucaoereforma.com.br/img/produtos_fotos/Eletricista_profissional_Faco_leitura_de_planta_eletrica_Predial_18_23_50.jpg',
                       width: 50,
                       height: 50
                   }]
@@ -355,7 +355,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   profiles: [{
                       id: 134,
                       mode: 0,
-                      url: 'https://images.minilua.com/wp-content/uploads/2011/04/pato-donald.jpg',
+                      url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
                       width: 50,
                       height: 50
                   }]
@@ -406,7 +406,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
                   profiles: [{
                       id: 130,
                       mode: 0,
-                      url: 'http://gartic.com.br/imgs/mural/iu/iuri1990/zeca-urubu-2.png',
+                      url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
                       width: 50,
                       height: 50
                   }]
