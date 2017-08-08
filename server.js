@@ -322,6 +322,94 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
+                  id: 306, 
+                  type: 'type',
+                  job: 'Carpinteiro',
+                  is_accepted: true,
+                  workplace: 'Móveis Sob Medida\nReparos\nConcertos',
+                  my_relation: 1,
+                  distance: 20.90,
+                  gender: 'F',
+                  is_charmed: false,
+                  nb_photos: 1,
+                  first_name: 'Joãozinho Terror',
+                  age: 34,
+                  already_charmed: false,
+                  has_charmed_me: false,
+                  availability: {
+                      time_left: 100,
+                      availability_type: {
+                          color: 'Branco',
+                          duration: 10,
+                          label: 'label2',
+                          type: 'type2'
+                      }
+                  },
+                  is_invited: false,
+                  last_invite_received: {
+                      color: 'Roxo',
+                          duration: 20,
+                          label: 'label3',
+                          type: 'type3'
+                  },
+                  profiles: [{
+                      id: 133,
+                      mode: 0,
+                      
+                      width: 50,
+                      height: 50
+                  }]
+              }
+          },
+          {
+              id: req.params.user_id,              
+              modification_date: '2017-07-05',
+              notification_type: '471,524,525,526,529,530,531,565,791,792',
+              notifier: { 
+                  id: 306, 
+                  type: 'type',
+                  job: 'Jardineiro',
+                  is_accepted: true,
+                  workplace: 'Reparos Jardim\nCorte Grama\nConcertos',
+                  my_relation: 1,
+                  distance: 20.90,
+                  gender: 'F',
+                  is_charmed: false,
+                  nb_photos: 1,
+                  first_name: 'Amásio Mazzaropi',
+                  age: 34,
+                  already_charmed: false,
+                  has_charmed_me: false,
+                  availability: {
+                      time_left: 100,
+                      availability_type: {
+                          color: 'Branco',
+                          duration: 10,
+                          label: 'label2',
+                          type: 'type2'
+                      }
+                  },
+                  is_invited: false,
+                  last_invite_received: {
+                      color: 'Roxo',
+                          duration: 20,
+                          label: 'label3',
+                          type: 'type3'
+                  },
+                  profiles: [{
+                      id: 133,
+                      mode: 0,
+                      
+                      width: 50,
+                      height: 50
+                  }]
+              }
+          },
+          {
+              id: req.params.user_id,              
+              modification_date: '2017-07-05',
+              notification_type: '471,524,525,526,529,530,531,565,791,792',
+              notifier: { 
                   id: 307, 
                   type: 'type',
                   job: 'Técnico',
