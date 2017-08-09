@@ -322,7 +322,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 306, 
+                  id: 307, 
                   type: 'type',
                   job: 'Carpinteiro',
                   is_accepted: true,
@@ -353,7 +353,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                           type: 'type3'
                   },
                   profiles: [{
-                      id: 133,
+                      id: 137,
                       mode: 0,
                       
                       width: 50,
@@ -366,7 +366,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 306, 
+                  id: 308, 
                   type: 'type',
                   job: 'Jardineiro',
                   is_accepted: true,
@@ -397,7 +397,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                           type: 'type3'
                   },
                   profiles: [{
-                      id: 133,
+                      id: 138,
                       mode: 0,
                       
                       width: 50,
@@ -410,7 +410,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 307, 
+                  id: 309, 
                   type: 'type',
                   job: 'Técnico',
                   is_accepted: true,
@@ -441,7 +441,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                           type: 'type3'
                   },
                   profiles: [{
-                      id: 134,
+                      id: 139,
                       mode: 0,
                       
                       width: 50,
