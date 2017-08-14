@@ -207,7 +207,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -215,7 +215,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
@@ -251,7 +251,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -259,7 +259,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
@@ -295,7 +295,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -303,7 +303,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
@@ -339,7 +339,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -347,7 +347,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
@@ -383,7 +383,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -391,7 +391,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
@@ -427,7 +427,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -435,7 +435,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
@@ -478,7 +478,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
                   availability: {
                       time_left: 100,
                       availability_type: {
-                          color: 'Branco',
+                          color: '#FF4E00',
                           duration: 10,
                           label: 'label2',
                           type: 'type2'
@@ -486,7 +486,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
                   },
                   is_invited: false,
                   last_invite_received: {
-                      color: 'Roxo',
+                      color: '#FF4E00',
                           duration: 20,
                           label: 'label3',
                           type: 'type3'
