@@ -226,6 +226,13 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                       
                       width: 50,
                       height: 50
+                  },
+                  {
+                      id: 167,
+                      mode: 0,
+                      url: 'https://pintoresdeparedesemfortaleza.files.wordpress.com/2016/08/pintura.jpg?w=1000',
+                      width: 50,
+                      height: 50
                   }]
               }
           },
