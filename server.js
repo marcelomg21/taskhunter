@@ -213,6 +213,11 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                           type: 'type2'
                       }
                   },
+                  last_meet_position: {
+                      creation_date: '2017-08-15',
+                      lat: -30.061004,
+                      lon: -51.190147
+                  },
                   is_invited: false,
                   last_invite_received: {
                       color: '#FF4E00',
