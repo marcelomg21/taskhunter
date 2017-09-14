@@ -182,6 +182,48 @@ app.get('/api/users/:user_id', function (req, res) {
     return res.json(result);    
 });
 
+//add new message
+app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
+  if(!req.body.message || !req.body.creation_date) {
+     res.status(400).send('400 Bad Request')
+  }
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    var col = db.collection('conversations');
+    //col.insert({position: req.body.name, date: Date.now()});
+    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message});    
+  } 
+  
+  var result =  {
+         success: true,
+         data: {
+              id: req.params.conversation_id,
+              message: 'sim, qual seu contato?',
+              creation_date: '2017-09-05',
+              sender: { 
+                  id: 305,                  
+                  first_name: 'Antônio Almir',
+                  age: 30,
+                  profiles: [{
+                      id: 132,
+                      mode: 0,
+                      url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaRre-rD2x077_NvY7d5cmy1UQ1oaeD7f5S2v30VTojvHpIbC7TA',
+                      width: 50,
+                      height: 50
+                  }]
+              },
+              clickable_profile_link: false,
+              clickable_message_link: false
+          }
+   };
+        
+    res.json(result);
+});
+
+//get messages
 app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
   var result = {
           success: true,
