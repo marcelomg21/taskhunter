@@ -184,7 +184,7 @@ app.get('/api/users/:user_id', function (req, res) {
 
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
-  if(!req.body.message || !req.body.creation_date) {
+  if(!req.body.message) {
      res.status(400).send('400 Bad Request')
   }
   if (!db) {
