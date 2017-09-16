@@ -251,6 +251,18 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     return res.json(result);
 });
 
+//get read messages
+app.put('/api/conversations/:conversation_id/messages', function (req, res) {
+  var result = {
+          success: true,
+          data: {
+              id: req.params.conversation_id,              
+          }
+    };
+    
+    return res.json(result);
+});
+
 app.get('/api/users/:user_id/crossings', function (req, res) {
   var result =  {
            success: true,
