@@ -232,11 +232,11 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               message: 'Boa noite, gostaria de um orçamento para a troca do Chuveiro',
               creation_date: '2017-09-05',
               sender: { 
-                  id: 10222,                  
+                  id: 102,                  
                   first_name: 'Moacir',
                   age: 30,
                   profiles: [{
-                      id: 130,
+                      id: 102,
                       mode: 0,
                       url: 'https://pbs.twimg.com/profile_images/2552140292/6umzaqwv0mj922yihwpq_400x400.jpeg',
                       width: 50,
@@ -625,12 +625,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
               participants: [{                  
                   id: 1234,
                   user: {
-                      id: 10222, 
+                      id: 102, 
                       type: 'type1',
                       first_name: 'Moacir',
                       is_moderator: false,
                       profiles: [{
-                          id: 130,
+                          id: 102,
                           mode: 0,
                           url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
                           width: 50,
