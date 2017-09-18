@@ -245,6 +245,25 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               },
               clickable_profile_link: false,
               clickable_message_link: false
+          },
+          {
+              id: req.params.conversation_id,
+              message: 'Isso é um teste do chuveiro..',
+              creation_date: '2017-09-05',
+              sender: { 
+                  id: 102,                  
+                  first_name: 'Moacir 2',
+                  age: 30,
+                  profiles: [{
+                      id: 102,
+                      mode: 0,
+                      url: 'https://pbs.twimg.com/profile_images/2552140292/6umzaqwv0mj922yihwpq_400x400.jpeg',
+                      width: 50,
+                      height: 50
+                  }]
+              },
+              clickable_profile_link: false,
+              clickable_message_link: false
           }]
     };
     
