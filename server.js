@@ -252,7 +252,26 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               creation_date: '2017-09-05',
               sender: { 
                   id: 102,                  
-                  first_name: 'Moacir 2',
+                  first_name: 'Moacir',
+                  age: 30,
+                  profiles: [{
+                      id: 102,
+                      mode: 0,
+                      
+                      width: 50,
+                      height: 50
+                  }]
+              },
+              clickable_profile_link: false,
+              clickable_message_link: false
+          },
+          {
+              id: 12,
+              message: 'Sim, são 50.00',
+              creation_date: '2017-09-05',
+              sender: { 
+                  id: 1520675761317155,                  
+                  first_name: 'Marcelo',
                   age: 30,
                   profiles: [{
                       id: 102,
