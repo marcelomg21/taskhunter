@@ -228,7 +228,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
   var result = {
           success: true,
           data: [{
-              id: req.params.conversation_id,
+              id: 10,
               message: 'Boa noite, gostaria de um orçamento para a troca do Chuveiro',
               creation_date: '2017-09-05',
               sender: { 
@@ -238,7 +238,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   profiles: [{
                       id: 102,
                       mode: 0,
-                      url: 'https://pbs.twimg.com/profile_images/2552140292/6umzaqwv0mj922yihwpq_400x400.jpeg',
+                      
                       width: 50,
                       height: 50
                   }]
@@ -247,7 +247,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               clickable_message_link: false
           },
           {
-              id: req.params.conversation_id,
+              id: 11,
               message: 'Isso é um teste do chuveiro..',
               creation_date: '2017-09-05',
               sender: { 
@@ -257,7 +257,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   profiles: [{
                       id: 102,
                       mode: 0,
-                      url: 'https://pbs.twimg.com/profile_images/2552140292/6umzaqwv0mj922yihwpq_400x400.jpeg',
+                      
                       width: 50,
                       height: 50
                   }]
