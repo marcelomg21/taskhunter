@@ -230,7 +230,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
           data: [{
               id: 1,
               message: 'Boa noite, gostaria de um orçamento para a troca do Chuveiro?',
-              creation_date: '2017-09-05T13:20:01Z',
+              creation_date: '2013-01-17T08:05:00.124-03:00',
               sender: { 
                   id: 102,                  
                   first_name: 'Moacir',
@@ -249,7 +249,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
           {
               id: 2,
               message: 'Isso é um teste do chuveiro..',
-              creation_date: '2017-09-05T13:20:05Z',
+              creation_date: '2013-01-17T08:06:00.124-03:00',
               sender: { 
                   id: 102,                  
                   first_name: 'Moacir',
@@ -268,7 +268,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
           {
               id: 3,
               message: 'Sim, são 50.00',
-              creation_date: '2017-09-05T13:21:01Z',
+              creation_date: '2013-01-17T08:07:00.124-03:00',
               sender: { 
                   id: 1520675761317155,                  
                   first_name: 'Marcelo',
