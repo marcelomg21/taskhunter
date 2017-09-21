@@ -184,7 +184,7 @@ app.get('/api/users/:user_id', function (req, res) {
 
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
-  if(!req.body.message) {
+  if(!req.body.message || !req.body.sender) {
      res.status(400).send('400 Bad Request')
   }
   if (!db) {
@@ -194,7 +194,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     var col = db.collection('conversations');
     //col.insert({position: req.body.name, date: Date.now()});
     //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message});    
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: Date.now()});    
   } 
   
   var result =  {
