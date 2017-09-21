@@ -308,16 +308,14 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     
     var query = {
         conversation_id: req.params.conversation_id
-    };
-    var cursor = db.collection('messages').find(query);
+    };    
     var result = {
           success: true,
           data:[]
     }; 
     
-    function(doc) {
-        cursor.forEach(
-            console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
+    db.collection('messages').find(query).forEach(function(doc) { 
+        console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
             var data = {
                   id: doc.conversation_id,
                   message: doc.message,
@@ -329,12 +327,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   }
             };
             result.data.push(data);
-        },
-        function(err) {
-            assert.equal(err, null);
-            return db.close();
-        }
-    );
+    } );
 
     return res.json(result);
 });
