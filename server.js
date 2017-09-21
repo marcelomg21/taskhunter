@@ -308,12 +308,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     
     var query = {
         conversation_id: req.params.conversation_id
-    };    
-    var result = {
-          success: true
-    };
-    var data = [];
-    var data2 = [];
+    };            
     
     db.collection('messages').find(query).forEach(function(doc) { 
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
@@ -328,22 +323,26 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   }
             };*/
         
-            var item = {
-                  id: 1,
-                  message: 'xxxxxxxx'                  
+            var result = {
+                  success: true,
+                  data: [{
+                  id: doc.conversation_id,
+                  message: doc.message,
+                  creation_date: doc.creation_date,
+                  sender: { 
+                      id: doc.sender,
+                      first_name: 'Moacir',
+                      age: 30
+                  }
+            }]
             };
         
-            console.log("ITEM - " + item);
-        
-            data.push(JSON.stringify(item));
-            data2.push(item);
+            console.log("RESULLTTTT - " + result);
+                    
+            return res.json(result);
     } );
-    
-    //result.data = data;
-    console.log("DATA - " + data);
-    console.log("DATA 2 - " + data2);
-    return res.json(data);
-    //return res.send(data);
+       
+    //return res.json(result);    
 });
 
 //get read messages
