@@ -313,6 +313,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
           success: true,
           data:[]
     };    
+    var data = [];
     
     db.collection('messages').find(query).forEach(function(doc) { 
         console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
@@ -326,8 +327,10 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       age: 30
                   }
             };
-            result.data.push(item);
-    } );        
+            data.push(item);
+    } );
+    
+    result['data'] = data;
 
     return res.json(result);
 });
