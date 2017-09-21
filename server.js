@@ -328,21 +328,15 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
             };*/
         
             data.push(JSON.parse(JSON.stringify({
-                  id: doc.conversation_id,
-                  message: doc.message,
-                  creation_date: doc.creation_date,
-                  sender: { 
-                      id: doc.sender,
-                      first_name: 'Moacir',
-                      age: 30
-                  }
+                  id: 1,
+                  message: 'teste'                  
             })));
     } );
     
     //result.data = data;
 
-    //return res.json(result);
-    return res.send(data);
+    return res.json(data);
+    //return res.send(data);
 });
 
 //get read messages
