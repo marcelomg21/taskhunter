@@ -328,7 +328,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
             };*/
         
             var item = {
-                  id: ',
+                  id: 1,
                   message: 'xxxxxxxx'                  
             };
         
