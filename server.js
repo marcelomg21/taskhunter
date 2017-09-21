@@ -327,7 +327,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   }
             };
         
-            data.push(item);
+            data.push(JSON.parse(JSON.stringify(item)));
     } );
     
     //result.data = data;
