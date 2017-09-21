@@ -307,7 +307,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     };*/
     
     var query = {
-        "conversation_id": req.params.conversation_id
+        conversation_id: req.params.conversation_id
     };
     var result = {
           success: true,
@@ -319,7 +319,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
         assert.notEqual(docs.length, 0);
 
         docs.forEach(function(doc) {
-            //console.log(doc.conversation_id, doc.message, doc.sender, doc.creation_date);
+            console.log(doc.conversation_id, doc.message, doc.sender, doc.creation_date);
             var data = {
                   id: doc.conversation_id,
                   message: doc.message,
