@@ -309,29 +309,29 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     var query = {
         "conversation_id": req.params.conversation_id
     };
-
-    db.collection('messages').find(query).toArray(function(err, docs) {
-
-    assert.equal(err, null);
-    assert.notEqual(docs.length, 0);
     var result = {
           success: true,
           data:[]
-    };    
+    }; 
 
-    docs.forEach(function(doc) {
-        //console.log(doc.conversation_id, doc.message, doc.sender, doc.creation_date);
-        var data = {
-              id: doc.conversation_id,
-              message: doc.message,
-              creation_date: doc.creation_date,
-              sender: { 
-                  id: doc.sender,
-                  first_name: 'Moacir',
-                  age: 30
-              }
-        };
-        result.data.push(data);
+    db.collection('messages').find(query).toArray(function(err, docs) {
+        assert.equal(err, null);
+        assert.notEqual(docs.length, 0);
+
+        docs.forEach(function(doc) {
+            //console.log(doc.conversation_id, doc.message, doc.sender, doc.creation_date);
+            var data = {
+                  id: doc.conversation_id,
+                  message: doc.message,
+                  creation_date: doc.creation_date,
+                  sender: { 
+                      id: doc.sender,
+                      first_name: 'Moacir',
+                      age: 30
+                  }
+            };
+            result.data.push(data);
+        });
     });
     
     return res.json(result);
