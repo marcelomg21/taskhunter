@@ -327,10 +327,12 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   }
             };*/
         
-            data.push(JSON.parse(JSON.stringify({
-                  id: 1,
-                  message: 'teste'                  
-            })));
+            var item = {
+                  id: ',
+                  message: 'xxxxxxxx'                  
+            };
+        
+            data.push(item);
     } );
     
     //result.data = data;
