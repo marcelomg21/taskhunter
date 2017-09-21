@@ -316,7 +316,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     
     db.collection('messages').find(query).forEach(function(doc) { 
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
-            var item = {
+            /*var item = {
                   id: doc.conversation_id,
                   message: doc.message,
                   creation_date: doc.creation_date,
@@ -325,14 +325,24 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       first_name: 'Moacir',
                       age: 30
                   }
-            };
+            };*/
         
-            data.push(JSON.parse(JSON.stringify(item)));
+            data.push(JSON.parse(JSON.stringify({
+                  id: doc.conversation_id,
+                  message: doc.message,
+                  creation_date: doc.creation_date,
+                  sender: { 
+                      id: doc.sender,
+                      first_name: 'Moacir',
+                      age: 30
+                  }
+            })));
     } );
     
     //result.data = data;
 
-    return res.json(data);
+    //return res.json(result);
+    return res.send(data);
 });
 
 //get read messages
