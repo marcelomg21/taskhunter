@@ -313,6 +313,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
           success: true
     };
     var data = [];
+    var data2 = [];
     
     db.collection('messages').find(query).forEach(function(doc) { 
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
@@ -332,11 +333,15 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   message: 'xxxxxxxx'                  
             };
         
+            console.log("ITEM - " + item);
+        
             data.push(JSON.stringify(item));
+            data2.push(item);
     } );
     
     //result.data = data;
-
+    console.log("DATA - " + data);
+    console.log("DATA 2 - " + data2);
     return res.json(data);
     //return res.send(data);
 });
