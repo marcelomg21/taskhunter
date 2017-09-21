@@ -5,6 +5,7 @@ var express = require('express'),
     eps     = require('ejs'),
     morgan  = require('morgan'),
     jwt     = require('jsonwebtoken'),
+    assert = require('assert'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
@@ -191,7 +192,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    var col = db.collection('conversations');
+    var col = db.collection('messages');
     //col.insert({position: req.body.name, date: Date.now()});
     //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
     col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: Date.now()});    
@@ -225,7 +226,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 
 //get messages
 app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
-  var result = {
+  /*var result = {
           success: true,
           data: [{
               id: 1,
@@ -303,7 +304,35 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               clickable_profile_link: false,
               clickable_message_link: false
           }]
+    };*/
+    
+    var query = {
+        "conversation_id": req.params.conversation_id
     };
+
+    db.collection('messages').find(query).toArray(function(err, docs) {
+
+    assert.equal(err, null);
+    assert.notEqual(docs.length, 0);
+    var result = {
+          success: true,
+          data:[]
+    };    
+
+    docs.forEach(function(doc) {
+        //console.log(doc.conversation_id, doc.message, doc.sender, doc.creation_date);
+        var data = {
+              id: doc.conversation_id,
+              message: doc.message,
+              creation_date: doc.creation_date,
+              sender: { 
+                  id: doc.sender,
+                  first_name: 'Moacir',
+                  age: 30
+              }
+        };
+        result.data.push(data);
+    });
     
     return res.json(result);
 });
