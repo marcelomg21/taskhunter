@@ -330,7 +330,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
             data.push(item);
     } );
     
-    result.data = data;
+    result.data.push(data);
 
     return res.json(result);
 });
