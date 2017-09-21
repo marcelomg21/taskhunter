@@ -325,7 +325,10 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
         
             var result = {
                   success: true,
-                  data: [{
+                  data: []
+            };
+        
+            var item = {
                   id: doc.conversation_id,
                   message: doc.message,
                   creation_date: doc.creation_date,
@@ -334,9 +337,10 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       first_name: 'Moacir',
                       age: 30
                   }
-            }]
-            };
+            }
         
+            result.data.push(item);
+            
             console.log("RESULLTTTT - " + result);
                     
             return res.json(result);
