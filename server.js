@@ -334,7 +334,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                         strJson += ',';
                       }
                     }
-                    strJson = '{"message":"' + req.params.conversation_id + '","count":' + intCount}"
+                    strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"'
                     callback("", JSON.parse(strJson));
                   }
                 } else {
