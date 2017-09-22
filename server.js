@@ -332,7 +332,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                         strJson += ',';
                       }
                     }
-                    strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"';
+                    //strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"';
                       return res.send(strJson);
                     //callback("", JSON.parse(strJson));
                   }
