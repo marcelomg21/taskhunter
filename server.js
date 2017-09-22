@@ -312,33 +312,22 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     var result = {
                   success: true,
                   data: []
-            };
+            };        
     
-    var cursor = db.collection('messages').find(query);
-
-cursor.nextObject(function fn(err, item) {
-    if (err || !item) return;
-
-    setImmediate(fnAction, item, arg1, arg2, function() {
-        cursor.nextObject(fn);
-    });
-});
-
-function fnAction(item, arg1, arg2, callback) {
-    // Here you can do whatever you want to do with your item.
-    var data_item = {
-                  id: item.conversation_id,
-                  message: item.message,
-                  creation_date: item.creation_date,
+    db.collection('messages').find(query).each(function(err, doc) {
+        //called once for each doc returned
+        var item = {
+                  id: doc.conversation_id,
+                  message: doc.message,
+                  creation_date: doc.creation_date,
                   sender: { 
-                      id: item.sender,
+                      id: doc.sender,
                       first_name: 'Moacir',
                       age: 30
                   }
-            }
-    result.data.push(data_item);
-    return callback();
-}
+            };
+        result.data.push(item);
+    });
     
     /*db.collection('messages').find(query).toArray(function (err, docs) {
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
