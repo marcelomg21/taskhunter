@@ -308,9 +308,13 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     
     var query = {
         conversation_id: req.params.conversation_id
-    };            
+    };
+    var result = {
+                  success: true,
+                  data: []
+            };
     
-    db.collection('messages').find(query).forEach(function(doc) { 
+    db.collection('messages').find(query).toArray(function (err, docs) {
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
             /*var item = {
                   id: doc.conversation_id,
@@ -321,32 +325,28 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       first_name: 'Moacir',
                       age: 30
                   }
-            };*/
+            };*/     
         
-            var result = {
-                  success: true,
-                  data: []
-            };
-        
-            var item = {
-                  id: doc.conversation_id,
-                  message: doc.message,
-                  creation_date: doc.creation_date,
-                  sender: { 
-                      id: doc.sender,
-                      first_name: 'Moacir',
-                      age: 30
-                  }
-            }
-        
-            result.data.push(item);
-            
-            console.log("RESULLTTTT - " + result);
-                    
-            return res.json(result);
+            for (var i = 0, len = docs.length; i < len; i++) {              
+                var item = {
+                      id: docs[i].conversation_id,
+                      message: docs[i].message,
+                      creation_date: docs[i].creation_date,
+                      sender: { 
+                          id: docs[i].sender,
+                          first_name: 'Moacir',
+                          age: 30
+                      }
+                };
+                result.data.push(item);
+                console.log("ITEMMM - " + item);
+            }                    
+
     } );
+    
+    console.log("RESULLTTT - " + result);
        
-    //return res.json(result);    
+    return res.json(result);    
 });
 
 //get read messages
