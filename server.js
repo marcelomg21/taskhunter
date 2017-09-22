@@ -309,10 +309,8 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     var query = {
         conversation_id: req.params.conversation_id
     };
-            
-    
-    
-      db.collection('messages', function(err, collection) {
+                    
+     /* db.collection('messages', function(err, collection) {
         if (!err) {
           collection.find({
             'conversation_id': req.params.conversation_id
@@ -323,17 +321,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               var result = {
                     success: true,
                     data: []
-              };
-                
-              /*if (intCount > 0) {
-                var strJson = "";
-                for (var i = 0; i < intCount;) {
-                  //strJson += '{"message":"' + docs[i].message + '"}'
-                  i = i + 1;
-                  if (i < intCount) {
-                    strJson += ',';
-                  }              
-                }*/
+              };                              
                   
                 for (var i = 0, len = docs.length; i < len; i++) {              
                     var item = {
@@ -360,10 +348,10 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
         } else {
           onErr(err, callback);
         }
-      }); //end db.collection
+      });*/
         
     
-    /*db.collection('messages').find(query).toArray(function (err, docs) {
+    db.collection('messages').find(query).toArray(function (err, docs) {
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
             /*var item = {
                   id: doc.conversation_id,
@@ -374,7 +362,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       first_name: 'Moacir',
                       age: 30
                   }
-            };  
+            };*/
         
             for (var i = 0, len = docs.length; i < len; i++) {              
                 var item = {
@@ -388,10 +376,10 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       }
                 };
                 result.data.push(item);
-                console.log("ITEMMM - " + item);
-            }                    
-
-    } );*/        
+            }
+            
+            return res.json(result);
+    } );       
        
     //return res.json(result);
 });
