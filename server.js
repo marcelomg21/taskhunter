@@ -309,41 +309,58 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
     var query = {
         conversation_id: req.params.conversation_id
     };
-    var result = {
-                  success: true,
-                  data: []
-            };        
+            
     
     
-          db.collection('messages', function(err, collection) {
+      db.collection('messages', function(err, collection) {
+        if (!err) {
+          collection.find({
+            'conversation_id': req.params.conversation_id
+          }).toArray(function(err, docs) {
             if (!err) {
-              collection.find({
-                'conversation_id': req.params.conversation_id
-              }).toArray(function(err, docs) {
-                if (!err) {
-                  db.close();
-                  var intCount = docs.length;
-                  if (intCount > 0) {
-                    var strJson = "";
-                    for (var i = 0; i < intCount;) {
-                      strJson += '{"message":"' + docs[i].message + '"}'
-                      i = i + 1;
-                      if (i < intCount) {
-                        strJson += ',';
-                      }
-                    }
-                    //strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"';
-                      return res.send(strJson);
-                    //callback("", JSON.parse(strJson));
-                  }
-                } else {
-                  onErr(err, callback);
+              //db.close();
+              //var intCount = docs.length;
+              var result = {
+                    success: true,
+                    data: []
+              };
+                
+              /*if (intCount > 0) {
+                var strJson = "";
+                for (var i = 0; i < intCount;) {
+                  //strJson += '{"message":"' + docs[i].message + '"}'
+                  i = i + 1;
+                  if (i < intCount) {
+                    strJson += ',';
+                  }              
+                }*/
+                  
+                for (var i = 0, len = docs.length; i < len; i++) {              
+                    var item = {
+                          id: docs[i].conversation_id,
+                          message: docs[i].message,
+                          creation_date: docs[i].creation_date,
+                          sender: { 
+                              id: docs[i].sender,
+                              first_name: 'XXXXX',
+                              age: 30
+                          }
+                    };
+                    result.data.push(item);
+                    //console.log("ITEMMM - " + item);
                 }
-              }); //end collection.find 
+                //strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"';
+                return res.json(result);
+                //callback("", JSON.parse(strJson));
+              }
             } else {
               onErr(err, callback);
             }
-          }); //end db.collection
+          }); //end collection.find 
+        } else {
+          onErr(err, callback);
+        }
+      }); //end db.collection
         
     
     /*db.collection('messages').find(query).toArray(function (err, docs) {
@@ -376,7 +393,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
 
     } );*/        
        
-    //return res.json(result);    
+    //return res.json(result);
 });
 
 //get read messages
