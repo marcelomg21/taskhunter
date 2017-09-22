@@ -246,26 +246,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               },
               clickable_profile_link: false,
               clickable_message_link: false
-          },
-          {
-              id: 2,
-              message: 'Isso é um teste do chuveiro..',
-              creation_date: '2017-01-17',
-              sender: { 
-                  id: 102,                  
-                  first_name: 'Moacir',
-                  age: 30,
-                  profiles: [{
-                      id: 102,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              },
-              clickable_profile_link: false,
-              clickable_message_link: false
-          },
+          },          
           {
               id: 3,
               message: 'Sim, são 50.00',
@@ -284,109 +265,36 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               },
               clickable_profile_link: false,
               clickable_message_link: false
-          },
-          {
-              id: 4,
-              message: 'Certo, obrigado',
-              creation_date: '2017-01-17',
-              sender: { 
-                  id: 102,                  
-                  first_name: 'Moacir',
-                  age: 30,
-                  profiles: [{
-                      id: 102,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              },
-              clickable_profile_link: false,
-              clickable_message_link: false
           }]
     };*/
     
     var query = {
         conversation_id: req.params.conversation_id
     };
-                    
-     /* db.collection('messages', function(err, collection) {
-        if (!err) {
-          collection.find({
-            'conversation_id': req.params.conversation_id
-          }).toArray(function(err, docs) {
-            if (!err) {
-              //db.close();
-              //var intCount = docs.length;
-              var result = {
-                    success: true,
-                    data: []
-              };                              
-                  
-                for (var i = 0, len = docs.length; i < len; i++) {              
-                    var item = {
-                          id: docs[i].conversation_id,
-                          message: docs[i].message,
-                          creation_date: docs[i].creation_date,
-                          sender: { 
-                              id: docs[i].sender,
-                              first_name: 'XXXXX',
-                              age: 30
-                          }
-                    };
-                    result.data.push(item);
-                    //console.log("ITEMMM - " + item);
-                }
-                //strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"';
-                return res.json(result);
-                //callback("", JSON.parse(strJson));
-              //}
-            } else {
-              onErr(err, callback);
-            }
-          }); //end collection.find 
-        } else {
-          onErr(err, callback);
-        }
-      });*/
-        
-    
+
     db.collection('messages').find(query).toArray(function (err, docs) {
-        //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
-            /*var item = {
-                  id: doc.conversation_id,
-                  message: doc.message,
-                  creation_date: doc.creation_date,
+        
+        var result = {
+              success: true,
+              data: []
+        };
+
+        for (var i = 0, len = docs.length; i < len; i++) {              
+            var item = {
+                  id: docs[i].conversation_id,
+                  message: docs[i].message,
+                  creation_date: docs[i].creation_date,
                   sender: { 
-                      id: doc.sender,
+                      id: docs[i].sender,
                       first_name: 'Moacir',
                       age: 30
                   }
-            };*/
-        
-            var result = {
-                  success: true,
-                  data: []
             };
-        
-            for (var i = 0, len = docs.length; i < len; i++) {              
-                var item = {
-                      id: docs[i].conversation_id,
-                      message: docs[i].message,
-                      creation_date: docs[i].creation_date,
-                      sender: { 
-                          id: docs[i].sender,
-                          first_name: 'Moacir',
-                          age: 30
-                      }
-                };
-                result.data.push(item);
-            }
-            
-            return res.json(result);
-    } );       
-       
-    //return res.json(result);
+            result.data.push(item);
+        }
+
+        return res.json(result);
+    } );
 });
 
 //get read messages
