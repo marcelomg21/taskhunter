@@ -314,9 +314,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   data: []
             };        
     
-    var result = function(gname, callback) {  
-      db.open(function(err, db) {
-        if (!err) {
+    
           db.collection('messages', function(err, collection) {
             if (!err) {
               collection.find({
@@ -334,8 +332,9 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                         strJson += ',';
                       }
                     }
-                    strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"'
-                    callback("", JSON.parse(strJson));
+                    strJson = '{"GroupName":"' + req.params.conversation_id + '","count":' + intCount + '"}"';
+                      return res.send(strJson);
+                    //callback("", JSON.parse(strJson));
                   }
                 } else {
                   onErr(err, callback);
@@ -345,11 +344,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
               onErr(err, callback);
             }
           }); //end db.collection
-        } else {
-          onErr(err, callback);
-        }
-      }); // end db.open
-    };
+        
     
     /*db.collection('messages').find(query).toArray(function (err, docs) {
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
@@ -381,7 +376,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
 
     } );*/        
        
-    return res.json(result);    
+    //return res.json(result);    
 });
 
 //get read messages
