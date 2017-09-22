@@ -196,7 +196,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     
     var date = new Date();
     date.setHours(date.getHours() - 3);
-    var dateFormat = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    var dateFormat = date.toISOString().split('T')[0];
       
     col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: dateFormat});    
   } 
