@@ -314,7 +314,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   data: []
             };
     
-    var cursor = db.collection('messages').find(query).cursor();
+    var cursor = db.collection('messages').find(query);
 
 cursor.nextObject(function fn(err, item) {
     if (err || !item) return;
