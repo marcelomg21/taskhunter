@@ -364,6 +364,11 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   }
             };*/
         
+            var result = {
+                  success: true,
+                  data: []
+            };
+        
             for (var i = 0, len = docs.length; i < len; i++) {              
                 var item = {
                       id: docs[i].conversation_id,
