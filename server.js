@@ -314,20 +314,42 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   data: []
             };        
     
-    db.collection('messages').find(query).each(function(err, doc) {
-        //called once for each doc returned
-        var item = {
-                  id: doc.conversation_id,
-                  message: doc.message,
-                  creation_date: doc.creation_date,
-                  sender: { 
-                      id: doc.sender,
-                      first_name: 'Moacir',
-                      age: 30
+    var result = function(gname, callback) {  
+      db.open(function(err, db) {
+        if (!err) {
+          db.collection('messages', function(err, collection) {
+            if (!err) {
+              collection.find({
+                'conversation_id': req.params.conversation_id
+              }).toArray(function(err, docs) {
+                if (!err) {
+                  db.close();
+                  var intCount = docs.length;
+                  if (intCount > 0) {
+                    var strJson = "";
+                    for (var i = 0; i < intCount;) {
+                      strJson += '{"message":"' + docs[i].message + '"}'
+                      i = i + 1;
+                      if (i < intCount) {
+                        strJson += ',';
+                      }
+                    }
+                    strJson = '{"message":"' + req.params.conversation_id + '","count":' + intCount}"
+                    callback("", JSON.parse(strJson));
                   }
-            };
-        result.data.push(item);
-    });
+                } else {
+                  onErr(err, callback);
+                }
+              }); //end collection.find 
+            } else {
+              onErr(err, callback);
+            }
+          }); //end db.collection
+        } else {
+          onErr(err, callback);
+        }
+      }); // end db.open
+    };
     
     /*db.collection('messages').find(query).toArray(function (err, docs) {
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
@@ -357,9 +379,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                 console.log("ITEMMM - " + item);
             }                    
 
-    } );*/
-    
-    console.log("RESULLTTT - " + result);
+    } );*/        
        
     return res.json(result);    
 });
