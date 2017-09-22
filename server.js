@@ -281,12 +281,12 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
 
         for (var i = 0, len = docs.length; i < len; i++) {              
             var item = {
-                  id: docs[i].conversation_id,
+                  id: docs[i]._id,
                   message: docs[i].message,
                   creation_date: docs[i].creation_date,
                   sender: { 
                       id: docs[i].sender,
-                      first_name: 'Moacir',
+                      first_name: 'XXXXXX',
                       age: 30
                   }
             };
