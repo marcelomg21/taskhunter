@@ -193,9 +193,12 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
   }
   if (db) {
     var col = db.collection('messages');
-    //col.insert({position: req.body.name, date: Date.now()});
-    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: Date.now()});    
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var dateFormat = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: dateFormat});    
   } 
   
   var result =  {
