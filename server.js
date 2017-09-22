@@ -313,8 +313,24 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   success: true,
                   data: []
             };
+    var cursor = await db.collection("messages").find(query);
+    while(await cursor.hasNext()) {
+      var doc = await cursor.next();
+        var item = {
+                      id: doc.conversation_id,
+                      message: doc.message,
+                      creation_date: doc.creation_date,
+                      sender: { 
+                          id: doc.sender,
+                          first_name: 'Moacir',
+                          age: 30
+                      }
+                };
+                result.data.push(item);
+      console.log("ITEMMM - " + doc);
+    }
     
-    db.collection('messages').find(query).toArray(function (err, docs) {
+    /*db.collection('messages').find(query).toArray(function (err, docs) {
         //console.log(doc.conversation_id + " - " + doc.message + " - " + doc.sender + " - " + doc.creation_date);
             /*var item = {
                   id: doc.conversation_id,
@@ -325,7 +341,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                       first_name: 'Moacir',
                       age: 30
                   }
-            };*/     
+            };  
         
             for (var i = 0, len = docs.length; i < len; i++) {              
                 var item = {
@@ -342,7 +358,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                 console.log("ITEMMM - " + item);
             }                    
 
-    } );
+    } );*/
     
     console.log("RESULLTTT - " + result);
        
