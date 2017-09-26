@@ -205,8 +205,8 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
          success: true,
          data: {
               id: req.params.conversation_id,
-              message: 'sim, qual seu contato?',
-              creation_date: '2017-09-05',
+              message: req.body.message,
+              creation_date: dateFormat,
               sender: { 
                   id: 305,                  
                   first_name: 'Antônio Almir',
@@ -298,6 +298,71 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
 
         return res.json(result);
     } );
+});
+
+//get conversation by user
+app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res) {
+  var result = {
+          success: true,
+          data: [{
+              id: 1,
+              message: 'Boa noite, gostaria de um orçamento para a troca do Chuveiro?',
+              creation_date: '2017-01-17',
+              real_participants: [{ 
+                  id: 1023,                  
+                  first_name: 'Moacir',
+                  age: 30,
+                  profiles: [{
+                      id: 102,
+                      mode: 0,
+                      
+                      width: 50,
+                      height: 50
+                  },
+                  { 
+                  id: 1520675761317155,                  
+                  first_name: 'Marcelo',
+                  age: 30,
+                  profiles: [{
+                      id: 102,
+                      mode: 0,
+                      
+                      width: 50,
+                      height: 50
+                  }]
+              }]              
+          }]
+    };
+                 
+    return res.json(result);
+    
+    /*var query = {
+        conversation_id: req.params.conversation_id
+    };
+
+    db.collection('messages').find(query).toArray(function (err, docs) {
+        
+        var result = {
+              success: true,
+              data: []
+        };
+
+        for (var i = 0, len = docs.length; i < len; i++) {              
+            var item = {
+                  id: docs[i]._id,
+                  message: docs[i].message,
+                  creation_date: docs[i].creation_date,
+                  sender: { 
+                      id: docs[i].sender,
+                      first_name: 'XXXXXX',
+                      age: 30
+                  }
+            };
+            result.data.push(item);
+        }
+
+        return res.json(result);
+    } );*/
 });
 
 //get read messages
