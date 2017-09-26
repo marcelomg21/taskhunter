@@ -309,15 +309,16 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
               message: 'Boa noite, gostaria de um orçamento para a troca do Chuveiro?',
               creation_date: '2017-01-17',
               real_participants: [{ 
-                  id: 1023,                  
-                  first_name: 'Moacir',
-                  age: 30,
-                  profiles: [{
-                      id: 102,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
+                      id: 1023,                  
+                      first_name: 'Moacir',
+                      age: 30,
+                      profiles: [{
+                          id: 102,
+                          mode: 0,
+
+                          width: 50,
+                          height: 50
+                      }]
                   },
                   { 
                   id: 1520675761317155,                  
