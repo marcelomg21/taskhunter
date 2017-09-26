@@ -304,7 +304,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
 app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res) {
   var result = {
           success: true,
-          data: [{
+          data: {
               id: 1,
               message: 'Boa noite, gostaria de um orçamento para a troca do Chuveiro?',
               creation_date: '2017-01-17',
@@ -332,7 +332,7 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
                       height: 50
                   }]
               }]              
-          }]
+          }
     };
                  
     return res.json(result);
