@@ -167,7 +167,9 @@ app.post('/connect/oauth/token', function (req, res) {
     
     request(options)
     .then(fbRes => {
-      res.json(fbRes);
+        var facebook_json = JSON.parse(fbRes);
+        res.send(facebook_json.name);
+        //res.json(fbRes);
     })
     
     /*if (!db) {
