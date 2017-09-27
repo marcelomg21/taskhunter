@@ -758,32 +758,32 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
   var result =  {
            success: true,
            data: [{
-              id: req.params.user_id,              
+              id: 100,              
               modification_date: '2017-07-22',
               is_read: false,
               creation_date: '2017-07-20',
               last_message: {
                   creation_date: '2017-07-21',
-                  message: 'This is a new message',
+                  message: 'This is a new last message',
                   sender: {
-                      id: 102, 
+                      id: 1023, 
                       type: 'type1',
-                      first_name: 'Moacir',
-                      gender: 'M'
+                      first_name: 'Ana Paula',
+                      gender: 'F'
                   }
               },
               real_participants: [{
-                  id: 304, 
+                  id: 1520675761317155, 
                   type: 'type1',
-                  first_name: 'Maciel Orlando',
+                  first_name: 'Marcelo One',
                   gender: 'F'
               }],
               participants: [{                  
                   id: 1234,
                   user: {
-                      id: 102, 
+                      id: 1520675761317155, 
                       type: 'type1',
-                      first_name: 'Moacir',
+                      first_name: 'Marcelo Two',
                       is_moderator: false,
                       profiles: [{
                           id: 102,
