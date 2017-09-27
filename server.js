@@ -6,6 +6,7 @@ var express = require('express'),
     morgan  = require('morgan'),
     jwt     = require('jsonwebtoken'),
     assert = require('assert'),
+    request = require('request-promise'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
