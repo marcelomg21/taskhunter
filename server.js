@@ -169,12 +169,12 @@ app.post('/connect/oauth/token', function (req, res) {
     
     request(options)
     .then(fbRes => {
-        var facebook_json = JSON.parse(fbRes);
-        res.send(facebook_json.name);
+        var facebook_json = JSON.parse(fbRes);        
                 
         if (!db) {
             initDb(function(err){});
         }
+        
         if (db) {
            var col = db.collection('users');
            col.insert(
