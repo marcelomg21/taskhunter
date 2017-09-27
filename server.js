@@ -149,9 +149,40 @@ app.post('/connect/oauth/token', function (req, res) {
     }
     
     var tokenData = {
-        access_token: req.body.assertion,
+        facebook_access_token: req.body.assertion,
         client_id: req.body.client_id
     };
+    
+    const userFieldSet = 'id,name,first_name,gender,birthday,email,location';
+
+    const options = {
+        method: 'GET',
+        uri: 'https://graph.facebook.com/me',
+        qs: {
+          access_token: req.body.assertion,
+          fields: userFieldSet
+        }
+    };
+    
+    request(options)
+    .then(fbRes => {
+      res.json(fbRes);
+    })
+    
+    /*if (!db) {
+       initDb(function(err){});
+    }
+    if (db) {
+       var col = db.collection('users');
+       col.insert(
+           {
+               user_id: req.params.conversation_id, 
+               user_name: req.body.message, 
+               gender: req.body.sender, 
+               email: dateFormat, 
+               access_token: jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a')
+           });
+    }
     
     var result = {        
         access_token: jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a'),
@@ -163,7 +194,7 @@ app.post('/connect/oauth/token', function (req, res) {
         refresh_token: '43p0v5m203kd9333goafve2qe9idqp0707'
     };
 
-    return res.json(result);
+    return res.json(result);*/
 });
 
 app.get('/api/users/:user_id', function (req, res) {
