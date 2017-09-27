@@ -754,6 +754,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
     return res.json(result);    
 });
 
+//get all conversations
 app.get('/api/users/:user_id/conversations', function (req, res) {
   var result =  {
            success: true,
@@ -779,7 +780,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   gender: 'F'
               }],
               participants: [{                  
-                  id: 1234,
+                  id: 1520675761317155,
                   user: {
                       id: 1520675761317155, 
                       type: 'type1',
@@ -788,7 +789,23 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       profiles: [{
                           id: 102,
                           mode: 0,
-                          url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
+                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/1391900_611843712200369_894384950_n.jpg?oh=8c1eda274a3bb3de0a56205510babf32&oe=5A803B39',
+                          width: 50,
+                          height: 50
+                      }]
+                  }
+              },
+              {                  
+                  id: 1023,
+                  user: {
+                      id: 1023, 
+                      type: 'type1',
+                      first_name: 'Ana Paula',
+                      is_moderator: false,
+                      profiles: [{
+                          id: 102,
+                          mode: 0,
+                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/1391900_611843712200369_894384950_n.jpg?oh=8c1eda274a3bb3de0a56205510babf32&oe=5A803B39',
                           width: 50,
                           height: 50
                       }]
