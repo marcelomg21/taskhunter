@@ -7,7 +7,7 @@ var express = require('express'),
     jwt     = require('jsonwebtoken'),
     assert = require('assert'),
     request = require('request-promise'),
-    firebase = require('firebase-admin'),
+    admin = require('firebase-admin'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
@@ -65,7 +65,7 @@ var initDb = function(callback) {
 };
 
 //firebase FCM
-var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
+/*var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
 
 // Fetch the service account key JSON file contents
 var serviceAccount = require("./serviceAccountKey.json");
@@ -119,7 +119,7 @@ function sendNotificationToUser(username, message, onSuccess) {
 }
 
 // start listening
-listenForNotificationRequests();
+listenForNotificationRequests();*/
 
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
@@ -298,7 +298,33 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     var dateFormat = date.toISOString().split('T')[0];
       
     col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: dateFormat});    
-  } 
+  }
+    
+  //send FCM message
+  // This registration token comes from the client FCM SDKs.
+  var registrationToken = "d0Y999GwJLQ:APA91bFikkfLd5BwD3yW15pn1oxnR3o1bRY05lVHlH1lldAJNvuM95tF66xgi-1KnkD4nwzY09ofLe1R9TSJOO-gWDbJh8cnd0uk6xph1aI_Dm5RRPXJzpXHbMZVa9oRwH299OnHYtad";
+
+  // See the "Defining the message payload" section below for details
+  // on how to define a message payload.
+  var payload = {
+      data: {
+        notification_key: "SENT_MESSAGE",
+        message: "",
+        notification_custom_data: "{ag-id: 1520675761317155, view-id:" + req.params.conversation_id + " }"
+      }
+  };
+
+  // Send a message to the device corresponding to the provided
+  // registration token.
+  admin.messaging().sendToDevice(registrationToken, payload)
+      .then(function(response) {
+        // See the MessagingDevicesResponse reference documentation for
+        // the contents of response.
+        console.log("Successfully sent message:", response);
+      })
+      .catch(function(error) {
+        console.log("Error sending message:", error);
+  });
   
   var result =  {
          success: true,
