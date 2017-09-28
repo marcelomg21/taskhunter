@@ -68,7 +68,7 @@ var initDb = function(callback) {
 var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
 
 // Fetch the service account key JSON file contents
-var serviceAccount = require("path/to/serviceAccountKey.json");
+var serviceAccount = require("./serviceAccountKey.json");
 
 // Initialize the app with a service account, granting admin privileges
 firebase.initializeApp({
