@@ -929,33 +929,49 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   }
   
   if (db) {
-    var col = db.collection('devices');
-    //col.insert({position: req.body.name, date: Date.now()});
-    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert(
-        {
-            user_id: req.params.user_id, 
-            device: {
-                device_id: req.params.user_id + '_' + req.body.android_id,                
-                androidId : req.body.android_id,
-                appBuild : req.body.app_build,
-                countryId : req.body.country_id,                
-                languageId : req.body.language_id,
-                osBuild : req.body.os_build,
-                token : req.body.token,
-                type : req.body.type
-            }
-        });    
-  } 
-  
-  var result =  {
-         success: true,
-         data: {
-             id: req.params.user_id + '_' + req.body.android_id
-         }
-   };
+    var query = {
+        user_id: req.params.user_id
+    };
+
+    db.collection('devices').find(query).toArray(function (err, docs) {
         
-    res.json(result);
+        var result = {
+              success: true,
+              data: []
+        };
+
+        if (docs.length <= 0) {
+            var col = db.collection('devices');
+            //col.insert({position: req.body.name, date: Date.now()});
+            //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+            col.insert(
+                {
+                    user_id: req.params.user_id, 
+                    device: {
+                        device_id: req.params.user_id + '_' + req.body.android_id,                
+                        androidId : req.body.android_id,
+                        appBuild : req.body.app_build,
+                        countryId : req.body.country_id,                
+                        languageId : req.body.language_id,
+                        osBuild : req.body.os_build,
+                        firebase_token : req.body.token,
+                        type : req.body.type
+                    }
+                });    
+          } 
+
+          var result =  {
+                 success: true,
+                 data: {
+                     id: req.params.user_id + '_' + req.body.android_id
+                 }
+           };
+
+            return res.json(result);
+        }
+        
+    } );
+
 });
 
 //update device
