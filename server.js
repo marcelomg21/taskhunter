@@ -343,32 +343,32 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
                   })
                   .catch(function(error) {
                     console.log("Error sending message:", error);
-              });
-
-              var result =  {
-                     success: true,
-                     data: {
-                          id: req.params.conversation_id,
-                          message: req.body.message,
-                          creation_date: dateFormat,
-                          sender: { 
-                              id: req.body.sender,
-                              //first_name: 'Antônio Almir',
-                              //age: 30,
-                              profiles: [{
-                                  id: req.body.sender,
-                                  mode: 0,
-                                  //url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaRre-rD2x077_NvY7d5cmy1UQ1oaeD7f5S2v30VTojvHpIbC7TA',
-                                  width: 50,
-                                  height: 50
-                              }]
-                          }
-                      }
-               };
-
-                res.json(result);
+              });              
         }              
     } );
+      
+    var result =  {
+             success: true,
+             data: {
+                  id: req.params.conversation_id,
+                  message: req.body.message,
+                  creation_date: dateFormat,
+                  sender: { 
+                      id: req.body.sender,
+                      //first_name: 'Antônio Almir',
+                      //age: 30,
+                      profiles: [{
+                          id: req.body.sender,
+                          mode: 0,
+                          //url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaRre-rD2x077_NvY7d5cmy1UQ1oaeD7f5S2v30VTojvHpIbC7TA',
+                          width: 50,
+                          height: 50
+                      }]
+                  }
+              }
+       };
+
+       res.json(result);      
   }      
 });
 
