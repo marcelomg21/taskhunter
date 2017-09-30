@@ -307,11 +307,6 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 
     db.collection('devices').find(query).toArray(function (err, docs) {
         
-        var result = {
-              success: true,
-              data: []
-        };
-        
         var firebase_token = "";
 
         for (var i = 0, len = docs.length; i < len; i++) {
@@ -333,7 +328,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
                   data: {
                     notification_key: "SENT_MESSAGE",
                     message: "",
-                    notification_custom_data: "{ag-id: 1520675761317155, view-id:" + req.params.conversation_id + " }"
+                    notification_custom_data: "{ag-id: " + req.body.sender + ", view-id:" + req.params.conversation_id + " }"
                   }
               };
 
