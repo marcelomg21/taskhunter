@@ -911,7 +911,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       profiles: [{
                           id: 102,
                           mode: 0,
-                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/1379841_10150004552801901_469209496895221757_n.jpg?oh=cd83dd4b4d791ce3d3ee6352a418ebd4&oe=5A408633',
+                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/22046610_103948640359972_1642469792614532733_n.jpg?oh=f17116c029f1086f1256f80bebd561f9&oe=5A4EA824',
                           width: 50,
                           height: 50
                       }]
