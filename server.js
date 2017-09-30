@@ -300,7 +300,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     date.setHours(date.getHours() - 3);
     var dateFormat = date.toISOString().split('T')[0];
       
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender_user_id: req.body.sender, recipient_user_id: req.body.recipient, creation_date: dateFormat});
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, recipient: req.body.recipient, creation_date: dateFormat});
       
     var query = {
         user_id: req.body.recipient
