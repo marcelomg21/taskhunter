@@ -981,20 +981,19 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
                         type : req.body.type
                     }
                 });    
-            }//if           
-        }//collection
-                                                 
-        var result =  {
-             success: true,
-             data: {
-                 id: req.params.user_id + '_' + req.body.android_id
-             }
-        };
-
-        return res.json(result);
+            //}
         
-    } );
+            var result =  {
+                 success: true,
+                 data: {
+                     id: req.params.user_id + '_' + req.body.android_id
+                 }
+            };
 
+            return res.json(result);        
+        }
+    });
+  }
 });
 
 //update device
