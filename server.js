@@ -314,7 +314,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 
         for (var i = 0, len = docs.length; i < len; i++) {
             if (docs[i].user_id == req.body.recipient) {
-                firebase_token = docs[i].firebase_token;
+                firebase_token = docs[i].device.firebase_token;
                 break;
             }            
         }
