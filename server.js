@@ -287,9 +287,11 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
   if(!req.body.message || !req.body.sender) {
      res.status(400).send('400 Bad Request')
   }
+    
   if (!db) {
     initDb(function(err){});
   }
+  
   if (db) {
     var col = db.collection('messages');
     
@@ -297,59 +299,81 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     date.setHours(date.getHours() - 3);
     var dateFormat = date.toISOString().split('T')[0];
       
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, creation_date: dateFormat});    
-  }
-    
-  //send FCM message
-  // This registration token comes from the client FCM SDKs.
-  var registrationToken = "d0Y999GwJLQ:APA91bFikkfLd5BwD3yW15pn1oxnR3o1bRY05lVHlH1lldAJNvuM95tF66xgi-1KnkD4nwzY09ofLe1R9TSJOO-gWDbJh8cnd0uk6xph1aI_Dm5RRPXJzpXHbMZVa9oRwH299OnHYtad";
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender_user_id: req.body.sender, recipient_user_id: req.body.recipient, creation_date: dateFormat});
+      
+    var query = {
+        user_id: req.body.recipient
+    };
 
-  // See the "Defining the message payload" section below for details
-  // on how to define a message payload.
-  var payload = {
-      data: {
-        notification_key: "SENT_MESSAGE",
-        message: "",
-        notification_custom_data: "{ag-id: 1520675761317155, view-id:" + req.params.conversation_id + " }"
-      }
-  };
-
-  // Send a message to the device corresponding to the provided
-  // registration token.
-  firebase.messaging().sendToDevice(registrationToken, payload)
-      .then(function(response) {
-        // See the MessagingDevicesResponse reference documentation for
-        // the contents of response.
-        console.log("Successfully sent message:", response);
-      })
-      .catch(function(error) {
-        console.log("Error sending message:", error);
-  });
-  
-  var result =  {
-         success: true,
-         data: {
-              id: req.params.conversation_id,
-              message: req.body.message,
-              creation_date: dateFormat,
-              sender: { 
-                  id: 305,                  
-                  first_name: 'Antônio Almir',
-                  age: 30,
-                  profiles: [{
-                      id: 132,
-                      mode: 0,
-                      url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaRre-rD2x077_NvY7d5cmy1UQ1oaeD7f5S2v30VTojvHpIbC7TA',
-                      width: 50,
-                      height: 50
-                  }]
-              },
-              clickable_profile_link: false,
-              clickable_message_link: false
-          }
-   };
+    db.collection('devices').find(query).toArray(function (err, docs) {
         
-    res.json(result);
+        var result = {
+              success: true,
+              data: []
+        };
+        
+        var firebase_token = "";
+
+        for (var i = 0, len = docs.length; i < len; i++) {
+            if (docs[i].user_id == req.body.recipient) {
+                firebase_token = docs[i].firebase_token;
+                break;
+            }            
+        }
+
+        if (firebase_token != "") {
+              //send FCM message
+              // This registration token comes from the client FCM SDKs.
+              //var registrationToken = "d0Y999GwJLQ:APA91bFikkfLd5BwD3yW15pn1oxnR3o1bRY05lVHlH1lldAJNvuM95tF66xgi-1KnkD4nwzY09ofLe1R9TSJOO-gWDbJh8cnd0uk6xph1aI_Dm5RRPXJzpXHbMZVa9oRwH299OnHYtad";
+              var registrationToken = firebase_token;
+
+              // See the "Defining the message payload" section below for details
+              // on how to define a message payload.
+              var payload = {
+                  data: {
+                    notification_key: "SENT_MESSAGE",
+                    message: "",
+                    notification_custom_data: "{ag-id: 1520675761317155, view-id:" + req.params.conversation_id + " }"
+                  }
+              };
+
+              // Send a message to the device corresponding to the provided
+              // registration token.
+              firebase.messaging().sendToDevice(registrationToken, payload)
+                  .then(function(response) {
+                    // See the MessagingDevicesResponse reference documentation for
+                    // the contents of response.
+                    console.log("Successfully sent message:", response);
+                  })
+                  .catch(function(error) {
+                    console.log("Error sending message:", error);
+              });
+
+              var result =  {
+                     success: true,
+                     data: {
+                          id: req.params.conversation_id,
+                          message: req.body.message,
+                          creation_date: dateFormat,
+                          sender: { 
+                              id: req.body.sender
+                              //first_name: 'Antônio Almir',
+                              //age: 30,
+                              profiles: [{
+                                  id: req.body.sender,
+                                  mode: 0,
+                                  //url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaRre-rD2x077_NvY7d5cmy1UQ1oaeD7f5S2v30VTojvHpIbC7TA',
+                                  width: 50,
+                                  height: 50
+                              }]
+                          }
+                      }
+               };
+
+                res.json(result);
+        }              
+    } );
+  }      
 });
 
 //get messages
