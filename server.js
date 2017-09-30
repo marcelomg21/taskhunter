@@ -949,6 +949,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   }
   
   if (db) {
+    
     var query = {
         user_id: req.params.user_id
     };
@@ -960,6 +961,8 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
               data: []
         };
 
+        console.log(req.params.user_id + " docs: " + docs.length);
+        
         if (docs.length <= 0) {
             var col = db.collection('devices');
             //col.insert({position: req.body.name, date: Date.now()});
@@ -978,17 +981,17 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
                         type : req.body.type
                     }
                 });    
-          } 
+            }//if           
+        }//collection
+                                                 
+        var result =  {
+             success: true,
+             data: {
+                 id: req.params.user_id + '_' + req.body.android_id
+             }
+        };
 
-          var result =  {
-                 success: true,
-                 data: {
-                     id: req.params.user_id + '_' + req.body.android_id
-                 }
-           };
-
-            return res.json(result);
-        }
+        return res.json(result);
         
     } );
 
