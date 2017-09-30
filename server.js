@@ -284,6 +284,7 @@ app.get('/api/users/:user_id', function (req, res) {
 
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
+  
   if(!req.body.message || !req.body.sender) {
      res.status(400).send('400 Bad Request')
   }
@@ -351,7 +352,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
                           message: req.body.message,
                           creation_date: dateFormat,
                           sender: { 
-                              id: req.body.sender
+                              id: req.body.sender,
                               //first_name: 'Antônio Almir',
                               //age: 30,
                               profiles: [{
