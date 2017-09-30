@@ -214,7 +214,7 @@ app.post('/connect/oauth/token', function (req, res) {
     
     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
     
-    const user_field_set = 'id,name,first_name,gender,birthday,email,location';
+    const user_field_set = 'id,name,first_name,gender,birthday,email,location,picture';
 
     const options = {
         method: 'GET',
@@ -242,7 +242,9 @@ app.post('/connect/oauth/token', function (req, res) {
                    gender: facebook_json.gender, 
                    email: facebook_json.email,
                    location: facebook_json.location,
-                   access_token: jwt_access_token
+                   access_token: jwt_access_token,
+                   facebook_access_token: req.body.assertion,
+                   facebook_picture: facebook_json.picture.data.url
                });
         }
 
@@ -888,7 +890,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   user: {
                       id: 1520675761317155, 
                       type: 'type1',
-                      first_name: 'Marcelo Two',
+                      first_name: 'Marcelo',
                       is_moderator: false,
                       profiles: [{
                           id: 102,
@@ -900,11 +902,11 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               },
               {                  
-                  id: 1023,
+                  id: 103624497059053,
                   user: {
-                      id: 1023, 
+                      id: 103624497059053, 
                       type: 'type1',
-                      first_name: 'Ana Paula',
+                      first_name: 'Kandida',
                       is_moderator: false,
                       profiles: [{
                           id: 102,
