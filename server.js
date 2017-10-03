@@ -862,7 +862,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 
 //get all conversations
 app.get('/api/users/:user_id/conversations', function (req, res) {
-  var result =  {
+  /*var result =  {
            success: true,
            data: [{
               id: 100,              
@@ -918,7 +918,67 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               }]              
           }]
+    };*/
+    
+    var result =  {
+           success: true,
+           data: [{
+              id: 100,              
+              //modification_date: '2017-07-22',
+              is_read: false,
+              creation_date: '2017-07-20',
+              /*last_message: {
+                  creation_date: '2017-07-21',
+                  message: 'This is a new last message',
+                  sender: {
+                      id: 1023, 
+                      type: 'type1',
+                      first_name: 'Ana Paula',
+                      gender: 'F'
+                  }
+              },
+              real_participants: [{
+                  id: 1520675761317155, 
+                  type: 'type1',
+                  first_name: 'Marcelo One',
+                  gender: 'F'
+              }],*/
+              participants: [{                  
+                  id: 1520675761317155,
+                  user: {
+                      id: 1520675761317155, 
+                      type: 'client',
+                      first_name: 'Marcelo',
+                      //is_moderator: false,
+                      profiles: [{
+                          id: 102,
+                          mode: 0,
+                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/1391900_611843712200369_894384950_n.jpg?oh=8c1eda274a3bb3de0a56205510babf32&oe=5A803B39',
+                          width: 50,
+                          height: 50
+                      }]
+                  }
+              },
+              {                  
+                  id: 103624497059053,
+                  user: {
+                      id: 103624497059053, 
+                      type: 'client',
+                      first_name: 'Kandida',
+                      //is_moderator: false,
+                      profiles: [{
+                          id: 102,
+                          mode: 0,
+                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/22046610_103948640359972_1642469792614532733_n.jpg?oh=f17116c029f1086f1256f80bebd561f9&oe=5A4EA824',
+                          width: 50,
+                          height: 50
+                      }]
+                  }
+              }]              
+          }]
     };
+    
+    console.log("query param: " + req.query.participants);
         
     return res.json(result);    
 });
