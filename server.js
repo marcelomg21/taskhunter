@@ -1003,8 +1003,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             var query_conversations = {
                 $and: [
-                    {$or: [{participants: {user_id: req.params.user_id}}]}
-                }]
+                        {
+                            $or: [
+                                {participants: {user_id: req.params.user_id}}
+                            ]
+                        }
+                ]
             };
             
             //get all user_id conversations
