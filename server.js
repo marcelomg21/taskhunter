@@ -1002,9 +1002,9 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
             var query_conversations = {
-                $and: [
+                "$and": [
                         {
-                            $or: [
+                            "$or": [
                                 {participants: {user_id: req.params.user_id}}
                             ]
                         }
@@ -1013,7 +1013,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             //get all user_id conversations
             db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
-                console.log("--- 2 ---" + req.params.user_id);                
+                console.log("--- 2 ---");                
                 if (docs_conversations.length > 0) {
                     console.log("--- 3 ---");
                     for (var i = 0, len_conversations = docs_conversations.length; i < len_conversations; i++) {
