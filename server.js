@@ -1001,14 +1001,11 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
-            var query_conversations = {
-                "$and": [
-                        {
-                            "$or": [
-                                {participants: {user_id: req.params.user_id}}
-                            ]
-                        }
-                ]
+            var query_conversations ={
+                            $or: [
+                                {participants: {user_id: req.params.user_id}},
+                                {participants: {user_id: 111}}
+                            ]                
             };
             
             //get all user_id conversations
