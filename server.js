@@ -975,8 +975,13 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             //***
         } else {
             
-            var query = { 
-                $or: [ { sender: req.params.user_id }, { recipient: req.params.user_id } ] 
+            var recipient = req.query.participants.split(",");
+            
+            var query = {
+                $and: [
+                    {$or: [{participants: {user_id: req.params.user_id}}]}, 
+                    {$or: [{participants: {user_id: recipient[1]}}]
+                }]
             };
 
             db.collection('conversations').find(query).toArray(function (err, docs) {
