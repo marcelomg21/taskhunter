@@ -206,14 +206,7 @@ app.post('/connect/oauth/token', function (req, res) {
     if(!req.body.client_id || !req.body.assertion) {
         res.status(400).send('400 Bad Request')
     }
-    
-    var tokenData = {
-        facebook_access_token: req.body.assertion,
-        client_id: req.body.client_id
-    };
-    
-    var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
-    
+ 
     const user_field_set = 'id,name,first_name,gender,birthday,email,location,picture';
 
     const options = {
@@ -235,30 +228,60 @@ app.post('/connect/oauth/token', function (req, res) {
         
         if (db) {
            var col = db.collection('users');
-           col.insert(
-               {
-                   user_id: facebook_json.id, 
-                   user_name: facebook_json.name, 
-                   gender: facebook_json.gender, 
-                   email: facebook_json.email,
-                   location: facebook_json.location,
-                   access_token: jwt_access_token,
-                   facebook_access_token: req.body.assertion,
-                   facebook_picture: facebook_json.picture.data.url
-               });
+            
+            var query = {
+                user_id: facebook_json.id
+            };
+
+            db.collection('users').find(query).toArray(function (err, docs) {
+
+                if (docs.length <= 0) {
+                    
+                    var tokenData = {
+                        facebook_access_token: req.body.assertion,
+                        client_id: req.body.client_id
+                    };
+
+                    var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
+                    
+                    col.insert({
+                           user_id: facebook_json.id, 
+                           user_name: facebook_json.name, 
+                           gender: facebook_json.gender, 
+                           email: facebook_json.email,
+                           location: facebook_json.location,
+                           access_token: jwt_access_token,
+                           facebook_access_token: req.body.assertion,
+                           facebook_picture: facebook_json.picture.data.url
+                    });
+                    
+                    var result = {        
+                        access_token: jwt_access_token,
+                        expires_in: 86400,        
+                        scope: 'achievement_type_read countries_read language_read locale_read pack_read subscription_type_read report_type_read user_mode_read notification_type_read search_user all_user_read all_image_read user_device_create user_device_read user_device_update user_device_delete user_position_read user_position_update user_notifications_read user_poke_create user_message_create user_message_read user_message_update user_message_delete user_image_create user_image_read user_image_update user_image_delete user_conversation_create user_conversation_read user_conversation_update user_conversation_delete user_order_create user_order_read user_order_update user_applications_read user_applications_update user_applications_delete user_blocked_read user_blocked_create user_blocked_delete user_accepted_read user_accepted_create user_accepted_delete user_rejected_read user_rejected_create user_rejected_delete user_subscription_create user_subscription_read user_subscription_update user_subscription_delete user_achievement_create user_achievement_read user_achievement_update user_achievement_delete user_availability_create user_availability_read user_availability_update user_availability_delete user_social_create user_social_read user_social_update user_social_delete user_update user_delete user_read user_report_read user_report_create user_report_update user_report_delete',            
+                        user_id: facebook_json.id,
+                        is_new: false,
+                        refresh_token: '43p0v5m203kd9333goafve2qe9idqp0707'
+                    };
+                    
+                    return res.json(result);
+                    
+                } else {
+                    
+                    var result = {        
+                        access_token: docs[0].access_token,
+                        expires_in: 86400,        
+                        scope: 'achievement_type_read countries_read language_read locale_read pack_read subscription_type_read report_type_read user_mode_read notification_type_read search_user all_user_read all_image_read user_device_create user_device_read user_device_update user_device_delete user_position_read user_position_update user_notifications_read user_poke_create user_message_create user_message_read user_message_update user_message_delete user_image_create user_image_read user_image_update user_image_delete user_conversation_create user_conversation_read user_conversation_update user_conversation_delete user_order_create user_order_read user_order_update user_applications_read user_applications_update user_applications_delete user_blocked_read user_blocked_create user_blocked_delete user_accepted_read user_accepted_create user_accepted_delete user_rejected_read user_rejected_create user_rejected_delete user_subscription_create user_subscription_read user_subscription_update user_subscription_delete user_achievement_create user_achievement_read user_achievement_update user_achievement_delete user_availability_create user_availability_read user_availability_update user_availability_delete user_social_create user_social_read user_social_update user_social_delete user_update user_delete user_read user_report_read user_report_create user_report_update user_report_delete',            
+                        user_id: docs[0].user_id,
+                        is_new: false,
+                        refresh_token: '43p0v5m203kd9333goafve2qe9idqp0707'
+                    };
+                    
+                    return res.json(result);
+                }
+            } );
         }
-
-        var result = {        
-            access_token: jwt_access_token,
-            expires_in: 86400,        
-            scope: 'achievement_type_read countries_read language_read locale_read pack_read subscription_type_read report_type_read user_mode_read notification_type_read search_user all_user_read all_image_read user_device_create user_device_read user_device_update user_device_delete user_position_read user_position_update user_notifications_read user_poke_create user_message_create user_message_read user_message_update user_message_delete user_image_create user_image_read user_image_update user_image_delete user_conversation_create user_conversation_read user_conversation_update user_conversation_delete user_order_create user_order_read user_order_update user_applications_read user_applications_update user_applications_delete user_blocked_read user_blocked_create user_blocked_delete user_accepted_read user_accepted_create user_accepted_delete user_rejected_read user_rejected_create user_rejected_delete user_subscription_create user_subscription_read user_subscription_update user_subscription_delete user_achievement_create user_achievement_read user_achievement_update user_achievement_delete user_availability_create user_availability_read user_availability_update user_availability_delete user_social_create user_social_read user_social_update user_social_delete user_update user_delete user_read user_report_read user_report_create user_report_update user_report_delete',            
-            user_id: facebook_json.id,
-            is_new: false,
-            refresh_token: '43p0v5m203kd9333goafve2qe9idqp0707'
-        };
-
-        return res.json(result);
-        });        
+    });
 });
 
 app.get('/api/users/:user_id', function (req, res) {
@@ -857,7 +880,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
           }]
     };
         
-    return res.json(result);    
+    return res.json(result);
 });
 
 //get all conversations
@@ -977,30 +1000,42 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         };
         
         if(!req.query.participants || req.query.participants == undefined) {
+            
             var query = {
                 $and: [
                     {$or: [{participants: {user_id: req.params.user_id}}]}
                 }]
             };
+            
             //get all user_id conversations
             db.collection('conversations').find(query).toArray(function (err, docs) {
                 
                 if (docs.length > 0) {
                     for (var i = 0, len = docs.length; i < len; i++) {
-                        if (docs[i].user_id == req.body.recipient) {
-                            firebase_token = docs[i].device.firebase_token;
-                            break;
-                        }            
+                        var item = {
+                              id: docs[i]._id,                            
+                              is_read: false,
+                              creation_date: docs[i].creation_date,              
+                              participants: [{                  
+                                  id: docs[i].participants.user_id,
+                                  user: {
+                                      id: 1520675761317155, 
+                                      type: 'client',
+                                      first_name: 'Marcelo',
+                                      profiles: [{
+                                          id: 102,
+                                          mode: 0,
+                                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/1391900_611843712200369_894384950_n.jpg?oh=8c1eda274a3bb3de0a56205510babf32&oe=5A803B39',
+                                          width: 50,
+                                          height: 50
+                                      }]
+                                  }
+                              }
+                        };
+                        result.data.push(item);
                     }
-                } else {
-                    
-                    var col = db.collection('conversations');
-                    var date = new Date();
-                    date.setHours(date.getHours() - 3);
-                    var creation_date_format = date.toISOString().split('T')[0];
-                    
-                    col.insert({sender: req.body.sender, recipient: req.body.recipient, creation_date: creation_date_format});
                 }
+                
             } );
             
         } else {
@@ -1030,10 +1065,18 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                     date.setHours(date.getHours() - 3);
                     var creation_date_format = date.toISOString().split('T')[0];
                     
-                    col.insert({sender: req.body.sender, recipient: req.body.recipient, creation_date: creation_date_format});
+                    col.insert({
+                            creation_date: creation_date_format, 
+                            participants: [
+                                {user_id: req.params.user_id}, 
+                                {user_id: recipient}
+                            ]
+                        });
                 }
             } );
-        }                                   
+        }
+        
+        return res.json(result);
     }     
 });
 
