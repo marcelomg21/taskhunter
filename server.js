@@ -970,42 +970,35 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
     }
 
     if (db) {
-        //var col = db.collection('conversations');
-          
+        
         if(!req.query.participants || req.query.participants == undefined) {
             //***
         } else {
-            var date = new Date();
-            date.setHours(date.getHours() - 3);
-            var creation_date_format = date.toISOString().split('T')[0];
             
-            var query = {
-                user_id: req.params.user_id,
-                participants: req.query.participants
+            var query = { 
+                $or: [ { sender: req.params.user_id }, { recipient: req.params.user_id } ] 
             };
 
             db.collection('conversations').find(query).toArray(function (err, docs) {
-
-                var firebase_token = "";
-
-                for (var i = 0, len = docs.length; i < len; i++) {
-                    if (docs[i].user_id == req.body.recipient) {
-                        firebase_token = docs[i].device.firebase_token;
-                        break;
-                    }            
+                
+                if (docs.length > 0) {
+                    for (var i = 0, len = docs.length; i < len; i++) {
+                        if (docs[i].user_id == req.body.recipient) {
+                            firebase_token = docs[i].device.firebase_token;
+                            break;
+                        }            
+                    }
+                } else {
+                    
+                    var col = db.collection('conversations');
+                    var date = new Date();
+                    date.setHours(date.getHours() - 3);
+                    var creation_date_format = date.toISOString().split('T')[0];
+                    
+                    col.insert({sender: req.body.sender, recipient: req.body.recipient, creation_date: creation_date_format});
                 }
-
-                if (firebase_token != "") {
-
-                }              
             } );
-        }
-          
-        
-
-        col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, recipient: req.body.recipient, creation_date: dateFormat});
-
-                   
+        }                                   
     }     
 });
 
