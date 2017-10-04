@@ -918,38 +918,20 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   }
               }]              
           }]
-    };*/
+    };
     
     var result =  {
            success: true,
            data: [{
-              id: 100,              
-              //modification_date: '2017-07-22',
+              id: 100,                            
               is_read: false,
-              creation_date: '2017-07-20',
-              /*last_message: {
-                  creation_date: '2017-07-21',
-                  message: 'This is a new last message',
-                  sender: {
-                      id: 1023, 
-                      type: 'type1',
-                      first_name: 'Ana Paula',
-                      gender: 'F'
-                  }
-              },
-              real_participants: [{
-                  id: 1520675761317155, 
-                  type: 'type1',
-                  first_name: 'Marcelo One',
-                  gender: 'F'
-              }],*/
+              creation_date: '2017-07-20',              
               participants: [{                  
                   id: 1520675761317155,
                   user: {
                       id: 1520675761317155, 
                       type: 'client',
-                      first_name: 'Marcelo',
-                      //is_moderator: false,
+                      first_name: 'Marcelo',                      
                       profiles: [{
                           id: 102,
                           mode: 0,
@@ -965,7 +947,6 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                       id: 103624497059053, 
                       type: 'client',
                       first_name: 'Kandida',
-                      //is_moderator: false,
                       profiles: [{
                           id: 102,
                           mode: 0,
@@ -978,9 +959,54 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
           }]
     };
     
-    console.log("query param: " + req.query.participants);
+    console.log("query param: " + req.query.participants);*/
         
-    return res.json(result);    
+    if(!req.params.user_id) {
+        res.status(400).send('400 Bad Request')
+    }
+
+    if (!db) {
+        initDb(function(err){});
+    }
+
+    if (db) {
+        //var col = db.collection('conversations');
+          
+        if(!req.query.participants || req.query.participants == undefined) {
+            //***
+        } else {
+            var date = new Date();
+            date.setHours(date.getHours() - 3);
+            var creation_date_format = date.toISOString().split('T')[0];
+            
+            var query = {
+                user_id: req.params.user_id,
+                participants: req.query.participants
+            };
+
+            db.collection('conversations').find(query).toArray(function (err, docs) {
+
+                var firebase_token = "";
+
+                for (var i = 0, len = docs.length; i < len; i++) {
+                    if (docs[i].user_id == req.body.recipient) {
+                        firebase_token = docs[i].device.firebase_token;
+                        break;
+                    }            
+                }
+
+                if (firebase_token != "") {
+
+                }              
+            } );
+        }
+          
+        
+
+        col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, recipient: req.body.recipient, creation_date: dateFormat});
+
+                   
+    }     
 });
 
 //device set position
