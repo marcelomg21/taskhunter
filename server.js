@@ -1000,7 +1000,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         };
         
         if(!req.query.participants || req.query.participants == undefined) {
-            
+            console.log("--- 1 ---");
             var query_conversations = {
                 $and: [
                         {
@@ -1013,9 +1013,9 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             //get all user_id conversations
             db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
-                
+                console.log("--- 2 ---");
                 if (docs_conversations.length > 0) {
-                    
+                    console.log("--- 3 ---");
                     for (var i = 0, len_conversations = docs_conversations.length; i < len_conversations; i++) {
                         
                         var item_conversation = {
@@ -1028,7 +1028,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         result.data.push(item_conversation);
                         
                         if (docs_conversations.participants.length > 1) {
-                            
+                            console.log("--- 4 ---");
                             for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
                                     user_id: docs_conversations.participants[j].user_id
@@ -1036,7 +1036,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                                 db.collection('users').find(query_users).toArray(function (err, docs_users) {
 
-                                    if (docs_users.length > 0) {                                
+                                    if (docs_users.length > 0) {   
+                                        console.log("--- 5 ---");
                                         var item_participants = {                  
                                               id: docs_users[0].user_id,
                                               user: {
@@ -1063,7 +1064,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             } );
             
         } else {
-            
+            console.log("--- 6 ---");
             var recipient = req.query.participants.split(",");
             
             var query = {
@@ -1076,26 +1077,25 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             db.collection('conversations').find(query).toArray(function (err, docs) {
                 
                 if (docs.length > 0) {
+                    console.log("--- 7 ---");
                     for (var i = 0, len = docs.length; i < len; i++) {
-                        if (docs[i].user_id == req.body.recipient) {
-                            firebase_token = docs[i].device.firebase_token;
-                            break;
-                        }            
+                                 
                     }
                 } else {
-                    
+                    console.log("--- 8 ---");
                     var col = db.collection('conversations');
                     var date = new Date();
                     date.setHours(date.getHours() - 3);
                     var creation_date_format = date.toISOString().split('T')[0];
                     
                     col.insert({
-                            creation_date: creation_date_format, 
-                            participants: [
-                                {user_id: req.params.user_id}, 
-                                {user_id: recipient}
-                            ]
-                        });
+                        creation_date: creation_date_format, 
+                        participants: [
+                            {user_id: req.params.user_id}, 
+                            {user_id: recipient}
+                        ]
+                    });
+                    console.log("--- 9 ---");
                 }
             } );
         }
