@@ -971,8 +971,38 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
     if (db) {
         
+        var result = {
+              success: true,
+              data: []
+        };
+        
         if(!req.query.participants || req.query.participants == undefined) {
-            //***
+            var query = {
+                $and: [
+                    {$or: [{participants: {user_id: req.params.user_id}}]}
+                }]
+            };
+            //get all user_id conversations
+            db.collection('conversations').find(query).toArray(function (err, docs) {
+                
+                if (docs.length > 0) {
+                    for (var i = 0, len = docs.length; i < len; i++) {
+                        if (docs[i].user_id == req.body.recipient) {
+                            firebase_token = docs[i].device.firebase_token;
+                            break;
+                        }            
+                    }
+                } else {
+                    
+                    var col = db.collection('conversations');
+                    var date = new Date();
+                    date.setHours(date.getHours() - 3);
+                    var creation_date_format = date.toISOString().split('T')[0];
+                    
+                    col.insert({sender: req.body.sender, recipient: req.body.recipient, creation_date: creation_date_format});
+                }
+            } );
+            
         } else {
             
             var recipient = req.query.participants.split(",");
@@ -983,7 +1013,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                     {$or: [{participants: {user_id: recipient[1]}}]
                 }]
             };
-
+            //get conversation by recipient
             db.collection('conversations').find(query).toArray(function (err, docs) {
                 
                 if (docs.length > 0) {
