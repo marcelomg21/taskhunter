@@ -1012,26 +1012,27 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             };
             
             //get all user_id conversations
-            db.collection('conversations').find({$and: [{$or: [{participants: {user_id: req.params.user_id}}]}]}).toArray(function (err, docs_conversations) {
-                console.log("--- 2 ---");
-                if (docs_conversations.length > 0) {
+            db.collection('conversations').find(query_conversations).toArray(function (err, docs) {
+                console.log("--- 2 ---" + req.params.user_id);
+                console.log("err -----> " + err);
+                if (docs.length > 0) {
                     console.log("--- 3 ---");
-                    for (var i = 0, len_conversations = docs_conversations.length; i < len_conversations; i++) {
+                    for (var i = 0, len_conversations = docs.length; i < len_conversations; i++) {
                         
                         var item_conversation = {
-                            id: docs_conversations[i]._id,                            
+                            id: docs[i]._id,                            
                             is_read: false,
-                            creation_date: docs_conversations[i].creation_date,              
+                            creation_date: docs[i].creation_date,              
                             participants: []
                         };
 
                         result.data.push(item_conversation);
                         
-                        if (docs_conversations.participants.length > 1) {
+                        if (docs.participants.length > 1) {
                             console.log("--- 4 ---");
-                            for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
+                            for (var j = 0, len_conversations_participants = docs.participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
-                                    user_id: docs_conversations.participants[j].user_id
+                                    user_id: docs.participants[j].user_id
                                 };
 
                                 db.collection('users').find(query_users).toArray(function (err, docs_users) {
