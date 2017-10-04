@@ -1001,41 +1001,61 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         
         if(!req.query.participants || req.query.participants == undefined) {
             
-            var query = {
+            var query_conversations = {
                 $and: [
                     {$or: [{participants: {user_id: req.params.user_id}}]}
                 }]
             };
             
             //get all user_id conversations
-            db.collection('conversations').find(query).toArray(function (err, docs) {
+            db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
                 
-                if (docs.length > 0) {
-                    for (var i = 0, len = docs.length; i < len; i++) {
-                        var item = {
-                              id: docs[i]._id,                            
-                              is_read: false,
-                              creation_date: docs[i].creation_date,              
-                              participants: [{                  
-                                  id: docs[i].participants.user_id,
-                                  user: {
-                                      id: 1520675761317155, 
-                                      type: 'client',
-                                      first_name: 'Marcelo',
-                                      profiles: [{
-                                          id: 102,
-                                          mode: 0,
-                                          url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/1391900_611843712200369_894384950_n.jpg?oh=8c1eda274a3bb3de0a56205510babf32&oe=5A803B39',
-                                          width: 50,
-                                          height: 50
-                                      }]
-                                  }
-                              }
+                if (docs_conversations.length > 0) {
+                    
+                    for (var i = 0, len_conversations = docs_conversations.length; i < len_conversations; i++) {
+                        
+                        var item_conversation = {
+                            id: docs_conversations[i]._id,                            
+                            is_read: false,
+                            creation_date: docs_conversations[i].creation_date,              
+                            participants: []
                         };
-                        result.data.push(item);
+
+                        result.data.push(item_conversation);
+                        
+                        if (docs_conversations.participants.length > 1) {
+                            
+                            for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
+                                var query_users = {
+                                    user_id: docs_conversations.participants[j].user_id
+                                };
+
+                                db.collection('users').find(query_users).toArray(function (err, docs_users) {
+
+                                    if (docs_users.length > 0) {                                
+                                        var item_participants = {                  
+                                              id: docs_users[0].user_id,
+                                              user: {
+                                                  id: docs_users[0].user_id, 
+                                                  type: 'client',
+                                                  first_name: docs_users[0].user_name,
+                                                  profiles: [{
+                                                      id: 102,
+                                                      mode: 0,
+                                                      url: docs_users[0].facebook_picture,
+                                                      width: 50,
+                                                      height: 50
+                                                  }]
+                                              }
+                                           };
+
+                                       result.data[i].participants.push(item_participants);
+                                    }
+                                });                                
+                            }
+                        }                                               
                     }
-                }
-                
+                }                
             } );
             
         } else {
