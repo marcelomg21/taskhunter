@@ -1003,9 +1003,38 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             console.log("--- 1 ---");
             var query_conversations = {'participants.user_id': req.params.user_id};
             
+            //////////////////
+            db.conversations.aggregate(
+                [
+                    // Query argument to match document
+                    { "$match": {
+                        "participants.user_id": req.params.user_id
+                    }},
+
+                    // Flatten array out
+                    { "$unwind": "$users" },
+
+                    // Filter array
+                    { "$match": {
+                        "participants.user_id": req.params.user_id
+                    }},
+
+                    // Project wanted fields
+                    { "$project": {
+                        "_id": 0,
+                        "creation_date": "$users.creation_date",
+                        "participants": "$users.participants"                        
+                    }}
+                ],
+                function(err,result) {
+                    console.log("REEESSULLLTTT: " + result);
+                }
+            );
+            //////////////////
+            
             //get all user_id conversations
             db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
-                console.log("--- 2 ---");                
+                console.log("--- 2 ---");
                 if (docs_conversations.length > 0) {
                     console.log("--- 3 ---");
                     for (var i = 0, len_conversations = docs_conversations.length; i < len_conversations; i++) {
