@@ -1002,10 +1002,9 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
             var query_conversations ={
-                            $or: [
-                                {participants: {user_id: req.params.user_id}},
-                                {participants: {user_id: 111}}
-                            ]                
+                $or: [
+                    {participants: {user_id: req.params.user_id}}
+                ]                
             };
             
             //get all user_id conversations
@@ -1024,8 +1023,10 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                         result.data.push(item_conversation);
                         
-                        if (docs_conversations.participants.length > 1) {
-                            console.log("--- 4 ---");
+                        var participants_json = JSON.parse(docs_conversations.participants);;
+                        
+                        if (participants_json.length > 1) {
+                            console.log("--- 4 ---" + participants_json.length);
                             for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
                                     user_id: docs_conversations.participants[j].user_id
