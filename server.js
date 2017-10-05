@@ -1004,7 +1004,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             var query_conversations = {'participants.user_id': req.params.user_id};
             
             //////////////////
-            db.conversations.aggregate(
+            db.collection('conversations').aggregate(
                 [
                     // Query argument to match document
                     { "$match": {
