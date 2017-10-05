@@ -1004,32 +1004,15 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             var query_conversations = {'participants.user_id': req.params.user_id};
             
             //////////////////
-            db.collection('conversations').aggregate(
-                [
-                    // Query argument to match document
-                    { "$match": {
+            var conversation_collection = db.collection('conversations');
+            
+            conversation_collection.aggregate([
+                  { "$match": {
                         "participants.user_id": req.params.user_id
-                    }},
-
-                    // Flatten array out
-                    { "$unwind": "$users" },
-
-                    // Filter array
-                    { "$match": {
-                        "participants.user_id": req.params.user_id
-                    }},
-
-                    // Project wanted fields
-                    { "$project": {
-                        "_id": 0,
-                        "creation_date": "$users.creation_date",
-                        "participants": "$users.participants"                        
                     }}
-                ],
-                function(err,result) {
-                    console.log("REEESSULLLTTT: " + result);
-                }
-            );
+              ], function(err, result) {
+                    return res.send(result);
+            });
             //////////////////
             
             //get all user_id conversations
