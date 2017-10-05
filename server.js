@@ -1006,7 +1006,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             };
             
             //get all user_id conversations
-            db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
+            db.collection('conversations').find({$or: [{participants: {user_id: req.params.user_id}}]}).toArray(function (err, docs_conversations) {
                 console.log("--- 2 ---");                
                 if (docs_conversations.length > 0) {
                     console.log("--- 3 ---");
