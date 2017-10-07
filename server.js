@@ -1010,8 +1010,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   { $match : {
                         "participants.user_id": req.params.user_id
                     }}
-              ], function(err, result) {
-                    return res.send(result);
+              ], function(err, match_conversations) {
+                    return res.json(match_conversations);                    
             });
             //////////////////
             
@@ -1106,7 +1106,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             } );
         }
         
-        return res.json(result);
+        //return res.json(result);
     }     
 });
 
