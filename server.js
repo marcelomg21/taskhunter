@@ -1006,18 +1006,19 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             //////////////////
             var conversation_collection = db.collection('conversations');
             
-            conversation_collection.aggregate([{$match: {participants: req.params.user_id } }], function(err, match_conversations) {
-                    //return res.json(match_conversations);
-                console.log('match_conversations -> ' + match_conversations);
-            });
+            var ret_agg = conversation_collection.aggregate({
+                "$unwind": "$participants" // first unwind friends array 
+                }, {
+                  "$match": {
+                    "participants.user.id": req.params.user_id // match your criteria
+                  }
+                }, {
+                  "$project": {
+                    "id": "$participants.user.id"
+                  }
+                }).pretty()
             
-            db.collection('conversations').find({participants: req.params.user_id}).toArray(function (err, docs_test) {
-                console.log("docs_test - >" + docs_test);
-            } );
-            
-            db.collection('conversations').find({$or: [{participants: req.params.user_id }]}).toArray(function (err, docs_test_or) {
-                console.log("docs_test ORRRR - >" + docs_test_or);
-            } );
+                return res.json(ret_agg);
             
             //////////////////
             
