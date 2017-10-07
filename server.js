@@ -1016,7 +1016,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   "$project": {
                     "id": "$participants.user.id"
                   }
-                }).pretty()
+                }).toArray()
             
                 return res.json(ret_agg);
             
