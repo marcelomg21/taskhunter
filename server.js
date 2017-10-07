@@ -1006,19 +1006,69 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             //////////////////
             var conversation_collection = db.collection('conversations');
             
-            var ret_agg = conversation_collection.aggregate({
-                "$unwind": "$participants" // first unwind friends array 
+            var aggregate_1 = conversation_collection.aggregate({
+                $unwind: "$participants" // first unwind friends array 
                 }, {
-                  "$match": {
-                    "participants.user.id": req.params.user_id // match your criteria
+                  $match: {
+                    'participants.user_id': req.params.user_id // match your criteria
                   }
                 }, {
-                  "$project": {
-                    "id": "$participants.user.id"
+                  $project: {
+                    "user_id": "$participants.user_id"
                   }
                 }).toArray()
             
-                return res.json(ret_agg);
+                console.log("aggregate_1: " + aggregate_1);
+            
+            //*******************
+            conversation_collection.aggregate([
+              { $match: {
+                        participants: {user_id: req.params.user_id}
+                    }}
+            ], function(err, result_aggregate_2) {
+                console.log("result_aggregate_2: " + result_aggregate_2);
+            });
+            
+            conversation_collection.aggregate([
+              { $match: {
+                        participants: [{user_id: req.params.user_id}]
+                    }}
+            ], function(err, result_aggregate_2) {
+                console.log("result_aggregate_2: " + result_aggregate_2);
+            });
+            
+            //************
+            conversation_collection.aggregate([
+              { $match: {
+                        user_id: req.params.user_id
+                    }}
+            ], function(err, result_aggregate_4) {
+                console.log("result_aggregate_4: " + result_aggregate_4);
+            });
+            
+            db.collection('conversations').find({$or: [{participants: {user_id: req.params.user_id} }]}).toArray(function (err, result_OR) {       
+                console.log("result_OR: " + result_OR);
+            } );
+            
+            db.collection('conversations').find({$or: [{user_id: req.params.user_id }]}).toArray(function (err, result_OR2) {       
+                console.log("result_OR2: " + result_OR2);
+            } );
+            
+            db.collection('conversations').find({$or: [{participants: [{user_id: req.params.user_id}] }]}).toArray(function (err, result_OR3) {       
+                console.log("result_OR3: " + result_OR3);
+            } );
+            
+            db.collection('conversations').find({user_id: req.params.user_id}).toArray(function (err, result_OR4) {       
+                console.log("result_OR4: " + result_OR4);
+            } );
+            
+            db.collection('conversations').find({participants: {user_id: req.params.user_id} }).toArray(function (err, result_OR5) {       
+                console.log("result_OR5: " + result_OR5);
+            } );
+            
+            db.collection('conversations').find({participants: [{user_id: req.params.user_id}] }).toArray(function (err, result_OR6) {       
+                console.log("result_OR6: " + result_OR6);
+            } );
             
             //////////////////
             
@@ -1113,7 +1163,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             } );
         }
         
-        //return res.json(result);
+        return res.json(result);
     }     
 });
 
