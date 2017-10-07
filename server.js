@@ -1001,14 +1001,24 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
-            var query_conversations = {'participants.user_id': req.params.user_id};
+            var query_conversations = {participants: req.params.user_id};
             
             //////////////////
             var conversation_collection = db.collection('conversations');
             
-            conversation_collection.aggregate([{$match: {'participants.user_id': req.params.user_id } }], function(err, match_conversations) {
-                    return res.json(match_conversations);                    
+            conversation_collection.aggregate([{$match: {participants: req.params.user_id } }], function(err, match_conversations) {
+                    //return res.json(match_conversations);
+                console.log('match_conversations -> ' + match_conversations);
             });
+            
+            db.collection('conversations').find({participants: req.params.user_id}).toArray(function (err, docs_test) {
+                console.log("docs_test - >" + docs_test);
+            } );
+            
+            db.collection('conversations').find({$or: [{participants: req.params.user_id }]}).toArray(function (err, docs_test_or) {
+                console.log("docs_test ORRRR - >" + docs_test_or);
+            } );
+            
             //////////////////
             
             //get all user_id conversations
