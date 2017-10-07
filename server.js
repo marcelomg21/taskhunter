@@ -1006,11 +1006,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             //////////////////
             var conversation_collection = db.collection('conversations');
             
-            conversation_collection.aggregate([
-                  { $match : {
-                        participants: {user_id: req.params.user_id}
-                    }}
-              ], function(err, match_conversations) {
+            conversation_collection.aggregate([{$match: {'participants.user_id': req.params.user_id } }], function(err, match_conversations) {
                     return res.json(match_conversations);                    
             });
             //////////////////
