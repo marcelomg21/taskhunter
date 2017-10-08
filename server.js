@@ -1048,9 +1048,41 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             //************
             
-            db.collection('conversations').find({participants: {$elemMatch: {user_id:req.params.user_id}}}).toArray(function (err, result_and_4) {
-                console.log("AND 4: " + result_and_4);
-            } ); 
+            db.collection('conversations').find({participants: {$elemMatch: {user_id:111}}}).toArray(function (err, result_find_1) {
+                console.log("result_find_1: " + result_find_1);
+            } );
+            
+            db.collection('conversations').find({participants: {user_id:111} }).toArray(function (err, result_find_2) {
+                console.log("result_find_2: " + result_find_2);
+            } );
+            
+            db.collection('conversations2').find({participants: {$elemMatch: {111}}}).toArray(function (err, result_find_3) {
+                console.log("result_find_3: " + result_find_3);
+            } );
+            
+            db.collection('conversations2').find({participants: {111} }).toArray(function (err, result_find_4) {
+                console.log("result_find_4: " + result_find_4);
+            } );
+            
+            db.collection('conversations2').find({participants: [{111}] }).toArray(function (err, result_find_5) {
+                console.log("result_find_5: " + result_find_5);
+            } );
+            
+            db.collection('conversations2').find({participants: {$elemMatch: { $in : [111]} }}).toArray(function (err, result_find_6) {
+                console.log("result_find_6: " + result_find_6);
+            } );
+            
+            db.collection('conversations2').find({ $and: [ { participants: [111] } ] }).toArray(function (err, result_find_7) {
+                console.log("result_find_7: " + result_find_7);
+            } );
+            
+            db.collection('conversations2').find({ $or: [ { participants: [111] } ] }).toArray(function (err, result_find_8) {
+                console.log("result_find_8: " + result_find_8);
+            } );
+            
+            db.collection('conversations2').find({ participants: { $elemMatch: { 111 } } }).toArray(function (err, result_find_9) {
+                console.log("result_find_9: " + result_find_9);
+            } );
             
             //////////////////
             
