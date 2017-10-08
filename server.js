@@ -1042,7 +1042,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             //***********
             
-            db.getCollection('conversations').find(
+            db.collection('conversations').find(
                 { 'participants.user_id': req.params.user_id},
                 { 'participants.$': 1 }
             ).forEach(function(doc) {
@@ -1059,7 +1059,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             //**************
             
-            var XXXXXXXXXX = db.getCollection('conversations').aggregate([
+            var XXXXXXXXXX = db.collection('conversations').aggregate([
               { "$match": { "participants.user_id": req.params.user_id } },
               { "$project": {
                 "participants": {
