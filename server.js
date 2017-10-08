@@ -1006,7 +1006,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             //////////////////
             var conversation_collection = db.collection('conversations');
             
-            var aggregate_1 = conversation_collection.aggregate({
+            conversation_collection.aggregate({
                 $unwind: "$participants" // first unwind friends array 
                 }, {
                   $match: {
@@ -1016,9 +1016,47 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                   $project: {
                     "user_id": "$participants.user_id"
                   }
-                }).toArray()
+                }).toArray(function (err, result_aggregate_1_object) { 
+                    console.log("result_aggregate_1_object_length: " + result_aggregate_1_object.length);
+                    console.log("result_aggregate_1_object_zero_position: " + result_aggregate_1_object[0]);
+                    console.log("result_aggregate_1_object_item: " + result_aggregate_1_object);
+                });
             
-                console.log("aggregate_1: " + aggregate_1);
+              //***********
+            
+            conversation_collection.aggregate({
+                $unwind: "$participants" // first unwind friends array 
+                }, {
+                  $match: {
+                    participants: {user_id: req.params.user_id}
+                  }
+                }, {
+                  $project: {
+                    "user_id": "$participants.user_id"
+                  }
+                }).toArray(function (err, result_aggregate_2_object) { 
+                    console.log("result_aggregate_2_object_length: " + result_aggregate_2_object.length);
+                    console.log("result_aggregate_2_object_zero_position: " + result_aggregate_2_object[0]);
+                    console.log("result_aggregate_2_object_item: " + result_aggregate_2_object);
+                });
+            
+            //*************
+            
+            conversation_collection.aggregate({
+                $unwind: "$participants" // first unwind friends array 
+                }, {
+                  $match: {
+                    user_id: req.params.user_id
+                  }
+                }, {
+                  $project: {
+                    "user_id": "$participants.user_id"
+                  }
+                }).toArray(function (err, result_aggregate_3_object) { 
+                    console.log("result_aggregate_3_object_length: " + result_aggregate_3_object.length);
+                    console.log("result_aggregate_3_object_zero_position: " + result_aggregate_3_object[0]);
+                    console.log("result_aggregate_3_object_item: " + result_aggregate_3_object);
+                });
             
             //*******************
             conversation_collection.aggregate([
@@ -1033,8 +1071,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
               { $match: {
                         participants: [{user_id: req.params.user_id}]
                     }}
-            ], function(err, result_aggregate_2) {
-                console.log("result_aggregate_2: " + result_aggregate_2);
+            ], function(err, result_aggregate_3) {
+                console.log("result_aggregate_3: " + result_aggregate_3);
             });
             
             //************
