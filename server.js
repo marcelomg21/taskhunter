@@ -1093,6 +1093,10 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 console.log("AND 3: " + result_and_3);
             } ); 
             
+            db.collection('conversations').find({participants: {$elemMatch: {user_id:req.params.user_id}}}).toArray(function (err, result_and_4) {
+                console.log("AND 4: " + result_and_4);
+            } ); 
+            
             //////////////////
             
             //get all user_id conversations
