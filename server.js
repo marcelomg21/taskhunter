@@ -1056,7 +1056,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 console.log("result_find_2: " + result_find_2);
             } );
             
-            db.collection('conversations2').find({participants: {$elemMatch: {111}}}).toArray(function (err, result_find_3) {
+            db.collection('conversations2').find({participants: {$elemMatch: 111 } }).toArray(function (err, result_find_3) {
                 console.log("result_find_3: " + result_find_3);
             } );
             
