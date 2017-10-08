@@ -1007,106 +1007,91 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             var conversation_collection = db.collection('conversations');
             
             conversation_collection.aggregate({
-                $unwind: "$participants" // first unwind friends array 
-                }, {
-                  $match: {
-                    'participants.user_id': req.params.user_id // match your criteria
-                  }
-                }, {
-                  $project: {
-                    "user_id": "$participants.user_id"
-                  }
-                }).toArray(function (err, result_aggregate_1_object) { 
-                    console.log("result_aggregate_1_object_length: " + result_aggregate_1_object.length);
-                    console.log("result_aggregate_1_object_zero_position: " + result_aggregate_1_object[0]);
-                    console.log("result_aggregate_1_object_item: " + result_aggregate_1_object);
-                });
-            
-              //***********
-            
-            conversation_collection.aggregate({
-                $unwind: "$participants" // first unwind friends array 
-                }, {
-                  $match: {
-                    participants: {user_id: req.params.user_id}
-                  }
-                }, {
-                  $project: {
-                    "user_id": "$participants.user_id"
-                  }
-                }).toArray(function (err, result_aggregate_2_object) { 
-                    console.log("result_aggregate_2_object_length: " + result_aggregate_2_object.length);
-                    console.log("result_aggregate_2_object_zero_position: " + result_aggregate_2_object[0]);
-                    console.log("result_aggregate_2_object_item: " + result_aggregate_2_object);
-                });
-            
-            //*************
-            
-            conversation_collection.aggregate({
-                $unwind: "$participants" // first unwind friends array 
-                }, {
-                  $match: {
-                    user_id: req.params.user_id
-                  }
-                }, {
-                  $project: {
-                    "user_id": "$participants.user_id"
-                  }
-                }).toArray(function (err, result_aggregate_3_object) { 
-                    console.log("result_aggregate_3_object_length: " + result_aggregate_3_object.length);
-                    console.log("result_aggregate_3_object_zero_position: " + result_aggregate_3_object[0]);
-                    console.log("result_aggregate_3_object_item: " + result_aggregate_3_object);
-                });
-            
-            //*******************
-            conversation_collection.aggregate([
-              { $match: {
-                        participants: {user_id: req.params.user_id}
-                    }}
-            ], function(err, result_aggregate_2) {
-                console.log("result_aggregate_2: " + result_aggregate_2);
+            $unwind: "$participants" // first unwind friends array 
+            }, {
+              $match: {
+                participants: {user_id:req.params.user_id} // match your criteria
+              }
+            }, {
+              $project: {
+                "user_id": "$participants.user_id"
+              }
+            }).toArray(function (err, result_aggregate_1_object) { 
+                console.log("result_aggregate_1_object_length: " + result_aggregate_1_object.length);
+                console.log("result_aggregate_1_object_zero_position: " + result_aggregate_1_object[0]);
+                console.log("result_aggregate_1_object_item: " + result_aggregate_1_object);
             });
             
-            conversation_collection.aggregate([
-              { $match: {
-                        participants: [{user_id: req.params.user_id}]
-                    }}
-            ], function(err, result_aggregate_3) {
-                console.log("result_aggregate_3: " + result_aggregate_3);
+            //**********
+            
+            conversation_collection.aggregate({
+            $unwind: "$participants" // first unwind friends array 
+            }, {
+              $match: {
+                participants: req.params.user_id // match your criteria
+              }
+            }, {
+              $project: {
+                "user_id": "$participants.user_id"
+              }
+            }).toArray(function (err, result_aggregate_2_object) { 
+                console.log("result_aggregate_2_object: " + result_aggregate_2_object.length);
+                console.log("result_aggregate_2_object_zero_position: " + result_aggregate_2_object[0]);
+                console.log("result_aggregate_2_object_item: " + result_aggregate_2_object);
             });
+            
+            //***********
+            
+            db.getCollection('conversations').find(
+                { 'participants.user_id': req.params.user_id},
+                { 'participants.$': 1 }
+            ).forEach(function(doc) {
+                // Technically this is only "one" store. So omit the projection
+                // if you wanted more than "one" match
+                /*doc.participants = doc.participants.filter(function(store) {
+                    store.offers = store.offers.filter(function(offer) {
+                        return offer.size.indexOf("L") != -1;
+                    });
+                    return store.offers.length != 0;
+                });*/
+                console.log('FIND POSITION 3: '+doc);
+            })
+            
+            //**************
+            
+            var XXXXXXXXXX = db.getCollection('conversations').aggregate([
+              { "$match": { "participants.user_id": req.params.user_id } },
+              { "$project": {
+                "participants": {
+                  "$filter": {
+                    "input": {
+                      "$map": {
+                        "input": "$participants",
+                        "as": "participant"
+                      }
+                    },
+                    "as": "participant",
+                    "cond": { "$ne": [ "$$participants", [] ]}
+                  }
+                }
+              }}
+            ]);
+            
+            console.log('XXXXXXXXXX: '+XXXXXXXXXX);
             
             //************
-            conversation_collection.aggregate([
-              { $match: {
-                        user_id: req.params.user_id
-                    }}
-            ], function(err, result_aggregate_4) {
-                console.log("result_aggregate_4: " + result_aggregate_4);
-            });
-            
-            db.collection('conversations').find({$or: [{participants: {user_id: req.params.user_id} }]}).toArray(function (err, result_OR) {       
-                console.log("result_OR: " + result_OR);
+
+            db.collection('conversations').find({$and: [{participants: {user_id: req.params.user_id}}]}).toArray(function (err, result_and_1) {       
+                console.log("AND 1: " + result_and_1);
             } );
             
-            db.collection('conversations').find({$or: [{user_id: req.params.user_id }]}).toArray(function (err, result_OR2) {       
-                console.log("result_OR2: " + result_OR2);
-            } );
+            db.collection('conversations').find({$and: [{participants: [{user_id: req.params.user_id}]}]}).toArray(function (err, result_and_2) {
+                console.log("AND 2: " + result_and_2);
+            } ); 
             
-            db.collection('conversations').find({$or: [{participants: [{user_id: req.params.user_id}] }]}).toArray(function (err, result_OR3) {       
-                console.log("result_OR3: " + result_OR3);
-            } );
-            
-            db.collection('conversations').find({user_id: req.params.user_id}).toArray(function (err, result_OR4) {       
-                console.log("result_OR4: " + result_OR4);
-            } );
-            
-            db.collection('conversations').find({participants: {user_id: req.params.user_id} }).toArray(function (err, result_OR5) {       
-                console.log("result_OR5: " + result_OR5);
-            } );
-            
-            db.collection('conversations').find({participants: [{user_id: req.params.user_id}] }).toArray(function (err, result_OR6) {       
-                console.log("result_OR6: " + result_OR6);
-            } );
+            db.collection('conversations').find({$and: [{'participants.user_id': req.params.user_id}]}).toArray(function (err, result_and_3) {
+                console.log("AND 3: " + result_and_3);
+            } ); 
             
             //////////////////
             
