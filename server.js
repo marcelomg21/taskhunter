@@ -1020,42 +1020,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 console.log("result_aggregate_1_object_length: " + result_aggregate_1_object.length);
                 console.log("result_aggregate_1_object_zero_position: " + result_aggregate_1_object[0]);
                 console.log("result_aggregate_1_object_item: " + result_aggregate_1_object);
-            });
-            
-            //**********
-            
-            conversation_collection.aggregate({
-            $unwind: "$participants" // first unwind friends array 
-            }, {
-              $match: {
-                participants: req.params.user_id // match your criteria
-              }
-            }, {
-              $project: {
-                "user_id": "$participants.user_id"
-              }
-            }).toArray(function (err, result_aggregate_2_object) { 
-                console.log("result_aggregate_2_object: " + result_aggregate_2_object.length);
-                console.log("result_aggregate_2_object_zero_position: " + result_aggregate_2_object[0]);
-                console.log("result_aggregate_2_object_item: " + result_aggregate_2_object);
-            });
-            
-            //***********
-            
-            db.collection('conversations').find(
-                { 'participants.user_id': req.params.user_id},
-                { 'participants.$': 1 }
-            ).forEach(function(doc) {
-                // Technically this is only "one" store. So omit the projection
-                // if you wanted more than "one" match
-                /*doc.participants = doc.participants.filter(function(store) {
-                    store.offers = store.offers.filter(function(offer) {
-                        return offer.size.indexOf("L") != -1;
-                    });
-                    return store.offers.length != 0;
-                });*/
-                console.log('FIND POSITION 3: '+doc);
-            })
+            });                                               
             
             //**************
             
@@ -1076,22 +1041,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 }
               }}
             ]);
-            
-            console.log('XXXXXXXXXX: '+XXXXXXXXXX);
+                       
+            console.log("XXXXXXXXXX: " + XXXXXXXXXX.length);
+            console.log("XXXXXXXXXX_zero_position: " + XXXXXXXXXX[0]);
+            console.log("XXXXXXXXXX_object_item: " + XXXXXXXXXX);
             
             //************
-
-            db.collection('conversations').find({$and: [{participants: {user_id: req.params.user_id}}]}).toArray(function (err, result_and_1) {       
-                console.log("AND 1: " + result_and_1);
-            } );
-            
-            db.collection('conversations').find({$and: [{participants: [{user_id: req.params.user_id}]}]}).toArray(function (err, result_and_2) {
-                console.log("AND 2: " + result_and_2);
-            } ); 
-            
-            db.collection('conversations').find({$and: [{'participants.user_id': req.params.user_id}]}).toArray(function (err, result_and_3) {
-                console.log("AND 3: " + result_and_3);
-            } ); 
             
             db.collection('conversations').find({participants: {$elemMatch: {user_id:req.params.user_id}}}).toArray(function (err, result_and_4) {
                 console.log("AND 4: " + result_and_4);
