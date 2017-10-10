@@ -1005,31 +1005,36 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             //////////////////
             
-            db.collection('conversations').find({participants: {$elemMatch: {user_id:111}}}).toArray(function (err, result_find_1) {
-                console.log("result_find_1: " + JSON.stringify(result_find_1[0]));
+            db.collection('conversations').find({participants: {$elemMatch: {user_id:111}}}).toArray(function (err, result_find_1) {                
                 console.log("result_find_1_id: " + result_find_1[0]._id);
                 console.log("result_find_1_id: " + result_find_1[0].participants);
+                console.log("result_find_1_length: " + result_find_1.length);
+                console.log("result_find_1: " + JSON.stringify(result_find_1[0]));
             } );
             
-            db.collection('conversations').find({participants: {user_id:111} }).toArray(function (err, result_find_2) {
-                console.log("result_find_2: " + JSON.stringify(result_find_2[0]));
+            db.collection('conversations').find({participants: {user_id:111} }).toArray(function (err, result_find_2) {                
                 console.log("result_find_2_id: " + result_find_2[0]._id);
                 console.log("result_find_2_id: " + result_find_2[0].participants);
+                console.log("result_find_2_length: " + result_find_2.length);
+                console.log("result_find_2: " + JSON.stringify(result_find_2[0]));
             } );
             
-            db.collection('conversations2').find({participants:111}).toArray(function (err, result_find_4) {
-                console.log("result_find_4: " + JSON.stringify(result_find_4[0]));
+            db.collection('conversations2').find({participants:111}).toArray(function (err, result_find_4) {                
                 console.log("result_find_4_id: " + result_find_4[0]._id);
+                console.log("result_find_4_length: " + result_find_4.length);
+                console.log("result_find_4: " + JSON.stringify(result_find_4[0]));
             } );
             
-            db.collection('conversations2').find({participants: {$elemMatch: { $in : [111]} }}).toArray(function (err, result_find_6) {
-                console.log("result_find_6: " + JSON.stringify(result_find_6[0]));
+            db.collection('conversations2').find({participants: {$elemMatch: { $in : [111]} }}).toArray(function (err, result_find_6) {                
                 console.log("result_find_6_id: " + result_find_6[0]._id);
+                console.log("result_find_6_length: " + result_find_6.length);
+                console.log("result_find_6: " + JSON.stringify(result_find_6[0]));
             } );          
             
-            db.collection('conversations2').find({participants: {$elemMatch: {$all: [111]} } }).toArray(function (err, result_find_9) {
-                console.log("result_find_9: " + JSON.stringify(result_find_9[0]));
+            db.collection('conversations2').find({participants: {$elemMatch: {$all: [111]} } }).toArray(function (err, result_find_9) {                
                 console.log("result_find_9_id: " + result_find_9[0]._id);
+                console.log("result_find_9_length: " + result_find_9.length);
+                console.log("result_find_9: " + JSON.stringify(result_find_9[0]));
             } );
             
             //////////////////
