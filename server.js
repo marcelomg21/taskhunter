@@ -1004,68 +1004,25 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             var query_conversations = {participants: req.params.user_id};
             
             //////////////////
-            var conversation_collection = db.collection('conversations');
-            
-            conversation_collection.aggregate({
-            $unwind: "$participants" // first unwind friends array 
-            }, {
-              $match: {
-                participants: {user_id:req.params.user_id} // match your criteria
-              }
-            }, {
-              $project: {
-                "user_id": "$participants.user_id"
-              }
-            }).toArray(function (err, result_aggregate_1_object) { 
-                console.log("result_aggregate_1_object_length: " + result_aggregate_1_object.length);
-                console.log("result_aggregate_1_object_zero_position: " + result_aggregate_1_object[0]);
-                console.log("result_aggregate_1_object_item: " + result_aggregate_1_object);
-            });                                               
-            
-            //**************
-            
-            var XXXXXXXXXX = db.collection('conversations').aggregate([
-              { "$match": { "participants.user_id": req.params.user_id } },
-              { "$project": {
-                "participants": {
-                  "$filter": {
-                    "input": {
-                      "$map": {
-                        "input": "$participants",
-                        "as": "participant"
-                      }
-                    },
-                    "as": "participant",
-                    "cond": { "$ne": [ "$$participants", [] ]}
-                  }
-                }
-              }}
-            ]);
-                       
-            console.log("XXXXXXXXXX: " + XXXXXXXXXX.length);
-            console.log("XXXXXXXXXX_zero_position: " + XXXXXXXXXX[0]);
-            console.log("XXXXXXXXXX_object_item: " + XXXXXXXXXX);
-            
-            //************
             
             db.collection('conversations').find({participants: {$elemMatch: {user_id:111}}}).toArray(function (err, result_find_1) {
-                console.log("result_find_1: " + JSON.parse(result_find_1[0]));
+                console.log("result_find_1: " + JSON.stringify(result_find_1[0]));
             } );
             
             db.collection('conversations').find({participants: {user_id:111} }).toArray(function (err, result_find_2) {
-                console.log("result_find_2: " + JSON.parse(result_find_2[0]));
+                console.log("result_find_2: " + JSON.stringify(result_find_2[0]));
             } );
             
             db.collection('conversations2').find({participants:111}).toArray(function (err, result_find_4) {
-                console.log("result_find_4: " + JSON.parse(result_find_4[0]));
+                console.log("result_find_4: " + JSON.stringify(result_find_4[0]));
             } );
             
             db.collection('conversations2').find({participants: {$elemMatch: { $in : [111]} }}).toArray(function (err, result_find_6) {
-                console.log("result_find_6: " + JSON.parse(result_find_6[0]));
+                console.log("result_find_6: " + JSON.stringify(result_find_6[0]));
             } );          
             
             db.collection('conversations2').find({participants: {$elemMatch: {$all: [111]} } }).toArray(function (err, result_find_9) {
-                console.log("result_find_9: " + JSON.parse(result_find_9[0]));
+                console.log("result_find_9: " + JSON.stringify(result_find_9[0]));
             } );
             
             //////////////////
