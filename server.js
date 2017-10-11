@@ -1001,11 +1001,11 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
-            var query_conversations = {participants: {$elemMatch: {user_id:req.query.user_id}}};
+            var query_conversations = {participants: {$elemMatch: {user_id:parseInt(req.params.user_id)}}};
             
             //////////////////
             
-            console.log("valueeeeeee id (parseFloat): " + parseFloat(req.params.user_id));
+            /*console.log("valueeeeeee id (parseFloat): " + parseFloat(req.params.user_id));
             console.log("valueeeeeee id (parseInt): " + parseInt(req.params.user_id));
             console.log("valueeeeeee id (parseInt): " + req.params.user_id.toString());
             
@@ -1025,7 +1025,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 console.log("result_find_2: " + JSON.stringify(result_find_2[0]));
             } );
             
-            /*db.collection('conversations2').find({participants:req.params.user_id}).toArray(function (err, result_find_4) {                
+            db.collection('conversations2').find({participants:req.params.user_id}).toArray(function (err, result_find_4) {                
                 console.log("result_find_4_id: " + result_find_4[0]._id);
                 console.log("result_find_4_length: " + result_find_4.length);
                 console.log("result_find_4: " + JSON.stringify(result_find_4[0]));
@@ -1060,11 +1060,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         };
 
                         result.data.push(item_conversation);
-                        
-                        var participants_json = JSON.parse(docs_conversations.participants);;
+                        console.log("--- 4 ---");
+                        var participants_json = JSON.parse(docs_conversations.participants);
+                        console.log("--- 5 ---");
                         
                         if (participants_json.length > 1) {
-                            console.log("--- 4 ---" + participants_json.length);
+                            console.log("--- 6 ---" + participants_json.length);
                             for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
                                     user_id: docs_conversations.participants[j].user_id
@@ -1100,7 +1101,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             } );
             
         } else {
-            console.log("--- 6 ---");
+            console.log("--- 7 ---");
             var recipient = req.query.participants.split(",");
             
             var query = {
@@ -1113,12 +1114,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             db.collection('conversations').find(query).toArray(function (err, docs) {
                 
                 if (docs.length > 0) {
-                    console.log("--- 7 ---");
+                    console.log("--- 8 ---");
                     for (var i = 0, len = docs.length; i < len; i++) {
                                  
                     }
                 } else {
-                    console.log("--- 8 ---");
+                    console.log("--- 9 ---");
                     var col = db.collection('conversations');
                     var date = new Date();
                     date.setHours(date.getHours() - 3);
@@ -1131,7 +1132,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             {user_id: recipient}
                         ]
                     });
-                    console.log("--- 9 ---");
+                    console.log("--- 10 ---");
                 }
             } );
         }
