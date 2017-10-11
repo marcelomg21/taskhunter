@@ -1001,18 +1001,24 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
-            var query_conversations = {participants: {$elemMatch: {user_id:req.params.user_id}}};
+            var query_conversations = {participants: {$elemMatch: {user_id:req.query.user_id}}};
             
             //////////////////
             
-            db.collection('conversations').find({participants: {$elemMatch: {user_id:req.params.user_id}}}).toArray(function (err, result_find_1) {                
+            console.log("valueeeeeee id (parseFloat): " + parseFloat(req.params.user_id));
+            console.log("valueeeeeee id (parseInt): " + parseInt(req.params.user_id));
+            console.log("valueeeeeee id (parseInt): " + req.params.user_id.toString());
+            
+            console.log("valueeeeeee id (query): " + req.query.user_id);
+            
+            db.collection('conversations').find({participants: {$elemMatch: {user_id:parseInt(req.params.user_id)}}}).toArray(function (err, result_find_1) {                
                 console.log("result_find_1_id: " + result_find_1[0]._id);
                 console.log("result_find_1_id: " + result_find_1[0].participants);
                 console.log("result_find_1_length: " + result_find_1.length);
                 console.log("result_find_1: " + JSON.stringify(result_find_1[0]));
             } );
             
-            db.collection('conversations').find({participants: {user_id:req.params.user_id}}).toArray(function (err, result_find_2) {                
+            db.collection('conversations').find({participants: {user_id:parseInt(req.query.user_id)}}).toArray(function (err, result_find_2) {                
                 console.log("result_find_2_id: " + result_find_2[0]._id);
                 console.log("result_find_2_id: " + result_find_2[0].participants);
                 console.log("result_find_2_length: " + result_find_2.length);
