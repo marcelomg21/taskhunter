@@ -1061,10 +1061,17 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                         result.data.push(item_conversation);
                         console.log("--- 4 ---");
+                        console.log("--- 4.1 ---" + item_conversation);
+                        console.log("--- 4.2 ---" + result.data);
                         //var participants_json = JSON.parse(docs_conversations.participants);
-                        console.log("--- 5 ---count_participants:" + docs_conversations.participants.length);
+                        console.log("--- 5 ---:" + docs_conversations.participants);
+                        console.log("--- 5.1 ---count_participants:" + docs_conversations.participants[0]);
+                        console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations.participants));
+                        console.log("--- 5.3 ---toStrint:" + docs_conversations.participants.toString());
+                        console.log("--- 5.4 ---toStrint_length:" + JSON.stringify(docs_conversations.participants).length);
+                        console.log("--- 5.5 ---parse:" + JSON.parse(docs_conversations.participants).length);
                         
-                        if (docs_conversations.participants.length > 1) {
+                        if (JSON.stringify(docs_conversations.participants).length > 1) {
                             console.log("--- 6 ---" + docs_conversations.participants.length);
                             for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
