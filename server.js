@@ -1036,8 +1036,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         };
 
                         result.data.push(item_conversation);
-                        
-                        console.log("item_conversation --> : " + item_conversation);
+                                                
                         //console.log("--- 4.2 ---" + result.data);
                         //var participants_json = JSON.parse(docs_conversations.participants);
                         //console.log("--- 5 ---:" + docs_conversations[i].participants);
@@ -1056,7 +1055,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                 db.collection('users').find(query_users).toArray(function (err, docs_users) {
 
                                     if (docs_users.length > 0) {   
-                                        console.log("--- 5 ---");
+                                        console.log("--- 5 ---" + docs_users[0].user_id);
                                         var item_participants = {                  
                                               id: docs_users[0].user_id,
                                               user: {
@@ -1073,7 +1072,12 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                               }
                                            };
 
-                                       result.data[i].participants.push(item_participants);
+                                       console.log("--- 6.1 ---: " + result.data.length);
+                                       console.log("--- 6.2 ---: " + result.data[i]);
+                                       console.log("--- 6.3 ---: " + i);
+                                       console.log("--- 6.4 ---: " + result.data);
+                                       console.log("--- 6.5 ---: " + result.data.participants);
+                                       result.data.participants.push(item_participants);
                                     }
                                 });                                
                             }
