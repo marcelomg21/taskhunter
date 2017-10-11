@@ -1037,14 +1037,14 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                         result.data.push(item_conversation);
                         
-                        //console.log("--- 4.1 ---" + item_conversation);
+                        console.log("item_conversation --> : " + item_conversation);
                         //console.log("--- 4.2 ---" + result.data);
                         //var participants_json = JSON.parse(docs_conversations.participants);
                         //console.log("--- 5 ---:" + docs_conversations[i].participants);
                         //console.log("--- 5.1 ---count_participants:" + docs_conversations[i].participants[0]);
                         //console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations[i].participants));
                         
-                        console.log("--- 6 ---length: " + docs_conversations[i].participants.length);
+                        //console.log("--- 6 ---length: " + docs_conversations[i].participants.length);
                         
                         if (docs_conversations[i].participants.length > 1) {
                             
@@ -1079,7 +1079,10 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             }
                         }                                               
                     }
-                }                
+                }
+                
+                return res.json(result);
+                
             } );
             
         } else {
@@ -1117,9 +1120,10 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                     console.log("--- 10 ---");
                 }
             } );
+            return res.json(result);
         }
         
-        return res.json(result);
+        //return res.json(result);
     }     
 });
 
