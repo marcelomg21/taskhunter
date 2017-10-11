@@ -1064,18 +1064,18 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         console.log("--- 4.1 ---" + item_conversation);
                         console.log("--- 4.2 ---" + result.data);
                         //var participants_json = JSON.parse(docs_conversations.participants);
-                        console.log("--- 5 ---:" + docs_conversations.participants);
-                        console.log("--- 5.1 ---count_participants:" + docs_conversations.participants[0]);
-                        console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations.participants));
-                        console.log("--- 5.3 ---toStrint:" + docs_conversations.participants.toString());
-                        console.log("--- 5.4 ---toStrint_length:" + JSON.stringify(docs_conversations.participants).length);
-                        console.log("--- 5.5 ---parse:" + JSON.parse(docs_conversations.participants).length);
+                        console.log("--- 5 ---:" + docs_conversations[i].participants);
+                        console.log("--- 5.1 ---count_participants:" + docs_conversations[i].participants[0]);
+                        console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations[i].participants));
+                        console.log("--- 5.3 ---toStrint:" + docs_conversations[i].participants.toString());
+                        console.log("--- 5.4 ---toStrint_length:" + JSON.stringify(docs_conversations[i].participants).length);
+                        console.log("--- 5.5 ---parse:" + JSON.parse(docs_conversations[i].participants).length);
                         
-                        if (JSON.stringify(docs_conversations.participants).length > 1) {
-                            console.log("--- 6 ---" + docs_conversations.participants.length);
-                            for (var j = 0, len_conversations_participants = docs_conversations.participants.length; j < len_conversations_participants; j++) {
+                        if (JSON.stringify(docs_conversations[i].participants).length > 1) {
+                            console.log("--- 6 ---" + docs_conversations[i].participants.length);
+                            for (var j = 0, len_conversations_participants = docs_conversations[i].participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
-                                    user_id: docs_conversations.participants[j].user_id
+                                    user_id: docs_conversations[i].participants[j].user_id
                                 };
 
                                 db.collection('users').find(query_users).toArray(function (err, docs_users) {
