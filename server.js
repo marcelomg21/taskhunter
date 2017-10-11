@@ -1002,14 +1002,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
         if(!req.query.participants || req.query.participants == undefined) {
             console.log("--- 1 ---");
             var query_conversations = {participants: {$elemMatch: {user_id:parseInt(req.params.user_id)}}};
-            
-            //////////////////
-            
-            /*console.log("valueeeeeee id (parseFloat): " + parseFloat(req.params.user_id));
-            console.log("valueeeeeee id (parseInt): " + parseInt(req.params.user_id));
-            console.log("valueeeeeee id (parseInt): " + req.params.user_id.toString());
-            
-            console.log("valueeeeeee id (query): " + req.query.user_id);
+
+            /*
             
             db.collection('conversations').find({participants: {$elemMatch: {user_id:parseInt(req.params.user_id)}}}).toArray(function (err, result_find_1) {                
                 console.log("result_find_1_id: " + result_find_1[0]._id);
@@ -1025,26 +1019,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 console.log("result_find_2: " + JSON.stringify(result_find_2[0]));
             } );
             
-            db.collection('conversations2').find({participants:req.params.user_id}).toArray(function (err, result_find_4) {                
-                console.log("result_find_4_id: " + result_find_4[0]._id);
-                console.log("result_find_4_length: " + result_find_4.length);
-                console.log("result_find_4: " + JSON.stringify(result_find_4[0]));
-            } );
-            
-            db.collection('conversations2').find({participants: {$elemMatch: { $in : [req.params.user_id]} }}).toArray(function (err, result_find_6) {                
-                console.log("result_find_6_id: " + result_find_6[0]._id);
-                console.log("result_find_6_length: " + result_find_6.length);
-                console.log("result_find_6: " + JSON.stringify(result_find_6[0]));
-            } );          
-            
-            db.collection('conversations2').find({participants: {$elemMatch: {$all: [req.params.user_id]} } }).toArray(function (err, result_find_9) {                
-                console.log("result_find_9_id: " + result_find_9[0]._id);
-                console.log("result_find_9_length: " + result_find_9.length);
-                console.log("result_find_9: " + JSON.stringify(result_find_9[0]));
-            } );*/
-            
-            //////////////////
-            
+            */
+
             //get all user_id conversations
             db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
                 console.log("--- 2 ---");
@@ -1060,19 +1036,18 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         };
 
                         result.data.push(item_conversation);
-                        console.log("--- 4 ---");
-                        console.log("--- 4.1 ---" + item_conversation);
-                        console.log("--- 4.2 ---" + result.data);
-                        //var participants_json = JSON.parse(docs_conversations.participants);
-                        console.log("--- 5 ---:" + docs_conversations[i].participants);
-                        console.log("--- 5.1 ---count_participants:" + docs_conversations[i].participants[0]);
-                        console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations[i].participants));
-                        console.log("--- 5.3 ---toStrint:" + docs_conversations[i].participants.toString());
-                        console.log("--- 5.4 ---toStrint_length:" + JSON.stringify(docs_conversations[i].participants).length);
-                        console.log("--- 5.5 ---parse:" + JSON.parse(docs_conversations[i].participants).length);
                         
-                        if (JSON.stringify(docs_conversations[i].participants).length > 1) {
-                            console.log("--- 6 ---" + docs_conversations[i].participants.length);
+                        //console.log("--- 4.1 ---" + item_conversation);
+                        //console.log("--- 4.2 ---" + result.data);
+                        //var participants_json = JSON.parse(docs_conversations.participants);
+                        //console.log("--- 5 ---:" + docs_conversations[i].participants);
+                        //console.log("--- 5.1 ---count_participants:" + docs_conversations[i].participants[0]);
+                        //console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations[i].participants));
+                        
+                        console.log("--- 6 ---length: " + docs_conversations[i].participants.length);
+                        
+                        if (docs_conversations[i].participants.length > 1) {
+                            
                             for (var j = 0, len_conversations_participants = docs_conversations[i].participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
                                     user_id: docs_conversations[i].participants[j].user_id
