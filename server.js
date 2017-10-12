@@ -1020,15 +1020,16 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             } );
             
             */
-            
+
             db.conversations.aggregate([
-                {$unwind: '$participants'}, 
-                {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participants'} }, 
-                {$match: {'participants.user_id':parseInt(req.params.user_id)}}
-            ]).toArray(function (err, docs_aggregate) {
-                console.log("docs_aggregate 1: " + docs_aggregate);
-                console.log("docs_aggregate 2: " + docs_aggregate.length);
-                console.log("docs_aggregate 3: " + docs_aggregate[0]);
+                {$unwind:'$participants'}, 
+                {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
+                {$unwind: '$participantsObjects'}, 
+                {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
+                {$match: {$or: [{'participants.user_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_aggregate) {
+                    console.log("docs_aggregate 1: " + docs_aggregate);
+                    console.log("docs_aggregate 2: " + docs_aggregate.length);
+                    console.log("docs_aggregate 3: " + docs_aggregate[0]);
             });
 
             //get all user_id conversations
