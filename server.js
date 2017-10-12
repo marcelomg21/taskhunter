@@ -1037,7 +1037,9 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                         result.data.push(item_conversation);
                         
-                        console.log("--- index_docs_conversations ---: " + index_docs_conversations);                        
+                        console.log("--- index_docs_conversations ---1: " + index_docs_conversations);
+                        console.log("--- index_docs_conversations ---2: " + index_docs_conversations);
+                        console.log("--- index_docs_conversations ---3: " + index_docs_conversations);
                                                 
                         //console.log("--- 4.2 ---" + result.data);
                         //var participants_json = JSON.parse(docs_conversations.participants);
@@ -1048,14 +1050,14 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         //console.log("--- 6 ---length: " + docs_conversations[i].participants.length);
                         
                         if (docs_conversations[index_docs_conversations].participants.length > 1) {
-                            
+                            console.log("--- index_docs_conversations ---4: " + index_docs_conversations);
                             for (var j = 0, len_conversations_participants = docs_conversations[index_docs_conversations].participants.length; j < len_conversations_participants; j++) {
                                 var query_users = {
                                     user_id: docs_conversations[index_docs_conversations].participants[j].user_id
                                 };
 
                                 db.collection('users').find(query_users).toArray(function (err, docs_users) {
-
+                                console.log("--- index_docs_conversations ---5: " + index_docs_conversations);
                                     if (docs_users.length > 0) {   
                                         console.log("--- 5 ---" + docs_users[0].user_id);
                                         var item_participants = {                  
@@ -1079,7 +1081,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                        console.log("--- 6.3 ---: " + index_docs_conversations);
                                        console.log("--- 6.4 ---: " + result.data);
                                        console.log("--- 6.5 ---: " + result.data.participants);
-                                       result.data[index_docs_conversations].participants.push(item_participants);
+                                       result.data[0].participants.push(item_participants);
                                     }
                                 });                                
                             }
