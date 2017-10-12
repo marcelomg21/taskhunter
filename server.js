@@ -1029,7 +1029,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 console.log("docs_aggregate 1: " + docs_aggregate);
                 console.log("docs_aggregate 2: " + docs_aggregate.length);
                 console.log("docs_aggregate 3: " + docs_aggregate[0]);
-            }
+            });
 
             //get all user_id conversations
             db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
