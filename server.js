@@ -1130,7 +1130,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                 {$unwind: '$participantsObjects'}, 
                 {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
-                {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient)}]} }]).toArray(function (err, docs_conversations_recipient) {
+                {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient[1])}]} }]).toArray(function (err, docs_conversations_recipient) {
                 
                     console.log("docs_conversations_recipient: " + docs_conversations_recipient);
 
@@ -1188,7 +1188,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             creation_date: creation_date_format, 
                             participants: [
                                 {user_id: req.params.user_id}, 
-                                {user_id: recipient}
+                                {user_id: recipient[1]}
                             ]
                         });
                         
@@ -1204,7 +1204,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                     {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                     {$unwind: '$participantsObjects'}, 
                     {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
-                    {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient)}]} }]).toArray(function (err, docs_conversations_inserted) {
+                    {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient[1])}]} }]).toArray(function (err, docs_conversations_inserted) {
 
                         console.log("docs_conversations_inserted: " + docs_conversations_inserted);
 
