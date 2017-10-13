@@ -1021,88 +1021,100 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             */
 
+            //get all user_id conversations
             db.collection('conversations').aggregate([
                 {$unwind:'$participants'}, 
                 {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                 {$unwind: '$participantsObjects'}, 
                 {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
-                {$match: {$or: [{'participants.user_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_aggregate) {
-                    console.log("docs_aggregate 1: " + docs_aggregate);
-                    console.log("docs_aggregate 2: " + docs_aggregate.length);
-                    console.log("docs_aggregate 3: " + docs_aggregate[0]);
-            });
+                {$match: {$or: [{'participants.user_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_conversations) {
+                    //db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
+                
+                    console.log("docs_conversations: " + docs_conversations);
 
-            //get all user_id conversations
-            db.collection('conversations').find(query_conversations).toArray(function (err, docs_conversations) {
-                console.log("--- 2 ---");
-                if (docs_conversations.length > 0) {
-                    console.log("--- 3 ---");
-                    for (var index_docs_conversations = 0, len_docs_conversations = docs_conversations.length; index_docs_conversations < len_docs_conversations; index_docs_conversations++) {
-                        
-                        var item_conversation = {
-                            id: docs_conversations[index_docs_conversations]._id,                            
-                            is_read: false,
-                            creation_date: docs_conversations[index_docs_conversations].creation_date,              
-                            participants: []
-                        };
+                    if (docs_conversations.length > 0) {
 
-                        result.data.push(item_conversation);
-                        
-                        console.log("--- index_docs_conversations ---1: " + index_docs_conversations);
-                        console.log("--- index_docs_conversations ---2: " + index_docs_conversations);
-                        console.log("--- index_docs_conversations ---3: " + index_docs_conversations);
-                                                
-                        //console.log("--- 4.2 ---" + result.data);
-                        //var participants_json = JSON.parse(docs_conversations.participants);
-                        //console.log("--- 5 ---:" + docs_conversations[i].participants);
-                        //console.log("--- 5.1 ---count_participants:" + docs_conversations[i].participants[0]);
-                        //console.log("--- 5.2 ---stringfy:" + JSON.stringify(docs_conversations[i].participants));
-                        
-                        //console.log("--- 6 ---length: " + docs_conversations[i].participants.length);
-                        
-                        if (docs_conversations[index_docs_conversations].participants.length > 1) {
-                            console.log("--- index_docs_conversations ---4: " + index_docs_conversations);
-                            for (var j = 0, len_conversations_participants = docs_conversations[index_docs_conversations].participants.length; j < len_conversations_participants; j++) {
-                                var query_users = {
-                                    user_id: docs_conversations[index_docs_conversations].participants[j].user_id
-                                };
+                        for (var index_docs_conversations = 0, len_docs_conversations = docs_conversations.length; index_docs_conversations < len_docs_conversations; index_docs_conversations++) {
 
-                                db.collection('users').find(query_users).toArray(function (err, docs_users) {
-                                console.log("--- index_docs_conversations ---5: " + index_docs_conversations);
-                                    if (docs_users.length > 0) {   
-                                        console.log("--- 5 ---" + docs_users[0].user_id);
-                                        var item_participants = {                  
-                                              id: docs_users[0].user_id,
-                                              user: {
-                                                  id: docs_users[0].user_id, 
-                                                  type: 'client',
-                                                  first_name: docs_users[0].user_name,
-                                                  profiles: [{
-                                                      id: 102,
-                                                      mode: 0,
-                                                      url: docs_users[0].facebook_picture,
-                                                      width: 50,
-                                                      height: 50
-                                                  }]
-                                              }
-                                           };
+                            var item_conversation = {
+                                id: docs_conversations[index_docs_conversations]._id,                            
+                                is_read: false,
+                                creation_date: docs_conversations[index_docs_conversations].creation_date,              
+                                participants: [
+                                    {                  
+                                        id: docs_conversations[index_docs_conversations].participants[0].user_id,
+                                            user: {
+                                            id: docs_conversations[index_docs_conversations].participants[0].user_id, 
+                                            type: 'client',
+                                            first_name: docs_conversations[index_docs_conversations].participants[0].user_name,
+                                            profiles: [{
+                                                  id: 102,
+                                                  mode: 0,
+                                                  url: docs_conversations[index_docs_conversations].participants[0].facebook_picture,
+                                                  width: 50,
+                                                  height: 50
+                                            }]
+                                        }
+                                   },
+                                   {                  
+                                        id: docs_conversations[index_docs_conversations].participants[1].user_id,
+                                            user: {
+                                            id: docs_conversations[index_docs_conversations].participants[1].user_id, 
+                                            type: 'client',
+                                            first_name: docs_conversations[index_docs_conversations].participants[1].user_name,
+                                            profiles: [{
+                                                  id: 102,
+                                                  mode: 0,
+                                                  url: docs_conversations[index_docs_conversations].participants[1].facebook_picture,
+                                                  width: 50,
+                                                  height: 50
+                                            }]
+                                        }
+                                   }
+                                ]
+                            };
 
-                                       console.log("--- 6.1 ---: " + result.data.length);
-                                       console.log("--- 6.2 ---: " + result.data[index_docs_conversations]);
-                                       console.log("--- 6.3 ---: " + index_docs_conversations);
-                                       console.log("--- 6.4 ---: " + result.data);
-                                       console.log("--- 6.5 ---: " + result.data.participants);
-                                       result.data[0].participants.push(item_participants);
-                                    }
-                                });                                
-                            }
-                        }                                               
+                            result.data.push(item_conversation);
+
+                            /*if (docs_conversations[index_docs_conversations].participants.length > 1) {
+                                console.log("--- index_docs_conversations ---4: " + index_docs_conversations);
+                                for (var j = 0, len_conversations_participants = docs_conversations[index_docs_conversations].participants.length; j < len_conversations_participants; j++) {
+                                    var query_users = {
+                                        user_id: docs_conversations[index_docs_conversations].participants[j].user_id
+                                    };
+
+                                    db.collection('users').find(query_users).toArray(function (err, docs_users) {
+                                    console.log("--- index_docs_conversations ---5: " + index_docs_conversations);
+                                        if (docs_users.length > 0) {   
+                                            console.log("--- 5 ---" + docs_users[0].user_id);
+                                            var item_participants = {                  
+                                                  id: docs_users[0].user_id,
+                                                  user: {
+                                                      id: docs_users[0].user_id, 
+                                                      type: 'client',
+                                                      first_name: docs_users[0].user_name,
+                                                      profiles: [{
+                                                          id: 102,
+                                                          mode: 0,
+                                                          url: docs_users[0].facebook_picture,
+                                                          width: 50,
+                                                          height: 50
+                                                      }]
+                                                  }
+                                               };
+                                           
+                                           //sult.data[0].participants.push(item_participants);
+                                        }
+                                    });                                
+                                }
+                            }*/                                               
+                        }
                     }
-                }
-                
-                return res.json(result);
-                
-            } );
+
+                    return res.json(result);
+
+                    //} );
+            });
             
         } else {
             console.log("--- 7 ---");
