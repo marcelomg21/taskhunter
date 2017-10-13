@@ -1021,7 +1021,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             
             */
 
-            db.conversations.aggregate([
+            db.collection('conversations').aggregate([
                 {$unwind:'$participants'}, 
                 {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                 {$unwind: '$participantsObjects'}, 
