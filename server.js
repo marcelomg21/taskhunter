@@ -1117,44 +1117,147 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             });
             
         } else {
-            console.log("--- 7 ---");
-            var recipient = req.query.participants.split(",");
             
-            var query = {
-                $and: [
-                    {$or: [{participants: {user_id: req.params.user_id}}]}, 
-                    {$or: [{participants: {user_id: recipient[1]}}]
-                }]
-            };
+            var recipient = req.query.participants.split(",");
+            var conversation_was_inserted = false;
+            
+            console.log("recipient enviado: " + recipient);
+            
             //get conversation by recipient
-            db.collection('conversations').find(query).toArray(function (err, docs) {
+            //get all user_id conversations
+            db.collection('conversations').aggregate([
+                {$unwind:'$participants'}, 
+                {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
+                {$unwind: '$participantsObjects'}, 
+                {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
+                {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient)}]} }]).toArray(function (err, docs_conversations_recipient) {
                 
-                if (docs.length > 0) {
-                    console.log("--- 8 ---");
-                    for (var i = 0, len = docs.length; i < len; i++) {
-                                 
+                    console.log("docs_conversations_recipient: " + docs_conversations_recipient);
+
+                    if (docs_conversations_recipient.length > 0) {
+
+                        for (var index_docs_conversations_recipient = 0, len_docs_conversations_recipient = docs_conversations_recipient.length; index_docs_conversations_recipient < len_docs_conversations_recipient; index_docs_conversations_recipient++) {
+
+                            var item_conversation = {
+                                id: docs_conversations_recipient[index_docs_conversations_recipient]._id,                            
+                                is_read: false,
+                                creation_date: docs_conversations_recipient[index_docs_conversations_recipient].creation_date,              
+                                participants: [
+                                    {                  
+                                        id: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].user_id,
+                                            user: {
+                                            id: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].user_id, 
+                                            type: 'client',
+                                            first_name: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].user_name,
+                                            profiles: [{
+                                                  id: 102,
+                                                  mode: 0,
+                                                  url: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].facebook_picture,
+                                                  width: 50,
+                                                  height: 50
+                                            }]
+                                        }
+                                   },
+                                   {                  
+                                        id: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].user_id,
+                                            user: {
+                                            id: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].user_id, 
+                                            type: 'client',
+                                            first_name: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].user_name,
+                                            profiles: [{
+                                                  id: 102,
+                                                  mode: 0,
+                                                  url: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].facebook_picture,
+                                                  width: 50,
+                                                  height: 50
+                                            }]
+                                        }
+                                   }
+                                ]
+                            };
+
+                            result.data.push(item_conversation);
+                        }
                     }
-                } else {
-                    console.log("--- 9 ---");
-                    var col = db.collection('conversations');
-                    var date = new Date();
-                    date.setHours(date.getHours() - 3);
-                    var creation_date_format = date.toISOString().split('T')[0];
-                    
-                    col.insert({
-                        creation_date: creation_date_format, 
-                        participants: [
-                            {user_id: req.params.user_id}, 
-                            {user_id: recipient}
-                        ]
-                    });
-                    console.log("--- 10 ---");
-                }
-            } );
+                    else {                        
+                        var date = new Date();
+                        date.setHours(date.getHours() - 3);
+                        var creation_date_format = date.toISOString().split('T')[0];
+
+                        db.collection('conversations').insert({
+                            creation_date: creation_date_format, 
+                            participants: [
+                                {user_id: req.params.user_id}, 
+                                {user_id: recipient}
+                            ]
+                        });
+                        
+                        conversation_was_inserted = true;
+                    }
+            });
+            
+            //get conversation recipient inserted
+            if(conversation_was_inserted){
+                
+                db.collection('conversations').aggregate([
+                    {$unwind:'$participants'}, 
+                    {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
+                    {$unwind: '$participantsObjects'}, 
+                    {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
+                    {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient)}]} }]).toArray(function (err, docs_conversations_inserted) {
+
+                        console.log("docs_conversations_inserted: " + docs_conversations_inserted);
+
+                        if (docs_conversations_inserted.length > 0) {
+
+                            for (var index_docs_conversations_inserted = 0, len_docs_conversations_inserted = docs_conversations_inserted.length; index_docs_conversations_inserted < len_docs_conversations_inserted; index_docs_conversations_inserted++) {
+
+                                var item_conversation = {
+                                    id: docs_conversations_inserted[index_docs_conversations_inserted]._id,                            
+                                    is_read: false,
+                                    creation_date: docs_conversations_inserted[index_docs_conversations_inserted].creation_date,              
+                                    participants: [
+                                        {                  
+                                            id: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].user_id,
+                                                user: {
+                                                id: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].user_id, 
+                                                type: 'client',
+                                                first_name: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].user_name,
+                                                profiles: [{
+                                                      id: 102,
+                                                      mode: 0,
+                                                      url: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].facebook_picture,
+                                                      width: 50,
+                                                      height: 50
+                                                }]
+                                            }
+                                       },
+                                       {                  
+                                            id: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].user_id,
+                                                user: {
+                                                id: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].user_id, 
+                                                type: 'client',
+                                                first_name: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].user_name,
+                                                profiles: [{
+                                                      id: 102,
+                                                      mode: 0,
+                                                      url: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].facebook_picture,
+                                                      width: 50,
+                                                      height: 50
+                                                }]
+                                            }
+                                       }
+                                    ]
+                                };
+
+                                result.data.push(item_conversation);
+                            }
+                        }
+                });
+            }
+                        
             return res.json(result);
         }
-        
-        //return res.json(result);
     }     
 });
 
