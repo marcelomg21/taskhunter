@@ -1187,8 +1187,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                         db.collection('conversations').insert({
                             creation_date: creation_date_format, 
                             participants: [
-                                {user_id: req.params.user_id}, 
-                                {user_id: recipient[1]}
+                                {user_id: parseInt(req.params.user_id)}, 
+                                {user_id: parseInt(recipient[1])}
                             ]
                         });
                         
