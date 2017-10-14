@@ -548,6 +548,7 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
     return res.json(result);
 });
 
+//get all crossings
 app.get('/api/users/:user_id/crossings', function (req, res) {
   var result =  {
            success: true,
@@ -556,7 +557,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 303, 
+                  id:103624497059053, 
                   type: 'type',
                   job: 'Serviços Gerais',
                   is_accepted: true,
@@ -566,7 +567,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   gender: 'F',
                   is_charmed: false,
                   nb_photos: 1,
-                  first_name: 'Carlos Alberto',
+                  first_name:'Kandida',
                   age: 31,
                   already_charmed: false,
                   has_charmed_me: false,
@@ -601,7 +602,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   {
                       id: 167,
                       mode: 0,
-                      url: 'https://pintoresdeparedesemfortaleza.files.wordpress.com/2016/08/pintura.jpg?w=1000',
+                      url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/22089386_105833976838105_2430462272889869880_n.jpg?oh=8f629c7dabb42a36c8e9f29646c35b1a&oe=5A8294ED',
                       width: 50,
                       height: 50
                   }]
@@ -612,7 +613,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               modification_date: '2017-07-05',
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
-                  id: 305, 
+                  id:1520675761317155, 
                   type: 'type',
                   job: 'Eletricista',
                   is_accepted: true,
@@ -622,7 +623,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                   gender: 'M',
                   is_charmed: false,
                   nb_photos: 1,
-                  first_name: 'Antônio',
+                  first_name:'Marcelo',
                   age: 48,
                   already_charmed: false,
                   has_charmed_me: false,
