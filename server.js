@@ -1230,10 +1230,22 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
     initDb(function(err){});
   }
   if (db) {
-    var col = db.collection('positions');
+    //var col = db.collection('positions');
     //col.insert({position: req.body.name, date: Date.now()});
     //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    col.insert({user_id: req.params.user_id, location: {type : 'Point', coordinates : [parseFloat(req.body.latitude), parseFloat(req.body.longitude)]}});    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var dateFormat = date.toISOString();
+    
+    db.collection('positions').insert(
+    {
+        user_id:parseInt(req.params.user_id),
+        date:dateFormat,
+        location: {
+            type : 'Point', 
+            coordinates : [parseFloat(req.body.latitude), parseFloat(req.body.longitude)]
+        }
+    });
   } 
   res.end();
 });
