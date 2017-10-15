@@ -1071,7 +1071,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                 ]
                             };
 
-                            result.data.push(item_conversation_all);                                          
+                            result.data.push(item_conversation_all); 
                         }
                     }
 
@@ -1272,9 +1272,64 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
       ]).toArray(function (err, docs_positions) {
 
             if (docs_positions.length > 0) {
-                console.log("-----> docs_positions.length: " + docs_positions.length);
+                /*console.log("-----> docs_positions.length: " + docs_positions.length);
                 console.log("-----> docs_positions.length [0] user_id: " + docs_positions[0].crossingsObjects[0].user_id);
-                console.log("-----> docs_positions.length [0] location: " + docs_positions[0].crossingsObjects[0].user_name);                
+                console.log("-----> docs_positions.length [0] location: " + docs_positions[0].crossingsObjects[0].user_name);*/
+                for (var index_docs_positions = 0, len_docs_positions = docs_positions.length; index_docs_positions < len_docs_positions; index_docs_positions++) {
+
+                    var item_crossings = {
+                          id: parseInt(req.params.user_id),
+                          modification_date: timestampISODate,
+                          notification_type: '471,524,525,526,529,530,531,565,791,792',
+                          notifier: { 
+                              id: docs_positions[0].crossingsObjects[0].user_id, 
+                              type: 'client',
+                              job: 'Serviços Gerais',
+                              is_accepted: true,
+                              workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
+                              my_relation: 1,
+                              //distance: 20.90,
+                              gender: docs_positions[0].crossingsObjects[0].gender,
+                              is_charmed: false,
+                              nb_photos: 1,
+                              first_name:docs_positions[0].crossingsObjects[0].user_name,
+                              age: 0,
+                              already_charmed: false,
+                              has_charmed_me: false,
+                              availability: {
+                                  time_left: 100,
+                                  availability_type: {
+                                      color: '#FF4E00',
+                                      duration: 10,
+                                      label: 'label2',
+                                      type: 'client'
+                                  }
+                              },
+                              last_meet_position: {
+                                  creation_date: '2017-08-15',
+                                  lat: -30.061004,
+                                  lon: -51.190147
+                              },
+                              is_invited: false,
+                              last_invite_received: {
+                                  color: '#FF4E00',
+                                      duration: 20,
+                                      label: 'label3',
+                                      type: 'client'
+                              },
+                              profiles: [
+                              {
+                                  id: docs_positions[0].crossingsObjects[0].user_id,
+                                  mode: 0,
+                                  url: docs_positions[0].crossingsObjects[0].facebook_picture,
+                                  width: 50,
+                                  height: 50
+                              }]
+                          }
+                      };
+
+                      db.collection('crossings').insert(item_crossings);
+                }
             }
 
             db.collection('positions').insert({
