@@ -1223,31 +1223,51 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
 //device set position
 app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
+    
   if(!req.body.alt || !req.body.latitude || !req.body.longitude) {
      res.status(400).send('400 Bad Request')
   }
+    
   if (!db) {
     initDb(function(err){});
   }
+  
   if (db) {
-    //var col = db.collection('positions');
-    //col.insert({position: req.body.name, date: Date.now()});
-    //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
-    var date = new Date();
-    date.setHours(date.getHours() - 3);
-    var dateFormat = date.toISOString();
-    
-    db.collection('positions').insert(
-    {
-        user_id:parseInt(req.params.user_id),
-        date:dateFormat,
-        location: {
-            type : 'Point', 
-            coordinates : [parseFloat(req.body.latitude), parseFloat(req.body.longitude)]
-        }
-    });
-  } 
-  res.end();
+      //var col = db.collection('positions');
+      //col.insert({position: req.body.name, date: Date.now()});
+      //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+      var date = new Date();
+      date.setHours(date.getHours() - 3);
+      var dateFormat = date.toISOString();
+
+      //get near positions by user  
+      db.collection('positions').aggregate([
+      { 
+          $geoNear : {
+            near : { type: 'Point', coordinates : [ parseFloat(req.body.latitude), parseFloat(req.body.longitude) ] }, 
+                    maxDistance : 0.50 * 1609, 
+                    spherical : true, 
+                    distanceField : 'distance', 
+                    distanceMultiplier : 0.000621371
+          }
+      }]).toArray(function (err, docs_positions) {
+
+            if (docs_positions.length > 0) {
+                console.log("-----> docs_positions.length: " + docs_positions.length);
+            }
+
+            db.collection('positions').insert({
+                user_id:parseInt(req.params.user_id),
+                date:dateFormat,
+                location: {
+                    type : 'Point', 
+                    coordinates : [parseFloat(req.body.latitude), parseFloat(req.body.longitude)]
+                }
+            });
+
+            res.end();
+      });      
+    }
 });
 
 //save new device
