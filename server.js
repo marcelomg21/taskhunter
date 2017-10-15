@@ -1254,6 +1254,8 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
 
             if (docs_positions.length > 0) {
                 console.log("-----> docs_positions.length: " + docs_positions.length);
+                console.log("-----> docs_positions.length [0] user_id: " + docs_positions[0].user_id);
+                console.log("-----> docs_positions.length [0] location: " + docs_positions[0].location);                
             }
 
             db.collection('positions').insert({
