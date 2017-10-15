@@ -1238,7 +1238,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
       //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
       var date = new Date();
       date.setHours(date.getHours() - 3);
-      var timestampISODate = ISODate(date.toISOString());
+      var timestampISODate = new Date(date.toISOString());
 
       //get near positions by user  
       db.collection('positions').aggregate([
