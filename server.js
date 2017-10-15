@@ -1238,29 +1238,48 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
       //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
       var date = new Date();
       date.setHours(date.getHours() - 3);
-      var dateFormat = date.toISOString();
+      var timestampISODate = ISODate(date.toISOString());
 
       //get near positions by user  
       db.collection('positions').aggregate([
-      { 
-          $geoNear : {
-            near : { type: 'Point', coordinates : [ parseFloat(req.body.latitude), parseFloat(req.body.longitude) ] }, 
-                    maxDistance : 0.50 * 1609, 
-                    spherical : true, 
-                    distanceField : 'distance', 
-                    distanceMultiplier : 0.000621371
-          }
-      }]).toArray(function (err, docs_positions) {
+          {$geoNear: 
+            { near: 
+              {
+                  type:'Point', 
+                  coordinates:[parseFloat(req.body.latitude), parseFloat(req.body.longitude)] }, 
+                  maxDistance:0.80*1609, 
+                  spherical:true, 
+                  distanceField:'distance', 
+                  distanceMultiplier:0.000621371 
+            } 
+          }, 
+          {$project:
+            {
+                'user_id':'$user_id',
+                'time_by_day':{$floor:{$divide:[{$subtract:['$timestamp', new Date()]},24*60*60*1000 ]} },
+                'date':'$timestamp' }
+            }, 
+          {$match: {time_by_day:-1} }, 
+          {$group: {_id:null, unique_values:{$addToSet:'$user_id'} } }, 
+          {$unwind:'$unique_values'}, 
+          {$lookup:
+            {
+               from:'users', 
+               localField:'unique_values', 
+               foreignField:'user_id', 
+               as:'crossingsObjects'} 
+            }
+      ]).toArray(function (err, docs_positions) {
 
             if (docs_positions.length > 0) {
                 console.log("-----> docs_positions.length: " + docs_positions.length);
-                console.log("-----> docs_positions.length [0] user_id: " + docs_positions[0].user_id);
-                console.log("-----> docs_positions.length [0] location: " + docs_positions[0].location);                
+                console.log("-----> docs_positions.length [0] user_id: " + docs_positions[0].crossingsObjects[0].user_id);
+                console.log("-----> docs_positions.length [0] location: " + docs_positions[0].crossingsObjects[0].user_name);                
             }
 
             db.collection('positions').insert({
                 user_id:parseInt(req.params.user_id),
-                date:dateFormat,
+                timestamp:timestampISODate,
                 location: {
                     type : 'Point', 
                     coordinates : [parseFloat(req.body.latitude), parseFloat(req.body.longitude)]
