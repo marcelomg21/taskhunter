@@ -550,7 +550,7 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 
 //get all crossings
 app.get('/api/users/:user_id/crossings', function (req, res) {
-  var result =  {
+    /*var result =  {
            success: true,
            data: [{
               id: req.params.user_id,              
@@ -829,9 +829,96 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
               }
           }]
     };
-    
-    
-    return res.json(result);    
+        
+    return res.json(result);*/
+        
+    if(!req.params.user_id) {
+        res.status(400).send('400 Bad Request')
+    }
+
+    if (!db) {
+        initDb(function(err){});
+    }
+
+    if (db) {
+        
+        var result = {
+              success: true,
+              data: []
+        };
+                                        
+        //get all user_id crossings
+        db.collection('crossings').aggregate([
+            {$unwind:'$crossings'}, 
+            {$lookup:{from:'users', localField:'crossings', foreignField:'user_id', as:'crossingsObjects'} }, 
+            {$unwind:'$crossingsObjects'}, 
+            {$group: {_id:'$user_id', crossings:{'$push':'$crossingsObjects'} }}, 
+            {$match:{$and:[{'_id':parseInt(req.params.user_id)}] } }]).toArray(function (err, docs_crossings) {
+
+                console.log("docs_crossings.length: " + docs_crossings.length);
+
+                if (docs_crossings.length > 0) {
+
+                    for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings[0].crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
+
+                        var item_crossings = {
+                              id: parseInt(req.params.user_id),
+                              //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
+                              notification_type: '471,524,525,526,529,530,531,565,791,792',
+                              notifier: { 
+                                  id: docs_crossings[0].crossings[index_docs_crossings].user_id, 
+                                  type: 'client',
+                                  job: 'Serviços Gerais',
+                                  is_accepted: true,
+                                  workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
+                                  my_relation: 1,
+                                  //distance: 20.90,
+                                  gender: docs_crossings[0].crossings[index_docs_crossings].gender,
+                                  is_charmed: false,
+                                  nb_photos: 1,
+                                  first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
+                                  age: 0,
+                                  already_charmed: false,
+                                  has_charmed_me: false,
+                                  availability: {
+                                      time_left: 100,
+                                      availability_type: {
+                                          color: '#FF4E00',
+                                          duration: 10,
+                                          label: 'label2',
+                                          type: 'client'
+                                      }
+                                  },
+                                  last_meet_position: {
+                                      creation_date: '2017-08-15',
+                                      lat: -30.061004,
+                                      lon: -51.190147
+                                  },
+                                  is_invited: false,
+                                  last_invite_received: {
+                                      color: '#FF4E00',
+                                          duration: 20,
+                                          label: 'label3',
+                                          type: 'client'
+                                  },
+                                  profiles: [
+                                  {
+                                      id: docs_crossings[0].crossings[index_docs_crossings].user_id,
+                                      mode: 0,
+                                      url: docs_crossings[0].crossings[index_docs_crossings].facebook_picture,
+                                      width: 50,
+                                      height: 50
+                                  }]
+                              }
+                          };
+
+                        result.data.push(item_crossings); 
+                    }
+                }
+
+                return res.json(result);                    
+        });
+    }        
 });
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
@@ -1260,76 +1347,21 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
                 'date':'$timestamp' }
             }, 
           {$match: {time_by_day:-1} }, 
-          {$group: {_id:null, unique_values:{$addToSet:'$user_id'} } }, 
-          {$unwind:'$unique_values'}, 
-          {$lookup:
-            {
-               from:'users', 
-               localField:'unique_values', 
-               foreignField:'user_id', 
-               as:'crossingsObjects'} 
-            }
+          {$group: {_id:null, crossings:{$addToSet:'$user_id'} } }
       ]).toArray(function (err, docs_positions) {
 
             if (docs_positions.length > 0) {
-                /*console.log("-----> docs_positions.length: " + docs_positions.length);
-                console.log("-----> docs_positions.length [0] user_id: " + docs_positions[0].crossingsObjects[0].user_id);
-                console.log("-----> docs_positions.length [0] location: " + docs_positions[0].crossingsObjects[0].user_name);*/
-                for (var index_docs_positions = 0, len_docs_positions = docs_positions.length; index_docs_positions < len_docs_positions; index_docs_positions++) {
-
-                    var item_crossings = {
-                          id: parseInt(req.params.user_id),
-                          modification_date: timestampISODate,
-                          notification_type: '471,524,525,526,529,530,531,565,791,792',
-                          notifier: { 
-                              id: docs_positions[0].crossingsObjects[0].user_id, 
-                              type: 'client',
-                              job: 'Serviços Gerais',
-                              is_accepted: true,
-                              workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
-                              my_relation: 1,
-                              //distance: 20.90,
-                              gender: docs_positions[0].crossingsObjects[0].gender,
-                              is_charmed: false,
-                              nb_photos: 1,
-                              first_name:docs_positions[0].crossingsObjects[0].user_name,
-                              age: 0,
-                              already_charmed: false,
-                              has_charmed_me: false,
-                              availability: {
-                                  time_left: 100,
-                                  availability_type: {
-                                      color: '#FF4E00',
-                                      duration: 10,
-                                      label: 'label2',
-                                      type: 'client'
-                                  }
-                              },
-                              last_meet_position: {
-                                  creation_date: '2017-08-15',
-                                  lat: -30.061004,
-                                  lon: -51.190147
-                              },
-                              is_invited: false,
-                              last_invite_received: {
-                                  color: '#FF4E00',
-                                      duration: 20,
-                                      label: 'label3',
-                                      type: 'client'
-                              },
-                              profiles: [
-                              {
-                                  id: docs_positions[0].crossingsObjects[0].user_id,
-                                  mode: 0,
-                                  url: docs_positions[0].crossingsObjects[0].facebook_picture,
-                                  width: 50,
-                                  height: 50
-                              }]
-                          }
-                      };
-
-                      db.collection('crossings').insert(item_crossings);
-                }
+                
+                console.log("-----> docs_positions.length: " + docs_positions.length);
+                console.log("-----> docs_positions[0]: " + docs_positions[0]);
+                console.log("-----> docs_positions.crossings: " + docs_positions.crossings);
+                console.log("-----> docs_positions.crossings.length: " + docs_positions.crossings.length);
+                
+                db.collection('crossings').insert({
+                    user_id:parseInt(req.params.user_id),
+                    timestamp:timestampISODate,
+                    crossings_users: docs_positions[0].crossings
+                });
             }
 
             db.collection('positions').insert({
