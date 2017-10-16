@@ -1354,8 +1354,8 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
                 
                 console.log("-----> docs_positions.length: " + docs_positions.length);
                 console.log("-----> docs_positions[0]: " + docs_positions[0]);
-                console.log("-----> docs_positions.crossings: " + docs_positions.crossings);
-                console.log("-----> docs_positions.crossings.length: " + docs_positions.crossings.length);
+                //console.log("-----> docs_positions.crossings: " + docs_positions.crossings);
+                //console.log("-----> docs_positions.crossings.length: " + docs_positions[0].crossings.length);
                 
                 db.collection('crossings').insert({
                     user_id:parseInt(req.params.user_id),
