@@ -245,7 +245,7 @@ app.post('/connect/oauth/token', function (req, res) {
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
                     col.insert({
-                           user_id: facebook_json.id, 
+                           user_id: parseInt(facebook_json.id),
                            user_name: facebook_json.name, 
                            gender: facebook_json.gender, 
                            email: facebook_json.email,
