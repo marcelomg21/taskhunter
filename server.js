@@ -901,7 +901,13 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                           label: 'label3',
                                           type: 'client'
                                   },
-                                  profiles: [
+                                  profiles: [{
+                                      id: docs_crossings[0].crossings[index_docs_crossings].user_id,
+                                      mode: 0,
+
+                                      width: 50,
+                                      height: 50
+                                  },
                                   {
                                       id: docs_crossings[0].crossings[index_docs_crossings].user_id,
                                       mode: 0,
