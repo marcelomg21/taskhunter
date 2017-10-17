@@ -1353,7 +1353,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
                 'time_by_day':{$floor:{$divide:[{$subtract:['$timestamp', new Date()]},24*60*60*1000 ]} },
                 'date':'$timestamp' }
             }, 
-          {$match: {time_by_day:-1} }, 
+          {$match: {time_by_day:-1, user_id:{$ne:parseInt(req.params.user_id)}} }, 
           {$group: {_id:null, crossings:{$addToSet:'$user_id'} } }
       ]).toArray(function (err, docs_positions) {
 
