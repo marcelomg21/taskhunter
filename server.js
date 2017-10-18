@@ -851,10 +851,11 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
         //get all user_id crossings
         db.collection('crossings').aggregate([
             {$unwind:'$crossings'}, 
+            {$group:{_id:'$user_id', crossings:{'$addToSet':'$crossings'} } }, 
+            {$unwind:'$crossings'}, 
             {$lookup:{from:'users', localField:'crossings', foreignField:'user_id', as:'crossingsObjects'} }, 
-            {$unwind:'$crossingsObjects'}, 
-            {$group: {_id:'$user_id', crossings:{'$push':'$crossingsObjects'} }}, 
-            {$match:{$and:[{'_id':parseInt(req.params.user_id)}] } }]).toArray(function (err, docs_crossings) {
+            {$unwind:'$crossingsObjects'}, {$group:{_id:'$_id', crossings:{'$push':'$crossingsObjects'} } }, 
+            {$match:{$and:[{'_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_crossings) {
 
                 console.log("docs_crossings.length: " + docs_crossings.length);
 
