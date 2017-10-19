@@ -460,7 +460,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   creation_date: docs[i].creation_date,
                   sender: { 
                       id: docs[i].sender,
-                      first_name: 'XXXXXX',
+                      //first_name: 'XXXXXX',
                       age: 30
                   }
             };
