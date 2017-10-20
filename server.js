@@ -1134,7 +1134,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                             type: 'client',
                                             first_name: docs_conversations[index_docs_conversations].participants[0].user_name,
                                             profiles: [{
-                                                  id: 102,
+                                                  id: docs_conversations[index_docs_conversations].participants[0].user_id,
                                                   mode: 0,
                                                   url: docs_conversations[index_docs_conversations].participants[0].facebook_picture,
                                                   width: 50,
@@ -1149,7 +1149,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                             type: 'client',
                                             first_name: docs_conversations[index_docs_conversations].participants[1].user_name,
                                             profiles: [{
-                                                  id: 102,
+                                                  id: docs_conversations[index_docs_conversations].participants[1].user_id,
                                                   mode: 0,
                                                   url: docs_conversations[index_docs_conversations].participants[1].facebook_picture,
                                                   width: 50,
@@ -1201,7 +1201,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                             type: 'client',
                                             first_name: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].user_name,
                                             profiles: [{
-                                                  id: 102,
+                                                  id: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].user_id,
                                                   mode: 0,
                                                   url: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].facebook_picture,
                                                   width: 50,
@@ -1216,7 +1216,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                             type: 'client',
                                             first_name: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].user_name,
                                             profiles: [{
-                                                  id: 102,
+                                                  id: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].user_id,
                                                   mode: 0,
                                                   url: docs_conversations_recipient[index_docs_conversations_recipient].participants[1].facebook_picture,
                                                   width: 50,
@@ -1271,7 +1271,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                                         type: 'client',
                                                         first_name: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].user_name,
                                                         profiles: [{
-                                                              id: 102,
+                                                              id: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].user_id,
                                                               mode: 0,
                                                               url: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].facebook_picture,
                                                               width: 50,
@@ -1286,7 +1286,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                                         type: 'client',
                                                         first_name: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].user_name,
                                                         profiles: [{
-                                                              id: 102,
+                                                              id: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].user_id,
                                                               mode: 0,
                                                               url: docs_conversations_inserted[index_docs_conversations_inserted].participants[1].facebook_picture,
                                                               width: 50,
