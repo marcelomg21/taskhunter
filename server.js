@@ -324,17 +324,20 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
      res.status(400).send('400 Bad Request')
   }
   
+  console.log('req.body.pintura_service --> ' + req.body.pintura_service);
+  console.log('req.body.pintura_service.grade --> ' + req.body.pintura_service.grade);
+    
   var result = {
       success: true,
       data: {               
           id: req.params.user_id, 	
               service_matching_preferences: {
                   pintura_service: {
-                      grade: 1,
-                      alvenaria: 0,
-                      madeira: 1,
-                      textura: 0,
-                      grafiato: 0
+                      grade: req.body.pintura_service.grade,
+                      alvenaria: req.body.pintura_service.alvenaria,
+                      madeira: req.body.pintura_service.madeira,
+                      textura: req.body.pintura_service.textura,
+                      grafiato: req.body.pintura_service.grafiato
                   }
               }
           }
