@@ -308,6 +308,32 @@ app.get('/api/users/:user_id', function (req, res) {
     return res.json(result);    
 });
 
+// service matching preferences
+app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
+    
+  if(!req.body.pintura_service) {
+     res.status(400).send('400 Bad Request')
+  }
+  
+  var result = {
+      success: true,
+      data: {               
+          id: req.params.user_id, 	
+              service_matching_preferences: {
+                  pintura_service: {
+                      grade: 1,
+                      alvenaria: 0,
+                      madeira: 1,
+                      textura: 0,
+                      grafiato: 0
+                  }
+              }
+          }
+  };
+    
+  return res.json(result);
+});
+
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
   
