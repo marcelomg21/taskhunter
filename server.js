@@ -296,6 +296,15 @@ app.get('/api/users/:user_id', function (req, res) {
               birth_date: '1980-07-16',
               matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
               notification_settings: { charms: 0, match: 0, messages:0 },
+              service_matching_preferences: {
+                  pintura_service: {
+                      grade: 0,
+                      alvenaria: 0,
+                      madeira: 0,
+                      textura: 0,
+                      grafiato: 0
+                  }
+              },
               stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },
               job: 'Engenheiro Civil',
               nb_photos: 0,
