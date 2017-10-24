@@ -298,9 +298,9 @@ app.get('/api/users/:user_id', function (req, res) {
               notification_settings: { charms: 0, match: 0, messages:0 },
               service_matching_preferences: {
                   pintura_service: {
-                      grade: 0,
+                      grade: 1,
                       alvenaria: 0,
-                      madeira: 0,
+                      madeira: 1,
                       textura: 0,
                       grafiato: 0
                   }
