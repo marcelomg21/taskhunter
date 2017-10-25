@@ -9,7 +9,7 @@
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "jsonwebtoken": "^7.0.0",
-    //"mocha": "^2.4.5",
+    "mocha": "^2.4.5",
     "mongodb": "^2.1.16",
     "morgan": "^1.7.0",
     "body-parser": "^1.14.0",
@@ -23,8 +23,8 @@
     "npm": "*"
   },
   "scripts": {
-    "start": "node server.js"
-    //"test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js"
+    "start": "node server.js",
+    "test": "IP=0.0.0.0 PORT=3030 mocha --timeout 5000 tests/*_test.js"
   },
   "repository": {
     "type": "git",
