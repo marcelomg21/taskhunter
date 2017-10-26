@@ -302,7 +302,7 @@ app.get('/api/users/:user_id', function (req, res) {
                       alvenaria: 0,
                       madeira: 1,
                       textura: 0,
-                      grafiato: 0
+                      grafiato: 1
                   }
               },
               stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },
