@@ -253,7 +253,253 @@ app.post('/connect/oauth/token', function (req, res) {
                            location: facebook_json.location,
                            access_token: jwt_access_token,
                            facebook_access_token: req.body.assertion,
-                           facebook_picture: facebook_json.picture.data.url
+                           facebook_picture: facebook_json.picture.data.url,
+                           matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
+                           notification_settings: { charms: 0, match: 0, messages:0 },
+                           service_matching_preferences: {
+                               pintura_service: {
+                                   grade: 0,
+                                   alvenaria: 0,
+                                   madeira: 0,
+                                   textura: 0,
+                                   grafiato: 0
+                               },
+                               eletrica_service: {
+                                   chuveiro: 0,
+                                   torneira: 0,
+                                   ventilador: 0,
+                                   tomada: 0,
+                                   fiacao: 0,
+                                   telefonia: 0,
+                                   alarme: 0,
+                                   camera_seguranca: 0,
+                                   sensor_presenca: 0,
+                                   rede_dados: 0,
+                                   caixa_forca: 0,
+                                   disjuntores: 0
+                               },
+                               hidraulica_service: {
+                                   banheiro: 0,
+                                   cozinha: 0,
+                                   fossa: 0,
+                                   encanamento: 0,
+                                   tubulacao_hidraulica: 0,
+                                   tubulacao_esgoto: 0,
+                                   alta_pressao_chuveiro: 0,
+                                   alta_pressao_torneira: 0,
+                                   instalacao_bombas_agua: 0,
+                                   desentupimento: 0
+                               },
+                               marcenaria_service: {
+                                   moveis: 0,
+                                   moveis_planejados: 0,
+                                   escritorio: 0,
+                                   decks: 0,
+                                   pergolas: 0,
+                                   restauracao: 0,
+                                   montagem: 0,
+                                   desmontagem: 0
+                               },
+                               pedreiro_service: {
+                                   construcao: 0,
+                                   reforma: 0,
+                                   gesso: 0,
+                                   drywall: 0,
+                                   rodape: 0,
+                                   rodaforro: 0,
+                                   forro_pvc: 0,
+                                   forro_madeira: 0,
+                                   reboco: 0,
+                                   azulejo: 0,
+                                   basalto: 0,
+                                   laminado: 0,
+                                   vinilico: 0,
+                                   porcelanato: 0
+                               },
+                               serralheiro_service: {
+                                   grade: 0,
+                                   porta: 0,
+                                   portao: 0,
+                                   janela: 0,
+                                   corrimao: 0,
+                                   guarda_corpo: 0,
+                                   esquadrias_ferro: 0,
+                                   esquadrias_aluminio: 0
+                               },
+                               ar_cond_split_service: {
+                                   instalacao: 0,
+                                   manutencao: 0,
+                                   limpeza: 0,
+                                   higienizacao: 0,
+                                   reposicao_gas: 0
+                               },
+                               gas_central_service: {
+                                   instalacao: 0,
+                                   manutencao: 0,
+                                   tubulacao: 0,
+                                   junker: 0
+                               },
+                               servicos_gerais_service: {
+                                   limpeza: 0,
+                                   jardim: 0,
+                                   piscina: 0,
+                                   telas_protecao: 0,
+                                   dedetizacao: 0,
+                                   impermeabilizacao: 0
+                               },
+                               decoracao_service: {
+                                   papel_parede: 0,
+                                   arquitetura: 0,
+                                   design_interiores: 0,
+                                   cortinas: 0,
+                                   persianas: 0
+                               },
+                               eletro_service: {
+                                   geladeira: 0,
+                                   maquina_lavar: 0,
+                                   fogao: 0,
+                                   cooktop: 0,
+                                   depurador_ar: 0,
+                                   cafeteira: 0,
+                                   liquidificador: 0,
+                                   microondas: 0
+                               },
+                               vidracaria_service: {
+                                   box_banheiro: 0,
+                                   vidros_lapidados: 0,
+                                   vidros_temperados: 0,
+                                   portas: 0,
+                                   janelas: 0,
+                                   espelhos: 0,
+                                   tampos_mesa: 0,
+                                   cortinas_vidro: 0,
+                                   fechamento_varanda: 0,
+                                   fechamento_sacada: 0,
+                                   tijolos_vidro: 0
+                               }
+                           },
+                           service_working_preferences: {
+                               pintura_service: {
+                                   grade: 0,
+                                   alvenaria: 0,
+                                   madeira: 0,
+                                   textura: 0,
+                                   grafiato: 0
+                               },
+                               eletrica_service: {
+                                   chuveiro: 0,
+                                   torneira: 0,
+                                   ventilador: 0,
+                                   tomada: 0,
+                                   fiacao: 0,
+                                   telefonia: 0,
+                                   alarme: 0,
+                                   camera_seguranca: 0,
+                                   sensor_presenca: 0,
+                                   rede_dados: 0,
+                                   caixa_forca: 0,
+                                   disjuntores: 0
+                               },
+                               hidraulica_service: {
+                                   banheiro: 0,
+                                   cozinha: 0,
+                                   fossa: 0,
+                                   encanamento: 0,
+                                   tubulacao_hidraulica: 0,
+                                   tubulacao_esgoto: 0,
+                                   alta_pressao_chuveiro: 0,
+                                   alta_pressao_torneira: 0,
+                                   instalacao_bombas_agua: 0,
+                                   desentupimento: 0
+                               },
+                               marcenaria_service: {
+                                   moveis: 0,
+                                   moveis_planejados: 0,
+                                   escritorio: 0,
+                                   decks: 0,
+                                   pergolas: 0,
+                                   restauracao: 0,
+                                   montagem: 0,
+                                   desmontagem: 0
+                               },
+                               pedreiro_service: {
+                                   construcao: 0,
+                                   reforma: 0,
+                                   gesso: 0,
+                                   drywall: 0,
+                                   rodape: 0,
+                                   rodaforro: 0,
+                                   forro_pvc: 0,
+                                   forro_madeira: 0,
+                                   reboco: 0,
+                                   azulejo: 0,
+                                   basalto: 0,
+                                   laminado: 0,
+                                   vinilico: 0,
+                                   porcelanato: 0
+                               },
+                               serralheiro_service: {
+                                   grade: 0,
+                                   porta: 0,
+                                   portao: 0,
+                                   janela: 0,
+                                   corrimao: 0,
+                                   guarda_corpo: 0,
+                                   esquadrias_ferro: 0,
+                                   esquadrias_aluminio: 0
+                               },
+                               ar_cond_split_service: {
+                                   instalacao: 0,
+                                   manutencao: 0,
+                                   limpeza: 0,
+                                   higienizacao: 0,
+                                   reposicao_gas: 0
+                               },
+                               gas_central_service: {
+                                   instalacao: 0,
+                                   manutencao: 0,
+                                   tubulacao: 0,
+                                   junker: 0
+                               },
+                               servicos_gerais_service: {
+                                   limpeza: 0,
+                                   jardim: 0,
+                                   piscina: 0,
+                                   telas_protecao: 0,
+                                   dedetizacao: 0,
+                                   impermeabilizacao: 0
+                               },
+                               decoracao_service: {
+                                   papel_parede: 0,
+                                   arquitetura: 0,
+                                   design_interiores: 0,
+                                   cortinas: 0,
+                                   persianas: 0
+                               },
+                               eletro_service: {
+                                   geladeira: 0,
+                                   maquina_lavar: 0,
+                                   fogao: 0,
+                                   cooktop: 0,
+                                   depurador_ar: 0,
+                                   cafeteira: 0,
+                                   liquidificador: 0,
+                                   microondas: 0
+                               },
+                               vidracaria_service: {
+                                   box_banheiro: 0,
+                                   vidros_lapidados: 0,
+                                   vidros_temperados: 0,
+                                   portas: 0,
+                                   janelas: 0,
+                                   espelhos: 0,
+                                   tampos_mesa: 0,
+                                   cortinas_vidro: 0,
+                                   fechamento_varanda: 0,
+                                   fechamento_sacada: 0,
+                                   tijolos_vidro: 0
+                               }
+                           }
                     });
                     
                     var result = {        
