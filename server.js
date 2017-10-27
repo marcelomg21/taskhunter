@@ -572,24 +572,103 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
   
   console.log('req.body.pintura_service --> ' + req.body.pintura_service);
   console.log('req.body.pintura_service.grade --> ' + req.body.pintura_service.grade);
+  
+  db.collection('users').update({ 
+      user_id: parseInt(req.params.user_id) },
+      { $set:
+          {
+            "service_matching_preferences.pintura_service": req.body.pintura_service,
+            "service_matching_preferences.eletrica_service": req.body.eletrica_service,
+            "service_matching_preferences.hidraulica_service": req.body.hidraulica_service,
+            "service_matching_preferences.marcenaria_service": req.body.marcenaria_service,
+            "service_matching_preferences.pedreiro_service": req.body.pedreiro_service,
+            "service_matching_preferences.serralheiro_service": req.body.serralheiro_service,
+            "service_matching_preferences.ar_cond_split_service": req.body.ar_cond_split_service,
+            "service_matching_preferences.gas_central_service": req.body.gas_central_service,
+            "service_matching_preferences.servicos_gerais_service": req.body.servicos_gerais_service,
+            "service_matching_preferences.decoracao_service": req.body.decoracao_service,
+            "service_matching_preferences.eletro_service": req.body.eletro_service,
+            "service_matching_preferences.vidracaria_service": req.body.vidracaria_service
+          }
+  });
     
   var result = {
       success: true,
       data: {               
           id: req.params.user_id, 	
-              service_matching_preferences: {
-                  pintura_service: {
-                      grade: req.body.pintura_service.grade,
-                      alvenaria: req.body.pintura_service.alvenaria,
-                      madeira: req.body.pintura_service.madeira,
-                      textura: req.body.pintura_service.textura,
-                      grafiato: req.body.pintura_service.grafiato
-                  }
-              }
-          }
+          service_matching_preferences: { }
+      }
   };
     
+  result.data.service_matching_preferences.push(req.body.pintura_service);
+  result.data.service_matching_preferences.push(req.body.eletrica_service);
+  result.data.service_matching_preferences.push(req.body.hidraulica_service);
+  result.data.service_matching_preferences.push(req.body.marcenaria_service);
+  result.data.service_matching_preferences.push(req.body.pedreiro_service);
+  result.data.service_matching_preferences.push(req.body.serralheiro_service);
+  result.data.service_matching_preferences.push(req.body.ar_cond_split_service);
+  result.data.service_matching_preferences.push(req.body.gas_central_service);
+  result.data.service_matching_preferences.push(req.body.servicos_gerais_service);
+  result.data.service_matching_preferences.push(req.body.decoracao_service);
+  result.data.service_matching_preferences.push(req.body.eletro_service);
+  result.data.service_matching_preferences.push(req.body.vidracaria_service);  
+    
   return res.json(result);
+  
+});
+
+// service working preferences
+app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
+    
+  if(!req.body.pintura_service) {
+     res.status(400).send('400 Bad Request')
+  }
+  
+  console.log('req.body.pintura_service --> ' + req.body.pintura_service);
+  console.log('req.body.pintura_service.grade --> ' + req.body.pintura_service.grade);
+  
+  db.collection('users').update({ 
+      user_id: parseInt(req.params.user_id) },
+      { $set:
+          {
+            "service_working_preferences.pintura_service": req.body.pintura_service,
+            "service_working_preferences.eletrica_service": req.body.eletrica_service,
+            "service_working_preferences.hidraulica_service": req.body.hidraulica_service,
+            "service_working_preferences.marcenaria_service": req.body.marcenaria_service,
+            "service_working_preferences.pedreiro_service": req.body.pedreiro_service,
+            "service_working_preferences.serralheiro_service": req.body.serralheiro_service,
+            "service_working_preferences.ar_cond_split_service": req.body.ar_cond_split_service,
+            "service_working_preferences.gas_central_service": req.body.gas_central_service,
+            "service_working_preferences.servicos_gerais_service": req.body.servicos_gerais_service,
+            "service_working_preferences.decoracao_service": req.body.decoracao_service,
+            "service_working_preferences.eletro_service": req.body.eletro_service,
+            "service_working_preferences.vidracaria_service": req.body.vidracaria_service
+          }
+  });
+    
+  var result = {
+      success: true,
+      data: {               
+          id: req.params.user_id, 	
+          service_working_preferences: { }
+      }
+  };
+    
+  result.data.service_working_preferences.push(req.body.pintura_service);
+  result.data.service_working_preferences.push(req.body.eletrica_service);
+  result.data.service_working_preferences.push(req.body.hidraulica_service);
+  result.data.service_working_preferences.push(req.body.marcenaria_service);
+  result.data.service_working_preferences.push(req.body.pedreiro_service);
+  result.data.service_working_preferences.push(req.body.serralheiro_service);
+  result.data.service_working_preferences.push(req.body.ar_cond_split_service);
+  result.data.service_working_preferences.push(req.body.gas_central_service);
+  result.data.service_working_preferences.push(req.body.servicos_gerais_service);
+  result.data.service_working_preferences.push(req.body.decoracao_service);
+  result.data.service_working_preferences.push(req.body.eletro_service);
+  result.data.service_working_preferences.push(req.body.vidracaria_service);  
+    
+  return res.json(result);
+  
 });
 
 //add new message
