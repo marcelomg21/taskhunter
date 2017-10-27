@@ -502,6 +502,13 @@ app.post('/connect/oauth/token', function (req, res) {
                            }
                     });
                     
+                    //setting service matching and working preferences default values
+                    db.collection('crossings_preferences').insert({
+                        user_id: parseInt(facebook_json.id), 
+                        service_matching_preferences: {},
+                        service_working_preferences: {}
+                    });
+                    
                     var result = {        
                         access_token: jwt_access_token,
                         expires_in: 86400,        
@@ -590,7 +597,9 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
             "service_matching_preferences.eletro_service": req.body.eletro_service,
             "service_matching_preferences.vidracaria_service": req.body.vidracaria_service
           }
-  });
+      },
+      { upsert : true }
+  );
     
   var result = {
       success: true,
@@ -644,7 +653,9 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
             "service_working_preferences.eletro_service": req.body.eletro_service,
             "service_working_preferences.vidracaria_service": req.body.vidracaria_service
           }
-  });
+      },
+      { upsert : true }
+  );
     
   var result = {
       success: true,
@@ -1234,14 +1245,87 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                             
                             for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings[0].crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
 
-                                var user_crossings_can_be_added = false;
+                                //setting matching crossing preferences - pintura - grade
+                                /*if(user_docs[0].service_matching_preferences.pintura_service.grade == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.grade == 1){
+                                    
+                                    db.collection('crossings_preferences').update({ 
+                                        user_id: parseInt(req.params.user_id) },
+                                        { $set:
+                                            {"service_matching_preferences": 
+                                                    { pintura_service: 
+                                                        { match: 
+                                                            { grade: 1, matching_users: [{ user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id) }]
+                                                        } 
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        { upsert : true }
+                                    );
+                                    
+                                    timeline_user_crossings = true;
+                                }
                                 
-                                if(user_docs[0].service_matching_preferences.pintura_service.grade = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grade){
-                                    //TODO: PAYMENTE CONFIG
-                                    user_crossings_can_be_added = true;
+                                //setting working crossing preferences - pintura - grade
+                                if(user_docs[0].service_working_preferences.pintura_service.grade == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grade == 1){
+                                    
+                                    db.collection('crossings_preferences').update({ 
+                                        user_id: parseInt(req.params.user_id) },
+                                        { $set:
+                                            {"service_working_preferences": 
+                                                    { pintura_service: 
+                                                        { work: 
+                                                            { grade: 1, matching_users: [{ user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id) }]
+                                                        } 
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        { upsert : true }
+                                    );
+                                    
+                                    timeline_user_crossings = true;
+                                }*/
+                                
+                                var timeline_user_matching_working_crossings = false;
+                                
+                                //showing service matching preference - pintura - grade
+                                if((user_docs[0].service_matching_preferences.pintura_service.grade == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.grade == 1)
+                                    || 
+                                    (user_docs[0].service_working_preferences.pintura_service.grade == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grade == 1)
+                                    //alvenaria
+                                    (user_docs[0].service_matching_preferences.pintura_service.alvenaria == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.alvenaria == 1)
+                                    || 
+                                    (user_docs[0].service_working_preferences.pintura_service.alvenaria == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.alvenaria == 1)
+                                    //madeira
+                                    (user_docs[0].service_matching_preferences.pintura_service.madeira == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.madeira == 1)
+                                    || 
+                                    (user_docs[0].service_working_preferences.pintura_service.madeira == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.madeira == 1)
+                                    //textura
+                                    (user_docs[0].service_matching_preferences.pintura_service.textura == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.textura == 1)
+                                    || 
+                                    (user_docs[0].service_working_preferences.pintura_service.textura == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.textura == 1)
+                                    //grafiato
+                                    (user_docs[0].service_matching_preferences.pintura_service.grafiato == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.grafiato == 1)
+                                    || 
+                                    (user_docs[0].service_working_preferences.pintura_service.grafiato == 1 
+                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grafiato == 1)
+                                ){
+                                    timeline_user_matching_working_crossings = true;
                                 }
                                                                 
-                                if(user_crossings_can_be_added){
+                                if(timeline_user_matching_working_crossings){
                                     
                                     var item_crossings = {
                                         id: parseInt(req.params.user_id),
