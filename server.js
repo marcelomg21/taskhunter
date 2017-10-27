@@ -1220,65 +1220,85 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             {$unwind:'$crossingsObjects'}, {$group:{_id:'$_id', crossings:{'$push':'$crossingsObjects'} } }, 
             {$match:{$and:[{'_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_crossings) {
 
-                console.log("docs_crossings.length: " + docs_crossings.length);
+                //console.log("docs_crossings.length: " + docs_crossings.length);
 
                 if (docs_crossings.length > 0) {
+                    
+                    var query = {
+                        user_id: parseInt(req.params.user_id)
+                    };
 
-                    for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings[0].crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
+                    db.collection('users').find(query).toArray(function (err, user_docs) {
 
-                        var item_crossings = {
-                              id: parseInt(req.params.user_id),
-                              //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
-                              notification_type: '471,524,525,526,529,530,531,565,791,792',
-                              notifier: { 
-                                  id: docs_crossings[0].crossings[index_docs_crossings].user_id, 
-                                  type: 'client',
-                                  job: 'Serviços Gerais',
-                                  is_accepted: true,
-                                  workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
-                                  my_relation: 1,
-                                  //distance: 20.90,
-                                  gender: docs_crossings[0].crossings[index_docs_crossings].gender,
-                                  is_charmed: false,
-                                  nb_photos: 1,
-                                  first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
-                                  age: 0,
-                                  already_charmed: false,
-                                  has_charmed_me: false,
-                                  availability: {
-                                      time_left: 100,
-                                      availability_type: {
-                                          color: '#FF4E00',
-                                          duration: 10,
-                                          label: 'label2',
-                                          type: 'client'
-                                      }
-                                  },
-                                  last_meet_position: {
-                                      creation_date: '2017-08-15',
-                                      lat: -30.061004,
-                                      lon: -51.190147
-                                  },
-                                  is_invited: false,
-                                  last_invite_received: {
-                                      color: '#FF4E00',
-                                          duration: 20,
-                                          label: 'label3',
-                                          type: 'client'
-                                  },
-                                  profiles: [
-                                  {
-                                      id: docs_crossings[0].crossings[index_docs_crossings].user_id,
-                                      mode: 0,
-                                      url: docs_crossings[0].crossings[index_docs_crossings].facebook_picture,
-                                      width: 50,
-                                      height: 50
-                                  }]
-                              }
-                          };
+                        if (user_docs.length > 0) {
+                            
+                            for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings[0].crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
 
-                        result.data.push(item_crossings); 
-                    }
+                                var user_crossings_can_be_added = false;
+                                
+                                if(user_docs[0].service_matching_preferences.pintura_service.grade = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grade){
+                                    //TODO: PAYMENTE CONFIG
+                                    user_crossings_can_be_added = true;
+                                }
+                                                                
+                                if(user_crossings_can_be_added){
+                                    
+                                    var item_crossings = {
+                                        id: parseInt(req.params.user_id),
+                                        //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
+                                        notification_type: '471,524,525,526,529,530,531,565,791,792',
+                                        notifier: { 
+                                            id: docs_crossings[0].crossings[index_docs_crossings].user_id, 
+                                            type: 'client',
+                                            job: 'Serviços Gerais',
+                                            is_accepted: true,
+                                            workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
+                                            my_relation: 1,
+                                            //distance: 20.90,
+                                            gender: docs_crossings[0].crossings[index_docs_crossings].gender,
+                                            is_charmed: false,
+                                            nb_photos: 1,
+                                            first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
+                                            age: 0,
+                                            already_charmed: false,
+                                            has_charmed_me: false,
+                                            availability: {
+                                                time_left: 100,
+                                                availability_type: {
+                                                    color: '#FF4E00',
+                                                    duration: 10,
+                                                    label: 'label2',
+                                                    type: 'client'
+                                                }
+                                            },
+                                            last_meet_position: {
+                                                creation_date: '2017-08-15',
+                                                lat: -30.061004,
+                                                lon: -51.190147
+                                            },
+                                            is_invited: false,
+                                            last_invite_received: {
+                                                color: '#FF4E00',
+                                                    duration: 20,
+                                                    label: 'label3',
+                                                    type: 'client'
+                                            },
+                                            profiles: [
+                                            {
+                                                id: docs_crossings[0].crossings[index_docs_crossings].user_id,
+                                                mode: 0,
+                                                url: docs_crossings[0].crossings[index_docs_crossings].facebook_picture,
+                                                width: 50,
+                                                height: 50
+                                            }]
+                                         }
+                                      };
+
+                                      result.data.push(item_crossings); 
+                                }
+                            }
+                        }
+                    });                    
                 }
 
                 return res.json(result);                    
@@ -1717,8 +1737,8 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
 
             if (docs_positions.length > 0) {
                 
-                console.log("-----> docs_positions.length: " + docs_positions.length);
-                console.log("-----> docs_positions[0]: " + docs_positions[0]);
+                //console.log("-----> docs_positions.length: " + docs_positions.length);
+                //console.log("-----> docs_positions[0]: " + docs_positions[0]);
                 //console.log("-----> docs_positions.crossings: " + docs_positions.crossings);
                 //console.log("-----> docs_positions.crossings.length: " + docs_positions[0].crossings.length);
                 
