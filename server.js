@@ -1289,43 +1289,38 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     timeline_user_crossings = true;
                                 }*/
                                 
-                                var timeline_user_matching_working_crossings = false;
-                                
-                                //showing service matching preference - pintura - grade
-                                if((user_docs[0].service_matching_preferences.pintura_service.grade == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.grade == 1)
-                                    || 
-                                    (user_docs[0].service_working_preferences.pintura_service.grade == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grade == 1)
-                                    //alvenaria
-                                    (user_docs[0].service_matching_preferences.pintura_service.alvenaria == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.alvenaria == 1)
-                                    || 
-                                    (user_docs[0].service_working_preferences.pintura_service.alvenaria == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.alvenaria == 1)
-                                    //madeira
-                                    (user_docs[0].service_matching_preferences.pintura_service.madeira == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.madeira == 1)
-                                    || 
-                                    (user_docs[0].service_working_preferences.pintura_service.madeira == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.madeira == 1)
-                                    //textura
-                                    (user_docs[0].service_matching_preferences.pintura_service.textura == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.textura == 1)
-                                    || 
-                                    (user_docs[0].service_working_preferences.pintura_service.textura == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.textura == 1)
-                                    //grafiato
-                                    (user_docs[0].service_matching_preferences.pintura_service.grafiato == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.grafiato == 1)
-                                    || 
-                                    (user_docs[0].service_working_preferences.pintura_service.grafiato == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grafiato == 1)
-                                ){
-                                    timeline_user_matching_working_crossings = true;
+                                var timeline_user_match_crossings = 0;
+                                var timeline_user_work_crossings = 0;                                
+                                var users_matched = user_docs[0].service_preferences.filter(o => o.finding == 'match');
+                                var users_worked = user_docs[0].service_preferences.filter(o => o.finding == 'work');
+
+                                for (var index_docs_users = 0, len_docs_users = users_matched.length; index_docs_users < len_docs_users; index_docs_users++) {
+
+                                    var worked = docs_crossings[0].crossings[index_docs_crossings].service_preferences.find(o => o.finding == 'work' && o.name == users_matched[index_docs_users].name);
+
+                                    if(worked != undefined){
+                                        console.log('worked:');
+                                        console.log(worked);
+                                        timeline_user_match_crossings++;
+                                    }
+
                                 }
+
+                                //var worked = array_one.filter(o => o.finding == 'work');
+
+                                for (var index_docs_users = 0, len_docs_users = users_worked.length; index_docs_users < len_docs_users; index_docs_users++) {
+
+                                    var matched = docs_crossings[0].crossings[index_docs_crossings].service_preferences.find(o => o.finding == 'match' && o.name == users_worked[index_docs_users].name);
+
+                                    if(matched != undefined){
+                                        console.log('matched:');
+                                        console.log(matched);
+                                        timeline_user_work_crossings++;
+                                    }
+
+                                }                                
                                                                 
-                                if(timeline_user_matching_working_crossings){
+                                if(timeline_user_match_crossings > 0 || timeline_user_work_crossings > 0){
                                     
                                     var item_crossings = {
                                         id: parseInt(req.params.user_id),
