@@ -358,6 +358,12 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
 
     var worked = array_two.services.filter(o => o.enabled === true);
     console.log(worked);
+    output:
+    
+    [ { type: 'pintura', name: 'grade', enabled: true },
+      { type: 'pintura', name: 'alvenaria', enabled: true },
+      { type: 'eletrica', name: 'fiacao', enabled: true } ]
+    
     */
     
   for (var index_docs_users = 0, len_docs_users = matched.length; index_docs_users < len_docs_users; index_docs_users++) {
