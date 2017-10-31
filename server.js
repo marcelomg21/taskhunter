@@ -1048,26 +1048,26 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 
                                 var timeline_user_match_crossings = 0;
                                 var timeline_user_work_crossings = 0;                                
-                                var users_matched = user_docs[0].service_preferences.filter(o => o.finding == 'match');
-                                var users_worked = user_docs[0].service_preferences.filter(o => o.finding == 'work');
+                                //var users_matched = user_docs[0].service_preferences.filter(o => o.finding == 'match');
+                                //var users_worked = user_docs[0].service_preferences.filter(o => o.finding == 'work');
 
-                                for (var index_docs_users = 0, len_docs_users = users_matched.length; index_docs_users < len_docs_users; index_docs_users++) {
+                                for (var index_docs_users = 0, len_docs_users = user_docs[0].matching.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var worked = docs_crossings[0].crossings[index_docs_crossings].service_preferences.find(o => o.finding == 'work' && o.name == users_matched[index_docs_users].name);
+                                    var worked = docs_crossings[0].crossings[index_docs_crossings].working.find(o => o.type == user_docs[0].matching[index_docs_users].type && o.name == user_docs[0].matching[index_docs_users].name);
 
                                     if(worked != undefined){
                                         console.log('worked:');
                                         console.log(worked);
                                         timeline_user_match_crossings++;
                                     }
-
+                                    
                                 }
 
                                 //var worked = array_one.filter(o => o.finding == 'work');
 
-                                for (var index_docs_users = 0, len_docs_users = users_worked.length; index_docs_users < len_docs_users; index_docs_users++) {
+                                for (var index_docs_users = 0, len_docs_users = user_docs[0].working.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var matched = docs_crossings[0].crossings[index_docs_crossings].service_preferences.find(o => o.finding == 'match' && o.name == users_worked[index_docs_users].name);
+                                    var matched = docs_crossings[0].crossings[index_docs_crossings].matching.find(o => o.type == user_docs[0].working[index_docs_users].type && o.name == user_docs[0].working[index_docs_users].name);
 
                                     if(matched != undefined){
                                         console.log('matched:');
