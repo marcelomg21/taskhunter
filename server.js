@@ -256,15 +256,16 @@ app.post('/connect/oauth/token', function (req, res) {
                            facebook_picture: facebook_json.picture.data.url,
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                            notification_settings: { charms: 0, match: 0, messages:0 },
-                           service_preferences: { }
+                           service_matching_preferences: [],
+                           service_working_preferences: []
                     });
                     
                     //setting service matching and working preferences default values
-                    db.collection('crossings_preferences').insert({
+                    /*db.collection('service_matching_working').insert({
                         user_id: parseInt(facebook_json.id), 
-                        service_matching_preferences: {},
-                        service_working_preferences: {}
-                    });
+                        matching_preferences: {},
+                        working_preferences: {}
+                    });*/
                     
                     var result = {        
                         access_token: jwt_access_token,
@@ -327,7 +328,7 @@ app.get('/api/users/:user_id', function (req, res) {
     return res.json(result);    
 });
 
-// service matching preferences
+// update service matching preferences
 app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
     
   if(!req.body.pintura_service) {
@@ -336,23 +337,45 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
   
   console.log('req.body.pintura_service --> ' + req.body.pintura_service);
   console.log('req.body.pintura_service.grade --> ' + req.body.pintura_service.grade);
+    
+  var matched_preferences = {  };
+    
+  /*
+  var array_two = {
+     services: 
+           [
+             {type:'pintura',name:'grade', enabled: true},
+             {type:'pintura',name:'madeira',enabled: false},
+             {type:'pintura',name:'alvenaria',enabled: true},
+             {type:'eletrica',name:'chuveiro',enabled: false},
+             {type:'eletrica',name:'fiacao',enabled: true},
+             {type:'hidraulica',name:'hid_1',enabled: false},
+             {type:'hidraulica',name:'hid_2',enabled: false},
+             {type:'hidraulica',name:'hid_3',enabled: false}
+           ] 
+    
+    };
+
+    var worked = array_two.services.filter(o => o.enabled === true);
+    console.log(worked);
+    */
+    
+  for (var index_docs_users = 0, len_docs_users = matched.length; index_docs_users < len_docs_users; index_docs_users++) {
+    
+      var worked = array_two.find(o => o.finding == 'work' && o.name == matched[index_docs_users].name);
+
+      if(worked != undefined){
+          console.log('worked:');
+          console.log(worked);
+      }
+    
+  }
   
   db.collection('users').update({ 
       user_id: parseInt(req.params.user_id) },
       { $set:
           {
-            "service_preferences": req.body.pintura_service,
-            "service_preferences": req.body.eletrica_service,
-            "service_preferences": req.body.hidraulica_service,
-            "service_preferences": req.body.marcenaria_service,
-            "service_preferences": req.body.pedreiro_service,
-            "service_preferences": req.body.serralheiro_service,
-            "service_preferences": req.body.ar_cond_split_service,
-            "service_preferences": req.body.gas_central_service,
-            "service_preferences": req.body.servicos_gerais_service,
-            "service_preferences": req.body.decoracao_service,
-            "service_preferences": req.body.eletro_service,
-            "service_preferences": req.body.vidracaria_service
+            service_preferences : [ matched_preferences ]
           }
       },
       { upsert : true }
@@ -362,7 +385,7 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
       success: true,
       data: {               
           id: req.params.user_id, 	
-          service_matching_preferences: { }
+          service_matching_preferences: [ ]
       }
   };
     
@@ -383,7 +406,7 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
   
 });
 
-// service working preferences
+// update service working preferences
 app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     
   if(!req.body.pintura_service) {
@@ -1051,9 +1074,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 //var users_matched = user_docs[0].service_preferences.filter(o => o.finding == 'match');
                                 //var users_worked = user_docs[0].service_preferences.filter(o => o.finding == 'work');
 
-                                for (var index_docs_users = 0, len_docs_users = user_docs[0].matching.length; index_docs_users < len_docs_users; index_docs_users++) {
+                                for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var worked = docs_crossings[0].crossings[index_docs_crossings].working.find(o => o.type == user_docs[0].matching[index_docs_users].type && o.name == user_docs[0].matching[index_docs_users].name);
+                                    var worked = docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.find(o => o.type == user_docs[0].service_matching_preferences[index_docs_users].type && o.name == user_docs[0].service_matching_preferences[index_docs_users].name);
 
                                     if(worked != undefined){
                                         console.log('worked:');
@@ -1063,11 +1086,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     
                                 }
 
-                                //var worked = array_one.filter(o => o.finding == 'work');
-
                                 for (var index_docs_users = 0, len_docs_users = user_docs[0].working.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var matched = docs_crossings[0].crossings[index_docs_crossings].matching.find(o => o.type == user_docs[0].working[index_docs_users].type && o.name == user_docs[0].working[index_docs_users].name);
+                                    var matched = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.find(o => o.type == user_docs[0].service_working_preferences[index_docs_users].type && o.name == user_docs[0].service_working_preferences[index_docs_users].name);
 
                                     if(matched != undefined){
                                         console.log('matched:');
