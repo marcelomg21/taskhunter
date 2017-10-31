@@ -370,6 +370,10 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
       }
     
   }
+    
+    /*
+    db.users.update({user_id:111}, {$set: {service_preferences:[{type:'pintura',finding:'match',name:'madeira'},{type:'pintura',finding:'match',name:'grade'}]}}, {upsert:true})
+    */
   
   db.collection('users').update({ 
       user_id: parseInt(req.params.user_id) },
