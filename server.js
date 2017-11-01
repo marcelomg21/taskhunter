@@ -329,7 +329,7 @@ app.get('/api/users/:user_id', function (req, res) {
 });
 
 // update service matching preferences
-app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
+/*app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
     
     if(!req.body.service_matching_preferences) {
         res.status(400).send('400 Bad Request')
@@ -356,20 +356,7 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
             id: req.params.user_id, 	
             service_matching_preferences: req.body.service_matching_preferences
         }
-    };
-    
-    /*result.data.service_matching_preferences.services.push(req.body.pintura_service);
-    result.data.service_matching_preferences.services.push(req.body.eletrica_service);
-    result.data.service_matching_preferences.push(req.body.hidraulica_service);
-    result.data.service_matching_preferences.push(req.body.marcenaria_service);
-    result.data.service_matching_preferences.push(req.body.pedreiro_service);
-    result.data.service_matching_preferences.push(req.body.serralheiro_service);
-    result.data.service_matching_preferences.push(req.body.ar_cond_split_service);
-    result.data.service_matching_preferences.push(req.body.gas_central_service);
-    result.data.service_matching_preferences.push(req.body.servicos_gerais_service);
-    result.data.service_matching_preferences.push(req.body.decoracao_service);
-    result.data.service_matching_preferences.push(req.body.eletro_service);
-    result.data.service_matching_preferences.push(req.body.vidracaria_service);*/
+    };        
     
     return res.json(result);  
 });
@@ -406,6 +393,7 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     
     return res.json(result);
 });
+*/
 
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
