@@ -260,13 +260,6 @@ app.post('/connect/oauth/token', function (req, res) {
                            service_working_preferences: []
                     });
                     
-                    //setting service matching and working preferences default values
-                    /*db.collection('service_matching_working').insert({
-                        user_id: parseInt(facebook_json.id), 
-                        matching_preferences: {},
-                        working_preferences: {}
-                    });*/
-                    
                     var result = {        
                         access_token: jwt_access_token,
                         expires_in: 86400,        
@@ -308,13 +301,20 @@ app.get('/api/users/:user_id', function (req, res) {
               matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
               notification_settings: { charms: 0, match: 0, messages:0 },
               service_matching_preferences: {
-                  pintura_service: {
-                      grade: 1,
-                      alvenaria: 0,
-                      madeira: 1,
-                      textura: 0,
-                      grafiato: 1
-                  }
+                  services: [
+                     {type:'pintura',name:'grade', enabled: true},
+                     {type:'pintura',name:'madeira',enabled: false},
+                     {type:'pintura',name:'alvenaria',enabled: true},
+                     {type:'eletrica',name:'chuveiro',enabled: false},
+                     {type:'eletrica',name:'fiacao',enabled: true},
+                     {type:'pedreiro',name:'drywall',enabled: true}                     
+                   ]
+              },
+              service_working_preferences: {
+                  services: [
+                     {type:'pintura',name:'grade', enabled: true},
+                     {type:'pintura',name:'madeira',enabled: false}
+                   ]
               },
               stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },
               job: 'Engenheiro Civil',
@@ -331,145 +331,80 @@ app.get('/api/users/:user_id', function (req, res) {
 // update service matching preferences
 app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
     
-  if(!req.body.pintura_service) {
-     res.status(400).send('400 Bad Request')
-  }
+    if(!req.body.service_matching_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
   
-  console.log('req.body.pintura_service --> ' + req.body.pintura_service);
-  console.log('req.body.pintura_service.grade --> ' + req.body.pintura_service.grade);
+    console.log('req.body.service_matching_preferences --> ' + req.body.service_matching_preferences);    
+  
+    var matched = req.body.service_matching_preferences.services.filter(o => o.enabled === true);
+    console.log(matched);        
     
-  var matched_preferences = {  };
+    db.collection('users').update({ 
+        user_id: parseInt(req.params.user_id) },
+        { $set:
+            {
+              'service_matching_preferences.services' : matched 
+            }
+        },
+        { upsert : true }
+    );
     
-  /*
-  var array_two = {
-     services: 
-           [
-             {type:'pintura',name:'grade', enabled: true},
-             {type:'pintura',name:'madeira',enabled: false},
-             {type:'pintura',name:'alvenaria',enabled: true},
-             {type:'eletrica',name:'chuveiro',enabled: false},
-             {type:'eletrica',name:'fiacao',enabled: true},
-             {type:'hidraulica',name:'hid_1',enabled: false},
-             {type:'hidraulica',name:'hid_2',enabled: false},
-             {type:'hidraulica',name:'hid_3',enabled: false}
-           ] 
-    
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_matching_preferences: req.body.service_matching_preferences
+        }
     };
-
-    var worked = array_two.services.filter(o => o.enabled === true);
-    console.log(worked);
-    output:
     
-    [ { type: 'pintura', name: 'grade', enabled: true },
-      { type: 'pintura', name: 'alvenaria', enabled: true },
-      { type: 'eletrica', name: 'fiacao', enabled: true } ]
+    /*result.data.service_matching_preferences.services.push(req.body.pintura_service);
+    result.data.service_matching_preferences.services.push(req.body.eletrica_service);
+    result.data.service_matching_preferences.push(req.body.hidraulica_service);
+    result.data.service_matching_preferences.push(req.body.marcenaria_service);
+    result.data.service_matching_preferences.push(req.body.pedreiro_service);
+    result.data.service_matching_preferences.push(req.body.serralheiro_service);
+    result.data.service_matching_preferences.push(req.body.ar_cond_split_service);
+    result.data.service_matching_preferences.push(req.body.gas_central_service);
+    result.data.service_matching_preferences.push(req.body.servicos_gerais_service);
+    result.data.service_matching_preferences.push(req.body.decoracao_service);
+    result.data.service_matching_preferences.push(req.body.eletro_service);
+    result.data.service_matching_preferences.push(req.body.vidracaria_service);*/
     
-    */
-    
-  for (var index_docs_users = 0, len_docs_users = matched.length; index_docs_users < len_docs_users; index_docs_users++) {
-    
-      var worked = array_two.find(o => o.finding == 'work' && o.name == matched[index_docs_users].name);
-
-      if(worked != undefined){
-          console.log('worked:');
-          console.log(worked);
-      }
-    
-  }
-    
-    /*
-    db.users.update({user_id:111}, {$set: {service_preferences:[{type:'pintura',finding:'match',name:'madeira'},{type:'pintura',finding:'match',name:'grade'}]}}, {upsert:true})
-    */
-  
-  db.collection('users').update({ 
-      user_id: parseInt(req.params.user_id) },
-      { $set:
-          {
-            service_preferences : [ matched_preferences ]
-          }
-      },
-      { upsert : true }
-  );
-    
-  var result = {
-      success: true,
-      data: {               
-          id: req.params.user_id, 	
-          service_matching_preferences: [ ]
-      }
-  };
-    
-  result.data.service_matching_preferences.push(req.body.pintura_service);
-  result.data.service_matching_preferences.push(req.body.eletrica_service);
-  result.data.service_matching_preferences.push(req.body.hidraulica_service);
-  result.data.service_matching_preferences.push(req.body.marcenaria_service);
-  result.data.service_matching_preferences.push(req.body.pedreiro_service);
-  result.data.service_matching_preferences.push(req.body.serralheiro_service);
-  result.data.service_matching_preferences.push(req.body.ar_cond_split_service);
-  result.data.service_matching_preferences.push(req.body.gas_central_service);
-  result.data.service_matching_preferences.push(req.body.servicos_gerais_service);
-  result.data.service_matching_preferences.push(req.body.decoracao_service);
-  result.data.service_matching_preferences.push(req.body.eletro_service);
-  result.data.service_matching_preferences.push(req.body.vidracaria_service);  
-    
-  return res.json(result);
-  
+    return res.json(result);  
 });
 
 // update service working preferences
 app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     
-  if(!req.body.pintura_service) {
-     res.status(400).send('400 Bad Request')
-  }
+  if(!req.body.service_working_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
   
-  console.log('req.body.pintura_service --> ' + req.body.pintura_service);
-  console.log('req.body.pintura_service.grade --> ' + req.body.pintura_service.grade);
+    console.log('req.body.service_working_preferences --> ' + req.body.service_working_preferences);    
   
-  db.collection('users').update({ 
-      user_id: parseInt(req.params.user_id) },
-      { $set:
-          {
-            "service_working_preferences.pintura_service": req.body.pintura_service,
-            "service_working_preferences.eletrica_service": req.body.eletrica_service,
-            "service_working_preferences.hidraulica_service": req.body.hidraulica_service,
-            "service_working_preferences.marcenaria_service": req.body.marcenaria_service,
-            "service_working_preferences.pedreiro_service": req.body.pedreiro_service,
-            "service_working_preferences.serralheiro_service": req.body.serralheiro_service,
-            "service_working_preferences.ar_cond_split_service": req.body.ar_cond_split_service,
-            "service_working_preferences.gas_central_service": req.body.gas_central_service,
-            "service_working_preferences.servicos_gerais_service": req.body.servicos_gerais_service,
-            "service_working_preferences.decoracao_service": req.body.decoracao_service,
-            "service_working_preferences.eletro_service": req.body.eletro_service,
-            "service_working_preferences.vidracaria_service": req.body.vidracaria_service
-          }
-      },
-      { upsert : true }
-  );
+    var worked = req.body.service_working_preferences.services.filter(o => o.enabled === true);
+    console.log(worked);        
     
-  var result = {
-      success: true,
-      data: {               
-          id: req.params.user_id, 	
-          service_working_preferences: { }
-      }
-  };
+    db.collection('users').update({ 
+        user_id: parseInt(req.params.user_id) },
+        { $set:
+            {
+              'service_working_preferences.services' : worked 
+            }
+        },
+        { upsert : true }
+    );
     
-  result.data.service_working_preferences.push(req.body.pintura_service);
-  result.data.service_working_preferences.push(req.body.eletrica_service);
-  result.data.service_working_preferences.push(req.body.hidraulica_service);
-  result.data.service_working_preferences.push(req.body.marcenaria_service);
-  result.data.service_working_preferences.push(req.body.pedreiro_service);
-  result.data.service_working_preferences.push(req.body.serralheiro_service);
-  result.data.service_working_preferences.push(req.body.ar_cond_split_service);
-  result.data.service_working_preferences.push(req.body.gas_central_service);
-  result.data.service_working_preferences.push(req.body.servicos_gerais_service);
-  result.data.service_working_preferences.push(req.body.decoracao_service);
-  result.data.service_working_preferences.push(req.body.eletro_service);
-  result.data.service_working_preferences.push(req.body.vidracaria_service);  
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_working_preferences: req.body.service_working_preferences
+        }
+    };
     
-  return res.json(result);
-  
+    return res.json(result);
 });
 
 //add new message
@@ -1055,60 +990,51 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     );
                                     
                                     timeline_user_crossings = true;
-                                }
-                                
-                                //setting working crossing preferences - pintura - grade
-                                if(user_docs[0].service_working_preferences.pintura_service.grade == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.pintura_service.grade == 1){
-                                    
-                                    db.collection('crossings_preferences').update({ 
-                                        user_id: parseInt(req.params.user_id) },
-                                        { $set:
-                                            {"service_working_preferences": 
-                                                    { pintura_service: 
-                                                        { work: 
-                                                            { grade: 1, matching_users: [{ user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id) }]
-                                                        } 
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        { upsert : true }
-                                    );
-                                    
-                                    timeline_user_crossings = true;
                                 }*/
                                 
-                                var timeline_user_match_crossings = 0;
-                                var timeline_user_work_crossings = 0;                                
-                                //var users_matched = user_docs[0].service_preferences.filter(o => o.finding == 'match');
-                                //var users_worked = user_docs[0].service_preferences.filter(o => o.finding == 'work');
+                                var timeline_matching_crossings = { services : [] };
+                                var timeline_working_crossings = { services : [] };                                
 
-                                for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.length; index_docs_users < len_docs_users; index_docs_users++) {
+                                //matching
+                                for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var worked = docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.find(o => o.type == user_docs[0].service_matching_preferences[index_docs_users].type && o.name == user_docs[0].service_matching_preferences[index_docs_users].name);
+                                    var worked = docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
 
-                                    if(worked != undefined){
+                                    if(worked != undefined){                                       
                                         console.log('worked:');
                                         console.log(worked);
-                                        timeline_user_match_crossings++;
+                                        timeline_matching_crossings.services.push(worked);
                                     }
                                     
                                 }
 
-                                for (var index_docs_users = 0, len_docs_users = user_docs[0].working.length; index_docs_users < len_docs_users; index_docs_users++) {
+                                //working
+                                for (var index_docs_users = 0, len_docs_users = user_docs[0].service_working_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var matched = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.find(o => o.type == user_docs[0].service_working_preferences[index_docs_users].type && o.name == user_docs[0].service_working_preferences[index_docs_users].name);
+                                    var matched = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
 
                                     if(matched != undefined){
                                         console.log('matched:');
                                         console.log(matched);
-                                        timeline_user_work_crossings++;
+                                        timeline_working_crossings.services.push(matched);
                                     }
 
-                                }                                
+                                }
+                                
+                                console.log('timeline_matching_crossings.services: '+timeline_matching_crossings.services);
+                                console.log('timeline_working_crossings.services: '+timeline_working_crossings.services);
                                                                 
-                                if(timeline_user_match_crossings > 0 || timeline_user_work_crossings > 0){
+                                /*db.collection('service_preferences').update({ 
+                                    matching_user_id: parseInt(req.params.user_id),
+                                    working_user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},
+                                        { $set: 
+                                            { "matching": timeline_matching_crossings,
+                                            "working": timeline_working_crossings} 
+                                        },
+                                    { upsert : true }
+                                );*/
+                                                                
+                                if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
                                     
                                     var item_crossings = {
                                         id: parseInt(req.params.user_id),
