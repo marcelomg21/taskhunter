@@ -65,7 +65,8 @@ var initDb = function(callback) {
 };
 
 //firebase FCM
-var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
+//var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
+var API_KEY = "AIzaSyDHJpFKv3FMrfHjuCTblYHiNjnAI7Jtl2Q"; // Your Firebase Cloud Messaging Server API key
 
 // Fetch the service account key JSON file contents
 var serviceAccount = require("./serviceAccountKey.json");
