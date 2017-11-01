@@ -329,7 +329,7 @@ app.get('/api/users/:user_id', function (req, res) {
 });
 
 // update service matching preferences
-/*app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
+app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
     
     if(!req.body.service_matching_preferences) {
         res.status(400).send('400 Bad Request')
@@ -393,7 +393,6 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     
     return res.json(result);
 });
-*/
 
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
