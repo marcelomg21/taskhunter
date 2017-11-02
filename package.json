@@ -15,7 +15,9 @@
     "body-parser": "^1.14.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "firebase-admin": "5.4.3",
+    "firebase": "^3.6.9",
+    "firebase-token-generator": "^2.0.0",
+    "firebase-admin": "^5.4.3",
     "object-assign":"4.1.0"
   },
   "engine": {
