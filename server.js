@@ -7,7 +7,7 @@ var express = require('express'),
     jwt     = require('jsonwebtoken'),
     assert = require('assert'),
     request = require('request-promise'),
-    firebase = require('firebase-admin'),
+    //firebase = require('firebase-admin'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
@@ -66,7 +66,7 @@ var initDb = function(callback) {
 
 //firebase FCM
 //var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
-var API_KEY = "AIzaSyDHJpFKv3FMrfHjuCTblYHiNjnAI7Jtl2Q"; // Your Firebase Cloud Messaging Server API key
+/*var API_KEY = "AIzaSyDHJpFKv3FMrfHjuCTblYHiNjnAI7Jtl2Q"; // Your Firebase Cloud Messaging Server API key
 
 // Fetch the service account key JSON file contents
 var serviceAccount = require("./serviceAccountKey.json");
@@ -77,7 +77,7 @@ firebase.initializeApp({
   databaseURL: "https://taskhunterapp.firebaseio.com"
 });
 ref = firebase.database().ref();
-
+*/
 /*function listenForNotificationRequests() {
   var requests = ref.child('notificationRequests');
   requests.on('child_added', function(requestSnapshot) {
@@ -448,7 +448,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 
               // Send a message to the device corresponding to the provided
               // registration token.
-              firebase.messaging().sendToDevice(registrationToken, payload)
+              /*firebase.messaging().sendToDevice(registrationToken, payload)
                   .then(function(response) {
                     // See the MessagingDevicesResponse reference documentation for
                     // the contents of response.
@@ -456,7 +456,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
                   })
                   .catch(function(error) {
                     console.log("Error sending message:", error);
-              });              
+              }); */             
         }              
     } );
       
