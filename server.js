@@ -1009,8 +1009,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
                                 }
                                 
-                                console.log('timeline_matching_crossings.services: '+timeline_matching_crossings.services);
-                                console.log('timeline_working_crossings.services: '+timeline_working_crossings.services);
+                                console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
+                                console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
                                                                 
                                 /*db.collection('service_preferences').update({ 
                                     matching_user_id: parseInt(req.params.user_id),
@@ -1023,7 +1023,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 );*/
                                                                 
                                 if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
-                                    
+                                    console.log('matching + working...');
                                     var item_crossings = {
                                         id: parseInt(req.params.user_id),
                                         //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
@@ -1075,14 +1075,15 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                          }
                                       };
 
-                                      result.data.push(item_crossings); 
+                                      result.data.push(item_crossings);
+                                      console.log('matching + working 2 ...[item_crossings]: '+item_crossings);
                                 }
                             }
                         }
                     });                    
                 }
-
-                return res.json(result);                    
+                
+                return res.json(result);
         });
     }        
 });
