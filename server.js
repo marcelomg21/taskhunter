@@ -257,8 +257,8 @@ app.post('/connect/oauth/token', function (req, res) {
                            facebook_picture: facebook_json.picture.data.url,
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                            notification_settings: { charms: 0, match: 0, messages:0 },
-                           service_matching_preferences: [],
-                           service_working_preferences: []
+                           service_matching_preferences: { services: [] },
+                           service_working_preferences: { services: [] }
                     });
                     
                     var result = {        
