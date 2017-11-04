@@ -1080,10 +1080,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 }
                             }
                         }
+                        
+                        return res.json(result);                        
                     });                    
-                }
-                
-                return res.json(result);
+                }                                
         });
     }        
 });
