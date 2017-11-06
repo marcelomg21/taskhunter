@@ -834,7 +834,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
                                                                 
                                 db.collection('service_preferences').update({ 
-                                    user_id: parseInt(req.params.user_id),                                    
+                                    user_id: parseInt(req.params.user_id)},                                    
                                         { $set: 
                                             { "services": timeline_matching_crossings }
                                         },
@@ -842,7 +842,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 );
                                 
                                 db.collection('service_preferences').update({ 
-                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id),                                    
+                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},                                    
                                         { $set: 
                                             { "services": timeline_working_crossings }
                                         },
