@@ -414,6 +414,41 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     return res.json(result);
 });
 
+// update service payment preferences
+app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
+    
+    if(!req.body.service_payment_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+    
+    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);    
+    
+    db.collection('payment_preferences').update({
+        user_id_match: parseInt(req.body.service_payment_preferences.user_id_match),
+        user_id_work: parseInt(req.body.service_payment_preferences.user_id_work) },
+        { $set:
+            {
+              'type' : req.body.service_payment_preferences.type, 
+              'name' : req.body.service_payment_preferences.name,
+              'price' : parseFloat(req.body.service_payment_preferences.price),
+              'card' : req.body.service_payment_preferences.card,
+              'condition' : parseInt(req.body.service_payment_preferences.condition)
+            }
+        },
+        { upsert : true }
+    );
+    
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_payment_preferences: req.body.service_payment_preferences
+        }
+    };        
+    
+    return res.json(result);  
+});
+
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
   
