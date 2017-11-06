@@ -832,22 +832,26 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 
                                 console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
                                 console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
-                                                                
-                                db.collection('service_preferences').update({ 
-                                    user_id: parseInt(req.params.user_id)},                                    
-                                        { $set: 
-                                            { "services": timeline_matching_crossings }
-                                        },
-                                    { upsert : true }
-                                );
                                 
-                                db.collection('service_preferences').update({ 
-                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},                                    
-                                        { $set: 
-                                            { "services": timeline_working_crossings }
-                                        },
-                                    { upsert : true }
-                                );
+                                if(timeline_matching_crossings.services.length > 0){
+                                    db.collection('service_preferences').update({ 
+                                        user_id: parseInt(req.params.user_id)},                                    
+                                            { $set: 
+                                                { "services": timeline_matching_crossings }
+                                            },
+                                        { upsert : true }
+                                    );
+                                }
+                                
+                                if(timeline_working_crossings.services.length > 0){
+                                    db.collection('service_preferences').update({ 
+                                        user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},                                    
+                                            { $set: 
+                                                { "services": timeline_working_crossings }
+                                            },
+                                        { upsert : true }
+                                    );
+                                }
                                                                 
                                 if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
                                     console.log('matching + working...');
