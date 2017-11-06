@@ -810,7 +810,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     var worked = docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
 
                                     if(worked != undefined){                                       
-                                        var worked_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id), type: 'match', item: worked };
+                                        var worked_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id), item: worked };
                                         console.log('worked_item: ' + worked_item);
                                         timeline_matching_crossings.services.push(worked_item);
                                     }
@@ -823,7 +823,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     var matched = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
 
                                     if(matched != undefined){
-                                        var matched_item = { user_id: parseInt(req.params.user_id), type: 'work', item: matched };
+                                        var matched_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id), item: matched };
                                         console.log('matched_item: ' + matched_item);
                                         timeline_working_crossings.services.push(matched_item);
                                     }
@@ -837,7 +837,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     db.collection('service_preferences').update({ 
                                         user_id: parseInt(req.params.user_id)},                                    
                                             { $set: 
-                                                { "services": timeline_matching_crossings }
+                                                { "matching": timeline_matching_crossings }
                                             },
                                         { upsert : true }
                                     );
@@ -847,7 +847,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     db.collection('service_preferences').update({ 
                                         user_id: parseInt(req.params.user_id)},                                    
                                             { $set: 
-                                                { "services": timeline_working_crossings }
+                                                { "working": timeline_working_crossings }
                                             },
                                         { upsert : true }
                                     );
