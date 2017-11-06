@@ -291,32 +291,24 @@ app.post('/connect/oauth/token', function (req, res) {
 });
 
 app.get('/api/users/:user_id', function (req, res) {
-  var result = {
+    
+    var query = {
+        user_id: parseInt(req.params.user_id)
+    };
+    
+    /*
+    var result = {
           data: {
               id: req.params.user_id,
-              age: 33,        
-              first_name: 'Marcelo',
-              gender: 'male',
+              age: 0,        
+              first_name: user_docs[0].user_name,
+              gender: user_docs[0].gender,
               register_date: '2010-07-16',
               birth_date: '1980-07-16',
               matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
               notification_settings: { charms: 0, match: 0, messages:0 },
-              service_matching_preferences: {
-                  services: [
-                     {type:'pintura',name:'grade', enabled: true},
-                     {type:'pintura',name:'madeira',enabled: false},
-                     {type:'pintura',name:'alvenaria',enabled: true},
-                     {type:'eletrica',name:'chuveiro',enabled: false},
-                     {type:'eletrica',name:'fiacao',enabled: true},
-                     {type:'pedreiro',name:'drywall',enabled: true}                     
-                   ]
-              },
-              service_working_preferences: {
-                  services: [
-                     {type:'pintura',name:'grade', enabled: true},
-                     {type:'pintura',name:'madeira',enabled: false}
-                   ]
-              },
+              service_matching_preferences: user_docs[0].service_matching_preferences,
+              service_working_preferences: user_docs[0].service_working_preferences,
               stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },
               job: 'Engenheiro Civil',
               nb_photos: 0,
@@ -325,8 +317,35 @@ app.get('/api/users/:user_id', function (req, res) {
               unread_notifications: 0
           }        
     };
+    */
+
+    db.collection('users').find(query).toArray(function (err, user_docs) {
     
-    return res.json(result);    
+        if (user_docs.length > 0) {
+            var result = {
+                  data: {
+                      id: req.params.user_id,
+                      age: 0,        
+                      first_name: user_docs[0].user_name,
+                      gender: user_docs[0].gender,
+                      register_date: '2010-07-16',
+                      birth_date: '1980-07-16',
+                      matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
+                      notification_settings: { charms: 0, match: 0, messages:0 },
+                      service_matching_preferences: user_docs[0].service_matching_preferences,
+                      service_working_preferences: user_docs[0].service_working_preferences,
+                      stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
+                      nb_photos: 0,
+                      credits: 0,
+                      unread_conversations: 0,
+                      unread_notifications: 0
+                  }        
+            };
+
+            return res.json(result); 
+        }
+    });
+         
 });
 
 // update service matching preferences
@@ -695,183 +714,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                       height: 50
                   }]
               }
-          },
-          {
-              id: req.params.user_id,              
-              modification_date: '2017-07-05',
-              notification_type: '471,524,525,526,529,530,531,565,791,792',
-              notifier: { 
-                  id:1520675761317155, 
-                  type: 'type',
-                  job: 'Eletricista',
-                  is_accepted: true,
-                  workplace: 'Manutenção Geral\nMóveis\Automóvel',
-                  my_relation: 1,
-                  distance: 20.90,
-                  gender: 'M',
-                  is_charmed: false,
-                  nb_photos: 1,
-                  first_name:'Marcelo',
-                  age: 48,
-                  already_charmed: false,
-                  has_charmed_me: false,
-                  availability: {
-                      time_left: 100,
-                      availability_type: {
-                          color: '#FF4E00',
-                          duration: 10,
-                          label: 'label2',
-                          type: 'type2'
-                      }
-                  },
-                  is_invited: false,
-                  last_invite_received: {
-                      color: '#FF4E00',
-                          duration: 20,
-                          label: 'label3',
-                          type: 'type3'
-                  },
-                  profiles: [{
-                      id: 132,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              }
-          },
-          {
-              id: req.params.user_id,              
-              modification_date: '2017-07-05',
-              notification_type: '471,524,525,526,529,530,531,565,791,792',
-              notifier: { 
-                  id: 306, 
-                  type: 'type',
-                  job: 'Marceneiro',
-                  is_accepted: true,
-                  workplace: 'Móveis Sob Medida\nReparos\nConcertos',
-                  my_relation: 1,
-                  distance: 20.90,
-                  gender: 'F',
-                  is_charmed: false,
-                  nb_photos: 1,
-                  first_name: 'Otávio Augusto',
-                  age: 34,
-                  already_charmed: false,
-                  has_charmed_me: false,
-                  availability: {
-                      time_left: 100,
-                      availability_type: {
-                          color: '#FF4E00',
-                          duration: 10,
-                          label: 'label2',
-                          type: 'type2'
-                      }
-                  },
-                  is_invited: false,
-                  last_invite_received: {
-                      color: '#FF4E00',
-                          duration: 20,
-                          label: 'label3',
-                          type: 'type3'
-                  },
-                  profiles: [{
-                      id: 133,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              }
-          },
-          {
-              id: req.params.user_id,              
-              modification_date: '2017-07-05',
-              notification_type: '471,524,525,526,529,530,531,565,791,792',
-              notifier: { 
-                  id: 307, 
-                  type: 'type',
-                  job: 'Carpinteiro',
-                  is_accepted: true,
-                  workplace: 'Móveis Sob Medida\nReparos\nConcertos',
-                  my_relation: 1,
-                  distance: 20.90,
-                  gender: 'F',
-                  is_charmed: false,
-                  nb_photos: 1,
-                  first_name: 'Joãozinho Terror',
-                  age: 34,
-                  already_charmed: false,
-                  has_charmed_me: false,
-                  availability: {
-                      time_left: 100,
-                      availability_type: {
-                          color: '#FF4E00',
-                          duration: 10,
-                          label: 'label2',
-                          type: 'type2'
-                      }
-                  },
-                  is_invited: false,
-                  last_invite_received: {
-                      color: '#FF4E00',
-                          duration: 20,
-                          label: 'label3',
-                          type: 'type3'
-                  },
-                  profiles: [{
-                      id: 137,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              }
-          },
-          {
-              id: req.params.user_id,              
-              modification_date: '2017-07-05',
-              notification_type: '471,524,525,526,529,530,531,565,791,792',
-              notifier: { 
-                  id: 308, 
-                  type: 'type',
-                  job: 'Jardineiro',
-                  is_accepted: true,
-                  workplace: 'Reparos Jardim\nCorte Grama\nConcertos',
-                  my_relation: 1,
-                  distance: 20.90,
-                  gender: 'F',
-                  is_charmed: false,
-                  nb_photos: 1,
-                  first_name: 'Amásio Mazzaropi',
-                  age: 34,
-                  already_charmed: false,
-                  has_charmed_me: false,
-                  availability: {
-                      time_left: 100,
-                      availability_type: {
-                          color: '#FF4E00',
-                          duration: 10,
-                          label: 'label2',
-                          type: 'type2'
-                      }
-                  },
-                  is_invited: false,
-                  last_invite_received: {
-                      color: '#FF4E00',
-                          duration: 20,
-                          label: 'label3',
-                          type: 'type3'
-                  },
-                  profiles: [{
-                      id: 138,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              }
-          },
+          },                 
           {
               id: req.params.user_id,              
               modification_date: '2017-07-05',
@@ -957,31 +800,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                         if (user_docs.length > 0) {
                             
                             for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings[0].crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
-
-                                //setting matching crossing preferences - pintura - grade
-                                /*if(user_docs[0].service_matching_preferences.pintura_service.grade == 1 
-                                    && docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.pintura_service.grade == 1){
-                                    
-                                    db.collection('crossings_preferences').update({ 
-                                        user_id: parseInt(req.params.user_id) },
-                                        { $set:
-                                            {"service_matching_preferences": 
-                                                    { pintura_service: 
-                                                        { match: 
-                                                            { grade: 1, matching_users: [{ user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id) }]
-                                                        } 
-                                                    }
-                                                }
-                                            }
-                                        },
-                                        { upsert : true }
-                                    );
-                                    
-                                    timeline_user_crossings = true;
-                                }*/
-                                
+                                                                
                                 var timeline_matching_crossings = { services : [] };
-                                var timeline_working_crossings = { services : [] };                                
+                                var timeline_working_crossings = { services : [] };
 
                                 //matching
                                 for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
@@ -989,9 +810,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     var worked = docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
 
                                     if(worked != undefined){                                       
-                                        console.log('worked:');
-                                        console.log(worked);
-                                        timeline_matching_crossings.services.push(worked);
+                                        var worked_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id), type: 'match', item: worked };
+                                        console.log('worked_item: ' + worked_item);
+                                        timeline_matching_crossings.services.push(worked_item);
                                     }
                                     
                                 }
@@ -1002,9 +823,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     var matched = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
 
                                     if(matched != undefined){
-                                        console.log('matched:');
-                                        console.log(matched);
-                                        timeline_working_crossings.services.push(matched);
+                                        var matched_item = { user_id: parseInt(req.params.user_id), type: 'work', item: matched };
+                                        console.log('matched_item: ' + matched_item);
+                                        timeline_working_crossings.services.push(matched_item);
                                     }
 
                                 }
@@ -1012,15 +833,21 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
                                 console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
                                                                 
-                                /*db.collection('service_preferences').update({ 
-                                    matching_user_id: parseInt(req.params.user_id),
-                                    working_user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},
+                                db.collection('service_preferences').update({ 
+                                    user_id: parseInt(req.params.user_id),                                    
                                         { $set: 
-                                            { "matching": timeline_matching_crossings,
-                                            "working": timeline_working_crossings} 
+                                            { "services": timeline_matching_crossings }
                                         },
                                     { upsert : true }
-                                );*/
+                                );
+                                
+                                db.collection('service_preferences').update({ 
+                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id),                                    
+                                        { $set: 
+                                            { "services": timeline_working_crossings }
+                                        },
+                                    { upsert : true }
+                                );
                                                                 
                                 if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
                                     console.log('matching + working...');
@@ -1076,13 +903,12 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                       };
 
                                       result.data.push(item_crossings);
-                                      console.log('matching + working 2 ...[item_crossings]: '+item_crossings);
                                 }
                             }
                         }
                         
                         return res.json(result);                        
-                    });                    
+                    });
                 }                                
         });
     }        
