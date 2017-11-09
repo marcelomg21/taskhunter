@@ -1419,7 +1419,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   if (db) {
     
     var query = {
-        user_id: req.params.user_id
+        user_id: parseInt(req.params.user_id)
     };
 
     db.collection('devices').find(query).toArray(function (err, docs) {
@@ -1478,7 +1478,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
   if (db) {
       
     var query = {
-        user_id: req.params.user_id
+        user_id: parseInt(req.params.user_id)
     };
 
     db.collection('devices').find(query).toArray(function (err, docs) {
