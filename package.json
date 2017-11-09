@@ -14,8 +14,10 @@
     "morgan": "^1.7.0",
     "body-parser": "^1.14.0",
     "request": "^2.83.0",
-    "request-promise": "^4.2.2",    
-    "firebase-admin": "^5.0.0",
+    "request-promise": "^4.2.2",
+    "firestore": "^1.1.6",
+    "grpc": "^1.7.1",
+    "firebase-admin": "^5.4.3",
     "object-assign":"4.1.0"
   },
   "engine": {
