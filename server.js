@@ -1437,7 +1437,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
             //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
             col.insert(
                 {
-                    user_id: req.params.user_id, 
+                    user_id: parseInt(req.params.user_id), 
                     device: {
                         device_id: req.params.user_id + '_' + req.body.android_id,                
                         androidId : req.body.android_id,
@@ -1496,7 +1496,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
             //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
             col.insert(
                 {
-                    user_id: req.params.user_id, 
+                    user_id: parseInt(req.params.user_id),
                     device: {
                         device_id: req.params.device_id,                
                         androidId : req.body.android_id,
