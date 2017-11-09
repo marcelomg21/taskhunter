@@ -467,10 +467,10 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     date.setHours(date.getHours() - 3);
     var dateFormat = date.toISOString().split('T')[0];
       
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: req.body.sender, recipient: req.body.recipient, creation_date: dateFormat});
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: parseInt(req.body.sender), recipient: parseInt(req.body.recipient), creation_date: dateFormat});
       
     var query = {
-        user_id: req.body.recipient
+        user_id: parseInt(req.body.recipient)
     };
 
     db.collection('devices').find(query).toArray(function (err, docs) {
@@ -478,7 +478,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
         var firebase_token = "";
 
         for (var i = 0, len = docs.length; i < len; i++) {
-            if (docs[i].user_id == req.body.recipient) {
+            if (parseInt(docs[i].user_id) == parseInt(req.body.recipient)) {
                 firebase_token = docs[i].device.firebase_token;
                 break;
             }            
