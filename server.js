@@ -258,7 +258,8 @@ app.post('/connect/oauth/token', function (req, res) {
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                            notification_settings: { charms: 0, match: 0, messages:0 },
                            service_matching_preferences: { services: [] },
-                           service_working_preferences: { services: [] }
+                           service_working_preferences: { services: [] },
+                           service_payment_preferences: { matching: [], working: [] }
                     });
                     
                     var result = {        
@@ -421,22 +422,47 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
         res.status(400).send('400 Bad Request')
     }
     
-    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);    
+    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);
     
-    db.collection('payment_preferences').update({
-        user_id_match: parseInt(req.body.service_payment_preferences.user_id_match),
-        user_id_work: parseInt(req.body.service_payment_preferences.user_id_work) },
-        { $set:
-            {
-              'type' : req.body.service_payment_preferences.type, 
-              'name' : req.body.service_payment_preferences.name,
-              'price' : parseFloat(req.body.service_payment_preferences.price),
-              'card' : req.body.service_payment_preferences.card,
-              'condition' : parseInt(req.body.service_payment_preferences.condition)
-            }
-        },
-        { upsert : true }
-    );
+    //matching
+    if(req.body.service_payment_preferences.matching.length > 0) {
+        for (var i = 0, len = req.body.service_payment_preferences.matching.length; i < len; i++) {
+            db.collection('users').update({
+                user_id : parseInt(req.params.user_id), 
+                'service_payment_preferences.matching': 
+                    { $elemMatch:{ 
+                        user_id : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
+                        type : req.body.service_payment_preferences.matching[i].type, 
+                        name : req.body.service_payment_preferences.matching[i].name } 
+                    } 
+                }, 
+                { $set: 
+                    {'service_payment_preferences.matching.$.price' : parseFloat(req.body.service_payment_preferences.matching[i].price), 
+                    'service_payment_preferences.matching.$.card' : req.body.service_payment_preferences.matching[i].card,
+                     'service_payment_preferences.matching.$.condition' : parseInt(req.body.service_payment_preferences.matching[i].condition)} 
+                });
+        }
+    }    
+    
+    //working
+    if(req.body.service_payment_preferences.working.length > 0) {
+        for (var i = 0, len = req.body.service_payment_preferences.working.length; i < len; i++) {
+            db.collection('users').update({
+                user_id : parseInt(req.params.user_id), 
+                'service_payment_preferences.working': 
+                    { $elemMatch:{ 
+                        user_id : parseInt(req.body.service_payment_preferences.working[i].user_id), 
+                        type : req.body.service_payment_preferences.working[i].type, 
+                        name : req.body.service_payment_preferences.working[i].name } 
+                    } 
+                }, 
+                { $set: 
+                    {'service_payment_preferences.working.$.price' : parseFloat(req.body.service_payment_preferences.working[i].price), 
+                    'service_payment_preferences.working.$.card' : req.body.service_payment_preferences.working[i].card,
+                     'service_payment_preferences.working.$.condition' : parseInt(req.body.service_payment_preferences.working[i].condition)} 
+                });
+        }
+    }
     
     var result = {
         success: true,
