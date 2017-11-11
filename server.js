@@ -415,8 +415,8 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     return res.json(result);
 });
 
-// update service payment preferences
-app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
+// update service payment matching preferences
+app.put('/api/users/:user_id/service/payment/matching/preferences', function (req, res) {
     
     if(!req.body.service_payment_preferences) {
         res.status(400).send('400 Bad Request')
@@ -436,13 +436,38 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
                         name : req.body.service_payment_preferences.matching[i].name } 
                     } 
                 }, 
-                { $set: 
-                    {'service_payment_preferences.matching.$.price' : parseFloat(req.body.service_payment_preferences.matching[i].price), 
-                    'service_payment_preferences.matching.$.card' : req.body.service_payment_preferences.matching[i].card,
-                     'service_payment_preferences.matching.$.condition' : parseInt(req.body.service_payment_preferences.matching[i].condition)} 
-                });
+                { $addToSet: 
+                    {
+                        'service_payment_preferences.matching' : 
+                            { user_id : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
+                              price : parseFloat(req.body.service_payment_preferences.matching[i].price), 
+                              card : req.body.service_payment_preferences.matching[i].card,
+                              condition : parseInt(req.body.service_payment_preferences.matching[i].condition)
+                            }
+                     } 
+                }, {upsert:true});
         }
-    }    
+    }
+    
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_payment_preferences: req.body.service_payment_preferences
+        }
+    };        
+    
+    return res.json(result);  
+});
+
+// update service payment working preferences
+app.put('/api/users/:user_id/service/payment/working/preferences', function (req, res) {
+    
+    if(!req.body.service_payment_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+    
+    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);        
     
     //working
     if(req.body.service_payment_preferences.working.length > 0) {
@@ -456,11 +481,16 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
                         name : req.body.service_payment_preferences.working[i].name } 
                     } 
                 }, 
-                { $set: 
-                    {'service_payment_preferences.working.$.price' : parseFloat(req.body.service_payment_preferences.working[i].price), 
-                    'service_payment_preferences.working.$.card' : req.body.service_payment_preferences.working[i].card,
-                     'service_payment_preferences.working.$.condition' : parseInt(req.body.service_payment_preferences.working[i].condition)} 
-                });
+                { $addToSet: 
+                    {
+                        'service_payment_preferences.working' : 
+                            { user_id : parseInt(req.body.service_payment_preferences.working[i].user_id), 
+                              price : parseFloat(req.body.service_payment_preferences.working[i].price), 
+                              card : req.body.service_payment_preferences.working[i].card,
+                              condition : parseInt(req.body.service_payment_preferences.working[i].condition)
+                            }
+                     } 
+                }, {upsert:true});
         }
     }
     
