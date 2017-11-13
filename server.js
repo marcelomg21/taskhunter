@@ -254,8 +254,10 @@ app.post('/connect/oauth/token', function (req, res) {
                            location: facebook_json.location,
                            access_token: jwt_access_token,
                            feedback: 5,
-                           card: '',
-                           code: '',
+                           card_number: '',
+                           card_code: '',
+                           card_year: '',
+                           card_month: '',
                            account: '',
                            agency: '',
                            digit: '',
@@ -572,12 +574,14 @@ app.put('/api/users/:user_id/service/configuration/preferences', function (req, 
         user_id: parseInt(req.params.user_id) },
         { $set:
             {
-                card: req.body.service_configuration_preferences.card,
-                code: req.body.service_configuration_preferences,
-                account: req.body.service_configuration_preferences,
-                agency: req.body.service_configuration_preferences,
-                digit: req.body.service_configuration_preferences,
-                bank: req.body.service_configuration_preferences
+                card_number: req.body.service_configuration_preferences.card_number,
+                card_code: req.body.service_configuration_preferences.card_code,
+                card_year: req.body.service_configuration_preferences.card_year,
+                card_month: req.body.service_configuration_preferences.card_month,
+                account: req.body.service_configuration_preferences.account,
+                agency: req.body.service_configuration_preferences.agency,
+                digit: req.body.service_configuration_preferences.digit,
+                bank: req.body.service_configuration_preferences.bank
             }
         },
         { upsert : true }
