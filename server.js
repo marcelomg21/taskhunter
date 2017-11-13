@@ -253,6 +253,13 @@ app.post('/connect/oauth/token', function (req, res) {
                            email: facebook_json.email,
                            location: facebook_json.location,
                            access_token: jwt_access_token,
+                           feedback: 5,
+                           card: '',
+                           code: '',
+                           account: '',
+                           agency: '',
+                           digit: '',
+                           bank: '',
                            facebook_access_token: req.body.assertion,
                            facebook_picture: facebook_json.picture.data.url,
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
@@ -505,6 +512,112 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
     };        
     
     return res.json(result);  
+});
+
+// update service feedback preferences
+app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) {
+    
+  if(!req.body.service_feedback_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+  
+    console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var timestampISODate = new Date(date.toISOString());
+  
+    db.collection('feedback_preferences').insert({
+        working_id : parseInt(req.body.service_feedback_preferences.user_id),
+        matching_id : parseInt(req.params.user_id),
+        timestamp : timestampISODate,
+        feedback : parseInt(req.body.service_feedback_preferences.feedback)
+    });
+    
+    db.collection('users').update({ 
+        user_id: parseInt(req.params.user_id) },
+        { $set:
+            {
+              feedback : XXX 
+            }
+        },
+        { upsert : true }
+    );
+    
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_feedback_preferences: req.body.service_feedback_preferences
+        }
+    };
+    
+    return res.json(result);
+});
+
+// update service configuration preferences
+app.put('/api/users/:user_id/service/configuration/preferences', function (req, res) {
+    
+  if(!req.body.service_configuration_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+  
+    console.log('req.body.service_configuration_preferences --> ' + req.body.service_configuration_preferences);    
+  
+    db.collection('users').update({ 
+        user_id: parseInt(req.params.user_id) },
+        { $set:
+            {
+                card: req.body.service_configuration_preferences.card,
+                code: req.body.service_configuration_preferences,
+                account: req.body.service_configuration_preferences,
+                agency: req.body.service_configuration_preferences,
+                digit: req.body.service_configuration_preferences,
+                bank: req.body.service_configuration_preferences
+            }
+        },
+        { upsert : true }
+    );
+    
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_configuration_preferences: req.body.service_configuration_preferences
+        }
+    };
+    
+    return res.json(result);
+});
+
+// update service notifications preferences
+app.put('/api/users/:user_id/service/notification/preferences', function (req, res) {
+    
+  if(!req.body.service_notification_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+  
+    console.log('req.body.service_notification_preferences --> ' + req.body.service_notification_preferences);
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var timestampISODate = new Date(date.toISOString());
+  
+    db.collection('notification_preferences').insert({
+        user_id : parseInt(req.params.user_id),
+        timestamp : timestampISODate,
+        notification : req.body.service_notification_preferences.notification
+    });
+         
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_notification_preferences: req.body.service_notification_preferences
+        }
+    };
+    
+    return res.json(result);
 });
 
 //add new message
