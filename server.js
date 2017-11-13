@@ -533,6 +533,8 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
         working_id : parseInt(req.body.service_feedback_preferences.user_id),
         matching_id : parseInt(req.params.user_id),
         timestamp : timestampISODate,
+        type : req.body.service_feedback_preferences.type,
+        name : req.body.service_feedback_preferences.name,
         feedback : parseInt(req.body.service_feedback_preferences.feedback)
     });
     
@@ -540,7 +542,7 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
         user_id: parseInt(req.params.user_id) },
         { $set:
             {
-              feedback : XXX 
+              feedback : 'XXX'
             }
         },
         { upsert : true }
