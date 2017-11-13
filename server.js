@@ -252,8 +252,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            gender: facebook_json.gender, 
                            email: facebook_json.email,
                            location: facebook_json.location,
-                           access_token: jwt_access_token,
-                           feedback: 5,
+                           access_token: jwt_access_token,                           
                            card_number: '',
                            card_code: '',
                            card_year: '',
@@ -268,7 +267,8 @@ app.post('/connect/oauth/token', function (req, res) {
                            notification_settings: { charms: 0, match: 0, messages:0 },
                            service_matching_preferences: { services: [] },
                            service_working_preferences: { services: [] },
-                           service_payment_preferences: { matching: [], working: [] }
+                           service_payment_preferences: { matching: [], working: [] },
+                           service_feedback_preferences: { matching: [], working: [] }
                     });
                     
                     var result = {        
@@ -442,6 +442,10 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
     
     console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);
     
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var timestampISODate = new Date(date.toISOString());
+    
     //matching
     if(req.body.service_payment_preferences.matching.length > 0) {
         for (var i = 0, len = req.body.service_payment_preferences.matching.length; i < len; i++) {
@@ -462,6 +466,7 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
                               card : req.body.service_payment_preferences.matching[i].card,
                               condition : parseInt(req.body.service_payment_preferences.matching[i].condition),
                               tax : parseFloat(req.body.service_payment_preferences.matching[i].tax),
+                              timestamp : timestampISODate,
                               paid : req.body.service_payment_preferences.matching[i].paid
                             }
                      } 
@@ -487,7 +492,11 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
         res.status(400).send('400 Bad Request')
     }
     
-    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);        
+    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var timestampISODate = new Date(date.toISOString());
     
     //working
     if(req.body.service_payment_preferences.working.length > 0) {
@@ -509,6 +518,7 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
                               card : req.body.service_payment_preferences.working[i].card,
                               condition : parseInt(req.body.service_payment_preferences.working[i].condition),
                               tax : parseFloat(req.body.service_payment_preferences.working[i].tax),
+                              timestamp : timestampISODate,
                               paid : req.body.service_payment_preferences.working[i].paid
                             }
                      } 
@@ -527,37 +537,42 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
     return res.json(result);  
 });
 
-// update service feedback preferences
-app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) {
-    
-  if(!req.body.service_feedback_preferences) {
+// update service feedback matching preferences
+app.put('/api/users/:user_id/service/feedback/matching/preferences', function (req, res) {
+      
+    if(!req.body.service_feedback_preferences) {
         res.status(400).send('400 Bad Request')
     }
-  
+    
     console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
     
     var date = new Date();
     date.setHours(date.getHours() - 3);
     var timestampISODate = new Date(date.toISOString());
-  
-    db.collection('feedback_preferences').insert({
-        working_id : parseInt(req.body.service_feedback_preferences.user_id),
-        matching_id : parseInt(req.params.user_id),
-        timestamp : timestampISODate,
-        type : req.body.service_feedback_preferences.type,
-        name : req.body.service_feedback_preferences.name,
-        feedback : parseInt(req.body.service_feedback_preferences.feedback)
-    });
     
-    db.collection('users').update({ 
-        user_id: parseInt(req.params.user_id) },
-        { $set:
-            {
-              feedback : 'XXX'
-            }
-        },
-        { upsert : true }
-    );
+    //feedback matching
+    if(req.body.service_feedback_preferences.matching.length > 0) {
+        for (var i = 0, len = req.body.service_feedback_preferences.matching.length; i < len; i++) {
+            db.collection('users').update({
+                user_id : parseInt(req.params.user_id), 
+                'service_feedback_preferences.matching': 
+                    { $elemMatch:{ 
+                        user_id : parseInt(req.body.service_feedback_preferences.matching[i].user_id), 
+                        type : req.body.service_feedback_preferences.matching[i].type, 
+                        name : req.body.service_feedback_preferences.matching[i].name } 
+                    } 
+                }, 
+                { $addToSet: 
+                    {
+                        'service_feedback_preferences.matching' : 
+                            { user_id : parseInt(req.body.service_feedback_preferences.matching[i].user_id),
+                              timestamp : timestampISODate,
+                              feedback : parseInt(req.body.service_feedback_preferences.matching[i].feedback)
+                            }
+                     } 
+                }, {upsert:true});
+        }
+    }
     
     var result = {
         success: true,
@@ -565,7 +580,55 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
             id: req.params.user_id, 	
             service_feedback_preferences: req.body.service_feedback_preferences
         }
-    };
+    };        
+    
+    return res.json(result);
+});
+
+// update service feedback working preferences
+app.put('/api/users/:user_id/service/feedback/working/preferences', function (req, res) {
+      
+    if(!req.body.service_feedback_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+    
+    console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var timestampISODate = new Date(date.toISOString());
+    
+    //feedback matching
+    if(req.body.service_feedback_preferences.working.length > 0) {
+        for (var i = 0, len = req.body.service_feedback_preferences.working.length; i < len; i++) {
+            db.collection('users').update({
+                user_id : parseInt(req.params.user_id), 
+                'service_feedback_preferences.working': 
+                    { $elemMatch:{ 
+                        user_id : parseInt(req.body.service_feedback_preferences.working[i].user_id), 
+                        type : req.body.service_feedback_preferences.working[i].type, 
+                        name : req.body.service_feedback_preferences.working[i].name } 
+                    } 
+                }, 
+                { $addToSet: 
+                    {
+                        'service_feedback_preferences.working' : 
+                            { user_id : parseInt(req.body.service_feedback_preferences.working[i].user_id),
+                              timestamp : timestampISODate,
+                              feedback : parseInt(req.body.service_feedback_preferences.working[i].feedback)
+                            }
+                     } 
+                }, {upsert:true});
+        }
+    }
+    
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_feedback_preferences: req.body.service_feedback_preferences
+        }
+    };        
     
     return res.json(result);
 });
@@ -1056,8 +1119,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
                                             my_relation: 1,
                                             //distance: 20.90,
-                                            gender: docs_crossings[0].crossings[index_docs_crossings].gender,
-                                            feedback: docs_crossings[0].crossings[index_docs_crossings].feedback,
+                                            gender: docs_crossings[0].crossings[index_docs_crossings].gender,                                            
                                             is_charmed: false,
                                             nb_photos: 1,
                                             first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
