@@ -607,36 +607,6 @@ app.put('/api/users/:user_id/service/configuration/preferences', function (req, 
     return res.json(result);
 });
 
-// update service notifications preferences
-app.put('/api/users/:user_id/service/notification/preferences', function (req, res) {
-    
-  if(!req.body.service_notification_preferences) {
-        res.status(400).send('400 Bad Request')
-    }
-  
-    console.log('req.body.service_notification_preferences --> ' + req.body.service_notification_preferences);
-    
-    var date = new Date();
-    date.setHours(date.getHours() - 3);
-    var timestampISODate = new Date(date.toISOString());
-  
-    db.collection('notification_preferences').insert({
-        user_id : parseInt(req.params.user_id),
-        timestamp : timestampISODate,
-        notification : req.body.service_notification_preferences.notification
-    });
-         
-    var result = {
-        success: true,
-        data: {               
-            id: req.params.user_id, 	
-            service_notification_preferences: req.body.service_notification_preferences
-        }
-    };
-    
-    return res.json(result);
-});
-
 //add new message
 app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
   
@@ -1087,6 +1057,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             my_relation: 1,
                                             //distance: 20.90,
                                             gender: docs_crossings[0].crossings[index_docs_crossings].gender,
+                                            feedback: docs_crossings[0].crossings[index_docs_crossings].feedback,
                                             is_charmed: false,
                                             nb_photos: 1,
                                             first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
@@ -1138,6 +1109,33 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 });
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
+    
+    /*
+    if(!req.body.service_notification_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+  
+    console.log('req.body.service_notification_preferences --> ' + req.body.service_notification_preferences);
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var timestampISODate = new Date(date.toISOString());
+  
+    db.collection('notification_preferences').insert({
+        user_id : parseInt(req.params.user_id),
+        timestamp : timestampISODate,
+        notification : req.body.service_notification_preferences.notification
+    });
+         
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_notification_preferences: req.body.service_notification_preferences
+        }
+    };
+    */
+    
   var result =  {
            success: true,
            data: [{
