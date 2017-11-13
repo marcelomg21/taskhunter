@@ -442,7 +442,8 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
                             { user_id : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
                               price : parseFloat(req.body.service_payment_preferences.matching[i].price), 
                               card : req.body.service_payment_preferences.matching[i].card,
-                              condition : parseInt(req.body.service_payment_preferences.matching[i].condition)
+                              condition : parseInt(req.body.service_payment_preferences.matching[i].condition),
+                              tax : parseFloat(req.body.service_payment_preferences.matching[i].tax)
                             }
                      } 
                 }, {upsert:true});
@@ -487,7 +488,8 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
                             { user_id : parseInt(req.body.service_payment_preferences.working[i].user_id), 
                               price : parseFloat(req.body.service_payment_preferences.working[i].price), 
                               card : req.body.service_payment_preferences.working[i].card,
-                              condition : parseInt(req.body.service_payment_preferences.working[i].condition)
+                              condition : parseInt(req.body.service_payment_preferences.working[i].condition),
+                              tax : parseFloat(req.body.service_payment_preferences.working[i].tax)
                             }
                      } 
                 }, {upsert:true});
