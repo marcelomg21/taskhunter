@@ -28,7 +28,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcelomg21/taskhunter.git"
+    "url": "http://github.com/openshift/nodejs-ex.git"
   },
   "author": "Steve Speicher <sspeiche@gmail.com>",
   "license": "CC-BY-1.0",
