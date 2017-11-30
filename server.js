@@ -266,7 +266,8 @@ app.post('/connect/oauth/token', function (req, res) {
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                            notification_settings: { charms: 0, match: 0, messages:0 },
                            service_matching_preferences: { services: [] },
-                           service_working_preferences: { services: [] },                           
+                           service_working_preferences: { services: [] },
+                           service_payment_preferences: [],
                            service_feedback_preferences: { matching: [], working: [] }
                     });
                     
@@ -349,7 +350,7 @@ app.get('/api/users/:user_id', function (req, res) {
                       bank: user_docs[0].bank,
                       matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                       notification_settings: { charms: 0, match: 0, messages:0 },
-                      service_matching_preferences: user_docs[0].service_matching_preferences,
+                      service_matching_preferences: user_docs[0].service_matching_preferences,                      
                       service_working_preferences: user_docs[0].service_working_preferences,
                       service_feedback_preferences: user_docs[0].service_feedback_preferences,                      
                       stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
@@ -359,8 +360,39 @@ app.get('/api/users/:user_id', function (req, res) {
                       unread_notifications: 0
                   }        
             };
+            
+            ////
+            //get all payments by user
+            db.collection('payment_preferences').aggregate([
+                {$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_payments) {
+                                   
+                    console.log("docs_payments: " + docs_payments);
 
-            return res.json(result); 
+                    if (docs_payments.length > 0) {
+
+                        for (var index_docs_payments = 0, len_docs_payments = docs_payments.length; index_docs_payments < len_docs_payments; index_docs_payments++) {
+
+                            var item_payment = {
+                                matching: docs_payments[index_docs_payments].matching,                            
+                                working: docs_payments[index_docs_payments].working,
+                                type: docs_payments[index_docs_payments].type,
+                                name: docs_payments[index_docs_payments].name,
+                                price: docs_payments[index_docs_payments].price,
+                                card: docs_payments[index_docs_payments].card,
+                                condition: docs_payments[index_docs_payments].condition,
+                                tax: docs_payments[index_docs_payments].tax,
+                                paid: docs_payments[index_docs_payments].paid
+                            };
+
+                            result.data.service_payment_preferences.push(item_payment); 
+                        }
+                    }
+
+                    return res.json(result);                    
+            });
+            ////
+
+            //return res.json(result); 
         }
     });
          
@@ -471,7 +503,7 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
             id: req.params.user_id, 	
             service_payment_preferences: req.body.service_payment_preferences
         }
-    };        
+    };
     
     return res.json(result);  
 });
