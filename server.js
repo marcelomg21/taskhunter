@@ -266,8 +266,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                            notification_settings: { charms: 0, match: 0, messages:0 },
                            service_matching_preferences: { services: [] },
-                           service_working_preferences: { services: [] },
-                           service_payment_preferences: { matching: [], working: [] },
+                           service_working_preferences: { services: [] },                           
                            service_feedback_preferences: { matching: [], working: [] }
                     });
                     
@@ -352,8 +351,7 @@ app.get('/api/users/:user_id', function (req, res) {
                       notification_settings: { charms: 0, match: 0, messages:0 },
                       service_matching_preferences: user_docs[0].service_matching_preferences,
                       service_working_preferences: user_docs[0].service_working_preferences,
-                      service_feedback_preferences: user_docs[0].service_feedback_preferences,
-                      service_payment_preferences: user_docs[0].service_payment_preferences,
+                      service_feedback_preferences: user_docs[0].service_feedback_preferences,                      
                       stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
                       nb_photos: 0,
                       credits: 0,
@@ -450,28 +448,20 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
     //matching
     if(req.body.service_payment_preferences.matching.length > 0) {
         for (var i = 0, len = req.body.service_payment_preferences.matching.length; i < len; i++) {
-            db.collection('users').update({
-                user_id : parseInt(req.params.user_id), 
-                'service_payment_preferences.matching': 
-                    { $elemMatch:{ 
-                        user_id : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
-                        type : req.body.service_payment_preferences.matching[i].type, 
-                        name : req.body.service_payment_preferences.matching[i].name } 
-                    } 
-                }, 
-                { $addToSet: 
-                    {
-                        'service_payment_preferences.matching' : 
-                            { user_id : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
-                              price : parseFloat(req.body.service_payment_preferences.matching[i].price), 
-                              card : req.body.service_payment_preferences.matching[i].card,
-                              condition : parseInt(req.body.service_payment_preferences.matching[i].condition),
-                              tax : parseFloat(req.body.service_payment_preferences.matching[i].tax),
-                              timestamp : timestampISODate,
-                              paid : req.body.service_payment_preferences.matching[i].paid
-                            }
-                     } 
-                }, {upsert:true});
+            db.collection('payment_preferences').update({ 
+                matching : parseInt(req.params.user_id), 
+                working : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
+                type : req.body.service_payment_preferences.matching[i].type, 
+                name : req.body.service_payment_preferences.matching[i].name
+            }, 
+            { $set: 
+                {
+                    card : req.body.service_payment_preferences.matching[i].card,
+                    condition : parseInt(req.body.service_payment_preferences.matching[i].condition),
+                    matching_date : timestampISODate,
+                    paid : req.body.service_payment_preferences.matching[i].paid
+                 }
+            },{upsert:true});
         }
     }
     
@@ -502,28 +492,19 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
     //working
     if(req.body.service_payment_preferences.working.length > 0) {
         for (var i = 0, len = req.body.service_payment_preferences.working.length; i < len; i++) {
-            db.collection('users').update({
-                user_id : parseInt(req.params.user_id), 
-                'service_payment_preferences.working': 
-                    { $elemMatch:{ 
-                        user_id : parseInt(req.body.service_payment_preferences.working[i].user_id), 
-                        type : req.body.service_payment_preferences.working[i].type, 
-                        name : req.body.service_payment_preferences.working[i].name } 
-                    } 
-                }, 
-                { $addToSet: 
-                    {
-                        'service_payment_preferences.working' : 
-                            { user_id : parseInt(req.body.service_payment_preferences.working[i].user_id), 
-                              price : parseFloat(req.body.service_payment_preferences.working[i].price), 
-                              card : req.body.service_payment_preferences.working[i].card,
-                              condition : parseInt(req.body.service_payment_preferences.working[i].condition),
-                              tax : parseFloat(req.body.service_payment_preferences.working[i].tax),
-                              timestamp : timestampISODate,
-                              paid : req.body.service_payment_preferences.working[i].paid
-                            }
-                     } 
-                }, {upsert:true});
+            db.collection('payment_preferences').update({ 
+                working : parseInt(req.params.user_id), 
+                matching : parseInt(req.body.service_payment_preferences.working[i].user_id), 
+                type : req.body.service_payment_preferences.working[i].type, 
+                name : req.body.service_payment_preferences.working[i].name
+            }, 
+            { $set: 
+                {
+                    price : parseFloat(req.body.service_payment_preferences.working[i].price),
+                    working_date : timestampISODate,
+                    tax : parseFloat(req.body.service_payment_preferences.working[i].tax)
+                 }
+            },{upsert:true});
         }
     }
     
