@@ -267,7 +267,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            notification_settings: { charms: 0, match: 0, messages:0 },
                            service_matching_preferences: { services: [] },
                            service_working_preferences: { services: [] },
-                           service_payment_preferences: [],
+                           service_payment_preferences: { payments: [] },
                            service_feedback_preferences: { matching: [], working: [] }
                     });
                     
@@ -385,7 +385,7 @@ app.get('/api/users/:user_id', function (req, res) {
                                 paid: docs_payments[index_docs_payments].paid
                             };
 
-                            result.data.service_payment_preferences.push(item_payment); 
+                            result.data.service_payment_preferences.payments.push(item_payment); 
                         }
                     }
 
@@ -479,20 +479,20 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
     var timestampISODate = new Date(date.toISOString());
     
     //matching
-    if(req.body.service_payment_preferences.matching.length > 0) {
-        for (var i = 0, len = req.body.service_payment_preferences.matching.length; i < len; i++) {
+    if(req.body.service_payment_preferences.payments.length > 0) {
+        for (var i = 0, len = req.body.service_payment_preferences.payments.length; i < len; i++) {
             db.collection('payment_preferences').update({ 
                 matching : parseInt(req.params.user_id), 
-                working : parseInt(req.body.service_payment_preferences.matching[i].user_id), 
-                type : req.body.service_payment_preferences.matching[i].type, 
-                name : req.body.service_payment_preferences.matching[i].name
+                working : parseInt(req.body.service_payment_preferences.payments[i].user_id), 
+                type : req.body.service_payment_preferences.payments[i].type, 
+                name : req.body.service_payment_preferences.payments[i].name
             }, 
             { $set: 
                 {
-                    card : req.body.service_payment_preferences.matching[i].card,
-                    condition : parseInt(req.body.service_payment_preferences.matching[i].condition),
+                    card : req.body.service_payment_preferences.payments[i].card,
+                    condition : parseInt(req.body.service_payment_preferences.payments[i].condition),
                     matching_date : timestampISODate,
-                    paid : req.body.service_payment_preferences.matching[i].paid
+                    paid : req.body.service_payment_preferences.payments[i].paid
                  }
             },{upsert:true});
         }
@@ -523,19 +523,19 @@ app.put('/api/users/:user_id/service/payment/working/preferences', function (req
     var timestampISODate = new Date(date.toISOString());
     
     //working
-    if(req.body.service_payment_preferences.working.length > 0) {
-        for (var i = 0, len = req.body.service_payment_preferences.working.length; i < len; i++) {
+    if(req.body.service_payment_preferences.payments.length > 0) {
+        for (var i = 0, len = req.body.service_payment_preferences.payments.length; i < len; i++) {
             db.collection('payment_preferences').update({ 
                 working : parseInt(req.params.user_id), 
-                matching : parseInt(req.body.service_payment_preferences.working[i].user_id), 
-                type : req.body.service_payment_preferences.working[i].type, 
-                name : req.body.service_payment_preferences.working[i].name
+                matching : parseInt(req.body.service_payment_preferences.payments[i].user_id), 
+                type : req.body.service_payment_preferences.payments[i].type, 
+                name : req.body.service_payment_preferences.payments[i].name
             }, 
             { $set: 
                 {
-                    price : parseFloat(req.body.service_payment_preferences.working[i].price),
+                    price : parseFloat(req.body.service_payment_preferences.payments[i].price),
                     working_date : timestampISODate,
-                    tax : parseFloat(req.body.service_payment_preferences.working[i].tax)
+                    tax : parseFloat(req.body.service_payment_preferences.payments[i].tax)
                  }
             },{upsert:true});
         }
