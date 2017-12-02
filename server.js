@@ -482,8 +482,8 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
     if(req.body.service_payment_preferences.payments.length > 0) {
         for (var i = 0, len = req.body.service_payment_preferences.payments.length; i < len; i++) {
             db.collection('payment_preferences').update({ 
-                matching : parseInt(req.params.user_id), 
-                working : parseInt(req.body.service_payment_preferences.payments[i].user_id), 
+                matching : parseInt(req.body.service_payment_preferences.payments[i].matching), 
+                working : parseInt(req.body.service_payment_preferences.payments[i].working), 
                 type : req.body.service_payment_preferences.payments[i].type, 
                 name : req.body.service_payment_preferences.payments[i].name
             }, 
