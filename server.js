@@ -465,8 +465,8 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
     return res.json(result);
 });
 
-// update service payment matching preferences
-app.put('/api/users/:user_id/service/payment/matching/preferences', function (req, res) {
+// update service payment preferences
+app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
     
     if(!req.body.service_payment_preferences) {
         res.status(400).send('400 Bad Request')
@@ -491,7 +491,9 @@ app.put('/api/users/:user_id/service/payment/matching/preferences', function (re
                 {
                     card : req.body.service_payment_preferences.payments[i].card,
                     condition : parseInt(req.body.service_payment_preferences.payments[i].condition),
-                    matching_date : timestampISODate,
+                    date : timestampISODate,
+                    price : parseFloat(req.body.service_payment_preferences.payments[i].price),                    
+                    tax : parseFloat(req.body.service_payment_preferences.payments[i].tax),
                     paid : req.body.service_payment_preferences.payments[i].paid
                  }
             },{upsert:true});
