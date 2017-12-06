@@ -22,6 +22,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+var users = require('./routes/users');
+app.use('/users', users);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -162,7 +164,7 @@ app.get('/pagecount', function (req, res) {
   }
 });
 
-app.get('/userlist', function (req, res) {
+app.get('/userlist222', function (req, res) {
   // try to initialize the db on every request if it's not already
   // initialized.
   if (!db) {
