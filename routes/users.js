@@ -10,7 +10,7 @@ router.get('/userlist', function(req, res) {
     collection.find({},{},function(e,docs){
         res.json(docs);
     });*/
-    res.send("MARCELO");
+    res.render('index', { title: 'MARCELO' });
 });
 
 /*
