@@ -8,6 +8,7 @@ var express = require('express'),
     assert = require('assert'),
     request = require('request-promise'),
     firebase = require('firebase-admin'),
+    cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
     
 Object.assign=require('object-assign');
@@ -15,6 +16,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
@@ -152,6 +159,19 @@ app.get('/pagecount', function (req, res) {
     });
   } else {
     res.send('{ pageCount: -1 }');
+  }
+});
+
+app.get('/userlist', function (req, res) {
+  // try to initialize the db on every request if it's not already
+  // initialized.
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    res.render('index', { title: 'MARCELO' });
+  } else {
+    res.render('index 2', { title: 'MARCELO 2' });
   }
 });
 
