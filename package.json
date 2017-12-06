@@ -16,7 +16,12 @@
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
     "firebase-admin": "^5.5.1",
-    "object-assign":"4.1.0"
+    "object-assign":"4.1.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.0",
+    "jade": "~1.11.0",
+    "monk": "^4.0.0",
+    "serve-favicon": "~2.3.2"
   },
   "engine": {
     "node": "*",
