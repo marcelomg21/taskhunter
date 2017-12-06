@@ -11,7 +11,7 @@ var monk = require('monk');
 var db = monk(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL);
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var users = require('./routes/users')(app);
 
 var app = express();
 
