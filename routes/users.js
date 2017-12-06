@@ -5,11 +5,12 @@ var router = express.Router();
  * GET userlist.
  */
 router.get('/userlist', function(req, res) {
-    var db = req.db;
+    /*var db = req.db;
     var collection = db.get('users');
     collection.find({},{},function(e,docs){
         res.json(docs);
-    });
+    });*/
+    res.send("MARCELO");
 });
 
 /*
