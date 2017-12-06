@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var monk = require('monk');
 //var db = monk('localhost:27017/nodetest2');
-var db = monk(process.env.OPENSHIFT_MONGODB_DB_URL + process.env[process.env.DATABASE_SERVICE_NAME.toUpperCase() + '_DATABASE']);
+var db = monk(process.env.OPENSHIFT_MONGODB_DB_URL);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
