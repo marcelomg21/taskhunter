@@ -19,7 +19,8 @@
     "object-assign":"4.1.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",
-    "jade": "~1.11.0",    
+    "monk": "^4.0.0",
+    "jade": "~1.11.0",
     "serve-favicon": "~2.3.2"
   },
   "engine": {
