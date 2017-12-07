@@ -15,7 +15,7 @@ router.get('/userlist', function(req, res) {
     var query = {};    
 
     db.collection('userlist').find(query).toArray(function (err, docs) {                                   
-            return res.json(JSON.stringify(docs));                
+            return res.json(docs);                
     });
 });
 
