@@ -10,11 +10,11 @@ var express = require('express'),
     firebase = require('firebase-admin'),    
     bodyParser = require('body-parser'),
     path = require('path'),
-    cookieParser = require('cookie-parser'),
-    monk = require('monk');
+    cookieParser = require('cookie-parser');
 
 //////////////
-var monkdb = monk(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.MONGO_URL);
+var db = null,
+    dbDetails = new Object();
 var routes = require('./routes/index');
 var users = require('./routes/users');
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function(req,res,next){
-    req.db = monkdb;
+    req.db = db;
     next();
 });
 
@@ -61,8 +61,9 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
   }
 }
-var db = null,
-    dbDetails = new Object();
+
+//var db = null,
+//    dbDetails = new Object();
 
 var initDb = function(callback) {
   if (mongoURL == null) return;
