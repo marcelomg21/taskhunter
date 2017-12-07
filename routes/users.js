@@ -1,9 +1,5 @@
 var express = require('express');
-var bodyParser = require('body-parser');
 var router = express.Router();
-var app = express();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 /*
  * GET userlist.
@@ -22,6 +18,8 @@ router.get('/userlist', function(req, res) {
 router.post('/adduser', function(req, res) {
     var db = req.db;
     var collection = db.collection('userlist');
+    console.log('req.body' + req.body);
+    console.log('req.body.username' + req.body.username);
     collection.insert(req.body, function(err, result){
         res.send(
             (err === null) ? { msg: '' } : { msg: err }
