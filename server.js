@@ -19,9 +19,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', routes);
-app.use('/users', users);
-
 /////
     
 Object.assign=require('object-assign');
@@ -83,13 +80,18 @@ app.use(function(req,res,next){
     req.db = db;
     next();
 });
+
+app.use('/', routes);
+app.use('/users', users);
+
 app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: err
     });
+});
+
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
