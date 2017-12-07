@@ -3,10 +3,6 @@
   "version": "0.0.1",
   "description": "Node.js sample app for OpenShift 3",
   "main": "server.js",
-  "private": true,
-  "scripts": {
-      "start": "node app"
-  },
   "dependencies": {
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
