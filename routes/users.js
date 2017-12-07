@@ -17,9 +17,7 @@ router.get('/userlist', function(req, res) {
  */
 router.post('/adduser', function(req, res) {
     var db = req.db;
-    var collection = db.collection('userlist');
-    console.log('req.body' + req.body);
-    console.log('req.body.username' + req.body.username);
+    var collection = db.collection('userlist');    
     collection.insert(req.body, function(err, result){
         res.send(
             (err === null) ? { msg: '' } : { msg: err }
