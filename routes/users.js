@@ -1,5 +1,9 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var router = express.Router();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 /*
  * GET userlist.
