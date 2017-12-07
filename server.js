@@ -19,8 +19,6 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,8 +32,8 @@ app.use('/users', users);
 //////////////
     
 Object.assign=require('object-assign');
-//app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 
