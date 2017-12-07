@@ -20,10 +20,7 @@ app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', users);
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
+
 /////
     
 Object.assign=require('object-assign');
@@ -137,6 +134,11 @@ function sendNotificationToUser(username, message, onSuccess) {
 
 // start listening
 listenForNotificationRequests();*/
+
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
 
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
