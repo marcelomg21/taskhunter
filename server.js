@@ -11,8 +11,14 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     cookieParser = require('cookie-parser');
+    
+Object.assign=require('object-assign');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.engine('html', require('ejs').renderFile);
+app.use(morgan('combined'));
 
-//////////////
+/////////////////////////////
 var db = null,
     dbDetails = new Object();
 var routes = require('./routes/index');
@@ -29,13 +35,7 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/users', users);
-//////////////
-    
-Object.assign=require('object-assign');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.engine('html', require('ejs').renderFile);
-app.use(morgan('combined'));
+/////////////////////////////
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
