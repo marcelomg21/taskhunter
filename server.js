@@ -19,6 +19,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', routes);
 app.use('/users', users);
 
 /////
@@ -77,6 +78,27 @@ var initDb = function(callback) {
   });
 };
 
+/////////////////////////////////////////
+app.use(function(req,res,next){
+    req.db = db;
+    next();
+});
+app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+/////////////////////////////////////////
+
 //firebase FCM
 //var API_KEY = "AIzaSyDZyILex2S1s6UpHyHG6d7HYON7hxOQ4g0"; // Your Firebase Cloud Messaging Server API key
 //var API_KEY = "AIzaSyDHJpFKv3FMrfHjuCTblYHiNjnAI7Jtl2Q"; // Your Firebase Cloud Messaging Server API key
@@ -89,6 +111,7 @@ firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: "https://taskhunterapp.firebaseio.com"
 });
+
 ref = firebase.database().ref();
 
 /*function listenForNotificationRequests() {
@@ -134,11 +157,6 @@ function sendNotificationToUser(username, message, onSuccess) {
 
 // start listening
 listenForNotificationRequests();*/
-
-app.use(function(req,res,next){
-    req.db = db;
-    next();
-});
 
 app.get('/', function (req, res) {
   // try to initialize the db on every request if it's not already
