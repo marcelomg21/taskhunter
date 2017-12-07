@@ -8,7 +8,9 @@ var express = require('express'),
     assert = require('assert'),
     request = require('request-promise'),
     firebase = require('firebase-admin'),    
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    path = require('path'),
+    cookieParser = require('cookie-parser');
 
 /////
 var routes = require('./routes/index');
