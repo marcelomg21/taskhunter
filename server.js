@@ -25,7 +25,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var home = require('./routes/home');
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
