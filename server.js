@@ -23,7 +23,6 @@ var db = null,
     dbDetails = new Object();
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var home = require('./routes/home');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(cookieParser());
@@ -36,7 +35,6 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/home', home);
 /////////////////////////////
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
