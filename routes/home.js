@@ -5,9 +5,9 @@ module.exports = (function () {
     var router = express.Router();
     
     router.get('/template/:selectedTemplate', function (req, res) {
-        res.render('bootstrap3-templates/' + req.params.selectedTemplate, {
+        res.render('carousel', {
             'pathToAssets': '/bootstrap-3.3.1',
-            'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/' + req.params.selectedTemplate
+            'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/carousel'
         });
     });
     return router;
