@@ -374,6 +374,7 @@ app.get('/api/users/:user_id', function (req, res) {
     
         if (user_docs.length > 0) {
             var result = {
+		  success: true,
                   data: {
                       id: req.params.user_id,
                       age: 0,        
@@ -460,7 +461,7 @@ app.put('/api/users/:user_id', function (req, res) {
         { upsert : true }
     );
 	
-	var query = {
+    var query = {
         user_id: parseInt(req.params.user_id)
     };
     
@@ -468,6 +469,7 @@ app.put('/api/users/:user_id', function (req, res) {
     
         if (user_docs.length > 0) {
             var result = {
+		  success: true,
                   data: {
                       id: req.params.user_id,
                       age: 0,        
