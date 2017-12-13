@@ -440,6 +440,69 @@ app.get('/api/users/:user_id', function (req, res) {
          
 });
 
+// update connected fields preferences
+app.put('/api/users/:user_id', function (req, res) {
+    
+    /*if(!req.body.service_matching_preferences) {
+        res.status(400).send('400 Bad Request')
+    }*/  
+    
+    db.collection('users').update({ 
+        user_id: parseInt(req.params.user_id) },
+        { $set:
+            {
+              bank : req.body.bank,
+			  agency : req.body.agency,
+			  account : req.body.account,
+			  digit : req.body.digit
+            }
+        },
+        { upsert : true }
+    );
+	
+	var query = {
+        user_id: parseInt(req.params.user_id)
+    };
+    
+    db.collection('users').find(query).toArray(function (err, user_docs) {
+    
+        if (user_docs.length > 0) {
+            var result = {
+                  data: {
+                      id: req.params.user_id,
+                      age: 0,        
+                      first_name: user_docs[0].user_name,
+                      gender: user_docs[0].gender,
+                      register_date: '2010-07-16',
+                      birth_date: '1980-07-16',                      
+                      card_number: user_docs[0].card_number,
+                      card_code: user_docs[0].card_code,
+                      card_year: user_docs[0].card_year,
+                      card_month: user_docs[0].card_month,
+                      account: user_docs[0].account,
+                      agency: user_docs[0].agency,
+                      digit: user_docs[0].digit,
+                      bank: user_docs[0].bank,
+                      matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
+                      notification_settings: { charms: 0, match: 0, messages:0 },
+                      service_matching_preferences: user_docs[0].service_matching_preferences,                      
+                      service_working_preferences: user_docs[0].service_working_preferences,
+                      service_payment_preferences: user_docs[0].service_payment_preferences,                      
+                      service_feedback_preferences: user_docs[0].service_feedback_preferences,                      
+                      stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
+                      nb_photos: 0,
+                      credits: 0,
+                      unread_conversations: 0,
+                      unread_notifications: 0
+                  }        
+            };
+			
+			return res.json(result); 
+			
+		  }
+    });
+});
+
 // update service matching preferences
 app.put('/api/users/:user_id/service/matching/preferences', function (req, res) {
     
