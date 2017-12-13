@@ -451,10 +451,10 @@ app.put('/api/users/:user_id', function (req, res) {
         user_id: parseInt(req.params.user_id) },
         { $set:
             {
-              bank : req.body.bank,
-			  agency : req.body.agency,
-			  account : req.body.account,
-			  digit : req.body.digit
+		bank : req.body.bank,
+		agency : req.body.agency,
+		account : req.body.account,
+		digit : req.body.digit
             }
         },
         { upsert : true }
@@ -497,9 +497,9 @@ app.put('/api/users/:user_id', function (req, res) {
                   }        
             };
 			
-			return res.json(result); 
-			
-		  }
+	  return res.json(result);
+
+	  }
     });
 });
 
