@@ -309,7 +309,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            service_matching_preferences: { services: [] },
                            service_working_preferences: { services: [] },
                            service_payment_preferences: { payments: [] },
-                           service_feedback_preferences: { matching: [], working: [] }
+                           service_feedback_preferences: { feedbacks: [] }
                     });
                     
                     var result = {        
@@ -617,52 +617,9 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
     return res.json(result);  
 });
 
-// update service payment working preferences
-app.put('/api/users/:user_id/service/payment/working/preferences', function (req, res) {
+// update service feedback preferences
+app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) {
     
-    if(!req.body.service_payment_preferences) {
-        res.status(400).send('400 Bad Request')
-    }
-    
-    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);
-    
-    var date = new Date();
-    date.setHours(date.getHours() - 3);
-    var timestampISODate = new Date(date.toISOString());
-    
-    //working
-    if(req.body.service_payment_preferences.payments.length > 0) {
-        for (var i = 0, len = req.body.service_payment_preferences.payments.length; i < len; i++) {
-            db.collection('payment_preferences').update({ 
-                working : parseInt(req.params.user_id), 
-                matching : parseInt(req.body.service_payment_preferences.payments[i].user_id), 
-                type : req.body.service_payment_preferences.payments[i].type, 
-                name : req.body.service_payment_preferences.payments[i].name
-            }, 
-            { $set: 
-                {
-                    price : parseFloat(req.body.service_payment_preferences.payments[i].price),
-                    working_date : timestampISODate,
-                    tax : parseFloat(req.body.service_payment_preferences.payments[i].tax)
-                 }
-            },{upsert:true});
-        }
-    }
-    
-    var result = {
-        success: true,
-        data: {               
-            id: req.params.user_id, 	
-            service_payment_preferences: req.body.service_payment_preferences
-        }
-    };        
-    
-    return res.json(result);  
-});
-
-// update service feedback matching preferences
-app.put('/api/users/:user_id/service/feedback/matching/preferences', function (req, res) {
-      
     if(!req.body.service_feedback_preferences) {
         res.status(400).send('400 Bad Request')
     }
@@ -673,27 +630,21 @@ app.put('/api/users/:user_id/service/feedback/matching/preferences', function (r
     date.setHours(date.getHours() - 3);
     var timestampISODate = new Date(date.toISOString());
     
-    //feedback matching
-    if(req.body.service_feedback_preferences.matching.length > 0) {
-        for (var i = 0, len = req.body.service_feedback_preferences.matching.length; i < len; i++) {
-            db.collection('users').update({
-                user_id : parseInt(req.params.user_id), 
-                'service_feedback_preferences.matching': 
-                    { $elemMatch:{ 
-                        user_id : parseInt(req.body.service_feedback_preferences.matching[i].user_id), 
-                        type : req.body.service_feedback_preferences.matching[i].type, 
-                        name : req.body.service_feedback_preferences.matching[i].name } 
-                    } 
-                }, 
-                { $addToSet: 
-                    {
-                        'service_feedback_preferences.matching' : 
-                            { user_id : parseInt(req.body.service_feedback_preferences.matching[i].user_id),
-                              timestamp : timestampISODate,
-                              feedback : parseInt(req.body.service_feedback_preferences.matching[i].feedback)
-                            }
-                     } 
-                }, {upsert:true});
+    //matching
+    if(req.body.service_feedback_preferences.feedbacks.length > 0) {
+        for (var i = 0, len = req.body.service_feedback_preferences.feedbacks.length; i < len; i++) {
+            db.collection('feedback').update({ 
+                matching : parseInt(req.body.service_feedback_preferences.feedbacks[i].matching), 
+                working : parseInt(req.body.service_feedback_preferences.feedbacks[i].working), 
+                type : req.body.service_feedback_preferences.feedbacks[i].type, 
+                name : req.body.service_feedback_preferences.feedbacks[i].name
+            }, 
+            { $set: 
+                {
+                    evaluation : parseInt(req.body.service_feedback_preferences.feedbacks[i].evaluation),
+                    date : timestampISODate
+                 }
+            },{upsert:true});
         }
     }
     
@@ -703,9 +654,9 @@ app.put('/api/users/:user_id/service/feedback/matching/preferences', function (r
             id: req.params.user_id, 	
             service_feedback_preferences: req.body.service_feedback_preferences
         }
-    };        
+    };
     
-    return res.json(result);
+    return res.json(result);  
 });
 
 // update service feedback working preferences
