@@ -1209,8 +1209,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
                                 }
                                 
-                                console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
-                                console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
+                                //console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
+                                //console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
                                 
                                 db.collection('service_preferences').update({ 
                                     user_id: parseInt(req.params.user_id)},                                    
@@ -1237,7 +1237,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                         notifier: { 
                                             id: docs_crossings[0].crossings[index_docs_crossings].user_id, 
                                             type: 'client',
-                                            job: 'Serviços Gerais',
+                                            //job: 'Serviços Gerais',
                                             is_accepted: true,
                                             workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
                                             my_relation: 1,
@@ -1247,6 +1247,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             nb_photos: 1,
                                             first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
                                             age: 0,
+					    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences,                      
+                      			    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].service_working_preferences,
                                             already_charmed: false,
                                             has_charmed_me: false,
                                             availability: {
