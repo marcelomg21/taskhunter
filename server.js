@@ -1200,6 +1200,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             age: 0,
 					    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences,                      
                       			    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].service_working_preferences,
+					    service_feedback_preferences: docs_crossings[0].crossings[index_docs_crossings].service_feedback_preferences,
                                             already_charmed: false,
                                             has_charmed_me: false,
                                             availability: {
