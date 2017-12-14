@@ -429,8 +429,7 @@ app.get('/api/users/:user_id', function (req, res) {
                             result.data.service_payment_preferences.payments.push(item_payment); 
                         }
                     }
-
-		    *************
+		    
 		    //get all feedbacks by user
 		    db.collection('feedback_preferences').aggregate([
 			{$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_feedbacks) {
