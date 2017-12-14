@@ -404,7 +404,6 @@ app.get('/api/users/:user_id', function (req, res) {
                   }        
             };
             
-            ////
             //get all payments by user
             db.collection('payment_preferences').aggregate([
                 {$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_payments) {
@@ -431,7 +430,33 @@ app.get('/api/users/:user_id', function (req, res) {
                         }
                     }
 
-                    return res.json(result);                    
+		    *************
+		    //get all feedbacks by user
+		    db.collection('feedback_preferences').aggregate([
+			{$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_feedbacks) {
+
+			    console.log("docs_feedbacks: " + docs_feedbacks);
+
+			    if (docs_feedbacks.length > 0) {
+
+				for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
+
+				    var item_feedback = {
+					matching: docs_feedbacks[index_docs_feedbacks].matching,                            
+					working: docs_feedbacks[index_docs_feedbacks].working,
+					type: docs_feedbacks[index_docs_feedbacks].type,
+					name: docs_feedbacks[index_docs_feedbacks].name,
+					evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
+				    };
+
+				    result.data.service_feedback_preferences.feedbacks.push(item_feedback); 
+				}
+			    }
+
+			    return res.json(result);                    
+		    });
+		    
+                    //return res.json(result);                    
             });
             ////
 
@@ -633,7 +658,7 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
     //matching
     if(req.body.service_feedback_preferences.feedbacks.length > 0) {
         for (var i = 0, len = req.body.service_feedback_preferences.feedbacks.length; i < len; i++) {
-            db.collection('feedback').update({ 
+            db.collection('feedback_preferences').update({ 
                 matching : parseInt(req.body.service_feedback_preferences.feedbacks[i].matching), 
                 working : parseInt(req.body.service_feedback_preferences.feedbacks[i].working), 
                 type : req.body.service_feedback_preferences.feedbacks[i].type, 
