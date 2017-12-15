@@ -309,7 +309,8 @@ app.post('/connect/oauth/token', function (req, res) {
                            service_matching_preferences: { services: [] },
                            service_working_preferences: { services: [] },
                            service_payment_preferences: { payments: [] },
-                           service_feedback_preferences: { feedbacks: [] }
+                           service_feedback_preferences: { feedbacks: [] },
+			   service_timeline_preferences: { matching: [], working: [] }
                     });
                     
                     var result = {        
@@ -395,7 +396,8 @@ app.get('/api/users/:user_id', function (req, res) {
                       service_matching_preferences: user_docs[0].service_matching_preferences,                      
                       service_working_preferences: user_docs[0].service_working_preferences,
                       service_payment_preferences: user_docs[0].service_payment_preferences,                      
-                      service_feedback_preferences: user_docs[0].service_feedback_preferences,                      
+                      service_feedback_preferences: user_docs[0].service_feedback_preferences,
+		      service_timeline_preferences: user_docs[0].service_timeline_preferences,
                       stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
                       nb_photos: 0,
                       credits: 0,
@@ -451,8 +453,30 @@ app.get('/api/users/:user_id', function (req, res) {
 				    result.data.service_feedback_preferences.feedbacks.push(item_feedback); 
 				}
 			    }
+			    			    
+			    //get all timeline by user
+			    db.collection('service_preferences').aggregate([
+				{$match: {$or: [{user_id:parseInt(req.params.user_id)}] } }]).toArray(function (err, docs_timeline) {
 
-			    return res.json(result);                    
+				    console.log("docs_timeline: " + docs_timeline);
+
+				    if (docs_timeline.length > 0) {
+
+					for (var index_docs_timeline = 0, len_docs_timeline = docs_timeline.length; index_docs_timeline < len_docs_timeline; index_docs_timeline++) {
+
+					    var item_timeline = {						
+						matching: docs_timeline[index_docs_timeline].matching.services.item,                            
+						working: docs_timeline[index_docs_timeline].working.services.item
+					    };
+
+					    result.data.service_timeline_preferences.services.push(item_timeline); 
+					}
+				    }
+
+				    return res.json(result);                    
+			    });
+
+			    //return res.json(result);                    
 		    });
 		    
                     //return res.json(result);                    
