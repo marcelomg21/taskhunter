@@ -310,7 +310,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            service_working_preferences: { services: [] },
                            service_payment_preferences: { payments: [] },
                            service_feedback_preferences: { feedbacks: [] },
-			   service_timeline_preferences: { matching: [], working: [] }
+			   service_timeline_preferences: { matching: {}, working: {} }
                     });
                     
                     var result = {        
