@@ -1226,9 +1226,14 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                         },
                                     { upsert : true }
                                 );
+				    
+				var item_timeline = {						
+				    matching: timeline_matching_crossings.services,                            
+				    working: timeline_working_crossings.services
+				};
                                                                 
                                 if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
-                                    console.log('matching + working...');
+                                    				    					
                                     var item_crossings = {
                                         id: parseInt(req.params.user_id),
                                         //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
@@ -1249,6 +1254,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences,                      
                       			    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].service_working_preferences,
 					    service_feedback_preferences: docs_crossings[0].crossings[index_docs_crossings].service_feedback_preferences,
+					    service_timeline_preferences: item_timeline,
                                             already_charmed: false,
                                             has_charmed_me: false,
                                             availability: {
