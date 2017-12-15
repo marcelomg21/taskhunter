@@ -310,7 +310,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            service_working_preferences: { services: [] },
                            service_payment_preferences: { payments: [] },
                            service_feedback_preferences: { feedbacks: [] },
-			   service_timeline_preferences: { matching: {}, working: {} }
+			   service_timeline_preferences: { matching: [], working: [] }
                     });
                     
                     var result = {        
@@ -463,8 +463,9 @@ app.get('/api/users/:user_id', function (req, res) {
 				    if (docs_timeline.length > 0) {
 
 					for (var index_docs_timeline = 0, len_docs_timeline = docs_timeline.length; index_docs_timeline < len_docs_timeline; index_docs_timeline++) {					    
-					    result.data.service_timeline_preferences.matching.push(docs_timeline[index_docs_timeline].matching.services);
-					    result.data.service_timeline_preferences.working.push(docs_timeline[index_docs_timeline].working.services);
+					    //result.data.service_timeline_preferences.matching.push(docs_timeline[index_docs_timeline].matching.services);
+					    result.data.service_timeline_preferences.matching = docs_timeline[index_docs_timeline].matching.services;
+					    result.data.service_timeline_preferences.working = docs_timeline[index_docs_timeline].working.services;
 					}
 				    }
 
