@@ -26,13 +26,12 @@ html(lang='en')
   // NAVBAR
   // ==================================================
   body
-    .container
-      div(style='float: left;')
-        img(src='/images/logo_splash.png', alt='Task Hunter')
     
     // Carousel
     // ==================================================
     #myCarousel.carousel.slide(data-ride='carousel')
+    div(style='float: left;')
+        img(src='/images/logo_splash.png', alt='Task Hunter')
       // Indicators
       ol.carousel-indicators
         li.active(data-target='#myCarousel', data-slide-to='0')
