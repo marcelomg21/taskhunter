@@ -72,12 +72,12 @@ html(lang='en')
         li(data-target='#myCarousel', data-slide-to='1')
         li(data-target='#myCarousel', data-slide-to='2')
       .carousel-inner
-        .item.active          
-          .container
-            video(id='banner', loop=true, autoplay='')
+        .item.active
+          video(loop=true, autoplay='')
               source(src='/images/banner.mp4', type='video/mp4')
               source(src='/images/banner.ogv', type='video/ogv')
               source(src='/images/banner.webm', type='video/webm')
+          .container            
             .carousel-caption
               h1 Example headline.
               p
