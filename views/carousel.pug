@@ -29,8 +29,7 @@ html(lang='en')
 
     // Carousel
     // ==================================================
-    #myCarousel.carousel.slide(data-ride='carousel')
-      div(style='width:265px; height:112px; background-image: url(/images/logo_splash.png);')
+    #myCarousel.carousel.slide(data-ride='carousel')      
         // Indicators
         ol.carousel-indicators
           li.active(data-target='#myCarousel', data-slide-to='0')
@@ -42,7 +41,8 @@ html(lang='en')
                 source(src='/images/banner.mp4', type='video/mp4')
                 source(src='/images/banner.ogv', type='video/ogv')
                 source(src='/images/banner.webm', type='video/webm')
-            .container            
+            .container
+              img(src='/images/logo_splash.png', alt='Task Hunter')
               .carousel-caption
                 h1 O mundo não para um instante sequer. O &quot;Task Hunter&quot; também não.
                 p
