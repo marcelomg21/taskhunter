@@ -1224,8 +1224,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 );
 				    
 				var item_timeline = {						
-				    matching: timeline_matching_crossings.services,                            
-				    working: timeline_working_crossings.services
+				    working: timeline_matching_crossings.services,                            
+				    matching: timeline_working_crossings.services
 				};
                                                                 
                                 if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
