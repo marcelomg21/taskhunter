@@ -1223,6 +1223,23 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                     { upsert : true }
                                 );
 				    
+				//crossing user service preferences
+				db.collection('service_preferences').update({ 
+                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},                                    
+                                        { $set: 
+                                            { "working": timeline_matching_crossings }
+                                        },
+                                    { upsert : true }
+                                );
+                                
+                                db.collection('service_preferences').update({ 
+                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},
+                                        { $set: 
+                                            { "matching": timeline_working_crossings }
+                                        },
+                                    { upsert : true }
+                                );
+				    
 				var item_timeline = {						
 				    working: timeline_matching_crossings.services,                            
 				    matching: timeline_working_crossings.services
@@ -1235,7 +1252,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                         //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
                                         notification_type: '471,524,525,526,529,530,531,565,791,792',
                                         notifier: { 
-                                            id: docs_crossings[0].crossings[index_docs_crossings].user_id, 
+                                            id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id),
                                             type: 'client',
                                             //job: 'Serviços Gerais',
                                             is_accepted: true,
