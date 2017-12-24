@@ -1302,10 +1302,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                          }
                                       };
 
-                                      result.data.push(item_crossings);
+                                      //result.data.push(item_crossings);
 					
-				      //feedback crossing item
-				      //get all feedbacks by user
+				      //feedback crossing item by user
 				      db.collection('feedback_preferences').aggregate([
 					  {$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_feedbacks) {
 
@@ -1321,9 +1320,11 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 							evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
 						    };
 
-						    result.data.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+						    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
 						}
 					    }
+					      
+					    result.data.push(item_crossings);
 					    
 					    return res.json(result);
 				      });
