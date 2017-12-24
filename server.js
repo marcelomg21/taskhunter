@@ -1266,7 +1266,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             age: 0,
 					    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences,                      
                       			    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].service_working_preferences,
-					    service_feedback_preferences: docs_crossings[0].crossings[index_docs_crossings].service_feedback_preferences,
+					    service_feedback_preferences: { feedbacks: [] },
 					    service_timeline_preferences: item_timeline,
                                             already_charmed: false,
                                             has_charmed_me: false,
@@ -1313,7 +1313,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 						for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
 
-						    var item_feedback = {
+						    var item_crossings_feedback = {
 							matching: docs_feedbacks[index_docs_feedbacks].matching,                            
 							working: docs_feedbacks[index_docs_feedbacks].working,
 							type: docs_feedbacks[index_docs_feedbacks].type,
@@ -1321,7 +1321,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 							evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
 						    };
 
-						    result.data.notifier.service_feedback_preferences.feedbacks.push(item_feedback); 
+						    result.data.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
 						}
 					    }
 					    
