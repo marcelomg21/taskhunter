@@ -249,7 +249,7 @@ app.post('/connect/oauth/token', function (req, res) {
         res.status(400).send('400 Bad Request')
     }
  
-    const user_field_set = 'id,name,first_name,gender,birthday,email,location,picture';
+    const user_field_set = 'id,name,first_name,gender,birthday,email,location,picture.type(large)';
 
     const options = {
         method: 'GET',
