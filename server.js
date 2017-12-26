@@ -1256,7 +1256,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             type: 'client',
                                             //job: 'Serviços Gerais',
                                             is_accepted: true,
-                                            workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
+                                            //workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
                                             my_relation: 1,
                                             //distance: 20.90,
                                             gender: docs_crossings[0].crossings[index_docs_crossings].gender,                                            
