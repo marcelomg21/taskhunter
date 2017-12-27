@@ -640,10 +640,10 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
             { $set: 
                 {
                     card : req.body.service_payment_preferences.payments[i].card,
-                    condition : parseInt(req.body.service_payment_preferences.payments[i].condition),
+                    condition : req.body.service_payment_preferences.payments[i].condition,
                     date : timestampISODate,
-                    price : parseFloat(req.body.service_payment_preferences.payments[i].price),                    
-                    tax : parseFloat(req.body.service_payment_preferences.payments[i].tax),
+                    price : req.body.service_payment_preferences.payments[i].price,
+                    tax : req.body.service_payment_preferences.payments[i].tax,
                     paid : req.body.service_payment_preferences.payments[i].paid
                  }
             },{upsert:true});
