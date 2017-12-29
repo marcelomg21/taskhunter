@@ -35,7 +35,7 @@ function populateTable() {
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '" title="Show Details">' + this._id + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
             tableContent += '<td>' + this.matching + '</td>';
             tableContent += '<td>' + this.working + '</td>';
             tableContent += '<td>' + this.name + '</td>';
@@ -65,10 +65,10 @@ function showUserInfo(event) {
     var thisID = $(this).attr('rel');
 
     // Get Index of object based on id value
-    var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
+    var arrayPosition = paymentListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
 
     // Get our User Object
-    var thisPaymentObject = userListData[arrayPosition];
+    var thisPaymentObject = paymentListData[arrayPosition];
 
     //Populate Info Box
     $('#paymentInfoID').text(thisPaymentObject._id);
