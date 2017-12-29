@@ -2,35 +2,62 @@ extends layout
 
 block body
     h1= Pagamentos
-    p Pagamentos realizados no Task Hunter
+    p Pagamentos Realizados no Aplicativo
 
     // Wrapper
     #wrapper
-
-        // USER INFO
-        #userInfo
-            h2 User Info
+        
+        #paymentInfo
+            h2 Informações do Pagamento
             p
-                strong Name:
-                |  <span id='userInfoName'></span>
+                strong ID:
+                |  <span id='paymentInfoID'></span>
                 br
-                strong Age:
-                |  <span id='userInfoAge'></span>
+                strong Cliente:
+                |  <span id='paymentInfoMatching'></span>
                 br
-                strong Gender:
-                |  <span id='userInfoGender'></span>
+                strong Prestador:
+                |  <span id='paymentInfoWorking'></span>
                 br
-                strong Location:
-                |  <span id='userInfoLocation'></span>
-        // /USER INFO
-        // USER LIST
-        h2 User List
-        #userList
+                strong Serviço:
+                |  <span id='paymentInfoName'></span>
+                br
+                strong Tipo:
+                |  <span id='paymentInfoType'></span>
+                br
+                strong Cartão:
+                |  <span id='paymentInfoCard'></span>
+                br
+                strong Parcelas:
+                |  <span id='paymentInfoCondition'></span>
+                br
+                strong Data do Pagamento:
+                |  <span id='paymentInfoDate'></span>
+                br
+                strong Preço:
+                |  <span id='paymentInfoPrice'></span>
+                br
+                strong Taxa:
+                |  <span id='paymentInfoTax'></span>
+                br
+                strong Pago:
+                |  <span id='paymentInfoPaid'></span>
+                
+        h2 Lista de Pagamentos
+        #paymentList
             table
                 thead
                     th UserName
                     th Email
-                    th Delete?
+                    th 
+                    th 
+                    th 
+                    th 
+                    th 
+                    th 
+                    th 
+                    th 
+                    th 
                 tbody
         // /USER LIST
         // ADD USER
