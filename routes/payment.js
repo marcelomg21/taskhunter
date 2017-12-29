@@ -4,7 +4,7 @@ var router = express.Router();
 /*
  * GET userlist.
  */
-router.get('/userlist', function(req, res) {
+router.get('/paymentlist', function(req, res) {
     /*var db = req.db;
     var collection = db.collection('userlist');
     collection.find({},function(e,docs){
@@ -16,31 +16,6 @@ router.get('/userlist', function(req, res) {
 
     db.collection('userlist').find(query).toArray(function (err, docs) {                                   
             return res.json(docs);                
-    });
-});
-
-/*
- * POST to adduser.
- */
-router.post('/adduser', function(req, res) {
-    var db = req.db;
-    var collection = db.collection('userlist');    
-    collection.insert(req.body, function(err, result){
-        res.send(
-            (err === null) ? { msg: '' } : { msg: err }
-        );
-    });
-});
-
-/*
- * DELETE to deleteuser.
- */
-router.delete('/deleteuser/:id', function(req, res) {
-    var db = req.db;
-    var collection = db.collection('userlist');
-    var userToDelete = req.params.id;
-    collection.remove({ '_id' : userToDelete }, function(err) {
-        res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
 
