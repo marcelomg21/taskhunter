@@ -8,7 +8,7 @@ $(document).ready(function() {
     populateTable();
 
     // Username link click
-    $('#paymentList table tbody').on('click', 'td a.linkshowuser', showPaymentInfo);
+    $('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
 
     // Add User button click
     //$('#btnAddUser').on('click', addUser);
@@ -35,7 +35,7 @@ function populateTable() {
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
             tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
+            tableContent += '<td><a href="#" class="linkshowpayment" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
             tableContent += '<td>' + this.matching + '</td>';
             tableContent += '<td>' + this.working + '</td>';
             tableContent += '<td>' + this.name + '</td>';
@@ -56,7 +56,7 @@ function populateTable() {
 };
 
 // Show User Info
-function showUserInfo(event) {
+function showPaymentInfo(event) {
 
     // Prevent Link from Firing
     event.preventDefault();
