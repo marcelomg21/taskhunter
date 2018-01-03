@@ -1847,7 +1847,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
         
         var result = {
               success: true,
-              data: []
+              data: {}
         };
 
         //console.log(req.params.user_id + " docs: " + docs.length);
@@ -1872,15 +1872,24 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
                 });    
             //}
         
-            var result =  {
+            /*var result =  {
                  success: true,
                  data: {
                      id: req.params.user_id + '_' + req.body.android_id
                  }
-            };
-
-            return res.json(result);        
-        }
+            };*/
+		
+	    result.data = {
+	        id: req.params.user_id + '_' + req.body.android_id
+	    };
+		
+        } else {
+	    result.data = {
+	        id: docs.device.device_id
+	    };
+	}
+	
+	return res.json(result);
     });
   }
 });
