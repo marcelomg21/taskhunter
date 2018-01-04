@@ -1885,7 +1885,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
 		
         } else {
 	    result.data = {
-	        id: docs.device.device_id
+	        id: docs[0].device.device_id
 	    };
 	}
 	
@@ -1953,7 +1953,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
             
         } else {
 	    result.data = {
-	        id: docs.device.device_id
+	        id: docs[0].device.device_id
 	    };
 	}
 	    
