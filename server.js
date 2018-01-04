@@ -1915,7 +1915,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
         
         var result = {
               success: true,
-              data: []
+              data: {}
         };
 
         //console.log(req.params.user_id + " docs: " + docs.length);
@@ -1940,15 +1940,24 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
                 });    
             //}
         
-            var result =  {
+            /*var result =  {
                  success: true,
                  data: {
                      id: req.params.device_id
                  }
-            };
-
-            return res.json(result);        
-        }
+            };*/
+		
+	    result.data = {
+	        id: req.params.device_id
+	    };
+            
+        } else {
+	    result.data = {
+	        id: docs.device.device_id
+	    };
+	}
+	    
+	return res.json(result);
     });
       
   }
