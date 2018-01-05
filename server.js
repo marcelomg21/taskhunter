@@ -400,7 +400,16 @@ app.get('/api/users/:user_id', function (req, res) {
                       service_payment_preferences: user_docs[0].service_payment_preferences,                      
                       service_feedback_preferences: user_docs[0].service_feedback_preferences,
 		      service_timeline_preferences: user_docs[0].service_timeline_preferences,
-                      stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
+                      stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },
+		      referral: {
+		          texts: { 
+			      sponsor_share_text_mail: '{LINK}', 
+			      sponsor_share_text_texto: '{LINK}' },
+			  sponsor_link: { 
+		              code: 0, 
+			      id: req.params.user_id,
+			      destination: 'Olá, <br/><br/> conheça o Task Hunter. <br/><br/> Encontre pessoas que cruzaram seu caminho com 1 click. <br/><br/>Saiba mais e instale em www.taskhunter.com' }
+		      },
                       nb_photos: 0,
                       credits: 0,
                       unread_conversations: 0,
