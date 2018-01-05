@@ -408,7 +408,7 @@ app.get('/api/users/:user_id', function (req, res) {
 			  sponsor_link: { 
 		              code: 0, 
 			      id: req.params.user_id,
-			      destination: 'Olá, <br/><br/> conheça o Task Hunter. <br/><br/> Encontre pessoas que cruzaram seu caminho com 1 click. <br/><br/>Saiba mais e instale em www.taskhunter.com' }
+			      destination: 'Olá, conheça o Task Hunter. Encontre pessoas que cruzaram seu caminho com 1 click. Saiba mais e instale em www.taskhunter.com' }
 		      },
                       nb_photos: 0,
                       credits: 0,
