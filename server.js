@@ -1013,9 +1013,7 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
         var result = {
               success: true,
               data: {}
-        };
-        
-	var object_conversation_id = 'ObjectId("' + req.params.conversation_id + '")';
+        };        	
 
 	//get conversation by id
 	db.collection('conversations').aggregate([
@@ -1023,7 +1021,7 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 		{$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
 		{$unwind: '$participantsObjects'}, 
 		{$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
-		{$match: {$and: [{'_id': object_conversation_id}]} }]).toArray(function (err, docs_conversations) {
+		{$match: {$and: [{'_id': req.params.conversation_id }]} }]).toArray(function (err, docs_conversations) {
 
 		console.log('docs_conversations.length: ' + docs_conversations.length);
 		
