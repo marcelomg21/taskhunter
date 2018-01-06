@@ -964,7 +964,8 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
 
 //get conversation by user
 app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res) {
-  var result = {
+	
+  /*var result = {
           success: true,
           data: {
               id: 1,
@@ -997,35 +998,76 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
           }
     };
                  
-    return res.json(result);
+    return res.json(result);*/
     
-    /*var query = {
-        conversation_id: req.params.conversation_id
-    };
+    if(!req.params.user_id || !req.params.conversation_id) {
+        res.status(400).send('400 Bad Request')
+    }
 
-    db.collection('messages').find(query).toArray(function (err, docs) {
+    if (!db) {
+        initDb(function(err){});
+    }
+
+    if (db) {
         
         var result = {
               success: true,
-              data: []
+              data: {}
         };
+                
 
-        for (var i = 0, len = docs.length; i < len; i++) {              
-            var item = {
-                  id: docs[i]._id,
-                  message: docs[i].message,
-                  creation_date: docs[i].creation_date,
-                  sender: { 
-                      id: docs[i].sender,
-                      first_name: 'XXXXXX',
-                      age: 30
-                  }
-            };
-            result.data.push(item);
-        }
+	//get conversation by id
+	db.collection('conversations').aggregate([
+		{$unwind:'$participants'}, 
+		{$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
+		{$unwind: '$participantsObjects'}, 
+		{$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
+		{$match: {$and: [{'_id': ObjectId(" + req.params.conversation_id + ")}]} }]).toArray(function (err, docs_conversations) {
 
-        return res.json(result);
-    } );*/
+		if (docs_conversations.length > 0) {
+
+			for (var index_docs_conversations = 0, len_docs_conversations = docs_conversations.length; index_docs_conversations < len_docs_conversations; index_docs_conversations++) {
+
+				var item_conversation = {
+					id: docs_conversations[index_docs_conversations]._id,
+					creation_date: docs_conversations[index_docs_conversations].creation_date,              
+					real_participants: [
+					   {                  	
+						id: docs_conversations[index_docs_conversations].participants[0].user_id,									
+						first_name: docs_conversations[index_docs_conversations].participants[0].user_name,
+						profiles: [{
+							  id: docs_conversations[index_docs_conversations].participants[0].user_id,
+							  mode: 0,
+							  url: docs_conversations[index_docs_conversations].participants[0].facebook_picture,
+							  width: 50,
+							  height: 50
+						}]
+
+					   },
+					   {                  									
+
+						id: docs_conversations[index_docs_conversations].participants[1].user_id, 
+						type: 'client',
+						first_name: docs_conversations[index_docs_conversations].participants[1].user_name,
+						profiles: [{
+							  id: docs_conversations[index_docs_conversations].participants[1].user_id,
+							  mode: 0,
+							  url: docs_conversations[index_docs_conversations].participants[1].facebook_picture,
+							  width: 50,
+							  height: 50
+						}]
+
+					   }
+					]
+				};
+
+				result.data = item_conversation;
+			}
+		}
+
+		return res.json(result);                    
+	});
+     }	
 });
 
 //get read messages
