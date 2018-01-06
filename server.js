@@ -1022,7 +1022,7 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 		{$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
 		{$unwind: '$participantsObjects'}, 
 		{$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
-		{$match: {$and: [{'_id': ObjectId(" + req.params.conversation_id + ")}]} }]).toArray(function (err, docs_conversations) {
+		{$match: {$and: [{'_id': "ObjectId(" + req.params.conversation_id + ")" }]} }]).toArray(function (err, docs_conversations) {
 
 		if (docs_conversations.length > 0) {
 
