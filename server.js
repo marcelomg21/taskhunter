@@ -1022,9 +1022,13 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 		{$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
 		{$unwind: '$participantsObjects'}, 
 		{$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
-		{$match: {$and: [{'_id': "ObjectId(" + req.params.conversation_id + ")" }]} }]).toArray(function (err, docs_conversations) {
+		{$match: {$and: [{'_id': 'ObjectId("' + req.params.conversation_id + '")' }]} }]).toArray(function (err, docs_conversations) {
 
+		console.log('docs_conversations.length: ' + docs_conversations.length);
+		
 		if (docs_conversations.length > 0) {
+			
+			console.log('docs_conversations[0]: ' + docs_conversations[0]);
 
 			for (var index_docs_conversations = 0, len_docs_conversations = docs_conversations.length; index_docs_conversations < len_docs_conversations; index_docs_conversations++) {
 
