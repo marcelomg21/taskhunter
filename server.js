@@ -1015,7 +1015,8 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
               data: {}
         };
 	    
-	var conversationObjectId = new ObjectID(req.params.conversation_id);
+	var ObjectId = require('mongodb').ObjectID;
+	var conversationObjectId = ObjectId(req.params.conversation_id);
 	console.log('conversationObjectId: ' + conversationObjectId);
 	console.log('conversationObjectId._id: ' + conversationObjectId._id);
 	console.log('conversationObjectId.toString(): ' + conversationObjectId.toString());
