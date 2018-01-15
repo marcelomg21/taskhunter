@@ -1017,9 +1017,9 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 	    
 	var ObjectId = require('mongodb').ObjectID;
 	var conversationObjectId = ObjectId(req.params.conversation_id);
-	console.log('conversationObjectId: ' + conversationObjectId);
-	console.log('conversationObjectId._id: ' + conversationObjectId._id);
-	console.log('conversationObjectId.toString(): ' + conversationObjectId.toString());
+	//console.log('conversationObjectId: ' + conversationObjectId);
+	//console.log('conversationObjectId._id: ' + conversationObjectId._id);
+	//console.log('conversationObjectId.toString(): ' + conversationObjectId.toString());
 
 	//get conversation by id
 	db.collection('conversations').aggregate([
@@ -1029,11 +1029,11 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 		{$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
 		{$match: {$and: [{'_id': conversationObjectId }]} }]).toArray(function (err, docs_conversations) {
 
-		console.log('docs_conversations.length: ' + docs_conversations.length);
+		//console.log('docs_conversations.length: ' + docs_conversations.length);
 		
 		if (docs_conversations.length > 0) {
 			
-			console.log('docs_conversations[0]: ' + docs_conversations[0]);
+			//console.log('docs_conversations[0]: ' + docs_conversations[0]);
 
 			for (var index_docs_conversations = 0, len_docs_conversations = docs_conversations.length; index_docs_conversations < len_docs_conversations; index_docs_conversations++) {
 
