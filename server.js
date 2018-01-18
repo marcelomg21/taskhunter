@@ -1438,13 +1438,15 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
               modification_date: '2017-07-20',
               is_notified: false,
               type: '471',
+	      message_title: 'Bem-vindo ao TaskHunter',
+	      message_data: 'Vamos lá!',
               nb_times: 0,
               notification_type: '471,524,525,526,529,530,531,565,791,792',
               notifier: { 
                   id: 30, 
                   type: 'type',
-                  first_name: 'Claudio',
-                  gender: 'F',
+                  first_name: '',
+                  gender: 'M',
                   my_relation: 0,
                   has_charmed_me: false,
                   age: 43,
@@ -1469,7 +1471,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
                   profiles: [{
                       id: 130,
                       mode: 0,
-                      url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
+                      
                       width: 50,
                       height: 50
                   }]
@@ -1480,12 +1482,14 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 	      modification_date: '2017-07-20',
 	      is_notified: false,
 	      type: '471',
+	      message_title: 'Serviços',
+	      message_data: 'Marque no menu os serviços que você procura ou executa profissionalmente',
 	      nb_times: 0,
 	      notification_type: '471,524,525,526,529,530,531,565,791,792',
 	      notifier: { 
 		  id: 30, 
 		  type: 'type',
-		  first_name: 'Claudio',
+		  first_name: '',
 		  gender: 'F',
 		  my_relation: 0,
 		  has_charmed_me: false,
@@ -1511,7 +1515,139 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 		  profiles: [{
 		      id: 130,
 		      mode: 0,
-		      url: 'https://br.habcdn.com/photos/business/big/manutencao-predial_257993.jpg',
+		      
+		      width: 50,
+		      height: 50
+		  }]
+	      }
+	  },
+	  {
+	      id: req.params.user_id,              
+	      modification_date: '2017-07-20',
+	      is_notified: false,
+	      type: '471',
+	      message_title: 'Acompanhe sua Timeline',
+	      message_data: 'Ande por aí para cruzar com clientes e profissionais',
+	      nb_times: 0,
+	      notification_type: '471,524,525,526,529,530,531,565,791,792',
+	      notifier: { 
+		  id: 30, 
+		  type: 'type',
+		  first_name: '',
+		  gender: 'F',
+		  my_relation: 0,
+		  has_charmed_me: false,
+		  age: 43,
+		  already_charmed: false,
+		  has_charmed_me: false,
+		  availability: {
+		      time_left: 100,
+		      availability_type: {
+			  color: '#FF4E00',
+			  duration: 10,
+			  label: 'label2',
+			  type: 'type2'
+		      }
+		  },
+		  is_invited: false,
+		  last_invite_received: {
+		      color: '#FF4E00',
+			  duration: 20,
+			  label: 'label3',
+			  type: 'type3'
+		  },
+		  profiles: [{
+		      id: 130,
+		      mode: 0,
+		      
+		      width: 50,
+		      height: 50
+		  }]
+	      }
+	  },
+	  {
+	      id: req.params.user_id,              
+	      modification_date: '2017-07-20',
+	      is_notified: false,
+	      type: '471',
+	      message_title: 'Faça Negócios',
+	      message_data: 'Com quem cruza o seu caminho',
+	      nb_times: 0,
+	      notification_type: '471,524,525,526,529,530,531,565,791,792',
+	      notifier: { 
+		  id: 30, 
+		  type: 'type',
+		  first_name: '',
+		  gender: 'F',
+		  my_relation: 0,
+		  has_charmed_me: false,
+		  age: 43,
+		  already_charmed: false,
+		  has_charmed_me: false,
+		  availability: {
+		      time_left: 100,
+		      availability_type: {
+			  color: '#FF4E00',
+			  duration: 10,
+			  label: 'label2',
+			  type: 'type2'
+		      }
+		  },
+		  is_invited: false,
+		  last_invite_received: {
+		      color: '#FF4E00',
+			  duration: 20,
+			  label: 'label3',
+			  type: 'type3'
+		  },
+		  profiles: [{
+		      id: 130,
+		      mode: 0,
+		      
+		      width: 50,
+		      height: 50
+		  }]
+	      }
+	  },
+	  {
+	      id: req.params.user_id,              
+	      modification_date: '2017-07-20',
+	      is_notified: false,
+	      type: '471',
+	      message_title: 'Pagamento',
+	      message_data: 'Pague pelo serviço direto no aplicativo podendo parcelar em até 5x',
+	      nb_times: 0,
+	      notification_type: '471,524,525,526,529,530,531,565,791,792',
+	      notifier: { 
+		  id: 30, 
+		  type: 'type',
+		  first_name: '',
+		  gender: 'F',
+		  my_relation: 0,
+		  has_charmed_me: false,
+		  age: 43,
+		  already_charmed: false,
+		  has_charmed_me: false,
+		  availability: {
+		      time_left: 100,
+		      availability_type: {
+			  color: '#FF4E00',
+			  duration: 10,
+			  label: 'label2',
+			  type: 'type2'
+		      }
+		  },
+		  is_invited: false,
+		  last_invite_received: {
+		      color: '#FF4E00',
+			  duration: 20,
+			  label: 'label3',
+			  type: 'type3'
+		  },
+		  profiles: [{
+		      id: 130,
+		      mode: 0,
+		      
 		      width: 50,
 		      height: 50
 		  }]
