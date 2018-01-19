@@ -1099,7 +1099,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             "id": 1520675761317155,
             "notification_type": "471,524,525,526,529,530,531,565,791,792",
             "notifier": {
-                "id": 103624497059053,
+                "id": 1036244970590531,
                 "type": "client",
                 "is_accepted": true,
                 "my_relation": 1,
@@ -1319,7 +1319,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             "id": 1520675761317155,
             "notification_type": "471,524,525,526,529,530,531,565,791,792",
             "notifier": {
-                "id": 103624497059053,
+                "id": 1036244970590532,
                 "type": "client",
                 "is_accepted": true,
                 "my_relation": 1,
@@ -1525,7 +1525,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             "id": 1520675761317155,
             "notification_type": "471,524,525,526,529,530,531,565,791,792",
             "notifier": {
-                "id": 103624497059053,
+                "id": 1036244970590533,
                 "type": "client",
                 "is_accepted": true,
                 "my_relation": 1,
@@ -1715,7 +1715,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             "id": 1520675761317155,
             "notification_type": "471,524,525,526,529,530,531,565,791,792",
             "notifier": {
-                "id": 103624497059053,
+                "id": 1036244970590534,
                 "type": "client",
                 "is_accepted": true,
                 "my_relation": 1,
