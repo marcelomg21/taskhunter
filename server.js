@@ -1093,7 +1093,7 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 
 //get all crossings
 app.get('/api/users/:user_id/crossings', function (req, res) {
-    var result =  {
+    /*var result =  {
            success: true,
            data: [{
             "id": 1520675761317155,
@@ -1827,9 +1827,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
         }]
     };
         
-    return res.json(result);
+    return res.json(result);*/
         
-    /*if(!req.params.user_id) {
+    if(!req.params.user_id) {
         res.status(400).send('400 Bad Request')
     }
 
@@ -2030,7 +2030,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                     });
                 }                                
         });
-    } */       
+    } 
 });
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
