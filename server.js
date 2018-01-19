@@ -1093,113 +1093,832 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 
 //get all crossings
 app.get('/api/users/:user_id/crossings', function (req, res) {
-    /*var result =  {
+    var result =  {
            success: true,
            data: [{
-              id: req.params.user_id,              
-              modification_date: '2017-07-05',
-              notification_type: '471,524,525,526,529,530,531,565,791,792',
-              notifier: { 
-                  id:103624497059053, 
-                  type: 'type',
-                  job: 'Serviços Gerais',
-                  is_accepted: true,
-                  workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
-                  my_relation: 1,
-                  distance: 20.90,
-                  gender: 'F',
-                  is_charmed: false,
-                  nb_photos: 1,
-                  first_name:'Kandida',
-                  age: 31,
-                  already_charmed: false,
-                  has_charmed_me: false,
-                  availability: {
-                      time_left: 100,
-                      availability_type: {
-                          color: '#FF4E00',
-                          duration: 10,
-                          label: 'label2',
-                          type: 'type2'
-                      }
-                  },
-                  last_meet_position: {
-                      creation_date: '2017-08-15',
-                      lat: -30.061004,
-                      lon: -51.190147
-                  },
-                  is_invited: false,
-                  last_invite_received: {
-                      color: '#FF4E00',
-                          duration: 20,
-                          label: 'label3',
-                          type: 'type3'
-                  },
-                  profiles: [{
-                      id: 131,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  },
-                  {
-                      id: 167,
-                      mode: 0,
-                      url: 'https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/22089386_105833976838105_2430462272889869880_n.jpg?oh=8f629c7dabb42a36c8e9f29646c35b1a&oe=5A8294ED',
-                      width: 50,
-                      height: 50
-                  }]
-              }
-          },                 
-          {
-              id: req.params.user_id,              
-              modification_date: '2017-07-05',
-              notification_type: '471,524,525,526,529,530,531,565,791,792',
-              notifier: { 
-                  id: 309, 
-                  type: 'type',
-                  job: 'Técnico',
-                  is_accepted: true,
-                  workplace: 'Geladeira\nFogão\nMicroondas\nMáquina de Lavar',
-                  my_relation: 1,
-                  distance: 20.90,
-                  gender: 'F',
-                  is_charmed: false,
-                  nb_photos: 1,
-                  first_name: 'João Roberto Silva',
-                  age: 51,
-                  already_charmed: false,
-                  has_charmed_me: false,
-                  availability: {
-                      time_left: 100,
-                      availability_type: {
-                          color: '#FF4E00',
-                          duration: 10,
-                          label: 'label2',
-                          type: 'type2'
-                      }
-                  },
-                  is_invited: false,
-                  last_invite_received: {
-                      color: '#FF4E00',
-                          duration: 20,
-                          label: 'label3',
-                          type: 'type3'
-                  },
-                  profiles: [{
-                      id: 139,
-                      mode: 0,
-                      
-                      width: 50,
-                      height: 50
-                  }]
-              }
-          }]
+            "id": 1520675761317155,
+            "notification_type": "471,524,525,526,529,530,531,565,791,792",
+            "notifier": {
+                "id": 103624497059053,
+                "type": "client",
+                "is_accepted": true,
+                "my_relation": 1,
+                "gender": "female",
+                "is_charmed": false,
+                "nb_photos": 1,
+                "first_name": "Cláudio",
+                "age": 0,
+                "service_matching_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "chuveiro",
+                            "type": "eletrica"
+                        }
+                    ]
+                },
+                "service_working_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "grade",
+                            "type": "pintura"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "chuveiro",
+                            "type": "eletrica"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "banheiro",
+                            "type": "hidraulica"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "moveis",
+                            "type": "marcenaria"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "construcao",
+                            "type": "pedreiro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "grade",
+                            "type": "serralheiro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "instalacao",
+                            "type": "ar_cond_split"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "instalacao",
+                            "type": "gas_central"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "limpeza",
+                            "type": "servicos_gerais"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "geladeira",
+                            "type": "eletro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "box_banheiro",
+                            "type": "vidracaria"
+                        }
+                    ]
+                },
+                "service_feedback_preferences": {
+                    "feedbacks": []
+                },
+                "service_timeline_preferences": {
+                    "working": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "gas_central"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "moveis",
+                                "type": "marcenaria"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "pintura"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "banheiro",
+                                "type": "hidraulica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "construcao",
+                                "type": "pedreiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "serralheiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "ar_cond_split"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "limpeza",
+                                "type": "servicos_gerais"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "geladeira",
+                                "type": "eletro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "box_banheiro",
+                                "type": "vidracaria"
+                            }
+                        }
+                    ],
+                    "matching": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        }
+                    ]
+                },
+                "already_charmed": false,
+                "has_charmed_me": false,
+                "availability": {
+                    "time_left": 100,
+                    "availability_type": {
+                        "color": "#FF4E00",
+                        "duration": 10,
+                        "label": "label2",
+                        "type": "client"
+                    }
+                },
+                "last_meet_position": {
+                    "creation_date": "2017-08-15",
+                    "lat": -30.061004,
+                    "lon": -51.190147
+                },
+                "is_invited": false,
+                "last_invite_received": {
+                    "color": "#FF4E00",
+                    "duration": 20,
+                    "label": "label3",
+                    "type": "client"
+                },
+                "profiles": [
+                    {
+                        "id": 103624497059053,
+                        "mode": 0,
+                        "url": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/22089386_105833976838105_2430462272889869880_n.jpg?oh=068ff1688f6d5952ac9ffc7060fe0d62&oe=5AEA348C",
+                        "width": 50,
+                        "height": 50
+                    }
+                ]
+            }
+        },
+		 {
+            "id": 1520675761317155,
+            "notification_type": "471,524,525,526,529,530,531,565,791,792",
+            "notifier": {
+                "id": 103624497059053,
+                "type": "client",
+                "is_accepted": true,
+                "my_relation": 1,
+                "gender": "female",
+                "is_charmed": false,
+                "nb_photos": 1,
+                "first_name": "João",
+                "age": 0,
+                "service_matching_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "chuveiro",
+                            "type": "eletrica"
+                        }
+                    ]
+                },
+                "service_working_preferences": {
+                    "services": [
+                        
+                        {
+                            "enabled": true,
+                            "name": "moveis",
+                            "type": "marcenaria"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "construcao",
+                            "type": "pedreiro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "grade",
+                            "type": "serralheiro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "instalacao",
+                            "type": "ar_cond_split"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "instalacao",
+                            "type": "gas_central"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "limpeza",
+                            "type": "servicos_gerais"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "geladeira",
+                            "type": "eletro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "box_banheiro",
+                            "type": "vidracaria"
+                        }
+                    ]
+                },
+                "service_feedback_preferences": {
+                    "feedbacks": []
+                },
+                "service_timeline_preferences": {
+                    "working": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "gas_central"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "moveis",
+                                "type": "marcenaria"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "pintura"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "banheiro",
+                                "type": "hidraulica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "construcao",
+                                "type": "pedreiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "serralheiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "ar_cond_split"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "limpeza",
+                                "type": "servicos_gerais"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "geladeira",
+                                "type": "eletro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "box_banheiro",
+                                "type": "vidracaria"
+                            }
+                        }
+                    ],
+                    "matching": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        }
+                    ]
+                },
+                "already_charmed": false,
+                "has_charmed_me": false,
+                "availability": {
+                    "time_left": 100,
+                    "availability_type": {
+                        "color": "#FF4E00",
+                        "duration": 10,
+                        "label": "label2",
+                        "type": "client"
+                    }
+                },
+                "last_meet_position": {
+                    "creation_date": "2017-08-15",
+                    "lat": -30.061004,
+                    "lon": -51.190147
+                },
+                "is_invited": false,
+                "last_invite_received": {
+                    "color": "#FF4E00",
+                    "duration": 20,
+                    "label": "label3",
+                    "type": "client"
+                },
+                "profiles": [
+                    {
+                        "id": 103624497059053,
+                        "mode": 0,
+                        "url": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/22089386_105833976838105_2430462272889869880_n.jpg?oh=068ff1688f6d5952ac9ffc7060fe0d62&oe=5AEA348C",
+                        "width": 50,
+                        "height": 50
+                    }
+                ]
+            }
+        },
+		 {
+            "id": 1520675761317155,
+            "notification_type": "471,524,525,526,529,530,531,565,791,792",
+            "notifier": {
+                "id": 103624497059053,
+                "type": "client",
+                "is_accepted": true,
+                "my_relation": 1,
+                "gender": "female",
+                "is_charmed": false,
+                "nb_photos": 1,
+                "first_name": "Paulo",
+                "age": 0,
+                "service_matching_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "chuveiro",
+                            "type": "eletrica"
+                        }
+                    ]
+                },
+                "service_working_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "grade",
+                            "type": "pintura"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "chuveiro",
+                            "type": "eletrica"
+                        },                        
+                        {
+                            "enabled": true,
+                            "name": "limpeza",
+                            "type": "servicos_gerais"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "geladeira",
+                            "type": "eletro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "box_banheiro",
+                            "type": "vidracaria"
+                        }
+                    ]
+                },
+                "service_feedback_preferences": {
+                    "feedbacks": []
+                },
+                "service_timeline_preferences": {
+                    "working": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "gas_central"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "moveis",
+                                "type": "marcenaria"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "pintura"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "banheiro",
+                                "type": "hidraulica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "construcao",
+                                "type": "pedreiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "serralheiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "ar_cond_split"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "limpeza",
+                                "type": "servicos_gerais"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "geladeira",
+                                "type": "eletro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "box_banheiro",
+                                "type": "vidracaria"
+                            }
+                        }
+                    ],
+                    "matching": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        }
+                    ]
+                },
+                "already_charmed": false,
+                "has_charmed_me": false,
+                "availability": {
+                    "time_left": 100,
+                    "availability_type": {
+                        "color": "#FF4E00",
+                        "duration": 10,
+                        "label": "label2",
+                        "type": "client"
+                    }
+                },
+                "last_meet_position": {
+                    "creation_date": "2017-08-15",
+                    "lat": -30.061004,
+                    "lon": -51.190147
+                },
+                "is_invited": false,
+                "last_invite_received": {
+                    "color": "#FF4E00",
+                    "duration": 20,
+                    "label": "label3",
+                    "type": "client"
+                },
+                "profiles": [
+                    {
+                        "id": 103624497059053,
+                        "mode": 0,
+                        "url": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/22089386_105833976838105_2430462272889869880_n.jpg?oh=068ff1688f6d5952ac9ffc7060fe0d62&oe=5AEA348C",
+                        "width": 50,
+                        "height": 50
+                    }
+                ]
+            }
+        },
+		 {
+            "id": 1520675761317155,
+            "notification_type": "471,524,525,526,529,530,531,565,791,792",
+            "notifier": {
+                "id": 103624497059053,
+                "type": "client",
+                "is_accepted": true,
+                "my_relation": 1,
+                "gender": "female",
+                "is_charmed": false,
+                "nb_photos": 1,
+                "first_name": "Luiza",
+                "age": 0,
+                "service_matching_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "chuveiro",
+                            "type": "eletrica"
+                        }
+                    ]
+                },
+                "service_working_preferences": {
+                    "services": [
+                        {
+                            "enabled": true,
+                            "name": "grade",
+                            "type": "pintura"
+                        },
+                        
+                        {
+                            "enabled": true,
+                            "name": "banheiro",
+                            "type": "hidraulica"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "moveis",
+                            "type": "marcenaria"
+                        },
+                        
+                        {
+                            "enabled": true,
+                            "name": "grade",
+                            "type": "serralheiro"
+                        },                        
+                        {
+                            "enabled": true,
+                            "name": "instalacao",
+                            "type": "gas_central"
+                        },
+                        
+                        {
+                            "enabled": true,
+                            "name": "geladeira",
+                            "type": "eletro"
+                        },
+                        {
+                            "enabled": true,
+                            "name": "box_banheiro",
+                            "type": "vidracaria"
+                        }
+                    ]
+                },
+                "service_feedback_preferences": {
+                    "feedbacks": []
+                },
+                "service_timeline_preferences": {
+                    "working": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "gas_central"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "moveis",
+                                "type": "marcenaria"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "pintura"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "banheiro",
+                                "type": "hidraulica"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "construcao",
+                                "type": "pedreiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "grade",
+                                "type": "serralheiro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "instalacao",
+                                "type": "ar_cond_split"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "limpeza",
+                                "type": "servicos_gerais"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "geladeira",
+                                "type": "eletro"
+                            }
+                        },
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "box_banheiro",
+                                "type": "vidracaria"
+                            }
+                        }
+                    ],
+                    "matching": [
+                        {
+                            "user_id": 103624497059053,
+                            "item": {
+                                "enabled": true,
+                                "name": "chuveiro",
+                                "type": "eletrica"
+                            }
+                        }
+                    ]
+                },
+                "already_charmed": false,
+                "has_charmed_me": false,
+                "availability": {
+                    "time_left": 100,
+                    "availability_type": {
+                        "color": "#FF4E00",
+                        "duration": 10,
+                        "label": "label2",
+                        "type": "client"
+                    }
+                },
+                "last_meet_position": {
+                    "creation_date": "2017-08-15",
+                    "lat": -30.061004,
+                    "lon": -51.190147
+                },
+                "is_invited": false,
+                "last_invite_received": {
+                    "color": "#FF4E00",
+                    "duration": 20,
+                    "label": "label3",
+                    "type": "client"
+                },
+                "profiles": [
+                    {
+                        "id": 103624497059053,
+                        "mode": 0,
+                        "url": "https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/22089386_105833976838105_2430462272889869880_n.jpg?oh=068ff1688f6d5952ac9ffc7060fe0d62&oe=5AEA348C",
+                        "width": 50,
+                        "height": 50
+                    }
+                ]
+            }
+        }]
     };
         
-    return res.json(result);*/
+    return res.json(result);
         
-    if(!req.params.user_id) {
+    /*if(!req.params.user_id) {
         res.status(400).send('400 Bad Request')
     }
 
@@ -1400,7 +2119,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                     });
                 }                                
         });
-    }        
+    } */       
 });
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
