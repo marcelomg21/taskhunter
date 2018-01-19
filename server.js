@@ -1387,38 +1387,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                 },
                 "service_timeline_preferences": {
                     "working": [
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "instalacao",
-                                "type": "gas_central"
-                            }
-                        },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "moveis",
-                                "type": "marcenaria"
-                            }
-                        },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "grade",
-                                "type": "pintura"
-                            }
-                        },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "chuveiro",
-                                "type": "eletrica"
-                            }
-                        },
+                        
                         {
                             "user_id": 103624497059053,
                             "item": {
@@ -1585,14 +1554,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 "type": "gas_central"
                             }
                         },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "moveis",
-                                "type": "marcenaria"
-                            }
-                        },
+                        
                         {
                             "user_id": 103624497059053,
                             "item": {
@@ -1609,22 +1571,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 "type": "eletrica"
                             }
                         },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "banheiro",
-                                "type": "hidraulica"
-                            }
-                        },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "construcao",
-                                "type": "pedreiro"
-                            }
-                        },
+                        
                         {
                             "user_id": 103624497059053,
                             "item": {
@@ -1633,14 +1580,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 "type": "serralheiro"
                             }
                         },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "instalacao",
-                                "type": "ar_cond_split"
-                            }
-                        },
+                       
                         {
                             "user_id": 103624497059053,
                             "item": {
@@ -1780,14 +1720,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                 },
                 "service_timeline_preferences": {
                     "working": [
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "instalacao",
-                                "type": "gas_central"
-                            }
-                        },
+                        
                         {
                             "user_id": 103624497059053,
                             "item": {
@@ -1812,22 +1745,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 "type": "eletrica"
                             }
                         },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "banheiro",
-                                "type": "hidraulica"
-                            }
-                        },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "construcao",
-                                "type": "pedreiro"
-                            }
-                        },
+                        
                         {
                             "user_id": 103624497059053,
                             "item": {
@@ -1844,14 +1762,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 "type": "ar_cond_split"
                             }
                         },
-                        {
-                            "user_id": 103624497059053,
-                            "item": {
-                                "enabled": true,
-                                "name": "limpeza",
-                                "type": "servicos_gerais"
-                            }
-                        },
+                        
                         {
                             "user_id": 103624497059053,
                             "item": {
