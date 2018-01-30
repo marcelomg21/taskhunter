@@ -805,7 +805,7 @@ app.put('/api/users/:user_id/service/configuration/preferences', function (req, 
         res.status(400).send('400 Bad Request')
     }
   
-    console.log('req.body.service_configuration_preferences --> ' + req.body.service_configuration_preferences);    
+    //console.log('req.body.service_configuration_preferences --> ' + req.body.service_configuration_preferences);    
   
     db.collection('users').update({ 
         user_id: parseInt(req.params.user_id) },
@@ -818,7 +818,19 @@ app.put('/api/users/:user_id/service/configuration/preferences', function (req, 
                 account: req.body.service_configuration_preferences.account,
                 agency: req.body.service_configuration_preferences.agency,
                 digit: req.body.service_configuration_preferences.digit,
-                bank: req.body.service_configuration_preferences.bank
+                bank: req.body.service_configuration_preferences.bank,
+		address_complement: req.body.service_configuration_preferences.address_complement,
+	        city: req.body.service_configuration_preferences.city,
+	        country: req.body.service_configuration_preferences.country,
+	        neighborhood: req.body.service_configuration_preferences.neighborhood,
+	        birth_date: req.body.service_configuration_preferences.birth_date,
+	        cpf: req.body.service_configuration_preferences.cpf,
+	        cell_phone: req.body.service_configuration_preferences.cell_phone,
+	        fixed_phone: req.body.service_configuration_preferences.fixed_phone,
+	        state: req.body.service_configuration_preferences.state,
+	        street_address: req.body.service_configuration_preferences.street_address,
+	        street_number: req.body.service_configuration_preferences.street_number,
+	        zip_code: req.body.service_configuration_preferences.zip_code
             }
         },
         { upsert : true }
