@@ -534,7 +534,13 @@ app.put('/api/users/:user_id', function (req, res) {
 		bank : req.body.bank,
 		agency : req.body.agency,
 		account : req.body.account,
-		digit : req.body.digit
+		digit : req.body.digit,		    
+		cpf : req.body.cpf,
+		street_address : req.body.street_address,
+		street_number : req.body.street_number,
+		neighborhood : req.body.neighborhood,
+		zip_code : req.body.zip_code,
+		cell_phone : req.body.cell_phone
             }
         },
         { upsert : true }
