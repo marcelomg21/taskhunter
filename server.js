@@ -480,7 +480,7 @@ app.get('/api/users/:user_id', function (req, res) {
 
 				    var item_feedback = {
 					matching: docs_feedbacks[index_docs_feedbacks].matching,
-					id: docs_feedbacks[index_docs_feedbacks]._id,
+					id: docs_feedbacks[index_docs_feedbacks]._id.toHexString(),
 					working: docs_feedbacks[index_docs_feedbacks].working,
 					working_name: docs_feedbacks[index_docs_feedbacks].working_name,
 					type: docs_feedbacks[index_docs_feedbacks].type,
