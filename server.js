@@ -479,7 +479,8 @@ app.get('/api/users/:user_id', function (req, res) {
 				for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
 
 				    var item_feedback = {
-					matching: docs_feedbacks[index_docs_feedbacks].matching,                            
+					matching: docs_feedbacks[index_docs_feedbacks].matching,
+					id: docs_feedbacks[index_docs_feedbacks]._id,
 					working: docs_feedbacks[index_docs_feedbacks].working,
 					working_name: docs_feedbacks[index_docs_feedbacks].working_name,
 					type: docs_feedbacks[index_docs_feedbacks].type,
