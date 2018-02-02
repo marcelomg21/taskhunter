@@ -725,7 +725,7 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
         res.status(400).send('400 Bad Request')
     }
     
-    console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
+    //console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
     
     var date = new Date();
     date.setHours(date.getHours() - 3);
@@ -734,10 +734,15 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
     //matching
     if(req.body.service_feedback_preferences.feedbacks.length > 0) {
         for (var i = 0, len = req.body.service_feedback_preferences.feedbacks.length; i < len; i++) {
+		
+	    var ObjectId = require('mongodb').ObjectID;
+	    var feedbackObjectId = ObjectId(req.body.service_feedback_preferences.feedbacks[i].id);
+		
             db.collection('feedback_preferences').update({ 
                 matching : parseInt(req.body.service_feedback_preferences.feedbacks[i].matching), 
                 working : parseInt(req.body.service_feedback_preferences.feedbacks[i].working), 
 		working_name : req.body.service_feedback_preferences.feedbacks[i].working_name,
+		_id : feedbackObjectId,
                 type : req.body.service_feedback_preferences.feedbacks[i].type, 
                 name : req.body.service_feedback_preferences.feedbacks[i].name
             }, 
