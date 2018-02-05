@@ -2079,7 +2079,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					    //last meet position crossing
 					      db.collection('crossings_positions').aggregate([            
 						{$unwind:'$crossings'},            
-						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)}]} },
+						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
 						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
 
 						    if (docs_last_meet.length > 0) {
