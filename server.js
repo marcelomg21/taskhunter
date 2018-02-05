@@ -2036,9 +2036,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                                 }
                                             },
                                             last_meet_position: {
-                                                creation_date: '2017-08-15',
-                                                lat: -30.061004,
-                                                lon: -51.190147
+                                                creation_date: docs_crossings[0].crossings[index_docs_crossings].timestamp,
+                                                lat: docs_crossings[0].crossings[index_docs_crossings].lat,
+                                                lon: docs_crossings[0].crossings[index_docs_crossings].lon
                                             },
                                             is_invited: false,
                                             last_invite_received: {
@@ -2873,6 +2873,8 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
                 db.collection('crossings').insert({
                     user_id:parseInt(req.params.user_id),
                     timestamp:timestampISODate,
+		    lat: parseFloat(req.body.latitude),
+		    lon: parseFloat(req.body.longitude),
                     crossings: docs_positions[0].crossings
                 });
             }
