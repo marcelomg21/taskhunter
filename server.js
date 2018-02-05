@@ -2035,11 +2035,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                                     type: 'client'
                                                 }
                                             },
-                                            last_meet_position: {
-                                                creation_date: docs_crossings[0].crossings[index_docs_crossings].timestamp,
-                                                lat: docs_crossings[0].crossings[index_docs_crossings].lat,
-                                                lon: docs_crossings[0].crossings[index_docs_crossings].lon
-                                            },
+                                            last_meet_position: {},
                                             is_invited: false,
                                             last_invite_received: {
                                                 color: '#FF4E00',
@@ -2079,13 +2075,37 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 						    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
 						}
 					    }
+
+					    //last meet position crossing
+					      db.collection('crossings_positions').aggregate([            
+						{$unwind:'$crossings'},            
+						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id))}]} },
+						{$group:{_id:'$user_id', lat: { $last: "$lat" }, lon: { $last: "$lon" }, date: { $last: "$timestamp" }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
+
+						    if (docs_last_meet.length > 0) {
+
+							for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
+							   
+							    item_crossings.notifier.last_meet_position = {
+								creation_date: docs_last_meet[index_docs_last_meet].date,
+								lat: docs_last_meet[index_docs_last_meet].lat,
+								lon: docs_last_meet[index_docs_last_meet].lon
+							    };
+							    
+							    break;
+							}
+						    }
+
+						    result.data.push(item_crossings);
+
+						    return res.json(result);
+					      });
+					      ////////////					    
 					      
-					    result.data.push(item_crossings);
+					      ///////////////////result.data.push(item_crossings);
 					    
-					    return res.json(result);
+					      ///////////////////return res.json(result);
 				      });
-				      /////
-				      
                                 }
                             }
                         }
