@@ -2872,6 +2872,12 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
                 
                 db.collection('crossings').insert({
                     user_id:parseInt(req.params.user_id),
+                    timestamp:timestampISODate,		    
+                    crossings: docs_positions[0].crossings
+                });
+		    
+		db.collection('crossings_positions').insert({
+                    user_id:parseInt(req.params.user_id),
                     timestamp:timestampISODate,
 		    lat: parseFloat(req.body.latitude),
 		    lon: parseFloat(req.body.longitude),
