@@ -2087,7 +2087,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 							for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
 							   
 							    item_crossings.notifier.last_meet_position = {
-								creation_date: docs_last_meet[index_docs_last_meet].date,
+								creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
 								lat: docs_last_meet[index_docs_last_meet].lat,
 								lon: docs_last_meet[index_docs_last_meet].lon
 							    };
