@@ -680,7 +680,7 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
         res.status(400).send('400 Bad Request')
     }
     
-    console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);
+    //console.log('req.body.service_payment_preferences --> ' + req.body.service_payment_preferences);
     
     var date = new Date();
     date.setHours(date.getHours() - 3);
@@ -692,6 +692,7 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 		
 	    var ObjectId = require('mongodb').ObjectID;
 	    var paymentObjectId = ObjectId(req.body.service_payment_preferences.payments[i].id);
+	    req.body.service_payment_preferences.payments[i].id = paymentObjectId.toHexString();
 		
             db.collection('payment_preferences').update({ 
                 matching : parseInt(req.body.service_payment_preferences.payments[i].matching), 
@@ -743,6 +744,7 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
 		
 	    var ObjectId = require('mongodb').ObjectID;
 	    var feedbackObjectId = ObjectId(req.body.service_feedback_preferences.feedbacks[i].id);
+	    req.body.service_feedback_preferences.feedbacks[i].id = feedbackObjectId.toHexString();
 		
             db.collection('feedback_preferences').update({ 
                 matching : parseInt(req.body.service_feedback_preferences.feedbacks[i].matching), 
