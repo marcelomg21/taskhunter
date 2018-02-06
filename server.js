@@ -453,6 +453,7 @@ app.get('/api/users/:user_id', function (req, res) {
                         for (var index_docs_payments = 0, len_docs_payments = docs_payments.length; index_docs_payments < len_docs_payments; index_docs_payments++) {
 
                             var item_payment = {
+				id: docs_payments[index_docs_payments]._id.toHexString(),
                                 matching: docs_payments[index_docs_payments].matching,                            
                                 working: docs_payments[index_docs_payments].working,
                                 type: docs_payments[index_docs_payments].type,
@@ -688,9 +689,14 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
     //matching
     if(req.body.service_payment_preferences.payments.length > 0) {
         for (var i = 0, len = req.body.service_payment_preferences.payments.length; i < len; i++) {
+		
+	    var ObjectId = require('mongodb').ObjectID;
+	    var paymentObjectId = ObjectId(req.body.service_payment_preferences.payments[i].id);
+		
             db.collection('payment_preferences').update({ 
                 matching : parseInt(req.body.service_payment_preferences.payments[i].matching), 
                 working : parseInt(req.body.service_payment_preferences.payments[i].working), 
+		_id : paymentObjectId,
                 type : req.body.service_payment_preferences.payments[i].type, 
                 name : req.body.service_payment_preferences.payments[i].name
             }, 
