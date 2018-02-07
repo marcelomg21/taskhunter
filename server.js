@@ -776,48 +776,32 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
     return res.json(result);  
 });
 
-// update service feedback working preferences
-app.put('/api/users/:user_id/service/feedback/working/preferences', function (req, res) {
+// update service contact_us preferences
+app.put('/api/users/:user_id/service/contact/us/preferences', function (req, res) {
       
-    if(!req.body.service_feedback_preferences) {
+    if(!req.body.service_contact_us_preferences) {
         res.status(400).send('400 Bad Request')
     }
     
-    console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
+    //console.log('req.body.service_feedback_preferences --> ' + req.body.service_feedback_preferences);
     
     var date = new Date();
     date.setHours(date.getHours() - 3);
     var timestampISODate = new Date(date.toISOString());
     
-    //feedback matching
-    if(req.body.service_feedback_preferences.working.length > 0) {
-        for (var i = 0, len = req.body.service_feedback_preferences.working.length; i < len; i++) {
-            db.collection('users').update({
-                user_id : parseInt(req.params.user_id), 
-                'service_feedback_preferences.working': 
-                    { $elemMatch:{ 
-                        user_id : parseInt(req.body.service_feedback_preferences.working[i].user_id), 
-                        type : req.body.service_feedback_preferences.working[i].type, 
-                        name : req.body.service_feedback_preferences.working[i].name } 
-                    } 
-                }, 
-                { $addToSet: 
-                    {
-                        'service_feedback_preferences.working' : 
-                            { user_id : parseInt(req.body.service_feedback_preferences.working[i].user_id),
-                              timestamp : timestampISODate,
-                              feedback : parseInt(req.body.service_feedback_preferences.working[i].feedback)
-                            }
-                     } 
-                }, {upsert:true});
-        }
-    }
+    db.collection('contact_us').insert({
+    	user_id : parseInt(req.params.user_id),
+    	timestamp : timestampISODate,
+    	email : req.body.service_contact_us_preferences.email,
+	subject : req.body.service_contact_us_preferences.subject,
+	message : req.body.service_contact_us_preferences.message
+    });
     
     var result = {
         success: true,
         data: {               
             id: req.params.user_id, 	
-            service_feedback_preferences: req.body.service_feedback_preferences
+            service_contact_us_preferences: req.body.service_contact_us_preferences
         }
     };        
     
