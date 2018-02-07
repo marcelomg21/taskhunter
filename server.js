@@ -482,6 +482,7 @@ app.get('/api/users/:user_id', function (req, res) {
 				    var item_feedback = {
 					matching: docs_feedbacks[index_docs_feedbacks].matching,
 					id: docs_feedbacks[index_docs_feedbacks]._id.toHexString(),
+					payment: docs_feedbacks[index_docs_feedbacks].payment,
 					working: docs_feedbacks[index_docs_feedbacks].working,
 					working_name: docs_feedbacks[index_docs_feedbacks].working_name,
 					type: docs_feedbacks[index_docs_feedbacks].type,
@@ -751,6 +752,7 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
                 working : parseInt(req.body.service_feedback_preferences.feedbacks[i].working), 
 		working_name : req.body.service_feedback_preferences.feedbacks[i].working_name,
 		_id : feedbackObjectId,
+		payment: req.body.service_feedback_preferences.feedbacks[i].payment,
                 type : req.body.service_feedback_preferences.feedbacks[i].type, 
                 name : req.body.service_feedback_preferences.feedbacks[i].name
             }, 
