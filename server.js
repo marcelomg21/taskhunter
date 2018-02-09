@@ -224,7 +224,7 @@ app.post('/api/sendmail', function (req, res) {
   }
   if (db) {
     //ar col = db.collection('positions');
-    var smtpTrans = nodeMailer.createTransport({    
+    var smtpTrans = nodemailer.createTransport({    
 	    service: 'Godaddy',
 	    host: "smtpout.secureserver.net",  
 	    secureConnection: true,
