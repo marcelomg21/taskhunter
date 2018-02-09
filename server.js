@@ -229,7 +229,6 @@ app.post('/api/sendmail', function (req, res) {
 	    host: "smtpout.secureserver.net",  
 	    secureConnection: true,
 	    port: 465,
-
 	    auth: {
 		user: "contato@taskhunterapp.com",
 		pass: "Contato#2018" 
@@ -250,7 +249,7 @@ app.post('/api/sendmail', function (req, res) {
 	  } else {
 		console.log('Email sent: ' + info.response);
 	  }
-	});
+     });
   } 
   res.end();
 });
