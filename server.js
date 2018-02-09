@@ -10,6 +10,7 @@ var express = require('express'),
     firebase = require('firebase-admin'),    
     bodyParser = require('body-parser'),
     path = require('path'),
+    nodemailer = require('nodemailer'),
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -210,6 +211,46 @@ app.post('/api/position', function (req, res) {
     //col.insert({position: req.body.name, date: Date.now()});
     //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
     col.insert({name: req.body.name, location: {type : 'Point', coordinates : [parseFloat(req.body.lat), parseFloat(req.body.lon)]}});    
+  } 
+  res.end();
+});
+
+app.post('/api/sendmail', function (req, res) {
+  if(!req.body.email) {
+     res.status(400).send('400 Bad Request')
+  }
+  if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    //ar col = db.collection('positions');
+    var smtpTrans = nodeMailer.createTransport({    
+	    service: 'Godaddy',
+	    host: "smtpout.secureserver.net",  
+	    secureConnection: true,
+	    port: 465,
+
+	    auth: {
+		user: "contato@taskhunterapp.com",
+		pass: "Contato#2018" 
+	    }
+	});
+
+     var mailOptions = {
+	  from: 'contato@taskhunterapp.com',
+	  to: req.body.email,
+	  subject: 'Sending Email using Node.js',
+	  text: 'That was easy!',
+	  html: '<h1>Welcome</h1><p>That was easy!</p>'
+	};
+
+     smtpTrans.sendMail(mailOptions, function(error, info){
+	  if (error) {
+		console.log(error);
+	  } else {
+		console.log('Email sent: ' + info.response);
+	  }
+	});
   } 
   res.end();
 });
