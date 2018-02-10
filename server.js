@@ -237,12 +237,12 @@ function sendmail(email, subject, text, html){
 	    port: 465,
 	    auth: {
 		user: "contato@taskhunterapp.com",
-		pass: "Contato#2018" 
+		pass: "Contato#2018"
 	    }
 	});
 
      var mailOptions = {
-	  from: 'contato@taskhunterapp.com',
+	  from: 'Task Hunter App <contato@taskhunterapp.com>',
 	  to: email,
 	  subject: subject,
 	  text: text,
