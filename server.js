@@ -224,6 +224,12 @@ app.post('/api/sendmail', function (req, res) {
   }
   if (db) {
     //ar col = db.collection('positions');
+    sendmail(req.body.email, 'Sending Email using Node.js 2', 'That was easy! 2', '<h1>Welcome</h1><p>That was easy 2!</p>');
+  } 
+  res.end();
+});
+
+function sendmail(email, subject, text, html){
     var smtpTrans = nodemailer.createTransport({    
 	    service: 'Godaddy',
 	    host: "smtpout.secureserver.net",  
@@ -237,10 +243,10 @@ app.post('/api/sendmail', function (req, res) {
 
      var mailOptions = {
 	  from: 'contato@taskhunterapp.com',
-	  to: req.body.email,
-	  subject: 'Sending Email using Node.js',
-	  text: 'That was easy!',
-	  html: '<h1>Welcome</h1><p>That was easy!</p>'
+	  to: email,
+	  subject: subject,
+	  text: text,
+	  html: html
 	};
 
      smtpTrans.sendMail(mailOptions, function(error, info){
@@ -250,9 +256,7 @@ app.post('/api/sendmail', function (req, res) {
 		console.log('Email sent: ' + info.response);
 	  }
      });
-  } 
-  res.end();
-});
+}
 
 app.get('/api/positions', function (req, res) {
   if (!db) {
