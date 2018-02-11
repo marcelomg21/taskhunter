@@ -351,7 +351,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            digit: '',
                            bank: '',
 			   address_complement: '',
-			   city: facebook_json.location.name,
+			   city: facebook_json.location != undefined ? facebook_json.location.name : '',
 			   country: 'BRA',
 			   neighborhood: '',
 			   birth_date: facebook_json.birthday,
