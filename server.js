@@ -381,6 +381,8 @@ app.post('/connect/oauth/token', function (req, res) {
                         is_new: false,
                         refresh_token: '43p0v5m203kd9333goafve2qe9idqp0707'
                     };
+			
+		    sendmail(facebook_json.email, facebook_json.first_name + ', Bem-vindo ao Task Hunter App', 'Task Hunter App', '<h1>Agradecemos a Preferência</h1><p>Para começar a usar o Task Hunter App, basta selecionar os serviços de seu interesse no menu do aplicativo. Pronto, agora é so caminhar por aí e cruzar as pessoas no mundo real com preferências em serviços semelhantes as suas.</p>');
                     
                     return res.json(result);
                     
