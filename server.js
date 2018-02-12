@@ -597,6 +597,7 @@ app.put('/api/users/:user_id', function (req, res) {
                 card_month: req.body.card_month,
 		digit : req.body.digit,		    
 		cpf : req.body.cpf,
+		birth_date: req.body.birth_date,
 		street_address : req.body.street_address,
 		street_number : req.body.street_number,
 		neighborhood : req.body.neighborhood,
