@@ -329,6 +329,10 @@ app.post('/connect/oauth/token', function (req, res) {
                         facebook_access_token: req.body.assertion,
                         client_id: req.body.client_id
                     };
+			
+		    var register_date = new Date();
+		    register_date.setHours(register_date.getHours() - 3);
+		    var registerDateFormat = register_date.toISOString().split('T')[0];
 
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
@@ -354,6 +358,7 @@ app.post('/connect/oauth/token', function (req, res) {
 			   city: facebook_json.location != undefined ? facebook_json.location.name : '',
 			   country: 'BRA',
 			   neighborhood: '',
+			   register_date: registerDateFormat,
 			   birth_date: facebook_json.birthday,
 			   cpf: '',
 			   cell_phone: '',
@@ -444,7 +449,7 @@ app.get('/api/users/:user_id', function (req, res) {
                       first_name: user_docs[0].user_name,
 		      full_name: user_docs[0].full_user_name,
                       gender: user_docs[0].gender,
-                      register_date: '2010-07-16',
+                      register_date: user_docs[0].register_date,
                       email: user_docs[0].email,
 		      card_customer_name: user_docs[0].card_customer_name,
 		      card_brand: user_docs[0].card_brand,
