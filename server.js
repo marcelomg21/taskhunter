@@ -332,8 +332,11 @@ app.post('/connect/oauth/token', function (req, res) {
 			
 		    var register_date = new Date();
 		    register_date.setHours(register_date.getHours() - 3);
-		    //var registerDateFormat = register_date.toISOString().split('T')[0];
-		    var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
+		    var registerDateFormat = register_date.toISOString().split('T')[0];
+		    var birthDateFormat = '';
+		    if(facebook_json.birthday != undefined)
+		    	birthDateFormat = facebook_json.birthday.split('/')[2] + '-' + facebook_json.birthday.split('/')[1] + '-' + facebook_json.birthday.split('/')[0];
+		    //var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
 
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
@@ -360,7 +363,7 @@ app.post('/connect/oauth/token', function (req, res) {
 			   country: 'BRA',
 			   neighborhood: '',
 			   register_date: registerDateFormat,
-			   birth_date: facebook_json.birthday,
+			   birth_date: birthDateFormat,
 			   cpf: '',
 			   cell_phone: '',
 			   fixed_phone: '',
@@ -631,7 +634,7 @@ app.put('/api/users/:user_id', function (req, res) {
                       first_name: user_docs[0].user_name,
 		      full_name: user_docs[0].full_user_name,
                       gender: user_docs[0].gender,
-                      register_date: '2010-07-16',
+                      register_date: user_docs[0].register_date,
                       email: user_docs[0].email,
 		      card_customer_name: user_docs[0].card_customer_name,
 		      card_brand: user_docs[0].card_brand,
