@@ -332,7 +332,8 @@ app.post('/connect/oauth/token', function (req, res) {
 			
 		    var register_date = new Date();
 		    register_date.setHours(register_date.getHours() - 3);
-		    var registerDateFormat = register_date.toISOString().split('T')[0];
+		    //var registerDateFormat = register_date.toISOString().split('T')[0];
+		    var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
 
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
