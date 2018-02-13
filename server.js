@@ -2164,7 +2164,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 						    result.data.push(item_crossings);
 
-						    return res.json(result);
+						    res.json(result);
 					      });
 					      ////////////					    
 					      
