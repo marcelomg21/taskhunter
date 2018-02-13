@@ -2174,13 +2174,12 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				      });
                                 }
                             }
+			    res.json(result);
                         }
                         
                         //return res.json(result);
                     });
                 } 
-		
-		res.json(result);
         });
     }     
 });
