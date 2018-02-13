@@ -333,7 +333,7 @@ app.post('/connect/oauth/token', function (req, res) {
 		    var register_date = new Date();
 		    register_date.setHours(register_date.getHours() - 3);
 		    var registerDateFormat = register_date.toISOString().split('T')[0];
-		    var birthDateFormat = '';
+		    var birthDateFormat = null;
 		    if(facebook_json.birthday != undefined)
 		    	birthDateFormat = facebook_json.birthday.split('/')[2] + '-' + facebook_json.birthday.split('/')[1] + '-' + facebook_json.birthday.split('/')[0];
 		    //var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
