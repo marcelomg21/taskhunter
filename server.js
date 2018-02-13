@@ -2181,6 +2181,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                 }                                
         });
     } 
+    return next();
 });
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
