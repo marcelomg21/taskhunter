@@ -2164,7 +2164,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 						    result.data.push(item_crossings);
 
-						    res.json(result);
+						    //res.json(result);
 					      });
 					      ////////////					    
 					      
@@ -2178,10 +2178,11 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                         
                         //return res.json(result);
                     });
-                }                                
+                } 
+		
+		res.json(result);
         });
-    } 
-    return next();
+    }     
 });
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
