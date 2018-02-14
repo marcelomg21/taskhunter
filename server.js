@@ -2122,37 +2122,34 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                       };
 					
 				      //feedback crossing item by user
-				      try {
-					    sync.fiber(function() {
-						var docs_feedbacks = sync.await( db.collection('feedback_preferences').aggregate([{$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray());
-						    //var docs_feedbacks = db.collection('feedback_preferences').aggregate([
-							//  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
-
-						    console.log('docs_feedbacks: '+docs_feedbacks);
-						      if (docs_feedbacks.length > 0) {
-
-							  for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
-
-							      var item_crossings_feedback = {
-								  matching: docs_feedbacks[index_docs_feedbacks].matching,                            
-								  working: docs_feedbacks[index_docs_feedbacks].working,
-								  type: docs_feedbacks[index_docs_feedbacks].type,
-								  name: docs_feedbacks[index_docs_feedbacks].name,
-								  evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
-							      };
-
-							      item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-							  }
-						      }
-					    });
-					} catch(err) {
-					    //TODO Handle error
-						console.log('------->err: docs_feedbacks: ' + err);
-					}
 				      
+				    sync.fiber(function() {
+					db.collection('feedback_preferences').aggregate([
+					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
+
+						console.log('docs_feedbacks: ' + docs_feedbacks);
+					    if (docs_feedbacks.length > 0) {
+
+						for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
+
+						    var item_crossings_feedback = {
+							matching: docs_feedbacks[index_docs_feedbacks].matching,                            
+							working: docs_feedbacks[index_docs_feedbacks].working,
+							type: docs_feedbacks[index_docs_feedbacks].type,
+							name: docs_feedbacks[index_docs_feedbacks].name,
+							evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
+						    };
+
+						    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+						}
+					    }
+					});
+					    result.data.push(item_crossings);
+				    });
+					console.log('docs_feedbacks: saindo......');
 
                                       //last meet position crossing
-				      var docs_last_meet =  db.collection('crossings_positions').aggregate([            
+				      /*var docs_last_meet =  db.collection('crossings_positions').aggregate([            
 						{$unwind:'$crossings'},            
 						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
 						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray();
@@ -2172,7 +2169,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					result.data.push(item_crossings);
 						
 				      //feedback crossing item by user
-				      /*db.collection('feedback_preferences').aggregate([
+				      db.collection('feedback_preferences').aggregate([
 					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
 
 					    if (docs_feedbacks.length > 0) {
