@@ -2121,9 +2121,29 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                       };
 
                                       //result.data.push(item_crossings);
+				      var docs_last_meet =  db.collection('crossings_positions').aggregate([            
+						{$unwind:'$crossings'},            
+						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
+						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray();
 					
+					if (docs_last_meet.length > 0) {
+
+						for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
+
+						    item_crossings.notifier.last_meet_position = {
+							creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
+							lat: docs_last_meet[index_docs_last_meet].lat,
+							lon: docs_last_meet[index_docs_last_meet].lon
+						    };
+
+						    break;
+						}
+					    }
+
+					    result.data.push(item_crossings);
+						
 				      //feedback crossing item by user
-				      db.collection('feedback_preferences').aggregate([
+				      /*db.collection('feedback_preferences').aggregate([
 					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
 
 					    if (docs_feedbacks.length > 0) {
@@ -2163,24 +2183,14 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 						    }
 
 						    result.data.push(item_crossings);
-						    
-						    if(index_docs_crossings == docs_crossings[0].crossings.length-1){
-						       res.json(result);
-						    }
 
 						    //res.json(result);
-					      });
-					      ////////////					    
-					      
-					      ///////////////////result.data.push(item_crossings);
-					    
-					      ///////////////////return res.json(result);
-				      });
+					      });					      
+				      });*/
                                 }
                             }
+			    res.json(result);
                         }
-                        
-                        //return res.json(result);
                     });
                 } 
         });
