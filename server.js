@@ -2163,6 +2163,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 						    }
 
 						    result.data.push(item_crossings);
+						    
+						    if(index_docs_crossings == docs_crossings[0].crossings.length-1){
+						       res.json(result);
+						    }
 
 						    //res.json(result);
 					      });
@@ -2174,7 +2178,6 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				      });
                                 }
                             }
-			    res.json(result);
                         }
                         
                         //return res.json(result);
