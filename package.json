@@ -21,7 +21,6 @@
     "debug": "~2.6.0",
     "pug": "^2.0.0-beta6",
     "nodemailer": "^4.4.2",
-    "synchronize": "^2.0.0",
     "serve-favicon": "~2.3.2"
   },
   "engine": {
