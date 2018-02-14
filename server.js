@@ -2122,7 +2122,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					
 				      //feedback crossing item by user
 				      var docs_feedbacks = db.collection('feedback_preferences').aggregate([
-					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
+					  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
 					
 				      if (docs_feedbacks.length > 0) {
 
