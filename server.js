@@ -2143,8 +2143,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 						    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
 						}
 					    }
+						result.data.push(item_crossings);
 					});
-					    result.data.push(item_crossings);
 				    });
 					console.log('docs_feedbacks: saindo......');
 
