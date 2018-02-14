@@ -2147,6 +2147,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					    });
 					} catch(err) {
 					    //TODO Handle error
+						console.log('------->err: docs_feedbacks: ' + err);
 					}
 				      
 
