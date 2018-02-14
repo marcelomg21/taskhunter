@@ -2121,7 +2121,16 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                          }
                                       };
 					
-				      result.data.push(item_crossings);
+				      sync_feedback_preferences = sync(sync_feedback_preferences);
+				      sync_last_meet_preferences = sync(sync_last_meet_preferences);
+
+				      sync.fiber(function() {
+					  sync_feedback_preferences(item_crossings);
+					  sync_last_meet_preferences(item_crossings);
+					  result.data.push(item_crossings);
+				      });	
+					
+				      
 				    
 				      //feedback crossing item by user
 
@@ -2193,14 +2202,6 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 }
                             }
 				
-			    sync_feedback_preferences = sync(sync_feedback_preferences);
-			    sync_last_meet_preferences = sync(sync_last_meet_preferences);
-				
-			    sync.fiber(function() {
-			        sync_feedback_preferences(result);
-			        sync_last_meet_preferences(result);
-			    });	
-				
 			    res.json(result);
                         }
                     });
@@ -2209,14 +2210,14 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
     }     
 });
 
-var sync_feedback_preferences = function(result, callback) {
+var sync_feedback_preferences = function(item_crossings, callback) {
     if (!db) {
         initDb(function(err){});
     }
 
     if (db) {
 	db.collection('feedback_preferences').aggregate([
-	  {$match: {$and: [{working:parseInt(result.data.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
+	  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
 
 	    if (docs_feedbacks.length > 0) {
 
@@ -2230,16 +2231,16 @@ var sync_feedback_preferences = function(result, callback) {
 			evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
 		    };
 
-		    result.data.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+		    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
 		}
 	    }
 		
-	    callback(null, result);
+	    callback(null, item_crossings);
 	});
     }
 };
 
-var sync_last_meet_preferences = function(result, callback) {
+var sync_last_meet_preferences = function(item_crossings, callback) {
     if (!db) {
         initDb(function(err){});
     }
@@ -2247,14 +2248,14 @@ var sync_last_meet_preferences = function(result, callback) {
     if (db) {
 	db.collection('crossings_positions').aggregate([            
 	{$unwind:'$crossings'},            
-	{$match:{$and:[{'user_id' : parseInt(result.data.id), 'crossings' : parseInt(result.data.notifier.id)}]} },
+	{$match:{$and:[{'user_id' : parseInt(item_crossings.id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
 	{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
 
 	    if (docs_last_meet.length > 0) {
 
 		for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
 
-		    result.data.notifier.last_meet_position = {
+		    item_crossings.notifier.last_meet_position = {
 			creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
 			lat: docs_last_meet[index_docs_last_meet].lat,
 			lon: docs_last_meet[index_docs_last_meet].lon
@@ -2262,7 +2263,7 @@ var sync_last_meet_preferences = function(result, callback) {
 		}
 	    }
 
-	    callback(null, result);
+	    callback(null, item_crossings);
       });
     }
 };
