@@ -11,7 +11,6 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
-    sync = require('synchronize'),
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -1980,8 +1979,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             {$unwind:'$crossings'}, 
             {$group:{_id:'$user_id', crossings:{'$addToSet':'$crossings'} } }, 
             {$unwind:'$crossings'}, 
-            {$lookup:{from:'users', localField:'crossings', foreignField:'user_id', as:'crossingsObjects'} }, 
-            {$unwind:'$crossingsObjects'}, {$group:{_id:'$_id', crossings:{'$push':'$crossingsObjects'} } }, 
+            {$lookup:{from:'users', localField:'crossings', foreignField:'user_id', as:'crossingsObjects'} },
+	    {$lookup:{from:'feedback_preferences', localField:'crossings', foreignField:'working', as:'feedbackObjects'} },
+            {$unwind:'$crossingsObjects'}, 
+	    {$group:{_id:'$_id', crossings: {'$push': {'crossing_user': '$crossingsObjects', 'crossing_feedback': '$feedbackObjects'} } } }, 
             {$match:{$and:[{'_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_crossings) {
 
                 //console.log("docs_crossings.length: " + docs_crossings.length);
@@ -2004,11 +2005,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 //matching
                                 for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var worked = docs_crossings[0].crossings[index_docs_crossings].service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
+                                    var worked = docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
 
                                     if(worked != undefined){                                       
-                                        var worked_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id), item: worked };
-                                        console.log('worked_item: ' + worked_item);
+                                        var worked_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id), item: worked };
                                         timeline_matching_crossings.services.push(worked_item);
                                     }
                                     
@@ -2017,11 +2017,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 //working
                                 for (var index_docs_users = 0, len_docs_users = user_docs[0].service_working_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-                                    var matched = docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
+                                    var matched = docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
 
                                     if(matched != undefined){
-                                        var matched_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id), item: matched };
-                                        console.log('matched_item: ' + matched_item);
+                                        var matched_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id), item: matched };
                                         timeline_working_crossings.services.push(matched_item);
                                     }
 
@@ -2048,7 +2047,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				    
 				//crossing user service preferences
 				db.collection('service_preferences').update({ 
-                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},                                    
+                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id)},                                    
                                         { $set: 
                                             { "working": timeline_matching_crossings }
                                         },
@@ -2056,7 +2055,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 );
                                 
                                 db.collection('service_preferences').update({ 
-                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id)},
+                                    user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id)},
                                         { $set: 
                                             { "matching": timeline_working_crossings }
                                         },
@@ -2075,20 +2074,20 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                         //modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
                                         notification_type: '471,524,525,526,529,530,531,565,791,792',
                                         notifier: { 
-                                            id: parseInt(docs_crossings[0].crossings[index_docs_crossings].user_id),
+                                            id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id),
                                             type: 'client',
                                             //job: 'Serviços Gerais',
                                             is_accepted: true,
                                             //workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
                                             my_relation: 1,
                                             //distance: 20.90,
-                                            gender: docs_crossings[0].crossings[index_docs_crossings].gender,                                            
+                                            gender: docs_crossings[0].crossings[index_docs_crossings].crossing_user.gender,                                            
                                             is_charmed: false,
                                             nb_photos: 1,
-                                            first_name: docs_crossings[0].crossings[index_docs_crossings].user_name,
+                                            first_name: docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_name,
                                             age: 0,
-					    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].service_matching_preferences,                      
-                      			    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].service_working_preferences,
+					    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_matching_preferences,
+                      			    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_working_preferences,
 					    service_feedback_preferences: { feedbacks: [] },
 					    service_timeline_preferences: item_timeline,
                                             already_charmed: false,
@@ -2112,50 +2111,33 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             },
                                             profiles: [
                                             {
-                                                id: docs_crossings[0].crossings[index_docs_crossings].user_id,
+                                                id: docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id,
                                                 mode: 0,
-                                                url: docs_crossings[0].crossings[index_docs_crossings].facebook_picture,
+                                                url: docs_crossings[0].crossings[index_docs_crossings].crossing_user.facebook_picture,
                                                 width: 50,
                                                 height: 50
                                             }]
                                          }
                                       };
 					
-				      sync_feedback_preferences = sync(sync_feedback_preferences);
-				      sync_last_meet_preferences = sync(sync_last_meet_preferences);
+				      for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_crossings[0].crossings[index_docs_crossings].crossing_feedback.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
 
-				      sync.fiber(function() {
-					  sync_feedback_preferences(item_crossings);
-					  sync_last_meet_preferences(item_crossings);
-					  result.data.push(item_crossings);
-				      });	
-					
-				      
-				    
+					    var item_crossings_feedback = {
+						matching: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].matching,
+						working: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].working,
+						type: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].type,
+						name: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].name,
+						payment: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].payment,
+						evaluation: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].evaluation
+					    };
+
+					    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+				      } 
+
+				      result.data.push(item_crossings);
+	
 				      //feedback crossing item by user
-
-                                      //last meet position crossing
-				      /*var docs_last_meet =  db.collection('crossings_positions').aggregate([            
-						{$unwind:'$crossings'},            
-						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
-						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray();
-					
-				       if (docs_last_meet.length > 0) {
-
-						for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
-
-						    item_crossings.notifier.last_meet_position = {
-							creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
-							lat: docs_last_meet[index_docs_last_meet].lat,
-							lon: docs_last_meet[index_docs_last_meet].lon
-						    };
-						}
-					}
-
-					result.data.push(item_crossings);
-						
-				      //feedback crossing item by user
-				      db.collection('feedback_preferences').aggregate([
+				      /*db.collection('feedback_preferences').aggregate([
 					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
 
 					    if (docs_feedbacks.length > 0) {
@@ -2174,30 +2156,30 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 						}
 					    }
 
-					    //last meet position crossing
-					      db.collection('crossings_positions').aggregate([            
-						{$unwind:'$crossings'},            
-						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
-						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
+					    					      
+				      });
+					
+				      //last meet position crossing
+				      db.collection('crossings_positions').aggregate([            
+					{$unwind:'$crossings'},            
+					{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
+					{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
 
-						    if (docs_last_meet.length > 0) {
+					    if (docs_last_meet.length > 0) {
 
-							for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
-							   
-							    item_crossings.notifier.last_meet_position = {
-								creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
-								lat: docs_last_meet[index_docs_last_meet].lat,
-								lon: docs_last_meet[index_docs_last_meet].lon
-							    };
-							    
-							    break;
-							}
-						    }
+						for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
 
-						    result.data.push(item_crossings);
+						    item_crossings.notifier.last_meet_position = {
+							creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
+							lat: docs_last_meet[index_docs_last_meet].lat,
+							lon: docs_last_meet[index_docs_last_meet].lon
+						    };
 
-						    //res.json(result);
-					      });					      
+						    break;
+						}
+					    }
+
+					    //res.json(result);
 				      });*/
                                 }
                             }
@@ -2209,64 +2191,6 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
         });
     }     
 });
-
-var sync_feedback_preferences = function(item_crossings, callback) {
-    if (!db) {
-        initDb(function(err){});
-    }
-
-    if (db) {
-	db.collection('feedback_preferences').aggregate([
-	  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
-
-	    if (docs_feedbacks.length > 0) {
-
-		for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
-
-		    var item_crossings_feedback = {
-			matching: docs_feedbacks[index_docs_feedbacks].matching,                            
-			working: docs_feedbacks[index_docs_feedbacks].working,
-			type: docs_feedbacks[index_docs_feedbacks].type,
-			name: docs_feedbacks[index_docs_feedbacks].name,
-			evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
-		    };
-
-		    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-		}
-	    }
-		
-	    callback(null, item_crossings);
-	});
-    }
-};
-
-var sync_last_meet_preferences = function(item_crossings, callback) {
-    if (!db) {
-        initDb(function(err){});
-    }
-
-    if (db) {
-	db.collection('crossings_positions').aggregate([            
-	{$unwind:'$crossings'},            
-	{$match:{$and:[{'user_id' : parseInt(item_crossings.id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
-	{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
-
-	    if (docs_last_meet.length > 0) {
-
-		for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
-
-		    item_crossings.notifier.last_meet_position = {
-			creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
-			lat: docs_last_meet[index_docs_last_meet].lat,
-			lon: docs_last_meet[index_docs_last_meet].lon
-		    };
-		}
-	    }
-
-	    callback(null, item_crossings);
-      });
-    }
-};
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
     
