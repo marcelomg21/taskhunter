@@ -2121,32 +2121,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                          }
                                       };
 					
+				      result.data.push(item_crossings);
+				    
 				      //feedback crossing item by user
-				      
-				    sync.fiber(function() {
-					db.collection('feedback_preferences').aggregate([
-					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
-
-						console.log('docs_feedbacks: ' + docs_feedbacks);
-					    if (docs_feedbacks.length > 0) {
-
-						for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
-
-						    var item_crossings_feedback = {
-							matching: docs_feedbacks[index_docs_feedbacks].matching,                            
-							working: docs_feedbacks[index_docs_feedbacks].working,
-							type: docs_feedbacks[index_docs_feedbacks].type,
-							name: docs_feedbacks[index_docs_feedbacks].name,
-							evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
-						    };
-
-						    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-						}
-					    }
-						result.data.push(item_crossings);
-					});
-				    });
-					console.log('docs_feedbacks: saindo......');
 
                                       //last meet position crossing
 				      /*var docs_last_meet =  db.collection('crossings_positions').aggregate([            
@@ -2215,6 +2192,15 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				      });*/
                                 }
                             }
+				
+			    sync_feedback_preferences = sync(sync_feedback_preferences);
+			    sync_last_meet_preferences = sync(sync_last_meet_preferences);
+				
+			    sync.fiber(function() {
+			        sync_feedback_preferences(result);
+			        sync_last_meet_preferences(result);
+			    });	
+				
 			    res.json(result);
                         }
                     });
@@ -2222,6 +2208,64 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
         });
     }     
 });
+
+var sync_feedback_preferences = function(result, callback) {
+    if (!db) {
+        initDb(function(err){});
+    }
+
+    if (db) {
+	db.collection('feedback_preferences').aggregate([
+	  {$match: {$and: [{working:parseInt(result.data.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
+
+	    if (docs_feedbacks.length > 0) {
+
+		for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
+
+		    var item_crossings_feedback = {
+			matching: docs_feedbacks[index_docs_feedbacks].matching,                            
+			working: docs_feedbacks[index_docs_feedbacks].working,
+			type: docs_feedbacks[index_docs_feedbacks].type,
+			name: docs_feedbacks[index_docs_feedbacks].name,
+			evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
+		    };
+
+		    result.data.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+		}
+	    }
+		
+	    callback(null, result);
+	});
+    }
+};
+
+var sync_last_meet_preferences = function(result, callback) {
+    if (!db) {
+        initDb(function(err){});
+    }
+
+    if (db) {
+	db.collection('crossings_positions').aggregate([            
+	{$unwind:'$crossings'},            
+	{$match:{$and:[{'user_id' : parseInt(result.data.id), 'crossings' : parseInt(result.data.notifier.id)}]} },
+	{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
+
+	    if (docs_last_meet.length > 0) {
+
+		for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
+
+		    result.data.notifier.last_meet_position = {
+			creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
+			lat: docs_last_meet[index_docs_last_meet].lat,
+			lon: docs_last_meet[index_docs_last_meet].lon
+		    };
+		}
+	    }
+
+	    callback(null, result);
+      });
+    }
+};
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
     
