@@ -2124,10 +2124,11 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				      //feedback crossing item by user
 				      try {
 					    sync.fiber(function() {
-						var docs_feedbacks = sync.await( db.collection('feedback_preferences').aggregate([{$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray(sync.defer()));
+						var docs_feedbacks = sync.await( db.collection('feedback_preferences').aggregate([{$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray());
 						    //var docs_feedbacks = db.collection('feedback_preferences').aggregate([
 							//  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
 
+						    console.log('docs_feedbacks: '+docs_feedbacks);
 						      if (docs_feedbacks.length > 0) {
 
 							  for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
