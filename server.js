@@ -11,6 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
+    sync = require('synchronize'),
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -2121,24 +2122,32 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                       };
 					
 				      //feedback crossing item by user
-				      var docs_feedbacks = db.collection('feedback_preferences').aggregate([
-					  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
-					
-				      if (docs_feedbacks.length > 0) {
+				      try {
+					    sync.fiber(function() {
+						var docs_feedbacks = sync.await( db.collection('feedback_preferences').aggregate([{$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray(sync.defer()));
+						    //var docs_feedbacks = db.collection('feedback_preferences').aggregate([
+							//  {$match: {$and: [{working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
 
-					  for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
+						      if (docs_feedbacks.length > 0) {
 
-					      var item_crossings_feedback = {
-						  matching: docs_feedbacks[index_docs_feedbacks].matching,                            
-						  working: docs_feedbacks[index_docs_feedbacks].working,
-						  type: docs_feedbacks[index_docs_feedbacks].type,
-						  name: docs_feedbacks[index_docs_feedbacks].name,
-						  evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
-					      };
+							  for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
 
-					      item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-					  }
-				      }
+							      var item_crossings_feedback = {
+								  matching: docs_feedbacks[index_docs_feedbacks].matching,                            
+								  working: docs_feedbacks[index_docs_feedbacks].working,
+								  type: docs_feedbacks[index_docs_feedbacks].type,
+								  name: docs_feedbacks[index_docs_feedbacks].name,
+								  evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
+							      };
+
+							      item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+							  }
+						      }
+					    });
+					} catch(err) {
+					    //TODO Handle error
+					}
+				      
 
                                       //last meet position crossing
 				      var docs_last_meet =  db.collection('crossings_positions').aggregate([            
