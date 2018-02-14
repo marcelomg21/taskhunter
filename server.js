@@ -2119,14 +2119,34 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                             }]
                                          }
                                       };
+					
+				      //feedback crossing item by user
+				      var docs_feedbacks = db.collection('feedback_preferences').aggregate([
+					  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray();
+					
+				      if (docs_feedbacks.length > 0) {
 
-                                      //result.data.push(item_crossings);
+					  for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
+
+					      var item_crossings_feedback = {
+						  matching: docs_feedbacks[index_docs_feedbacks].matching,                            
+						  working: docs_feedbacks[index_docs_feedbacks].working,
+						  type: docs_feedbacks[index_docs_feedbacks].type,
+						  name: docs_feedbacks[index_docs_feedbacks].name,
+						  evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
+					      };
+
+					      item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+					  }
+				      }
+
+                                      //last meet position crossing
 				      var docs_last_meet =  db.collection('crossings_positions').aggregate([            
 						{$unwind:'$crossings'},            
 						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
 						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray();
 					
-					if (docs_last_meet.length > 0) {
+				       if (docs_last_meet.length > 0) {
 
 						for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
 
@@ -2135,12 +2155,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 							lat: docs_last_meet[index_docs_last_meet].lat,
 							lon: docs_last_meet[index_docs_last_meet].lon
 						    };
-
-						    break;
 						}
-					    }
+					}
 
-					    result.data.push(item_crossings);
+					result.data.push(item_crossings);
 						
 				      //feedback crossing item by user
 				      /*db.collection('feedback_preferences').aggregate([
