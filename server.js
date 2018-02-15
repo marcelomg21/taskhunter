@@ -521,7 +521,8 @@ app.get('/api/users/:user_id', function (req, res) {
                                 card: docs_payments[index_docs_payments].card,
                                 condition: docs_payments[index_docs_payments].condition,
                                 tax: docs_payments[index_docs_payments].tax,
-                                paid: docs_payments[index_docs_payments].paid
+                                paid: docs_payments[index_docs_payments].paid,
+				transfered: docs_payments[index_docs_payments].transfered
                             };
 
                             result.data.service_payment_preferences.payments.push(item_payment); 
@@ -779,7 +780,8 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
                     date : timestampISODate,
                     price : req.body.service_payment_preferences.payments[i].price,
                     tax : req.body.service_payment_preferences.payments[i].tax,
-                    paid : req.body.service_payment_preferences.payments[i].paid
+                    paid : req.body.service_payment_preferences.payments[i].paid,
+		    transfered : req.body.service_payment_preferences.payments[i].transfered
                  }
             },{upsert:true});
         }
