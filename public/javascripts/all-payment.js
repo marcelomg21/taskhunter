@@ -27,7 +27,7 @@ function populateTable() {
     var tableContent = '';
 
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/paymentlist', function( data ) {
+    $.getJSON( '/payment/allPaymentlist', function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         paymentListData = data;
