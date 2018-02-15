@@ -13,6 +13,14 @@ router.get('/payments', function(req, res) {
     });
 });
 
+router.get('/users', function(req, res) {
+    res.render('user', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
 router.get('/', function(req, res) {
     res.render('carousel', {
         'pathToAssets': '/bootstrap-3.3.1',
