@@ -1,4 +1,4 @@
-// Userlist data array for filling in info box
+// Paymentlist data array for filling in info box
 var paymentListData = [];
 
 // DOM Ready =============================================================
