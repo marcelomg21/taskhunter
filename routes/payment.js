@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/paymentlist', function(req, res) {    
+router.get('/allPaymentlist', function(req, res) {    
     var db = req.db;
     var query = {};    
 
