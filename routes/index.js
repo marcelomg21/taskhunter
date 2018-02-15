@@ -5,8 +5,8 @@ var router = express.Router();
 //  res.render('payment', { title: 'Pagamentos' });
 //});
 
-router.get('/payments', function(req, res) {
-    res.render('payment', {
+router.get('/all-payments', function(req, res) {
+    res.render('all-payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
         'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
