@@ -30,16 +30,11 @@ function populateTable() {
         $.each(data, function(){
             tableContent += '<tr>';
             tableContent += '<td><a href="#" class="linkshowuser" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
-            tableContent += '<td>' + this.matching + '</td>';
-            tableContent += '<td>' + this.working + '</td>';
-            tableContent += '<td>' + this.name + '</td>';
-            tableContent += '<td>' + this.type + '</td>';
-            tableContent += '<td>' + this.card + '</td>';
-            tableContent += '<td>' + this.condition + '</td>';
-            tableContent += '<td>' + this.date + '</td>';
-            tableContent += '<td>' + this.price + '</td>';
-            tableContent += '<td>' + this.tax + '</td>';
-            tableContent += '<td>' + this.paid + '</td>';
+            tableContent += '<td>' + this.user_id + '</td>';
+            tableContent += '<td>' + this.full_user_name + '</td>';
+            tableContent += '<td>' + this.email + '</td>';
+            tableContent += '<td>' + this.gender + '</td>';
+            tableContent += '<td>' + this.city + '</td>';
             //tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
@@ -66,15 +61,23 @@ function showUserInfo(event) {
 
     //Populate Info Box
     $('#userInfoID').text(thisUserObject._id);
-    $('#userInfoMatching').text(thisUserObject.matching);
-    $('#userInfoWorking').text(thisUserObject.working);
-    $('#userInfoName').text(thisUserObject.name);
-    $('#userInfoType').text(thisUserObject.type);
-    $('#userInfoCard').text(thisUserObject.card);
-    $('#userInfoCondition').text(thisUserObject.condition);
-    $('#userInfoDate').text(thisUserObject.date);
-    $('#userInfoPrice').text(thisUserObject.price);
-    $('#userInfoTax').text(thisUserObject.tax);
-    $('#userInfoPaid').text(thisUserObject.paid);    
+    $('#userInfoUserId').text(thisUserObject.user_id);
+    $('#userInfoFullUserName').text(thisUserObject.full_user_name);
+    $('#userInfoGender').text(thisUserObject.gender);
+    $('#userInfoCpf').text(thisUserObject.cpf);
+    $('#userInfoCellPhone').text(thisUserObject.cell_phone);
+    $('#userInfoBirthDate').text(thisUserObject.birth_date);
+    $('#userInfoEmail').text(thisUserObject.email);
+    $('#userInfoRegisterDate').text(thisUserObject.register_date);
+    $('#userInfoCountry').text(thisUserObject.country);
+    $('#userInfoCity').text(thisUserObject.city);
+    $('#userInfoNeighborhood').text(thisUserObject.neighborhood);
+    $('#userInfoState').text(thisUserObject.state);
+    $('#userInfoStreetAddress').text(thisUserObject.street_address);
+    $('#userInfoStreetNumber').text(thisUserObject.street_number);
+    $('#userInfoZipCode').text(thisUserObject.zip_code);
+    $('#userInfoBank').text(thisUserObject.bank);
+    $('#userInfoAgency').text(thisUserObject.agency);
+    $('#userInfoDigit').text(thisUserObject.account);
 
 };
