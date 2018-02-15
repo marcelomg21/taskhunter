@@ -25,6 +25,11 @@ var db = null,
 var routes = require('./routes/index');
 var user = require('./routes/user');
 var payment = require('./routes/payment');
+var paidpayment = require('./routes/paid-payment');
+var notpaidpayment = require('./routes/not-paid-payment');
+var transferedpayment = require('./routes/transfered-payment');
+var nottransferedpayment = require('./routes/not-transfered-payment');
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 app.use(cookieParser());
@@ -38,7 +43,10 @@ app.use(function(req,res,next){
 app.use('/', routes);
 app.use('/user', user);
 app.use('/payment', payment);
-/////////////////////////////
+app.use('/paid-payment', paidpayment);
+app.use('/not-paid-payment', notpaidpayment);
+app.use('/transfered-payment', transferedpayment);
+app.use('/not-transfered-payment', nottransferedpayment);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
