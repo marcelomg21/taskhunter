@@ -2994,6 +2994,40 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
     }
 });
 
+//last meet position crossing
+app.get('/api/positions/:user_id/lastmeetposition/:crossing_user_id', function (req, res) {
+	
+    if (!db) {
+      initDb(function(err){});
+    }
+	
+    if (db) {
+  
+    var result = {
+        success: true,
+        data: {}
+    };
+	
+    db.collection('crossings_positions').aggregate([            
+	{$unwind:'$crossings'},            
+	{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(req.params.crossing_user_id)}]} },
+	{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
+	    if (docs_last_meet.length > 0) {
+		for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
+		    var last_meet_position = {
+			creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
+			lat: docs_last_meet[index_docs_last_meet].lat,
+			lon: docs_last_meet[index_docs_last_meet].lon
+		    };
+		    result.data = last_meet_position;
+		}
+	    }
+	    
+	    res.json(result);
+    });
+  }
+});
+
 //save new device
 app.post('/api/users/:user_id/devices/', function (req, res) {
   if(!req.body.android_id) {
