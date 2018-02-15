@@ -46,6 +46,7 @@ function populateTable() {
             tableContent += '<td>' + this.price + '</td>';
             tableContent += '<td>' + this.tax + '</td>';
             tableContent += '<td>' + this.paid + '</td>';
+            tableContent += '<td>' + this.transfered + '</td>';
             //tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
@@ -81,6 +82,7 @@ function showPaymentInfo(event) {
     $('#paymentInfoDate').text(thisPaymentObject.date);
     $('#paymentInfoPrice').text(thisPaymentObject.price);
     $('#paymentInfoTax').text(thisPaymentObject.tax);
-    $('#paymentInfoPaid').text(thisPaymentObject.paid);    
+    $('#paymentInfoPaid').text(thisPaymentObject.paid);
+    $('#paymentInfoTransfered').text(thisPaymentObject.transfered);
 
 };
