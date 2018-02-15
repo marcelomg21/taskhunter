@@ -1,0 +1,80 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')    
+    title Task Hunter
+    // Bootstrap core CSS
+    link(href=`${pathToAssets}/dist/css/bootstrap.min.css`, rel='stylesheet')
+    // Custom styles for this template
+    link(href=`${pathToSelectedTemplateWithinBootstrap}/theme.css`, rel='stylesheet')
+    // Just for debugging purposes. Don't actually copy these 2 lines!
+    //if lt IE 9
+    script(src=`${pathToAssets}/docs/assets/js/ie8-responsive-file-warning.js`)
+    script(src=`${pathToAssets}/docs/assets/js/ie-emulation-modes-warning.js`)
+    // IE10 viewport hack for Surface/desktop Windows 8 bug
+    script(src=`${pathToAssets}/docs/assets/js/ie10-viewport-bug-workaround.js`)
+    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    //if lt IE 9
+    script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+    script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  body
+    .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') TASK hunter - Pagamentos Transferidos Para o Profissional
+        
+    .container
+      #paymentInfo
+        .row
+          .col-sm-4
+            ul.list-group
+              li.list-group-item ID: <span id='paymentInfoID'></span>
+              li.list-group-item Cliente: <span id='paymentInfoMatching'></span>
+              li.list-group-item Prestador: <span id='paymentInfoWorking'></span>
+              li.list-group-item Serviço: <span id='paymentInfoName'></span>
+              li.list-group-item Tipo: <span id='paymentInfoType'></span>
+              li.list-group-item Cartão: <span id='paymentInfoCard'></span>              
+          .col-sm-4
+            ul.list-group
+              li.list-group-item Parcelas: <span id='paymentInfoCondition'></span>
+              li.list-group-item Data do Pagamento: <span id='paymentInfoDate'></span>
+              li.list-group-item Preço: <span id='paymentInfoPrice'></span>
+              li.list-group-item Taxa: <span id='paymentInfoTax'></span>
+              li.list-group-item Pago: <span id='paymentInfoPaid'></span>
+              li.list-group-item Transferido: <span id='paymentInfoTransfered'></span>
+        
+      #paymentList
+        .row
+          .col-md-6
+          table.table
+            thead
+              th ID
+              th Cliente
+              th Profissional
+              th Serviço
+              th Tipo
+              th Cartão
+              th Parcelas
+              th Data Pagamento
+              th Preço
+              th Taxa
+              th Pago
+              th Transferido
+            tbody
+    // /.container
+    
+    // Bootstrap core JavaScript
+    // ==================================================
+    // Placed at the end of the document so the pages load faster
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src=`${pathToAssets}/dist/js/bootstrap.min.js`)
+    script(src=`${pathToOwnAssets}/transfered-payment.js`)
