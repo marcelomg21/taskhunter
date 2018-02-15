@@ -13,6 +13,38 @@ router.get('/payments', function(req, res) {
     });
 });
 
+router.get('/paid-payments', function(req, res) {
+    res.render('paid-payment', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/not-paid-payments', function(req, res) {
+    res.render('not-paid-payment', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/transfered-payments', function(req, res) {
+    res.render('transfered-payment', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/not-transfered-payments', function(req, res) {
+    res.render('not-transfered-payment', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
 router.get('/users', function(req, res) {
     res.render('user', {
         'pathToAssets': '/bootstrap-3.3.1',
