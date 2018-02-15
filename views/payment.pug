@@ -39,6 +39,19 @@ html(lang='en')
             ul.list-group
               li.list-group-item
                 a(href='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/all-payments') Todos os Pagamentos
+                 p Esta opção lista todos os pagamentos existentes, independente do seu status, no sistema. Pagos, Não Pagos, Transferidos e Não Transferidos.
+              li.list-group-item
+                a(href='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/paid-payments') Pagamentos Já Pagos no Aplicativo
+                 p Esta opção lista todos os pagamentos que já foram pagos pelo cliente no aplicativo.
+              li.list-group-item
+                a(href='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/not-paid-payments') Pagamentos Não Pagos no Aplicativo
+                 p Esta opção lista todos os pagamentos que existem mas ainda não foram pagos pelo cliente no aplicativo.
+              li.list-group-item
+                a(href='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/not-transfered-payments') Pagamentos Não Transferidos (Pendentes)
+                 p Esta opção lista todos os pagamentos que ainda não foram transferidos para a conta do profissional.
+              li.list-group-item
+                a(href='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/transfered-payments') Pagamentos Já Transferidos (Processados com Sucesso)
+                 p Esta opção lista todos os pagamentos que já foram transferidos para a conta do profissional, encontram-se processados com sucesso.
       
     // /.container
     
