@@ -23,7 +23,7 @@ app.use(morgan('combined'));
 var db = null,
     dbDetails = new Object();
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var user = require('./routes/user');
 var payment = require('./routes/payment');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -36,7 +36,7 @@ app.use(function(req,res,next){
 });
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/user', user);
 app.use('/payment', payment);
 /////////////////////////////
 
