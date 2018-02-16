@@ -1,5 +1,5 @@
 // Paymentlist data array for filling in info box
-var paymentListData = [];
+var detailPaymentData = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
@@ -27,10 +27,10 @@ function populateTable() {
     var tableContent = '';
 
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/allPaymentlist', function( data ) {
+    $.getJSON( '/payment/detailPayment', function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
-        paymentListData = data;
+        detailPaymentData = data;
 
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
