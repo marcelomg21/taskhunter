@@ -1,5 +1,5 @@
 // Paymentlist data array for filling in info box
-var detailPaymentData = [];
+//var detailPaymentData = [];
 
 // DOM Ready =============================================================
 $(document).ready(function() {
@@ -8,7 +8,7 @@ $(document).ready(function() {
     populateTable();
 
     // Username link click
-    $('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
+    //$('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
 
     // Add User button click
     //$('#btnAddUser').on('click', addUser);
@@ -24,35 +24,45 @@ $(document).ready(function() {
 function populateTable() {
 
     // Empty content string
-    var tableContent = '';
+    //var tableContent = '';
 
+    // Prevent Link from Firing
+    event.preventDefault();
+    
     // jQuery AJAX call for JSON
     $.getJSON( '/payment/detailPayment/5a8634af5311cb0018965715', function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
-        detailPaymentData = data;
+        //detailPaymentData = data;
 
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
-            tableContent += '<tr>';
-            tableContent += '<td><a href="#" class="linkshowpayment" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
-            tableContent += '<td>' + this.matching + '</td>';
-            tableContent += '<td>' + this.working + '</td>';
-            tableContent += '<td>' + this.name + '</td>';
-            tableContent += '<td>' + this.type + '</td>';
-            tableContent += '<td>' + this.card + '</td>';
-            tableContent += '<td>' + this.condition + '</td>';
-            tableContent += '<td>' + this.date + '</td>';
-            tableContent += '<td>' + this.price + '</td>';
-            tableContent += '<td>' + this.tax + '</td>';
-            tableContent += '<td>' + this.paid + '</td>';
-            tableContent += '<td>' + this.transfered + '</td>';
-            //tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
-            tableContent += '</tr>';
+            //Populate Info Box
+            $('#paymentInfoID').text(this._id);
+            $('#paymentInfoMatching').text(this.matching);
+            $('#paymentInfoWorking').text(this.working);
+            $('#paymentInfoName').text(this.name);
+            $('#paymentInfoType').text(this.type);
+            $('#paymentInfoCard').text(this.card);
+            $('#paymentInfoCondition').text(this.condition);
+            $('#paymentInfoDate').text(this.date);
+            $('#paymentInfoPrice').text(this.price);
+            $('#paymentInfoTax').text(this.tax);
+            $('#paymentInfoPaid').text(this.paid);
+            $('#paymentInfoTransfered').text(this.transfered);
         });
 
         // Inject the whole content string into our existing HTML table
-        $('#paymentList table tbody').html(tableContent);
+        //$('#paymentList table tbody').html(tableContent);
+        
+        // Retrieve username from link rel attribute
+        //var thisID = $(this).attr('rel');
+
+        // Get Index of object based on id value
+        //var arrayPosition = paymentListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
+
+        // Get our User Object
+        //var thisPaymentObject = paymentListData[arrayPosition];
     });
 };
 
