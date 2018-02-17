@@ -29,6 +29,10 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
+    var recursiveEncoded = $.param('id');
+
+    alert( recursiveEncoded );
+    
     // jQuery AJAX call for JSON
     $.getJSON( '/payment/detailPayment/5a8634af5311cb0018965715', function( data ) {
 
