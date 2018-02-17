@@ -19,6 +19,10 @@ $(document).ready(function() {
 });
 
 // Functions =============================================================
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
 
 // Fill table with data
 function populateTable() {
@@ -29,12 +33,12 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var recursiveEncoded = $.param('id');
+    var recursiveEncoded = getParameterByName('id');
 
     alert( recursiveEncoded );
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/detailPayment/5a8634af5311cb0018965715', function( data ) {
+    $.getJSON( '/payment/detailPayment/' + recursiveEncoded, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
