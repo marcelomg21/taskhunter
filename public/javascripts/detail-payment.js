@@ -35,14 +35,12 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var recursiveEncoded1 = getUrlParameter('id');
-    var recursiveEncoded2 = getUrlParameter(id);
+    var recursiveEncoded = getUrlParameter('id');
 
-    alert( recursiveEncoded1 );
-    alert( recursiveEncoded2 );
+    alert( recursiveEncoded ); 
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/detailPayment/' + recursiveEncoded1, function( data ) {
+    $.getJSON( '/payment/detailPayment/' + recursiveEncoded, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
