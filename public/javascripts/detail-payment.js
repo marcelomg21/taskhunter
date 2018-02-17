@@ -19,10 +19,12 @@ $(document).ready(function() {
 });
 
 // Functions =============================================================
-function getParameterByName(name) {
-    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
-    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
-}
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
 
 // Fill table with data
 function populateTable() {
@@ -33,12 +35,14 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var recursiveEncoded = getParameterByName('id');
+    var recursiveEncoded1 = getUrlParameter('id');
+    var recursiveEncoded2 = getUrlParameter(id);
 
-    alert( recursiveEncoded );
+    alert( recursiveEncoded1 );
+    alert( recursiveEncoded2 );
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/detailPayment/' + recursiveEncoded, function( data ) {
+    $.getJSON( '/payment/detailPayment/' + recursiveEncoded1, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
