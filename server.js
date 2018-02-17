@@ -505,7 +505,7 @@ app.get('/api/users/:user_id', function (req, res) {
             db.collection('payment_preferences').aggregate([
                 {$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_payments) {
                                    
-                    console.log("docs_payments: " + docs_payments);
+                    //console.log("docs_payments: " + docs_payments);
 
                     if (docs_payments.length > 0) {
 
@@ -534,7 +534,7 @@ app.get('/api/users/:user_id', function (req, res) {
 		    db.collection('feedback_preferences').aggregate([
 			{$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_feedbacks) {
 
-			    console.log("docs_feedbacks: " + docs_feedbacks);
+			    //console.log("docs_feedbacks: " + docs_feedbacks);
 
 			    if (docs_feedbacks.length > 0) {
 
@@ -559,7 +559,7 @@ app.get('/api/users/:user_id', function (req, res) {
 			    db.collection('service_preferences').aggregate([
 				{$match: {$or: [{user_id:parseInt(req.params.user_id)}] } }]).toArray(function (err, docs_timeline) {
 
-				    console.log("docs_timeline: " + docs_timeline);
+				    //console.log("docs_timeline: " + docs_timeline);
 
 				    if (docs_timeline.length > 0) {
 
@@ -687,10 +687,10 @@ app.put('/api/users/:user_id/service/matching/preferences', function (req, res) 
         res.status(400).send('400 Bad Request')
     }
   
-    console.log('req.body.service_matching_preferences --> ' + req.body.service_matching_preferences);    
+    //console.log('req.body.service_matching_preferences --> ' + req.body.service_matching_preferences);    
   
     var matched = req.body.service_matching_preferences.services.filter(o => o.enabled === true);
-    console.log(matched);        
+    //console.log(matched);        
     
     db.collection('users').update({ 
         user_id: parseInt(req.params.user_id) },
@@ -720,10 +720,10 @@ app.put('/api/users/:user_id/service/working/preferences', function (req, res) {
         res.status(400).send('400 Bad Request')
     }
   
-    console.log('req.body.service_working_preferences --> ' + req.body.service_working_preferences);    
+    //console.log('req.body.service_working_preferences --> ' + req.body.service_working_preferences);    
   
     var worked = req.body.service_working_preferences.services.filter(o => o.enabled === true);
-    console.log(worked);        
+    //console.log(worked);        
     
     db.collection('users').update({ 
         user_id: parseInt(req.params.user_id) },
@@ -2726,7 +2726,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
                 {$match: {$or: [{'participants.user_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_conversations) {
                                    
-                    console.log("docs_conversations: " + docs_conversations);
+                    //console.log("docs_conversations: " + docs_conversations);
 
                     if (docs_conversations.length > 0) {
 
@@ -2782,7 +2782,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
             var recipient = req.query.participants.split(",");
             var conversation_was_inserted = false;
             
-            console.log("recipient enviado: " + recipient[1]);
+            //console.log("recipient enviado: " + recipient[1]);
             
             //get conversation by recipient
             //get all user_id conversations
@@ -2793,7 +2793,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
                 {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient[1])}]} }]).toArray(function (err, docs_conversations_recipient) {
                 
-                    console.log("docs_conversations_recipient: " + docs_conversations_recipient.length);
+                    //console.log("docs_conversations_recipient: " + docs_conversations_recipient.length);
 
                     if (docs_conversations_recipient.length > 0) {
 
@@ -2863,7 +2863,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             {$group: {_id:'$_id', participants: {'$push':'$participantsObjects'} }},
                             {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient[1])}]} }]).toArray(function (err, docs_conversations_inserted) {
 
-                                console.log("docs_conversations_inserted: " + docs_conversations_inserted.length);
+                                //console.log("docs_conversations_inserted: " + docs_conversations_inserted.length);
 
                                 if (docs_conversations_inserted.length > 0) {
 
