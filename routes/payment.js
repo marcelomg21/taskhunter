@@ -48,7 +48,9 @@ router.get('/notTransferedPaymentlist', function(req, res) {
 
 router.get('/detailPayment/:id', function(req, res) {    
     var db = req.db;
-    var query = {_id : req.params.id};    
+    var ObjectId = require('mongodb').ObjectID;
+	var paymentObjectId = ObjectId(req.params.id);
+    var query = {_id : paymentObjectId};
 
     db.collection('payment_preferences').find(query).toArray(function (err, docs) {                                   
             return res.json(docs);                
