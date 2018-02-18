@@ -63,9 +63,17 @@ router.post('/updatePayment/:id', function(req, res) {
     var paymentObjectId = ObjectId(req.params.id);
     var transfered = req.body.transfered == "true" ? true : false;
     
-    db.collection('payment_preferences').update({_id : paymentObjectId}, {$set: {transfered : transfered}}, {upsert:false});
+    db.collection('payment_preferences').update();
 	
-    res.end();
+    db.collection('payment_preferences').update(
+	   {_id : paymentObjectId}, 
+	   {$set: {transfered : transfered}}, 
+	   {upsert:false},
+	   function (err, result) {
+	      res.send(
+		  (err === null) ? { msg: '' } : { msg: err }
+	      );
+	   });
 });
 
 module.exports = router;
