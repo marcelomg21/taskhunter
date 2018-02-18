@@ -64,9 +64,11 @@ function showPaymentInfo(event) {
 
     // Retrieve username from link rel attribute
     var thisID = $(this).attr('rel');
+    
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/detail-payment/' + thisID);
 
     // Get Index of object based on id value
-    var arrayPosition = paymentListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
+    /*var arrayPosition = paymentListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
 
     // Get our User Object
     var thisPaymentObject = paymentListData[arrayPosition];
@@ -83,6 +85,6 @@ function showPaymentInfo(event) {
     $('#paymentInfoPrice').text(thisPaymentObject.price);
     $('#paymentInfoTax').text(thisPaymentObject.tax);
     $('#paymentInfoPaid').text(thisPaymentObject.paid);
-    $('#paymentInfoTransfered').text(thisPaymentObject.transfered);
+    $('#paymentInfoTransfered').text(thisPaymentObject.transfered);*/
 
 };
