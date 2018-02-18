@@ -9,6 +9,7 @@ $(document).ready(function() {
 
     // Username link click
     //$('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
+    $('#savePayment').on('click', updatePayment);
 
     // Add User button click
     //$('#btnAddUser').on('click', addUser);
@@ -72,16 +73,7 @@ function populateTable() {
 function updatePayment(event) {
     event.preventDefault();
 
-    // Super basic validation - increase errorCount variable if any fields are blank
-    var errorCount = 0;
-    $('#addUser input').each(function(index, val) {
-        if($(this).val() === '') { errorCount++; }
-    });
-
-    // Check and make sure errorCount's still at zero
-    if(errorCount === 0) {
-
-        // If it is, compile all user info into one object
+    // If it is, compile all user info into one object
         var newUser = {
             'username': $('#addUser fieldset input#inputUserName').val(),
             'email': $('#addUser fieldset input#inputUserEmail').val(),
@@ -116,12 +108,6 @@ function updatePayment(event) {
 
             }
         });
-    }
-    else {
-        // If errorCount is more than 0, error out
-        alert('Please fill in all fields');
-        return false;
-    }
 };
 
 // Show User Info
