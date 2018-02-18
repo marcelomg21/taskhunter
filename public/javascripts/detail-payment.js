@@ -84,7 +84,7 @@ function updatePayment(event) {
         $.ajax({
             type: 'POST',
             data: updatePaymentBody,
-            url: '/payment/detailPayment/' + paymentId,
+            url: '/payment/updatePayment/' + paymentId,
             dataType: 'JSON'
         }).done(function( response ) {
 
