@@ -18,14 +18,6 @@ $(document).ready(function() {
 
 });
 
-// Functions =============================================================
-function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-};
-
 // Fill table with data
 function populateTable() {
 
@@ -35,9 +27,10 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var recursiveEncoded = getUrlParameter('id');
+    var recursiveEncoded = location.search.split('detail-payment/')[1];
 
-    alert( recursiveEncoded ); 
+    alert( location.search );
+    alert( location.search.split('detail-payment/')[1] );
     
     // jQuery AJAX call for JSON
     $.getJSON( '/payment/detailPayment/' + recursiveEncoded, function( data ) {
