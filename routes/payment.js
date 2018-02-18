@@ -39,7 +39,7 @@ router.get('/transferedPaymentlist', function(req, res) {
 
 router.get('/notTransferedPaymentlist', function(req, res) {    
     var db = req.db;
-    var query = {transfered:false};    
+    var query = { transfered : false, paid : true };    
 
     db.collection('payment_preferences').find(query).toArray(function (err, docs) {                                   
             return res.json(docs);                
