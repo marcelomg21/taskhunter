@@ -10,8 +10,7 @@ $(document).ready(function() {
     // Username link click
     $('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
 
-    // Add User button click
-    //$('#btnAddUser').on('click', addUser);
+    $('#goHome').on('click', goHome);
 
     // Delete User link click
     //$('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
@@ -54,6 +53,11 @@ function populateTable() {
         // Inject the whole content string into our existing HTML table
         $('#paymentList table tbody').html(tableContent);
     });
+};
+
+function goHome(event) {
+    event.preventDefault();
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/payments');
 };
 
 // Show User Info
