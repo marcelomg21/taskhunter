@@ -9,6 +9,8 @@ $(document).ready(function() {
 
     // Username link click
     $('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
+    
+    $('#goHome').on('click', goHome);
 
     // Add User button click
     //$('#btnAddUser').on('click', addUser);
@@ -17,6 +19,11 @@ $(document).ready(function() {
     //$('#userList table tbody').on('click', 'td a.linkdeleteuser', deleteUser);
 
 });
+
+function goHome(event) {
+    event.preventDefault();
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/payments');
+};
 
 // Functions =============================================================
 
