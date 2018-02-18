@@ -73,9 +73,10 @@ function populateTable() {
 function updatePayment(event) {
     event.preventDefault();
 
-    // If it is, compile all user info into one object
+        var transfered = $('#paymentInfoTransfered').is(':checked') ? true : false;
+    
         var updatePaymentBody = {
-            'transfered': $('#paymentInfoTransfered').is(':checked')
+            'transfered': transfered
         }
         
         var paymentId = $('#paymentInfoID').text();
@@ -87,21 +88,7 @@ function updatePayment(event) {
             url: '/payment/updatePayment/' + paymentId,
             dataType: 'JSON'
         }).done(function( response ) {
-
-            // Check for successful (blank) response
-            if (response.msg === '') {
-
-                alert(response);
-                //$('#addUser fieldset input').val('');
-                alert('Pagamento salvo com sucesso');
-                // Update the table
-                //populateTable();
-
-            }
-            else {
-                // If something goes wrong, alert the error message that our service returned
-                alert('Error: ' + response.msg);
-            }
+            alert('Pagamento salvo com sucesso');
         });
 };
 
