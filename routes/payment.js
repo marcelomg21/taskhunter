@@ -57,4 +57,14 @@ router.get('/detailPayment/:id', function(req, res) {
     });
 });
 
+router.post('/updatePayment/:id', function(req, res) {
+    var db = req.db;
+    var ObjectId = require('mongodb').ObjectID;
+    var paymentObjectId = ObjectId(req.params.id);
+    
+    db.collection('payment_preferences').update({_id : paymentObjectId}, {$set: {transfered:req.body.transfered}}, {upsert:false});
+	
+    res.end();
+});
+
 module.exports = router;
