@@ -61,8 +61,9 @@ router.post('/updatePayment/:id', function(req, res) {
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
     var paymentObjectId = ObjectId(req.params.id);
+    var transfered = req.body.transfered == "true" ? true : false;
     
-    db.collection('payment_preferences').update({_id : paymentObjectId}, {$set: {transfered:req.body.transfered}}, {upsert:false});
+    db.collection('payment_preferences').update({_id : paymentObjectId}, {$set: {transfered : transfered}}, {upsert:false});
 	
     res.end();
 });
