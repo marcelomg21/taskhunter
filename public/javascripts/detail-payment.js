@@ -27,10 +27,10 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var recursiveEncoded = location.search.split('detail-payment/')[1];
+    var recursiveEncoded = $(location).attr('href').split('detail-payment/')[1];
 
-    alert( location.search );
-    alert( location.search.split('detail-payment/')[1] );
+    alert($(location).attr('href'));
+    alert($(location).attr('href').split('detail-payment/')[1]);
     
     // jQuery AJAX call for JSON
     $.getJSON( '/payment/detailPayment/' + recursiveEncoded, function( data ) {
