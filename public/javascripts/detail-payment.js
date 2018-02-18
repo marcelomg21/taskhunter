@@ -27,13 +27,12 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var recursiveEncoded = $(location).attr('href').split('detail-payment/')[1];
+    var paymentId = $(location).attr('href').split('detail-payment/')[1];
 
-    alert($(location).attr('href'));
-    alert($(location).attr('href').split('detail-payment/')[1]);
+    //alert($(location).attr('href').split('detail-payment/')[1]);
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/detailPayment/' + recursiveEncoded, function( data ) {
+    $.getJSON( '/payment/detailPayment/' + paymentId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
