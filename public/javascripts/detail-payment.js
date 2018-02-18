@@ -10,6 +10,8 @@ $(document).ready(function() {
     // Username link click
     //$('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
     $('#savePayment').on('click', updatePayment);
+    
+    $('#goHome').on('click', goHome);
 
     // Add User button click
     //$('#btnAddUser').on('click', addUser);
@@ -90,6 +92,11 @@ function updatePayment(event) {
         }).done(function( response ) {
             alert('Pagamento salvo com sucesso');
         });
+};
+
+function goHome(event) {
+    event.preventDefault();
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/payments');
 };
 
 // Show User Info
