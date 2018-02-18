@@ -90,7 +90,13 @@ function updatePayment(event) {
             url: '/payment/updatePayment/' + paymentId,
             dataType: 'JSON'
         }).done(function( response ) {
-            alert('Pagamento salvo com sucesso');
+            // Check for successful (blank) response
+            if (response.msg === '') {
+                alert('Pagamento salvo com sucesso.);
+            }
+            else {
+                alert('Erro ao salvar: ' + response.msg);
+            }
         });
 };
 
