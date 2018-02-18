@@ -92,7 +92,7 @@ function updatePayment(event) {
         }).done(function( response ) {
             // Check for successful (blank) response
             if (response.msg === '') {
-                alert('Pagamento salvo com sucesso.);
+                alert('Pagamento salvo com sucesso.');
             }
             else {
                 alert('Erro ao salvar: ' + response.msg);
