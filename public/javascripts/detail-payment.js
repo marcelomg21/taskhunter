@@ -51,7 +51,8 @@ function populateTable() {
             $('#paymentInfoPrice').text(this.price);
             $('#paymentInfoTax').text(this.tax);
             $('#paymentInfoPaid').text(this.paid);
-            $('#paymentInfoTransfered').text(this.transfered);
+            //$('#paymentInfoTransfered').text(this.transfered);
+            $('#paymentInfoTransfered').attr('checked', this.transfered);
         });
 
         // Inject the whole content string into our existing HTML table
