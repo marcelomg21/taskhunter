@@ -54,7 +54,10 @@ function populateTable() {
             $('#paymentInfoPrice').text(this.price);
             $('#paymentInfoTax').text(this.tax);
             $('#paymentInfoPaid').text(this.paid);
-            //$('#paymentInfoTransfered').text(this.transfered);
+            $('#paymentInfoBank').text(this.user.bank);
+            $('#paymentInfoAgency').text(this.user.agency);
+            $('#paymentInfoAccount').text(this.user.account);
+            $('#paymentInfoDigit').text(this.user.digit);
             $('#paymentInfoTransfered').attr('checked', this.transfered);
         });
 
