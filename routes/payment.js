@@ -49,12 +49,20 @@ router.get('/notTransferedPaymentlist', function(req, res) {
 router.get('/detailPayment/:id', function(req, res) {    
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-	var paymentObjectId = ObjectId(req.params.id);
-    var query = {_id : paymentObjectId};
+    var paymentObjectId = ObjectId(req.params.id);
+    //var query = {_id : paymentObjectId};
+	
+    db.collection('payment_preferences').aggregate([
+	{$match: {$and: [{'_id' : paymentObjectId}]} },
+	{$lookup: {from: 'users', localField:'matching', foreignField:'user_id', as:'userObjects'}}, 
+	{$unwind:'$userObjects'},
+	{$project: {_id:'$_id', matching:'$matching', working:'$working', name:'$name', type:'$type', card:'$card', condition:'$condition', date:'$date', price:'$price', tax:'$tax', paid:'$paid', transfered:'$transfered', abandoned:'$abandoned', user: '$userObjects' }}]).toArray(function (err, docs_conversations) {
+		return res.json(docs_conversations);
+	});
 
-    db.collection('payment_preferences').find(query).toArray(function (err, docs) {                                   
+    /*db.collection('payment_preferences').find(query).toArray(function (err, docs) {                                   
             return res.json(docs);                
-    });
+    });*/
 });
 
 router.post('/updatePayment/:id', function(req, res) {
