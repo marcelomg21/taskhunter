@@ -29,7 +29,7 @@ router.get('/payments', auth, function(req, res) {
     });
 });
 
-router.get('/all-payments', function(req, res) {
+router.get('/all-payments', auth, function(req, res) {
     res.render('all-payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
@@ -45,7 +45,7 @@ router.get('/paid-payments', auth, function(req, res) {
     });
 });
 
-router.get('/not-paid-payments', function(req, res) {
+router.get('/not-paid-payments', auth, function(req, res) {
     res.render('not-paid-payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
@@ -53,7 +53,7 @@ router.get('/not-paid-payments', function(req, res) {
     });
 });
 
-router.get('/transfered-payments', function(req, res) {
+router.get('/transfered-payments', auth, function(req, res) {
     res.render('transfered-payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
@@ -61,7 +61,7 @@ router.get('/transfered-payments', function(req, res) {
     });
 });
 
-router.get('/not-transfered-payments', function(req, res) {
+router.get('/not-transfered-payments', auth, function(req, res) {
     res.render('not-transfered-payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
@@ -77,7 +77,7 @@ router.get('/detail-payment/:id', function(req, res) {
     });
 });
 
-router.get('/users', function(req, res) {
+router.get('/users', auth, function(req, res) {
     res.render('user', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
