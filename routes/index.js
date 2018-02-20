@@ -1,11 +1,27 @@
 var express = require('express');
 var router = express.Router();
+var basicAuth = require('basic-auth');
 
-//router.get('/payments', function(req, res) {
-//  res.render('payment', { title: 'Pagamentos' });
-//});
+var auth = function (req, res, next) {
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  };
 
-router.get('/payments', function(req, res) {
+  var user = basicAuth(req);
+
+  if (!user || !user.name || !user.pass) {
+    return unauthorized(res);
+  };
+
+  if (user.name === 'task' && user.pass === 'hunter') {
+    return next();
+  } else {
+    return unauthorized(res);
+  };
+};
+
+router.get('/payments', auth, function(req, res) {
     res.render('payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
@@ -21,7 +37,7 @@ router.get('/all-payments', function(req, res) {
     });
 });
 
-router.get('/paid-payments', function(req, res) {
+router.get('/paid-payments', auth, function(req, res) {
     res.render('paid-payment', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
