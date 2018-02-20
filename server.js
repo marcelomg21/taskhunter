@@ -25,6 +25,7 @@ var db = null,
 var routes = require('./routes/index');
 var user = require('./routes/user');
 var payment = require('./routes/payment');
+var auth = require('./routes/auth');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -36,6 +37,7 @@ app.use(function(req,res,next){
     next();
 });
 
+app.use(auth);
 app.use('/', routes);
 app.use('/user', user);
 app.use('/payment', payment);
