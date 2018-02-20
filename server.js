@@ -19,13 +19,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 
-/////////////////////////////
 var db = null,
     dbDetails = new Object();
 var routes = require('./routes/index');
 var user = require('./routes/user');
 var payment = require('./routes/payment');
-var auth = require('./routes/auth');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -37,7 +35,6 @@ app.use(function(req,res,next){
     next();
 });
 
-app.use(auth);
 app.use('/', routes);
 app.use('/user', user);
 app.use('/payment', payment);
