@@ -46,6 +46,7 @@ function populateTable() {
             $('#paymentInfoID').text(this._id);
             $('#paymentInfoMatching').text(this.matching);
             $('#paymentInfoWorking').text(this.working);
+            $('#paymentInfoCustomerName').text(this.user.full_user_name);
             $('#paymentInfoName').text(this.name);
             $('#paymentInfoType').text(this.type);
             $('#paymentInfoCard').text(this.card);
@@ -59,6 +60,7 @@ function populateTable() {
             $('#paymentInfoAccount').text(this.user.account);
             $('#paymentInfoDigit').text(this.user.digit);
             $('#paymentInfoTransfered').attr('checked', this.transfered);
+            $('#paymentInfoAbandoned').attr('checked', this.abandoned);
         });
 
         // Inject the whole content string into our existing HTML table
