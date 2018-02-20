@@ -777,7 +777,7 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
                 {
                     card : req.body.service_payment_preferences.payments[i].card,
                     condition : req.body.service_payment_preferences.payments[i].condition,
-                    date : timestampISODate,
+                    date : req.body.service_payment_preferences.payments[i].date,
                     price : req.body.service_payment_preferences.payments[i].price,
                     tax : req.body.service_payment_preferences.payments[i].tax,
                     paid : req.body.service_payment_preferences.payments[i].paid,
