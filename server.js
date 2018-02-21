@@ -517,6 +517,7 @@ app.get('/api/users/:user_id', function (req, res) {
                                 type: docs_payments[index_docs_payments].type,
                                 name: docs_payments[index_docs_payments].name,
                                 price: docs_payments[index_docs_payments].price,
+				date: docs_payments[index_docs_payments].date,
                                 card: docs_payments[index_docs_payments].card,
                                 condition: docs_payments[index_docs_payments].condition,
                                 tax: docs_payments[index_docs_payments].tax,
