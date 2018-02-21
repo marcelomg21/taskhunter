@@ -950,8 +950,9 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
     var date = new Date();
     date.setHours(date.getHours() - 3);
     var dateFormat = date.toISOString().split('T')[0];
+    var timeFormat = date.toISOString().split('T')[1];
       
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: parseInt(req.body.sender), recipient: parseInt(req.body.recipient), creation_date: dateFormat});
+    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: parseInt(req.body.sender), recipient: parseInt(req.body.recipient), creation_date: dateFormat, creation_time: timeFormat});
       
     var query = {
         user_id: parseInt(req.body.recipient)
@@ -1083,6 +1084,7 @@ app.get('/api/conversations/:conversation_id/messages/', function (req, res) {
                   id: docs[i]._id,
                   message: docs[i].message,
                   creation_date: docs[i].creation_date,
+		  creation_time: docs[i].creation_time,
                   sender: { 
                       id: docs[i].sender,
                       //first_name: 'XXXXXX',
