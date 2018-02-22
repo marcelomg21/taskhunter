@@ -51,7 +51,7 @@ function populateTable() {
             $('#paymentInfoType').text(this.type);
             $('#paymentInfoCard').text(this.card);
             $('#paymentInfoCondition').text(this.condition);
-            $('#paymentInfoDate').text(this.date);
+            $('#paymentInfoDate').text(this.date + ' ' + this.time);
             $('#paymentInfoPrice').text(this.price);
             $('#paymentInfoTax').text(this.tax);
             $('#paymentInfoPaid').text(this.paid);
