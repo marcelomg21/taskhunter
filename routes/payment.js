@@ -56,7 +56,22 @@ router.get('/detailPayment/:id', function(req, res) {
 	{$match: {$and: [{'_id' : paymentObjectId}]} },
 	{$lookup: {from: 'users', localField:'matching', foreignField:'user_id', as:'userObjects'}}, 
 	{$unwind:'$userObjects'},
-	{$project: {_id:'$_id', matching:'$matching', working:'$working', name:'$name', type:'$type', card:'$card', condition:'$condition', date:'$date', price:'$price', tax:'$tax', paid:'$paid', transfered:'$transfered', abandoned:'$abandoned', user: '$userObjects' }}]).toArray(function (err, docs_conversations) {
+	{$project: {
+		_id:'$_id', 
+		matching:'$matching', 
+		working:'$working', 
+		name:'$name', 
+		type:'$type', 
+		card:'$card', 
+		condition:'$condition', 
+		date:'$date',
+		time:'$time',
+		price:'$price',
+		tax:'$tax', 
+		paid:'$paid', 
+		transfered:'$transfered', 
+		abandoned:'$abandoned', 
+		user: '$userObjects' }}]).toArray(function (err, docs_conversations) {
 		return res.json(docs_conversations);
 	});
 
