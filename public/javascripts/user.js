@@ -78,6 +78,7 @@ function showUserInfo(event) {
     $('#userInfoZipCode').text(thisUserObject.zip_code);
     $('#userInfoBank').text(thisUserObject.bank);
     $('#userInfoAgency').text(thisUserObject.agency);
-    $('#userInfoDigit').text(thisUserObject.account);
+    $('#userInfoAccount').text(thisUserObject.account);
+    $('#userInfoDigit').text(thisUserObject.digit);
 
 };
