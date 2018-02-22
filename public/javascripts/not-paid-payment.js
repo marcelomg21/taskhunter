@@ -49,7 +49,7 @@ function populateTable() {
             tableContent += '<td>' + this.type + '</td>';
             tableContent += '<td>' + this.card + '</td>';
             tableContent += '<td>' + this.condition + '</td>';
-            tableContent += '<td>' + this.date + '</td>';
+            tableContent += '<td>' + this.date + ' ' + this.time + '</td>';
             tableContent += '<td>' + this.price + '</td>';
             tableContent += '<td>' + this.tax + '</td>';
             tableContent += '<td>' + this.paid + '</td>';
