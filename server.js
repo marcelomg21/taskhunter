@@ -524,7 +524,7 @@ app.get('/api/users/:user_id', function (req, res) {
                                 tax: docs_payments[index_docs_payments].tax,
                                 paid: docs_payments[index_docs_payments].paid,
 				transfered: docs_payments[index_docs_payments].transfered,
-				new: docs_payments[index_docs_payments].new,
+				is_new: docs_payments[index_docs_payments].is_new,
 				abandoned: docs_payments[index_docs_payments].abandoned
                             };
 
@@ -769,7 +769,7 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 	    var paymentObjectId = ObjectId(req.body.service_payment_preferences.payments[i].id);
 	    req.body.service_payment_preferences.payments[i].id = paymentObjectId.toHexString();
 		
-	    if(req.body.service_payment_preferences.payments[i].new == true){
+	    if(req.body.service_payment_preferences.payments[i].is_new == true){
 		
 		    db.collection('payment_preferences').update({ 
 			matching : parseInt(req.body.service_payment_preferences.payments[i].matching), 
@@ -788,7 +788,7 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 			    tax : req.body.service_payment_preferences.payments[i].tax,
 			    paid : req.body.service_payment_preferences.payments[i].paid,
 			    transfered : req.body.service_payment_preferences.payments[i].transfered,
-			    new : false,
+			    is_new : false,
 			    abandoned : req.body.service_payment_preferences.payments[i].abandoned
 			 }
 		    },{upsert:true});
