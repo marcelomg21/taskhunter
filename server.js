@@ -524,6 +524,7 @@ app.get('/api/users/:user_id', function (req, res) {
                                 tax: docs_payments[index_docs_payments].tax,
                                 paid: docs_payments[index_docs_payments].paid,
 				transfered: docs_payments[index_docs_payments].transfered,
+				new: docs_payments[index_docs_payments].new,
 				abandoned: docs_payments[index_docs_payments].abandoned
                             };
 
@@ -768,26 +769,30 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 	    var paymentObjectId = ObjectId(req.body.service_payment_preferences.payments[i].id);
 	    req.body.service_payment_preferences.payments[i].id = paymentObjectId.toHexString();
 		
-            db.collection('payment_preferences').update({ 
-                matching : parseInt(req.body.service_payment_preferences.payments[i].matching), 
-                working : parseInt(req.body.service_payment_preferences.payments[i].working), 
-		_id : paymentObjectId,
-                type : req.body.service_payment_preferences.payments[i].type, 
-                name : req.body.service_payment_preferences.payments[i].name
-            }, 
-            { $set: 
-                {
-                    card : req.body.service_payment_preferences.payments[i].card,
-                    condition : req.body.service_payment_preferences.payments[i].condition,
-                    date : req.body.service_payment_preferences.payments[i].date,
-		    time : req.body.service_payment_preferences.payments[i].time,
-                    price : req.body.service_payment_preferences.payments[i].price,
-                    tax : req.body.service_payment_preferences.payments[i].tax,
-                    paid : req.body.service_payment_preferences.payments[i].paid,
-		    transfered : req.body.service_payment_preferences.payments[i].transfered,
-		    abandoned : req.body.service_payment_preferences.payments[i].abandoned
-                 }
-            },{upsert:true});
+	    if(req.body.service_payment_preferences.payments[i].new == true){
+		
+		    db.collection('payment_preferences').update({ 
+			matching : parseInt(req.body.service_payment_preferences.payments[i].matching), 
+			working : parseInt(req.body.service_payment_preferences.payments[i].working), 
+			_id : paymentObjectId,
+			type : req.body.service_payment_preferences.payments[i].type, 
+			name : req.body.service_payment_preferences.payments[i].name
+		    }, 
+		    { $set: 
+			{
+			    card : req.body.service_payment_preferences.payments[i].card,
+			    condition : req.body.service_payment_preferences.payments[i].condition,
+			    date : req.body.service_payment_preferences.payments[i].date,
+			    time : req.body.service_payment_preferences.payments[i].time,
+			    price : req.body.service_payment_preferences.payments[i].price,
+			    tax : req.body.service_payment_preferences.payments[i].tax,
+			    paid : req.body.service_payment_preferences.payments[i].paid,
+			    transfered : req.body.service_payment_preferences.payments[i].transfered,
+			    new : false,
+			    abandoned : req.body.service_payment_preferences.payments[i].abandoned
+			 }
+		    },{upsert:true});
+	    }
         }
     }
     
