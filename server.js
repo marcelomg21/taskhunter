@@ -214,7 +214,7 @@ app.post('/api/position', function (req, res) {
   res.end();
 });
 
-app.post('/api/payment/service/email/preferences', function (req, res) {
+app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
   if(!req.body.service_email_preferences) {
      res.status(400).send('400 Bad Request')
   }
@@ -224,7 +224,15 @@ app.post('/api/payment/service/email/preferences', function (req, res) {
 	   req.body.service_email_preferences.text, 
 	   req.body.service_email_preferences.html);
 	
-  res.end();
+  var result = {
+        success: true,
+        data: {               
+            id: req.params.user_id, 	
+            service_email_preferences: req.body.service_email_preferences
+        }
+    };        
+    
+    return res.json(result);
 	
 });
 
