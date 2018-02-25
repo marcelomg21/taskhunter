@@ -214,17 +214,45 @@ app.post('/api/position', function (req, res) {
   res.end();
 });
 
-app.post('/api/sendmail', function (req, res) {
-  if(!req.body.email) {
+app.post('/api/payment_service/sendmail/matching', function (req, res) {
+  if(!req.body.matching_email || !req.body.working_name) {
      res.status(400).send('400 Bad Request')
   }
-  if (!db) {
+
+  /*if (!db) {
     initDb(function(err){});
   }
   if (db) {
     //ar col = db.collection('positions');
     sendmail(req.body.email, 'Sending Email using Node.js 2', 'That was easy! 2', '<h1>Welcome</h1><p>That was easy 2!</p>');
-  } 
+  }*/
+  
+  sendmail(req.body.matching_email, 
+	   'Recibo prestação de serviço', 
+	   'Task Hunter App', 
+	   '<h1>Você foi atendido por ' + req.body.working_name + '</h1><br/><br/><p><b>Serviço: </b>' + req.body.payment_type + ' - ' + req.body.payment_name + '</p><br/><br/> <p><b>Preço: </b>'+req.body.payment_price+'<br/> <b>Parcelas: </b>'+req.body.payment_condition+'</p> <br/><br/><p><b>Obrigado por escolher o Task Hunter App.</b></p>');
+	
+  res.end();
+});
+
+app.post('/api/payment_service/sendmail/working', function (req, res) {
+  if(!req.body.working_email || !req.body.matching_name) {
+     res.status(400).send('400 Bad Request')
+  }
+
+  /*if (!db) {
+    initDb(function(err){});
+  }
+  if (db) {
+    //ar col = db.collection('positions');
+    sendmail(req.body.email, 'Sending Email using Node.js 2', 'That was easy! 2', '<h1>Welcome</h1><p>That was easy 2!</p>');
+  }*/
+  
+  sendmail(req.body.working_email, 
+	   'Notificação prestação de serviço', 
+	   'Task Hunter App', 
+	   '<h1>Você atendeu ' + req.body.matching_name + '</h1><br/><br/><p><b>Serviço: </b>' + req.body.payment_type + ' - ' + req.body.payment_name + '</p><br/><br/> <p><b>Preço: </b>'+req.body.payment_price+'<br/> <b>Taxa: </b>'+req.body.payment_tax+'<br/><b>Total: </b>'+req.body.payment_total+'</p> <br/><br/><p><b>Obrigado por escolher o Task Hunter App.</b></p>');
+	
   res.end();
 });
 
