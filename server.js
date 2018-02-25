@@ -232,7 +232,7 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
         }
     };        
     
-    return res.json(result);
+    res.json(result);
 	
 });
 
