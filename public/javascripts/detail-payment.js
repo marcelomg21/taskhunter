@@ -60,7 +60,7 @@ function populateTable() {
             $('#paymentInfoAccount').text(this.user.account);
             $('#paymentInfoDigit').text(this.user.digit);
             $('#paymentInfoTransfered').attr('checked', this.transfered);
-            $('#paymentInfoAbandoned').attr('checked', this.abandoned);
+            $('#paymentInfoAbandoned').text(this.abandoned);
         });
 
         // Inject the whole content string into our existing HTML table
