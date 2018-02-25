@@ -215,7 +215,7 @@ app.post('/api/position', function (req, res) {
 });
 
 app.post('/api/payment_service/sendmail/matching', function (req, res) {
-  if(!req.body.matching_email || !req.body.working_name) {
+  if(!req.body.service_email_preferences) {
      res.status(400).send('400 Bad Request')
   }
 
