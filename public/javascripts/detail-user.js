@@ -8,8 +8,7 @@ $(document).ready(function() {
     populateTable();
 
     // Username link click
-    //$('#paymentList table tbody').on('click', 'td a.linkshowpayment', showPaymentInfo);
-    $('#savePayment').on('click', updatePayment);
+    $('#saveUser').on('click', updateUser);
     
     $('#goHome').on('click', goHome);
 
@@ -30,37 +29,37 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var paymentId = $(location).attr('href').split('detail-payment/')[1];
-
-    //alert($(location).attr('href').split('detail-payment/')[1]);
+    var userId = $(location).attr('href').split('detail-user/')[1];
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/payment/detailPayment/' + paymentId, function( data ) {
+    $.getJSON( '/user/detailUser/' + userId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
 
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
-            //Populate Info Box
-            $('#paymentInfoID').text(this._id);
-            $('#paymentInfoMatching').text(this.matching);
-            $('#paymentInfoWorking').text(this.working);
-            $('#paymentInfoCustomerName').text(this.user.full_user_name);
-            $('#paymentInfoName').text(this.name);
-            $('#paymentInfoType').text(this.type);
-            $('#paymentInfoCard').text(this.card);
-            $('#paymentInfoCondition').text(this.condition);
-            $('#paymentInfoDate').text(this.date + ' ' + this.time);
-            $('#paymentInfoPrice').text(this.price);
-            $('#paymentInfoTax').text(this.tax);
-            $('#paymentInfoPaid').text(this.paid);
-            $('#paymentInfoBank').text(this.user.bank);
-            $('#paymentInfoAgency').text(this.user.agency);
-            $('#paymentInfoAccount').text(this.user.account);
-            $('#paymentInfoDigit').text(this.user.digit);
-            $('#paymentInfoTransfered').attr('checked', this.transfered);
-            $('#paymentInfoAbandoned').text(this.abandoned);
+            $('#userInfoID').text(this._id);
+            $('#userInfoUserId').text(this.user_id);
+            $('#userInfoFullUserName').text(this.full_user_name);
+            $('#userInfoGender').text(this.gender);
+            $('#userInfoCpf').text(this.cpf);
+            $('#userInfoCellPhone').text(this.cell_phone);
+            $('#userInfoBirthDate').text(this.birth_date);
+            $('#userInfoEmail').text(this.email);
+            $('#userInfoRegisterDate').text(this.register_date);
+            $('#userInfoCountry').text(this.country);
+            $('#userInfoCity').text(this.city);
+            $('#userInfoNeighborhood').text(this.neighborhood);
+            $('#userInfoState').text(this.state);
+            $('#userInfoStreetAddress').text(this.street_address);
+            $('#userInfoStreetNumber').text(this.street_number);
+            $('#userInfoZipCode').text(this.zip_code);
+            $('#userInfoBank').text(this.bank);
+            $('#userInfoAgency').text(this.agency);
+            $('#userInfoAccount').text(this.account);
+            $('#userInfoDigit').text(this.digit);
+            $('#userInfoDiscountRate').text(this.discount_rate);
         });
 
         // Inject the whole content string into our existing HTML table
@@ -77,22 +76,20 @@ function populateTable() {
     });
 };
 
-function updatePayment(event) {
+function updateUser(event) {
     event.preventDefault();
-
-        var transfered = $('#paymentInfoTransfered').is(':checked') ? true : false;
     
-        var updatePaymentBody = {
-            'transfered': transfered
+        var updateUserBody = {
+            'discount_rate': $('#userInfoDiscountRate').text()
         }
         
-        var paymentId = $('#paymentInfoID').text();
+        var userId = $('#userInfoID').text();
 
         // Use AJAX to post the object to our adduser service
         $.ajax({
             type: 'POST',
-            data: updatePaymentBody,
-            url: '/payment/updatePayment/' + paymentId,
+            data: updateUserBody,
+            url: '/user/updateUser/' + userId,
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
@@ -107,36 +104,5 @@ function updatePayment(event) {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/payments');
-};
-
-// Show User Info
-function showPaymentInfo(event) {
-
-    // Prevent Link from Firing
-    event.preventDefault();
-
-    // Retrieve username from link rel attribute
-    var thisID = $(this).attr('rel');
-
-    // Get Index of object based on id value
-    var arrayPosition = paymentListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
-
-    // Get our User Object
-    var thisPaymentObject = paymentListData[arrayPosition];
-
-    //Populate Info Box
-    $('#paymentInfoID').text(thisPaymentObject._id);
-    $('#paymentInfoMatching').text(thisPaymentObject.matching);
-    $('#paymentInfoWorking').text(thisPaymentObject.working);
-    $('#paymentInfoName').text(thisPaymentObject.name);
-    $('#paymentInfoType').text(thisPaymentObject.type);
-    $('#paymentInfoCard').text(thisPaymentObject.card);
-    $('#paymentInfoCondition').text(thisPaymentObject.condition);
-    $('#paymentInfoDate').text(thisPaymentObject.date);
-    $('#paymentInfoPrice').text(thisPaymentObject.price);
-    $('#paymentInfoTax').text(thisPaymentObject.tax);
-    $('#paymentInfoPaid').text(thisPaymentObject.paid);
-    $('#paymentInfoTransfered').text(thisPaymentObject.transfered);
-
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/users');
 };
