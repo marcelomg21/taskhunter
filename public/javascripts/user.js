@@ -9,10 +9,15 @@ $(document).ready(function() {
 
     // Username link click
     $('#userList table tbody').on('click', 'td a.linkshowuser', showUserInfo);
+    
+    $('#goHome').on('click', goHome);
 
 });
 
-// Functions =============================================================
+function goHome(event) {
+    event.preventDefault();
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/users');
+};
 
 // Fill table with data
 function populateTable() {
@@ -52,11 +57,12 @@ function showUserInfo(event) {
 
     // Retrieve username from link rel attribute
     var thisID = $(this).attr('rel');
+    
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/detail-user/' + thisID);
 
     // Get Index of object based on id value
-    var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
+    /*var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
 
-    // Get our User Object
     var thisUserObject = userListData[arrayPosition];
 
     //Populate Info Box
@@ -79,6 +85,6 @@ function showUserInfo(event) {
     $('#userInfoBank').text(thisUserObject.bank);
     $('#userInfoAgency').text(thisUserObject.agency);
     $('#userInfoAccount').text(thisUserObject.account);
-    $('#userInfoDigit').text(thisUserObject.digit);
+    $('#userInfoDigit').text(thisUserObject.digit);*/
 
 };
