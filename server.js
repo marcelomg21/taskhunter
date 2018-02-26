@@ -254,7 +254,6 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
 function sendmail(email, subject, text, html){
 	
 	var smtpTrans = nodemailer.createTransport({    
-	    service: 'Godaddy',
 	    host: "smtpout.secureserver.net",  
 	    auth: {
 		user: "contato@taskhunterapp.com",
@@ -282,7 +281,6 @@ function sendmail(email, subject, text, html){
 function sendmail2(email, subject, text, html){
 	
 	var smtpTrans = nodemailer.createTransport({    
-	    service: 'Godaddy',
 	    host: "smtpout.secureserver.net",  
 	    port: 465,
 	    auth: {
@@ -311,7 +309,6 @@ function sendmail2(email, subject, text, html){
 function sendmail3(email, subject, text, html){
 	
 	var smtpTrans = nodemailer.createTransport({    
-	    service: 'Godaddy',
 	    host: "smtpout.secureserver.net",
 	    port: 3535,
 	    auth: {
@@ -340,7 +337,6 @@ function sendmail3(email, subject, text, html){
 function sendmail4(email, subject, text, html){
 	
 	var smtpTrans = nodemailer.createTransport({    
-	    service: 'Godaddy',
 	    host: "smtpout.secureserver.net",  
 	    secureConnection: true,
 	    port: 465,
