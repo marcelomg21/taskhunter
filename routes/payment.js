@@ -85,8 +85,6 @@ router.post('/updatePayment/:id', function(req, res) {
     var ObjectId = require('mongodb').ObjectID;
     var paymentObjectId = ObjectId(req.params.id);
     var transfered = req.body.transfered == "true" ? true : false;
-    
-    db.collection('payment_preferences').update();
 	
     db.collection('payment_preferences').update(
 	   {_id : paymentObjectId}, 
