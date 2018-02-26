@@ -43,11 +43,10 @@ router.post('/updateUser/:id', function(req, res) {
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
     var userObjectId = ObjectId(req.params.id);
-    var discountRate = req.body.discountRate;
 	
     db.collection('users').update(
 	   {_id : userObjectId}, 
-	   {$set: {discount_rate : discountRate}}, 
+	   {$set: {discount_rate : req.body.discount_rate}}, 
 	   {upsert:false},
 	   function (err, result) {
 	      res.send(
