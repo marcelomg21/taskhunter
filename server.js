@@ -220,17 +220,22 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
   }
   
   sendmail(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject, 
+	   req.body.service_email_preferences.subject + ' -- 1', 
 	   req.body.service_email_preferences.text, 
 	   req.body.service_email_preferences.html);
 	
 	sendmail2(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject, 
+	   req.body.service_email_preferences.subject + ' -- 2', 
 	   req.body.service_email_preferences.text, 
 	   req.body.service_email_preferences.html);
 	
 	sendmail3(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject, 
+	   req.body.service_email_preferences.subject + ' -- 3', 
+	   req.body.service_email_preferences.text, 
+	   req.body.service_email_preferences.html);
+	
+	sendmail4(req.body.service_email_preferences.email, 
+	   req.body.service_email_preferences.subject + ' -- 4', 
 	   req.body.service_email_preferences.text, 
 	   req.body.service_email_preferences.html);
 	
@@ -247,59 +252,72 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
 });
 
 function sendmail(email, subject, text, html){
-    var smtpTrans = nodemailer.createTransport({    
-	    service: 'Godaddy',
-	    host: "smtpout.secureserver.net",  
-	    secureConnection: true,
-	    port: 465,
-	    auth: {
-		user: "contato@taskhunterapp.com",
-		pass: "Contato#2018"
-	    }
-	});
+	
+	var mailer = require('nodemailer');
+	var smtp = require('nodemailer-smtp-transport');
 
-     var mailOptions = {
-	  from: 'Task Hunter App <contato@taskhunterapp.com>',
+	var transport = mailer.createTransport(
+	  smtp({
+		  service: 'Godaddy',
+	    host: 'smtpout.secureserver.net',
+	    auth: {
+	      user: "contato@taskhunterapp.com",
+		pass: "Contato#2018",
+	    },
+	  })
+	);
+
+	transport.sendMail(
+	  {
+	    from: 'Task Hunter App <contato@taskhunterapp.com>',
 	  to: email,
 	  subject: subject,
 	  text: text,
-	  html: html
-	};
-
-     smtpTrans.sendMail(mailOptions, function(error, info){
-	  if (error) {
-		console.log(error);
-	  } else {
-		console.log('Email sent: ' + info.response);
+	  html: html, // Content
+	  },
+	  function(err, json) {
+	    if (err) {
+	      console.log(err);
+	    } else {
+	      console.log(json);
+	    }
 	  }
-     });
+	);
 }
 
 function sendmail2(email, subject, text, html){
-    var smtpTrans = nodemailer.createTransport({    
-	    service: 'Godaddy',
-	    host: "smtpout.secureserver.net",  
-	    auth: {
-		user: "contato@taskhunterapp.com",
-		pass: "Contato#2018"
-	    }
-	});
+	
+	var mailer = require('nodemailer');
+	var smtp = require('nodemailer-smtp-transport');
 
-     var mailOptions = {
-	  from: 'Task Hunter App <contato@taskhunterapp.com>',
+	var transport = mailer.createTransport(
+	  smtp({
+	    service: 'Godaddy',
+	    host: 'smtpout.secureserver.net',
+	    port: 3535,
+	    auth: {
+	      user: "contato@taskhunterapp.com",
+		pass: "Contato#2018",
+	    },
+	  })
+	);
+
+	transport.sendMail(
+	  {
+	    from: 'Task Hunter App <contato@taskhunterapp.com>',
 	  to: email,
 	  subject: subject,
 	  text: text,
-	  html: html
-	};
-
-     smtpTrans.sendMail(mailOptions, function(error, info){
-	  if (error) {
-		console.log(error);
-	  } else {
-		console.log('Email sent2: ' + info.response);
+	  html: html, // Content
+	  },
+	  function(err, json) {
+	    if (err) {
+	      console.log(err);
+	    } else {
+	      console.log(json);
+	    }
 	  }
-     });
+	);
 }
 
 function sendmail3(email, subject, text, html){
@@ -309,8 +327,45 @@ function sendmail3(email, subject, text, html){
 
 	var transport = mailer.createTransport(
 	  smtp({
+		  service: 'Godaddy',
 	    host: 'smtpout.secureserver.net',
-	    port: 3535,
+	    port: 465,
+	    auth: {
+	      user: "contato@taskhunterapp.com",
+		pass: "Contato#2018",
+	    },
+	  })
+	);
+
+	transport.sendMail(
+	  {
+	    from: 'Task Hunter App <contato@taskhunterapp.com>',
+	  to: email,
+	  subject: subject,
+	  text: text,
+	  html: html, // Content
+	  },
+	  function(err, json) {
+	    if (err) {
+	      console.log(err);
+	    } else {
+	      console.log(json);
+	    }
+	  }
+	);
+}
+
+function sendmail4(email, subject, text, html){
+	
+	var mailer = require('nodemailer');
+	var smtp = require('nodemailer-smtp-transport');
+
+	var transport = mailer.createTransport(
+	  smtp({
+		  service: 'Godaddy',
+	    host: 'smtpout.secureserver.net',
+		  secureConnection: true,
+	    port: 465,
 	    auth: {
 	      user: "contato@taskhunterapp.com",
 		pass: "Contato#2018",
