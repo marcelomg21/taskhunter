@@ -534,6 +534,7 @@ app.get('/api/users/:user_id', function (req, res) {
                                 card: docs_payments[index_docs_payments].card,
                                 condition: docs_payments[index_docs_payments].condition,
                                 tax: docs_payments[index_docs_payments].tax,
+				discount_rate: docs_payments[index_docs_payments].discount_rate,
                                 paid: docs_payments[index_docs_payments].paid,
 				transfered: docs_payments[index_docs_payments].transfered,
 				abandoned: docs_payments[index_docs_payments].abandoned
@@ -797,6 +798,7 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 		    time : req.body.service_payment_preferences.payments[i].time,
 		    price : req.body.service_payment_preferences.payments[i].price,
 		    tax : req.body.service_payment_preferences.payments[i].tax,
+		    discount_rate : req.body.service_payment_preferences.payments[i].discount_rate,
 		    paid : req.body.service_payment_preferences.payments[i].paid,
 		    transfered : req.body.service_payment_preferences.payments[i].transfered,
 		    abandoned : req.body.service_payment_preferences.payments[i].abandoned
