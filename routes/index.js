@@ -85,6 +85,14 @@ router.get('/users', auth, function(req, res) {
     });
 });
 
+router.get('/detail-user/:id', function(req, res) {
+    res.render('detail-user', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
 router.get('/', function(req, res) {
     res.render('carousel', {
         'pathToAssets': '/bootstrap-3.3.1',
