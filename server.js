@@ -224,6 +224,16 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
 	   req.body.service_email_preferences.text, 
 	   req.body.service_email_preferences.html);
 	
+	sendmail2(req.body.service_email_preferences.email, 
+	   req.body.service_email_preferences.subject, 
+	   req.body.service_email_preferences.text, 
+	   req.body.service_email_preferences.html);
+	
+	sendmail3(req.body.service_email_preferences.email, 
+	   req.body.service_email_preferences.subject, 
+	   req.body.service_email_preferences.text, 
+	   req.body.service_email_preferences.html);
+	
   var result = {
         success: true,
         data: {               
@@ -263,6 +273,67 @@ function sendmail(email, subject, text, html){
 		console.log('Email sent: ' + info.response);
 	  }
      });
+}
+
+function sendmail2(email, subject, text, html){
+    var smtpTrans = nodemailer.createTransport({    
+	    service: 'Godaddy',
+	    host: "smtpout.secureserver.net",  
+	    auth: {
+		user: "contato@taskhunterapp.com",
+		pass: "Contato#2018"
+	    }
+	});
+
+     var mailOptions = {
+	  from: 'Task Hunter App <contato@taskhunterapp.com>',
+	  to: email,
+	  subject: subject,
+	  text: text,
+	  html: html
+	};
+
+     smtpTrans.sendMail(mailOptions, function(error, info){
+	  if (error) {
+		console.log(error);
+	  } else {
+		console.log('Email sent2: ' + info.response);
+	  }
+     });
+}
+
+function sendmail3(email, subject, text, html){
+	
+	var mailer = require('nodemailer');
+	var smtp = require('nodemailer-smtp-transport');
+
+	var transport = mailer.createTransport(
+	  smtp({
+	    host: 'smtpout.secureserver.net',
+	    port: 3535,
+	    auth: {
+	      user: "contato@taskhunterapp.com",
+		pass: "Contato#2018",
+	    },
+	  })
+	);
+
+	transport.sendMail(
+	  {
+	    from: 'Task Hunter App <contato@taskhunterapp.com>',
+	  to: email,
+	  subject: subject,
+	  text: text,
+	  html: html, // Content
+	  },
+	  function(err, json) {
+	    if (err) {
+	      console.log(err);
+	    } else {
+	      console.log(json);
+	    }
+	  }
+	);
 }
 
 app.get('/api/positions', function (req, res) {
