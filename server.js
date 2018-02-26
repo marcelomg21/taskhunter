@@ -220,22 +220,7 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
   }
   
   sendmail(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject + ' -- 1', 
-	   req.body.service_email_preferences.text, 
-	   req.body.service_email_preferences.html);
-	
-	sendmail2(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject + ' -- 2', 
-	   req.body.service_email_preferences.text, 
-	   req.body.service_email_preferences.html);
-	
-	sendmail3(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject + ' -- 3', 
-	   req.body.service_email_preferences.text, 
-	   req.body.service_email_preferences.html);
-	
-	sendmail4(req.body.service_email_preferences.email, 
-	   req.body.service_email_preferences.subject + ' -- 4', 
+	   req.body.service_email_preferences.subject, 
 	   req.body.service_email_preferences.text, 
 	   req.body.service_email_preferences.html);
 	
@@ -252,91 +237,8 @@ app.put('/api/:user_id/payment/service/email/preferences', function (req, res) {
 });
 
 function sendmail(email, subject, text, html){
-	
-	var smtpTrans = nodemailer.createTransport({    
-	    host: "smtpout.secureserver.net",  
-	    auth: {
-		user: "contato@taskhunterapp.com",
-		pass: "Contato#2018"
-	    }
-	});
-
-     var mailOptions = {
-	  from: 'Task Hunter App <contato@taskhunterapp.com>',
-	  to: email,
-	  subject: subject,
-	  text: text,
-	  html: html
-	};
-
-     smtpTrans.sendMail(mailOptions, function(error, info){
-	  if (error) {
-		console.log(error);
-	  } else {
-		console.log('Email sent: ' + info.response);
-	  }
-     });
-}
-
-function sendmail2(email, subject, text, html){
-	
-	var smtpTrans = nodemailer.createTransport({    
-	    host: "smtpout.secureserver.net",  
-	    port: 465,
-	    auth: {
-		user: "contato@taskhunterapp.com",
-		pass: "Contato#2018"
-	    }
-	});
-
-     var mailOptions = {
-	  from: 'Task Hunter App <contato@taskhunterapp.com>',
-	  to: email,
-	  subject: subject,
-	  text: text,
-	  html: html
-	};
-
-     smtpTrans.sendMail(mailOptions, function(error, info){
-	  if (error) {
-		console.log(error);
-	  } else {
-		console.log('Email sent: ' + info.response);
-	  }
-     });
-}
-
-function sendmail3(email, subject, text, html){
-	
-	var smtpTrans = nodemailer.createTransport({    
-	    host: "smtpout.secureserver.net",
-	    port: 3535,
-	    auth: {
-		user: "contato@taskhunterapp.com",
-		pass: "Contato#2018"
-	    }
-	});
-
-     var mailOptions = {
-	  from: 'Task Hunter App <contato@taskhunterapp.com>',
-	  to: email,
-	  subject: subject,
-	  text: text,
-	  html: html
-	};
-
-     smtpTrans.sendMail(mailOptions, function(error, info){
-	  if (error) {
-		console.log(error);
-	  } else {
-		console.log('Email sent: ' + info.response);
-	  }
-     });
-}
-
-function sendmail4(email, subject, text, html){
-	
-	var smtpTrans = nodemailer.createTransport({    
+    var smtpTrans = nodemailer.createTransport({    
+	    //service: 'Godaddy',
 	    host: "smtpout.secureserver.net",  
 	    secureConnection: true,
 	    port: 465,
