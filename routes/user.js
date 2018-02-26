@@ -19,9 +19,6 @@ router.get('/userlist', function(req, res) {
     });
 });
 
-/*
- * POST to adduser.
- */
 router.post('/adduser', function(req, res) {
     var db = req.db;
     var collection = db.collection('userlist');    
@@ -32,9 +29,33 @@ router.post('/adduser', function(req, res) {
     });
 });
 
-/*
- * DELETE to deleteuser.
- */
+router.get('/detailUser/:id', function(req, res) {    
+    var db = req.db;
+    var ObjectId = require('mongodb').ObjectID;
+    var userObjectId = ObjectId(req.params.id);
+	
+    db.collection('users').find({'_id' : userObjectId}).toArray(function (err, docs_users) {
+		return res.json(docs_users);
+	});
+});
+
+router.post('/updateUser/:id', function(req, res) {
+    var db = req.db;
+    var ObjectId = require('mongodb').ObjectID;
+    var userObjectId = ObjectId(req.params.id);
+    var discountRate = req.body.discountRate;
+	
+    db.collection('users').update(
+	   {_id : userObjectId}, 
+	   {$set: {discount_rate : discountRate}}, 
+	   {upsert:false},
+	   function (err, result) {
+	      res.send(
+		  (err === null) ? { msg: '' } : { msg: err }
+	      );
+	   });
+});
+
 router.delete('/deleteuser/:id', function(req, res) {
     var db = req.db;
     var collection = db.collection('userlist');
