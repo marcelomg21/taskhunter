@@ -80,7 +80,7 @@ function updateUser(event) {
     event.preventDefault();
     
         var updateUserBody = {
-            'discount_rate': $('#userInfoDiscountRate').text()
+            'discount_rate': $('#userInfoDiscountRate').val()
         }
         
         var userId = $('#userInfoID').text();
