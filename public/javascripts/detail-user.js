@@ -59,7 +59,7 @@ function populateTable() {
             $('#userInfoAgency').text(this.agency);
             $('#userInfoAccount').text(this.account);
             $('#userInfoDigit').text(this.digit);
-            $('#userInfoDiscountRate').text(this.discount_rate);
+            $('#userInfoDiscountRate').val(this.discount_rate);
         });
 
         // Inject the whole content string into our existing HTML table
