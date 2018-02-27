@@ -2055,25 +2055,21 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 //console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
                                 //console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
                                 
-				if(timeline_matching_crossings.services.length > 0){
-					db.collection('service_preferences').update({ 
-					    user_id: parseInt(req.params.user_id)},                                    
-						{ $set: 
-						    { "matching": timeline_matching_crossings }
-						},
-					    { upsert : true }
-					);
-				}
+				db.collection('service_preferences').update({ 
+				    user_id: parseInt(req.params.user_id)},                                    
+					{ $set: 
+					    { "matching": timeline_matching_crossings }
+					},
+				    { upsert : true }
+				);
 				    
-				if(timeline_working_crossings.services.length > 0){
-					db.collection('service_preferences').update({ 
-					    user_id: parseInt(req.params.user_id)},                                    
-						{ $set: 
-						    { "working": timeline_working_crossings }
-						},
-					    { upsert : true }
-					);
-				}
+				db.collection('service_preferences').update({ 
+				    user_id: parseInt(req.params.user_id)},                                    
+					{ $set: 
+					    { "working": timeline_working_crossings }
+					},
+				    { upsert : true }
+				);
 				    
 				//crossing user service preferences
 				/*db.collection('service_preferences').update({ 
