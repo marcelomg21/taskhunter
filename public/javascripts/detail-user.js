@@ -94,7 +94,7 @@ function updateUser(event) {
         }).done(function( response ) {
             // Check for successful (blank) response
             if (response.msg === '') {
-                alert('Pagamento salvo com sucesso.');
+                alert('Usuário salvo com sucesso.');
             }
             else {
                 alert('Erro ao salvar: ' + response.msg);
