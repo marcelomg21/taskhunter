@@ -2060,7 +2060,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					{ $set: 
 					    { "matching": timeline_matching_crossings }
 					},
-				    { upsert : false }
+				    { upsert : true }
 				);
 				    
 				db.collection('service_preferences').update({ 
@@ -2068,7 +2068,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					{ $set: 
 					    { "working": timeline_working_crossings }
 					},
-				    { upsert : false }
+				    { upsert : true }
 				);
 				    
 				//crossing user service preferences
