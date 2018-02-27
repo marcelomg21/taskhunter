@@ -2210,12 +2210,12 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                                 }
                             }
 				
-			    //res.json(result);
+			    res.json(result);
                         }
                     });
-                } 
-		
-		res.json(result);
+                } else {
+		    res.json(result);
+		}
         });
     }     
 });
