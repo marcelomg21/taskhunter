@@ -577,14 +577,19 @@ app.get('/api/users/:user_id', function (req, res) {
 				    //console.log("docs_timeline: " + docs_timeline);
 
 				    if (docs_timeline.length > 0) {
+					    
+					if(docs_timeline[0].matching != undefined)
+					    result.data.service_timeline_preferences.matching = docs_timeline[0].matching.services;
+					if(docs_timeline[0].working != undefined)
+					    result.data.service_timeline_preferences.working = docs_timeline[0].working.services;
 
-					for (var index_docs_timeline = 0, len_docs_timeline = docs_timeline.length; index_docs_timeline < len_docs_timeline; index_docs_timeline++) {					    
+					/*for (var index_docs_timeline = 0, len_docs_timeline = docs_timeline.length; index_docs_timeline < len_docs_timeline; index_docs_timeline++) {					    
 					    //result.data.service_timeline_preferences.matching.push(docs_timeline[index_docs_timeline].matching.services);
 					    if(docs_timeline[index_docs_timeline].matching != undefined)
 					    	result.data.service_timeline_preferences.matching = docs_timeline[index_docs_timeline].matching.services;
 					    if(docs_timeline[index_docs_timeline].working != undefined)
 					    	result.data.service_timeline_preferences.working = docs_timeline[index_docs_timeline].working.services;
-					}
+					}*/
 				    }
 
 				    return res.json(result);                    
