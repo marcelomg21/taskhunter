@@ -54,13 +54,13 @@ function populateTable() {
             $('#paymentInfoDate').text(this.date + ' ' + this.time);
             $('#paymentInfoPrice').text(this.price);
             $('#paymentInfoTax').text(this.tax);
-            $('#paymentInfoPaid').text(this.paid);
+            $('#paymentInfoPaid').text((this.paid ? 'Sim' : 'Não'));
             $('#paymentInfoBank').text(this.user.bank);
             $('#paymentInfoAgency').text(this.user.agency);
             $('#paymentInfoAccount').text(this.user.account);
             $('#paymentInfoDigit').text(this.user.digit);
             $('#paymentInfoTransfered').attr('checked', this.transfered);
-            $('#paymentInfoAbandoned').text(this.abandoned);
+            $('#paymentInfoAbandoned').text((this.abandoned ? 'Sim' : 'Não'));
         });
 
         // Inject the whole content string into our existing HTML table
