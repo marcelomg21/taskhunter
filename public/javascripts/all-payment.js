@@ -44,8 +44,8 @@ function populateTable() {
             tableContent += '<td>' + this.date + ' ' + this.time + '</td>';
             tableContent += '<td>' + this.price + '</td>';
             tableContent += '<td>' + this.tax + '</td>';
-            tableContent += '<td>' + this.paid + '</td>';
-            tableContent += '<td>' + this.transfered + '</td>';
+            tableContent += '<td>' + (this.paid == true ? 'Sim' : 'Não') + '</td>';
+            tableContent += '<td>' + (this.transfered ? 'Sim' : 'Não') + '</td>';
             //tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
