@@ -115,12 +115,4 @@ router.get('/theme', function(req, res) {
     });
 });
 
-router.get('/privacypolicy1', function(req, res) {
-    res.sendFile(path.join(__dirname+'/privacypolicy.html'));
-});
-
-router.get('/privacypolicy2', function(req, res) {
-    res.sendFile(path.join(__dirname+'/views/privacypolicy.html'));
-});
-
 module.exports = router;
