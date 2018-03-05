@@ -114,4 +114,16 @@ router.get('/theme', function(req, res) {
     });
 });
 
+router.get('/privacypolicy1', function(req, res) {
+    res.sendFile('privacypolicy.html');
+});
+
+router.get('/privacypolicy2', function(req, res) {
+    res.sendFile('/privacypolicy.html');
+});
+
+router.get('/privacypolicy3', function(req, res) {
+    res.sendFile('/views/privacypolicy.html');
+});
+
 module.exports = router;
