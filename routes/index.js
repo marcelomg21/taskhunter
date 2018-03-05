@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var basicAuth = require('basic-auth');
-var path    = require('path');
 
 var auth = function (req, res, next) {
   function unauthorized(res) {
