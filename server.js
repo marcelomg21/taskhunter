@@ -280,7 +280,7 @@ app.get('/api/positions', function (req, res) {
           { 
               $geoNear : {
                 near : { type: 'Point', coordinates : [ -30.014234, -51.087205 ] }, 
-                        maxDistance : 20.50 * 1609, 
+                        maxDistance : 0.50 * 1609, 
                         spherical : true, 
                         distanceField : 'distance', 
                         distanceMultiplier : 0.000621371
