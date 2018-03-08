@@ -2013,9 +2013,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             {$lookup:{from:'users', localField:'crossings', foreignField:'user_id', as:'crossingsObjects'} },
 	    {$lookup:{from:'feedback_preferences', localField:'crossings', foreignField:'working', as:'feedbackObjects'} },
 	    {$lookup:{from:'crossings', localField:'crossings', foreignField:'user_id', as:'mutualObjects'} },
-            {$unwind:'$crossingsObjects'}, 
 	    {$group:{_id:'$_id', crossings: {'$push': {'crossing_user': '$crossingsObjects', 'crossing_feedback': '$feedbackObjects', 'crossing_mutual': '$mutualObjects'} } } }, 
-            {$match:{$and:[{'_id' : parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_crossings) {
+	    {$unwind:'$crossings'},
+	    {$unwind:'$crossings.crossing_user'},
+            {$match:{$and:[{'_id' : parseInt(req.params.user_id), 'crossings.crossing_mutual.crossings': parseInt(req.params.user_id) }]} }]).toArray(function (err, docs_crossings) {
 
                 //console.log("docs_crossings.length: " + docs_crossings.length);
 
@@ -2029,177 +2030,121 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
                         if (user_docs.length > 0) {
                             
-                            for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings[0].crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
-                                      
-				if(docs_crossings[0].crossings[index_docs_crossings].crossing_mutual.crossings.indexOf(parseInt(req.params.user_id)) > -1){
+                            for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
 					
-					var timeline_matching_crossings = { services : [] };
-					var timeline_working_crossings = { services : [] };
+				var timeline_matching_crossings = { services : [] };
+				var timeline_working_crossings = { services : [] };
 
-					//matching
-					for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
+				//matching
+				for (var index_docs_users = 0, len_docs_users = user_docs[0].service_matching_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-					    var worked = docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
+				    var worked = docs_crossings[index_docs_crossings].crossings.crossing_user.service_working_preferences.services.find(o => o.type == user_docs[0].service_matching_preferences.services[index_docs_users].type && o.name == user_docs[0].service_matching_preferences.services[index_docs_users].name);
 
-					    if(worked != undefined){                                       
-						var worked_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id), item: worked };
-						timeline_matching_crossings.services.push(worked_item);
-					    }
+				    if(worked != undefined){                                       
+					var worked_item = { user_id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id), item: worked };
+					timeline_matching_crossings.services.push(worked_item);
+				    }
 
-					}
+				}
 
-					//working
-					for (var index_docs_users = 0, len_docs_users = user_docs[0].service_working_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
+				//working
+				for (var index_docs_users = 0, len_docs_users = user_docs[0].service_working_preferences.services.length; index_docs_users < len_docs_users; index_docs_users++) {
 
-					    var matched = docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
+				    var matched = docs_crossings[index_docs_crossings].crossings.crossing_user.service_matching_preferences.services.find(o => o.type == user_docs[0].service_working_preferences.services[index_docs_users].type && o.name == user_docs[0].service_working_preferences.services[index_docs_users].name);
 
-					    if(matched != undefined){
-						var matched_item = { user_id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id), item: matched };
-						timeline_working_crossings.services.push(matched_item);
-					    }
+				    if(matched != undefined){
+					var matched_item = { user_id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id), item: matched };
+					timeline_working_crossings.services.push(matched_item);
+				    }
 
-					}
+				}
 
-					//console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
-					//console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
+				//console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
+				//console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
 
-					db.collection('service_preferences').update({ 
-					    user_id: parseInt(req.params.user_id)},                                    
-						{ $set: 
-						    { "matching.services": timeline_matching_crossings.services, "working.services": timeline_working_crossings.services }
-						},
-					    { upsert : true }
-					);
+				db.collection('service_preferences').update({ 
+				    user_id: parseInt(req.params.user_id)},                                    
+					{ $set: 
+					    { "matching.services": timeline_matching_crossings.services, "working.services": timeline_working_crossings.services }
+					},
+				    { upsert : true }
+				);
 
-					/*db.collection('service_preferences').update({ 
-					    user_id: parseInt(req.params.user_id)},                                    
-						{ $set: 
-						    { "working.services": timeline_working_crossings.services }
-						},
-					    { upsert : true }
-					);*/
+				var item_timeline = {						
+				    working: timeline_matching_crossings.services,                            
+				    matching: timeline_working_crossings.services
+				};
 
-					var item_timeline = {						
-					    working: timeline_matching_crossings.services,                            
-					    matching: timeline_working_crossings.services
-					};
+				if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
 
-					if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
+				    var item_crossings = {
+					id: parseInt(req.params.user_id),
+					//modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
+					notification_type: '471,524,525,526,529,530,531,565,791,792',
+					notifier: { 
+					    id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id),
+					    type: 'client',
+					    //job: 'Serviços Gerais',
+					    is_accepted: true,
+					    //workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
+					    my_relation: 1,
+					    //distance: 20.90,
+					    gender: docs_crossings[index_docs_crossings].crossings.crossing_user.gender,                                            
+					    is_charmed: false,
+					    nb_photos: 1,
+					    first_name: docs_crossings[index_docs_crossings].crossings.crossing_user.user_name,
+					    age: 0,
+					    service_matching_preferences: docs_crossings[index_docs_crossings].crossings.crossing_user.service_matching_preferences,
+					    service_working_preferences: docs_crossings[index_docs_crossings].crossings.crossing_user.service_working_preferences,
+					    service_feedback_preferences: { feedbacks: [] },
+					    service_timeline_preferences: item_timeline,
+					    already_charmed: false,
+					    has_charmed_me: false,
+					    availability: {
+						time_left: 100,
+						availability_type: {
+						    color: '#FF4E00',
+						    duration: 10,
+						    label: 'label2',
+						    type: 'client'
+						}
+					    },
+					    last_meet_position: {},
+					    is_invited: false,
+					    last_invite_received: {
+						color: '#FF4E00',
+						    duration: 20,
+						    label: 'label3',
+						    type: 'client'
+					    },
+					    profiles: [
+					    {
+						id: docs_crossings[index_docs_crossings].crossings.crossing_user.user_id,
+						mode: 0,
+						url: docs_crossings[index_docs_crossings].crossings.crossing_user.facebook_picture,
+						width: 50,
+						height: 50
+					    }]
+					 }
+				      };
 
-					    var item_crossings = {
-						id: parseInt(req.params.user_id),
-						//modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
-						notification_type: '471,524,525,526,529,530,531,565,791,792',
-						notifier: { 
-						    id: parseInt(docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id),
-						    type: 'client',
-						    //job: 'Serviços Gerais',
-						    is_accepted: true,
-						    //workplace: '\nEletricista\nPintor\nEncanador\nTroca de Chuveiro\nColocação Basalto',
-						    my_relation: 1,
-						    //distance: 20.90,
-						    gender: docs_crossings[0].crossings[index_docs_crossings].crossing_user.gender,                                            
-						    is_charmed: false,
-						    nb_photos: 1,
-						    first_name: docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_name,
-						    age: 0,
-						    service_matching_preferences: docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_matching_preferences,
-						    service_working_preferences: docs_crossings[0].crossings[index_docs_crossings].crossing_user.service_working_preferences,
-						    service_feedback_preferences: { feedbacks: [] },
-						    service_timeline_preferences: item_timeline,
-						    already_charmed: false,
-						    has_charmed_me: false,
-						    availability: {
-							time_left: 100,
-							availability_type: {
-							    color: '#FF4E00',
-							    duration: 10,
-							    label: 'label2',
-							    type: 'client'
-							}
-						    },
-						    last_meet_position: {},
-						    is_invited: false,
-						    last_invite_received: {
-							color: '#FF4E00',
-							    duration: 20,
-							    label: 'label3',
-							    type: 'client'
-						    },
-						    profiles: [
-						    {
-							id: docs_crossings[0].crossings[index_docs_crossings].crossing_user.user_id,
-							mode: 0,
-							url: docs_crossings[0].crossings[index_docs_crossings].crossing_user.facebook_picture,
-							width: 50,
-							height: 50
-						    }]
-						 }
-					      };
+				      for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_crossings[index_docs_crossings].crossings.crossing_feedback.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
 
-					      for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_crossings[0].crossings[index_docs_crossings].crossing_feedback.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
+					    var item_crossings_feedback = {
+						matching: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].matching,
+						working: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].working,
+						type: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].type,
+						name: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].name,
+						payment: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].payment,
+						evaluation: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].evaluation
+					    };
 
-						    var item_crossings_feedback = {
-							matching: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].matching,
-							working: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].working,
-							type: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].type,
-							name: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].name,
-							payment: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].payment,
-							evaluation: docs_crossings[0].crossings[index_docs_crossings].crossing_feedback[index_docs_feedbacks].evaluation
-						    };
+					    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
+				      } 
 
-						    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-					      } 
-
-					      result.data.push(item_crossings);
-
-					      //feedback crossing item by user
-					      /*db.collection('feedback_preferences').aggregate([
-						  {$match: {$or: [{matching:parseInt(item_crossings.notifier.id)}, {working:parseInt(item_crossings.notifier.id)}]} }]).toArray(function (err, docs_feedbacks) {
-
-						    if (docs_feedbacks.length > 0) {
-
-							for (var index_docs_feedbacks = 0, len_docs_feedbacks = docs_feedbacks.length; index_docs_feedbacks < len_docs_feedbacks; index_docs_feedbacks++) {
-
-							    var item_crossings_feedback = {
-								matching: docs_feedbacks[index_docs_feedbacks].matching,                            
-								working: docs_feedbacks[index_docs_feedbacks].working,
-								type: docs_feedbacks[index_docs_feedbacks].type,
-								name: docs_feedbacks[index_docs_feedbacks].name,
-								evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
-							    };
-
-							    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-							}
-						    }
-
-
-					      });
-
-					      //last meet position crossing
-					      db.collection('crossings_positions').aggregate([            
-						{$unwind:'$crossings'},            
-						{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(item_crossings.notifier.id)}]} },
-						{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
-
-						    if (docs_last_meet.length > 0) {
-
-							for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
-
-							    item_crossings.notifier.last_meet_position = {
-								creation_date: docs_last_meet[index_docs_last_meet].date.toISOString().split('T')[0],
-								lat: docs_last_meet[index_docs_last_meet].lat,
-								lon: docs_last_meet[index_docs_last_meet].lon
-							    };
-
-							    break;
-							}
-						    }
-
-						    //res.json(result);
-					      });*/
-					}
-			    	}
+				      result.data.push(item_crossings);
+				}
+			    	
                             }
 				
 			    res.json(result);
