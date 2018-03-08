@@ -2059,21 +2059,13 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 				}
 
-				//console.log('timeline_matching_crossings.services.length: '+timeline_matching_crossings.services.length);
-				//console.log('timeline_working_crossings.services.length: '+timeline_working_crossings.services.length);
+				console.log('timeline_matching_crossings.services: ' + timeline_matching_crossings.services);
+				console.log('timeline_working_crossings.services: ' + timeline_working_crossings.services);
 
 				db.collection('service_preferences').update({ 
 				    user_id: parseInt(req.params.user_id)},                                    
 					{ $set: 
-					    { "matching.services": timeline_matching_crossings.services }
-					},
-				    { upsert : true }
-				);
-				    
-				db.collection('service_preferences').update({ 
-				    user_id: parseInt(req.params.user_id)},                                    
-					{ $set: 
-					    { "working.services": timeline_working_crossings.services }
+					    { "matching.services": timeline_matching_crossings.services, "working.services": timeline_working_crossings.services }
 					},
 				    { upsert : true }
 				);
