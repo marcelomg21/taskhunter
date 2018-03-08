@@ -2059,14 +2059,14 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 				}
 
-				console.log('timeline_matching_crossings.services: ' + timeline_matching_crossings.services.toString());
-				console.log('timeline_working_crossings.services: ' + timeline_working_crossings.services.toString());
+				//console.log('timeline_matching_crossings.services: ' + timeline_matching_crossings.services.toString());
+				//console.log('timeline_working_crossings.services: ' + timeline_working_crossings.services.toString());
 				    
-				db.collection('service_preferences').findAndModify({
-					query: { user_id: parseInt(req.params.user_id) },
-					update: { user_id: parseInt(req.params.user_id), matching : { services: timeline_matching_crossings.services },  working : {services: timeline_working_crossings.services } },
-					upsert: true
-				});
+				db.collection('service_preferences').findAndModify(
+					{ user_id : parseInt(req.params.user_id) },
+					{ user_id : parseInt(req.params.user_id), matching : { services: timeline_matching_crossings.services },  working : {services: timeline_working_crossings.services } },
+					{ upsert : true}
+				);
 
 				/*db.collection('service_preferences').update({ 
 				    user_id: parseInt(req.params.user_id)},                                    
