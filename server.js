@@ -2186,7 +2186,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 			for (var index_docs_notification = 0, len_docs_notification = docs_notification.length; index_docs_notification < len_docs_notification; index_docs_notification++) {
 				
 			    var notification = {
-			        id: req.params.user_id,              
+			        id: docs_notification[index_docs_notification]._id,              
 			        modification_date: docs_notification[index_docs_notification].timestamp,
 			        is_notified: docs_notification[index_docs_notification].is_notified,
 			        type: '471',
