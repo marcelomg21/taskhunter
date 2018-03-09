@@ -2064,6 +2064,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				    
 				db.collection('service_preferences').findAndModify(
 					{ user_id : parseInt(req.params.user_id) },
+					[['_id','asc']],
 					{ user_id : parseInt(req.params.user_id), matching : { services: timeline_matching_crossings.services },  working : {services: timeline_working_crossings.services } },
 					{ upsert : true}
 				);
