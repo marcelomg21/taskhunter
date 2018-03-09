@@ -2167,6 +2167,77 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 app.get('/api/users/:user_id/notifications', function (req, res) {
     
+    if (!db) {
+      initDb(function(err){});
+    }
+	
+    if (db) {
+  
+	    var result = {
+		success: true,
+		data: []
+	    };
+
+	    db.collection('notification_preferences').aggregate([
+		{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'is_notified' : true}]} }]).toArray(function (err, docs_notification) {
+		    
+		    if (docs_notification.length > 0) {
+			    
+			for (var index_docs_notification = 0, len_docs_notification = docs_notification.length; index_docs_notification < len_docs_notification; index_docs_notification++) {
+				
+			    var notification = {
+			        id: req.params.user_id,              
+			        modification_date: docs_notification[index_docs_notification].timestamp,
+			        is_notified: docs_notification[index_docs_notification].is_notified,
+			        type: '471',
+			        message_title: docs_notification[index_docs_notification].message_title,
+			        message_data: docs_notification[index_docs_notification].message_data,
+			        nb_times: 0,
+			        notification_type: '471,524,525,526,529,530,531,565,791,792',
+			        notifier: { 
+				    id: 30, 
+				    type: 'type',
+				    first_name: '',
+				    gender: 'M',
+				    my_relation: 0,
+				    has_charmed_me: false,
+				    age: 43,
+				    already_charmed: false,
+				    has_charmed_me: false,
+				    availability: {
+				        time_left: 100,
+				        availability_type: {
+					    color: '#FF4E00',
+					    duration: 10,
+					    label: 'label2',
+					    type: 'type2'
+				        }
+				    },
+				    is_invited: false,
+				    last_invite_received: {
+				        color: '#FF4E00',
+					    duration: 20,
+					    label: 'label3',
+					    type: 'type3'
+				    },
+				    profiles: [{
+				        id: 130,
+				        mode: 0,
+
+				        width: 50,
+				        height: 50
+				    }]
+			        }
+			    };
+			    
+			    result.data.push(notification);
+			}
+		    }
+
+		    res.json(result);
+	    });
+    }
+	
     /*
     if(!req.body.service_notification_preferences) {
         res.status(400).send('400 Bad Request')
@@ -2193,7 +2264,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
     };
     */
     
-  var result =  {
+    /*var result =  {
            success: true,
            data: [{
               id: req.params.user_id,              
@@ -2547,7 +2618,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 		  }]
 	      }
 	  }]
-    };
+    };*/
         
     return res.json(result);
 });
