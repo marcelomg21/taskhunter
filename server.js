@@ -2029,6 +2029,9 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                     db.collection('users').find(query).toArray(function (err, user_docs) {
 
                         if (user_docs.length > 0) {
+				
+			    var timeline_matching_crossings_complete = { services : [] };
+			    var timeline_working_crossings_complete = { services : [] };
                             
                             for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
 					
@@ -2043,6 +2046,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				    if(worked != undefined){                                       
 					var worked_item = { user_id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id), item: worked };
 					timeline_matching_crossings.services.push(worked_item);
+					timeline_matching_crossings_complete.services.push(worked_item);
 				    }
 
 				}
@@ -2055,18 +2059,10 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				    if(matched != undefined){
 					var matched_item = { user_id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id), item: matched };
 					timeline_working_crossings.services.push(matched_item);
+					timeline_working_crossings_complete.services.push(matched_item);
 				    }
 
 				}
-
-				//console.log('timeline_matching_crossings.services: ' + timeline_matching_crossings.services.toString());
-				//console.log('timeline_working_crossings.services: ' + timeline_working_crossings.services.toString());
-
-				db.collection('service_preferences').update(
-				    { user_id: parseInt(req.params.user_id)},                                    
-				    { $addToSet: { "matching.services": { $each: timeline_matching_crossings.services }, "working.services": { $each: timeline_working_crossings.services } } },
-				    { upsert : true }
-				);
 				    
 				/*db.collection('service_preferences').update({ 
 				    user_id: parseInt(req.params.user_id)},                                    
@@ -2152,6 +2148,12 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				}
 			    	
                             }
+				
+			    db.collection('service_preferences').update(
+			        { user_id: parseInt(req.params.user_id)},                                    
+			        { $addToSet: { "matching.services": { $each: timeline_matching_crossings_complete.services }, "working.services": { $each: timeline_working_crossings_complete.services } } },
+			        { upsert : true }
+			    );
 				
 			    res.json(result);
                         }
