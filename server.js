@@ -2682,8 +2682,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 	      }
 	  }]
     };*/
-        
-    return res.json(result);
+
 });
 
 //get all conversations
