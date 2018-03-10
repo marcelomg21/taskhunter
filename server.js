@@ -2190,6 +2190,7 @@ app.put('/api/users/:user_id/notifications', function (req, res) {
             id: req.params.user_id, 	
             service_notification_preferences: req.body.service_notification_preferences
         }
+    };
     
     res.json(result);
 });
@@ -2220,6 +2221,7 @@ app.put('/api/users/:user_id/notifications/:notification_id', function (req, res
             id: req.params.user_id, 	
             service_notification_preferences: req.body.service_notification_preferences
         }
+    };
     
     res.json(result);
 });
