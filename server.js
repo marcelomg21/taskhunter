@@ -901,7 +901,9 @@ app.put('/api/users/:user_id/service/contact/us/preferences', function (req, res
             id: req.params.user_id, 	
             service_contact_us_preferences: req.body.service_contact_us_preferences
         }
-    };        
+    };
+	
+    sendmail('marcelomg21@gmail.com', 'Task Hunter App [Novo Fale Conosco]', 'Task Hunter App', '<h1>Nova Mensagem Enviada - Fale Conosco!</h1><p>Mensagem: ' + req.body.service_contact_us_preferences.message + '<br/><br/> E-mail: ' + req.body.service_contact_us_preferences.email + '</p>');
     
     return res.json(result);
 });
