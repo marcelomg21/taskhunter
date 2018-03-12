@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/notificationlist/:user_id', function(req, res) {
+router.get('/notificationlist', function(req, res) {
     var db = req.db;
-    var query = { user_id : parseInt(req.params.user_id) };
+    var query = {};
 
     db.collection('notification_preferences').find(query).toArray(function (err, docs) {                                   
             return res.json(docs);                
