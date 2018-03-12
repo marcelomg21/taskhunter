@@ -29,37 +29,23 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var userId = $(location).attr('href').split('detail-user/')[1];
+    var notificationId = $(location).attr('href').split('detail-notification/')[1];
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/user/detailUser/' + userId, function( data ) {
+    $.getJSON( '/notification/detailNotification/' + notificationId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
 
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
-            $('#userInfoID').text(this._id);
-            $('#userInfoUserId').text(this.user_id);
-            $('#userInfoFullUserName').text(this.full_user_name);
-            $('#userInfoGender').text(this.gender);
-            $('#userInfoCpf').text(this.cpf);
-            $('#userInfoCellPhone').text(this.cell_phone);
-            $('#userInfoBirthDate').text(this.birth_date);
-            $('#userInfoEmail').text(this.email);
-            $('#userInfoRegisterDate').text(this.register_date);
-            $('#userInfoCountry').text(this.country);
-            $('#userInfoCity').text(this.city);
-            $('#userInfoNeighborhood').text(this.neighborhood);
-            $('#userInfoState').text(this.state);
-            $('#userInfoStreetAddress').text(this.street_address);
-            $('#userInfoStreetNumber').text(this.street_number);
-            $('#userInfoZipCode').text(this.zip_code);
-            $('#userInfoBank').text(this.bank);
-            $('#userInfoAgency').text(this.agency);
-            $('#userInfoAccount').text(this.account);
-            $('#userInfoDigit').text(this.digit);
-            $('#userInfoDiscountRate').val(this.discount_rate);
+            $('#notificationInfoID').text(this._id);
+            $('#notificationInfoUserId').text(this.user_id);
+            $('#notificationInfoTimestamp').text(this.timestamp);
+            $('#notificationInfoIsNotified').text(this.is_notified);
+            $('#notificationInfoMessageTitle').text(this.message_title);
+            $('#notificationInfoMessageData').text(this.message_data);
+            
         });
 
         // Inject the whole content string into our existing HTML table
@@ -104,5 +90,5 @@ function updateUser(event) {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/users');
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/notifications');
 };
