@@ -20,6 +20,36 @@ router.get('/notificationalllist', function(req, res) {
 });
 
 router.post('/addnotification', function(req, res) {
+	
+    /*app.put('/api/users/:user_id/notifications', function (req, res) {
+
+	    if(!req.body.service_notification_preferences) {
+		res.status(400).send('400 Bad Request')
+	    }
+
+	    var date = new Date();
+	    date.setHours(date.getHours() - 3);
+	    var dateFormat = date.toISOString().split('T')[0];
+
+	    db.collection('notification_preferences').insert({
+		user_id : parseInt(req.params.user_id),
+		timestamp : dateFormat,
+		is_notified : req.body.service_notification_preferences.is_notified,
+		message_title : req.body.service_notification_preferences.message_title,
+		message_data: req.body.service_notification_preferences.message_data
+	    });
+
+	    var result = {
+		success: true,
+		data: {               
+		    id: req.params.user_id, 	
+		    service_notification_preferences: req.body.service_notification_preferences
+		}
+	    };
+
+	    res.json(result);
+	});*/
+	
     var db = req.db;
     var collection = db.collection('userlist');    
     collection.insert(req.body, function(err, result){
@@ -30,6 +60,34 @@ router.post('/addnotification', function(req, res) {
 });
 
 router.post('/addnotificationall', function(req, res) {
+	
+    /*app.put('/api/users/notifications/all', function (req, res) {
+
+	    if(!req.body.service_notification_preferences) {
+		res.status(400).send('400 Bad Request')
+	    }
+
+	    var date = new Date();
+	    date.setHours(date.getHours() - 3);
+	    var dateFormat = date.toISOString().split('T')[0];
+
+	    db.collection('notification_all_preferences').insert({
+		timestamp : dateFormat,
+		is_notified : req.body.service_notification_preferences.is_notified,
+		message_title : req.body.service_notification_preferences.message_title,
+		message_data: req.body.service_notification_preferences.message_data
+	    });
+
+	    var result = {
+		success: true,
+		data: {
+		    service_notification_preferences: req.body.service_notification_preferences
+		}
+	    };
+
+	    res.json(result);
+	});*/
+	
     var db = req.db;
     var collection = db.collection('userlist');    
     collection.insert(req.body, function(err, result){
@@ -89,6 +147,24 @@ router.post('/updatenotificationall/:id', function(req, res) {
 		  (err === null) ? { msg: '' } : { msg: err }
 	      );
 	   });
+});
+
+router.delete('/deletenotification/:id', function(req, res) {
+    var db = req.db;
+    var collection = db.collection('userlist');
+    var userToDelete = req.params.id;
+    collection.remove({ '_id' : userToDelete }, function(err) {
+        res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
+    });
+});
+
+router.delete('/deletenotificationall/:id', function(req, res) {
+    var db = req.db;
+    var collection = db.collection('userlist');
+    var userToDelete = req.params.id;
+    collection.remove({ '_id' : userToDelete }, function(err) {
+        res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
+    });
 });
 
 module.exports = router;
