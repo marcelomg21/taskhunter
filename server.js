@@ -2179,34 +2179,6 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
         });
     }     
 });
-
-//set notifications all
-app.put('/api/users/notifications/all', function (req, res) {
-
-    if(!req.body.service_notification_preferences) {
-        res.status(400).send('400 Bad Request')
-    }
-    
-    var date = new Date();
-    date.setHours(date.getHours() - 3);
-    var dateFormat = date.toISOString().split('T')[0];
-  
-    db.collection('notification_all_preferences').insert({
-        timestamp : dateFormat,
-	is_notified : req.body.service_notification_preferences.is_notified,
-	message_title : req.body.service_notification_preferences.message_title,
-	message_data: req.body.service_notification_preferences.message_data
-    });
-         
-    var result = {
-        success: true,
-        data: {
-            service_notification_preferences: req.body.service_notification_preferences
-        }
-    };
-    
-    res.json(result);
-});
 	
 //update notifications all
 app.put('/api/users/notifications/all/:notification_id', function (req, res) {
@@ -2312,36 +2284,6 @@ app.get('/api/users/notifications/all', function (req, res) {
 	    });
     }
 
-});
-
-//set notifications
-app.put('/api/users/:user_id/notifications', function (req, res) {
-
-    if(!req.body.service_notification_preferences) {
-        res.status(400).send('400 Bad Request')
-    }
-    
-    var date = new Date();
-    date.setHours(date.getHours() - 3);
-    var dateFormat = date.toISOString().split('T')[0];
-  
-    db.collection('notification_preferences').insert({
-        user_id : parseInt(req.params.user_id),
-        timestamp : dateFormat,
-	is_notified : req.body.service_notification_preferences.is_notified,
-	message_title : req.body.service_notification_preferences.message_title,
-	message_data: req.body.service_notification_preferences.message_data
-    });
-         
-    var result = {
-        success: true,
-        data: {               
-            id: req.params.user_id, 	
-            service_notification_preferences: req.body.service_notification_preferences
-        }
-    };
-    
-    res.json(result);
 });
 	
 //update notifications
