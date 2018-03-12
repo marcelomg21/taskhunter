@@ -2035,6 +2035,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				
 			    var timeline_matching_crossings_complete = { services : [] };
 			    var timeline_working_crossings_complete = { services : [] };
+			    var is_charmed = false;
                             
                             for (var index_docs_crossings = 0, len_docs_crossings = docs_crossings.length; index_docs_crossings < len_docs_crossings; index_docs_crossings++) {
 					
@@ -2067,6 +2068,17 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 
 				}
 				    
+				//matched conversations
+				for (var index_docs_conversations = 0, len_docs_conversations = docs_crossings[index_docs_crossings].crossings.crossing_conversations.length; index_docs_conversations < len_docs_conversations; index_docs_conversations++) {
+  
+				    var conversationMatched = docs_crossings[index_docs_crossings].crossings.crossing_conversations[index_docs_conversations].participants.find(o => o.user_id == parseInt(req.params.user_id));
+					
+				    if(conversationMatched != undefined){
+				        is_charmed = true;
+				        break;
+				    }
+				}
+				    
 				/*db.collection('service_preferences').update({ 
 				    user_id: parseInt(req.params.user_id)},                                    
 					{ $set: 
@@ -2095,7 +2107,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					    my_relation: 1,
 					    //distance: 20.90,
 					    gender: docs_crossings[index_docs_crossings].crossings.crossing_user.gender,                                            
-					    is_charmed: false,
+					    is_charmed: is_charmed,
 					    nb_photos: 1,
 					    first_name: docs_crossings[index_docs_crossings].crossings.crossing_user.user_name,
 					    age: 0,
