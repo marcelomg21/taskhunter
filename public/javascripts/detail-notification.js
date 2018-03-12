@@ -62,20 +62,21 @@ function populateTable() {
     });
 };
 
-function updateUser(event) {
+function updateNotification(event) {
     event.preventDefault();
     
-        var updateUserBody = {
-            'discount_rate': $('#userInfoDiscountRate').val()
+        var updateNotificationBody = {
+            'message_title': $('#notificationInfoMessageTitle').val(),
+            'message_data': $('#notificationInfoMessageData').val()
         }
         
-        var userId = $('#userInfoID').text();
+        var notificationId = $('#notificationInfoID').text();
 
         // Use AJAX to post the object to our adduser service
         $.ajax({
             type: 'POST',
-            data: updateUserBody,
-            url: '/user/updateUser/' + userId,
+            data: updateNotificationBody,
+            url: '/notification/updateNotification/' + notificationId,
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
