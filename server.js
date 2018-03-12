@@ -2180,6 +2180,140 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
     }     
 });
 
+//set notifications all
+app.put('/api/users/notifications/all', function (req, res) {
+
+    if(!req.body.service_notification_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+    
+    var date = new Date();
+    date.setHours(date.getHours() - 3);
+    var dateFormat = date.toISOString().split('T')[0];
+  
+    db.collection('notification_all_preferences').insert({
+        timestamp : dateFormat,
+	is_notified : req.body.service_notification_preferences.is_notified,
+	message_title : req.body.service_notification_preferences.message_title,
+	message_data: req.body.service_notification_preferences.message_data
+    });
+         
+    var result = {
+        success: true,
+        data: {
+            service_notification_preferences: req.body.service_notification_preferences
+        }
+    };
+    
+    res.json(result);
+});
+	
+//update notifications all
+app.put('/api/users/notifications/all/:notification_id', function (req, res) {
+
+    if(!req.body.service_notification_preferences) {
+        res.status(400).send('400 Bad Request')
+    }
+	
+	var ObjectId = require('mongodb').ObjectID;
+	var notificationObjectId = ObjectId(req.params.notification_id);
+  
+    db.collection('notification_all_preferences').update({ 
+        _id: notificationObjectId },
+        { $set:
+            {
+		is_notified: req.body.service_notification_preferences.is_notified
+            }
+        },
+        { upsert : false }
+    );
+         
+    var result = {
+        success: true,
+        data: {               
+            id: req.params.notification_id,
+            service_notification_preferences: req.body.service_notification_preferences
+        }
+    };
+    
+    res.json(result);
+});
+
+app.get('/api/users/notifications/all', function (req, res) {
+    
+    if (!db) {
+      initDb(function(err){});
+    }
+	
+    if (db) {
+  
+	    var result = {
+		success: true,
+		data: []
+	    };
+
+	    db.collection('notification_all_preferences').aggregate([
+		{$match:{$and:[{'is_notified' : true}]} }]).toArray(function (err, docs_notification) {
+		    
+		    if (docs_notification.length > 0) {
+			    
+			for (var index_docs_notification = 0, len_docs_notification = docs_notification.length; index_docs_notification < len_docs_notification; index_docs_notification++) {
+				
+			    var notification = {
+			        id: docs_notification[index_docs_notification]._id.toHexString(),              
+			        modification_date: docs_notification[index_docs_notification].timestamp,
+			        is_notified: docs_notification[index_docs_notification].is_notified,
+			        type: '471',
+			        message_title: docs_notification[index_docs_notification].message_title,
+			        message_data: docs_notification[index_docs_notification].message_data,
+			        nb_times: 0,
+			        notification_type: '471,524,525,526,529,530,531,565,791,792',
+			        notifier: { 
+				    id: 30, 
+				    type: 'type',
+				    first_name: '',
+				    gender: 'M',
+				    my_relation: 0,
+				    has_charmed_me: false,
+				    age: 43,
+				    already_charmed: false,
+				    has_charmed_me: false,
+				    availability: {
+				        time_left: 100,
+				        availability_type: {
+					    color: '#FF4E00',
+					    duration: 10,
+					    label: 'label2',
+					    type: 'type2'
+				        }
+				    },
+				    is_invited: false,
+				    last_invite_received: {
+				        color: '#FF4E00',
+					    duration: 20,
+					    label: 'label3',
+					    type: 'type3'
+				    },
+				    profiles: [{
+				        id: 130,
+				        mode: 0,
+
+				        width: 50,
+				        height: 50
+				    }]
+			        }
+			    };
+			    
+			    result.data.push(notification);
+			}
+		    }
+
+		    res.json(result);
+	    });
+    }
+
+});
+
 //set notifications
 app.put('/api/users/:user_id/notifications', function (req, res) {
 
