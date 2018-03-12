@@ -42,7 +42,7 @@ router.post('/addnotification', function(req, res) {
 	});*/
 	
     var db = req.db;
-    var collection = db.collection('userlist');    
+    var collection = db.collection('notification_preferences');    
     collection.insert(req.body, function(err, result){
         res.send(
             (err === null) ? { msg: '' } : { msg: err }
@@ -53,21 +53,24 @@ router.post('/addnotification', function(req, res) {
 router.get('/detailnotification/:id', function(req, res) {    
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-    var userObjectId = ObjectId(req.params.id);
+    var notificationObjectId = ObjectId(req.params.id);
 	
-    db.collection('users').find({'_id' : userObjectId}).toArray(function (err, docs_users) {
-		return res.json(docs_users);
+    db.collection('notification_preferences').find({'_id' : notificationObjectId}).toArray(function (err, docs_notifications) {
+		return res.json(docs_notifications);
 	});
 });
 
 router.post('/updatenotification/:id', function(req, res) {
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-    var userObjectId = ObjectId(req.params.id);
+    var notificationObjectId = ObjectId(req.params.id);
 	
-    db.collection('users').update(
-	   {_id : userObjectId}, 
-	   {$set: {discount_rate : req.body.discount_rate}}, 
+    db.collection('notification_preferences').update(
+	   {_id : notificationObjectId}, 
+	   {$set: {is_notified : req.body.is_notified,
+		  message_title : req.body.message_title,
+		  message_data : req.body.message_data} 
+	   }, 
 	   {upsert:false},
 	   function (err, result) {
 	      res.send(
@@ -78,9 +81,10 @@ router.post('/updatenotification/:id', function(req, res) {
 
 router.delete('/deletenotification/:id', function(req, res) {
     var db = req.db;
-    var collection = db.collection('userlist');
-    var userToDelete = req.params.id;
-    collection.remove({ '_id' : userToDelete }, function(err) {
+    var ObjectId = require('mongodb').ObjectID;
+    var notificationObjectId = ObjectId(req.params.id);
+
+    db.collection('notification_preferences').remove({ '_id' : notificationObjectId }, function(err) {
         res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
