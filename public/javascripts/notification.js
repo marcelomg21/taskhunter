@@ -7,7 +7,7 @@ $(document).ready(function() {
     populateTable();
 
     // Username link click
-    $('#userList table tbody').on('click', 'td a.linkshownotification', showNotificationInfo);
+    $('#notificationList table tbody').on('click', 'td a.linkshownotification', showNotificationInfo);
     
     $('#goHome').on('click', goHome);
 
