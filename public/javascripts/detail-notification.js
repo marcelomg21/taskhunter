@@ -8,7 +8,7 @@ $(document).ready(function() {
     populateTable();
 
     // Username link click
-    $('#saveUser').on('click', updateUser);
+    $('#saveNotification').on('click', updateUser);
     
     $('#goHome').on('click', goHome);
 
