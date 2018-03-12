@@ -85,8 +85,40 @@ router.get('/users', auth, function(req, res) {
     });
 });
 
+router.get('/notifications', auth, function(req, res) {
+    res.render('notification', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/notifications-all', auth, function(req, res) {
+    res.render('notification-all', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
 router.get('/detail-user/:id', function(req, res) {
     res.render('detail-user', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/detail-notification/:id', function(req, res) {
+    res.render('detail-notification', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/detail-notification-all/:id', function(req, res) {
+    res.render('detail-notification-all', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
         'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
