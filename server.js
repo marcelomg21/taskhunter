@@ -2015,7 +2015,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
             {$lookup:{from:'users', localField:'crossings', foreignField:'user_id', as:'crossingsObjects'} },
 	    {$lookup:{from:'feedback_preferences', localField:'crossings', foreignField:'working', as:'feedbackObjects'} },
 	    {$lookup:{from:'crossings', localField:'crossings', foreignField:'user_id', as:'mutualObjects'} },
-	    {$group:{_id:'$_id', crossings: {'$push': {'crossing_user': '$crossingsObjects', 'crossing_feedback': '$feedbackObjects', 'crossing_mutual': '$mutualObjects'} } } }, 
+	    {$lookup:{from:'conversations', localField:'crossings', foreignField:'participants.user_id', as:'conversationObjects'} },
+	    {$group:{_id:'$_id', crossings: {'$push': {'crossing_user': '$crossingsObjects', 'crossing_feedback': '$feedbackObjects', 'crossing_mutual': '$mutualObjects', 'crossing_conversations': '$conversationObjects'} } } }, 
 	    {$unwind:'$crossings'},
 	    {$unwind:'$crossings.crossing_user'},
             {$match:{$and:[{'_id' : parseInt(req.params.user_id), 'crossings.crossing_mutual.crossings': parseInt(req.params.user_id) }]} }]).toArray(function (err, docs_crossings) {
