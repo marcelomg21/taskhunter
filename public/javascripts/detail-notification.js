@@ -42,7 +42,7 @@ function populateTable() {
             $('#notificationInfoID').text(this._id);
             $('#notificationInfoUserId').text(this.user_id);
             $('#notificationInfoTimestamp').text(this.timestamp);
-            $('#notificationInfoIsNotified').text(this.is_notified);
+            $('#notificationInfoIsNotified').attr('checked', this.is_notified);
             $('#notificationInfoMessageTitle').text(this.message_title);
             $('#notificationInfoMessageData').text(this.message_data);
             
@@ -65,9 +65,12 @@ function populateTable() {
 function updateNotification(event) {
     event.preventDefault();
     
+        var isNotified = $('#notificationInfoIsNotified').is(':checked') ? true : false;
+    
         var updateNotificationBody = {
             'message_title': $('#notificationInfoMessageTitle').val(),
-            'message_data': $('#notificationInfoMessageData').val()
+            'message_data': $('#notificationInfoMessageData').val(),
+            'is_notified': isNotified
         }
         
         var notificationId = $('#notificationInfoID').text();
