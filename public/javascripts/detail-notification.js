@@ -32,7 +32,7 @@ function populateTable() {
     var notificationId = $(location).attr('href').split('detail-notification/')[1];
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/notification/detailNotification/' + notificationId, function( data ) {
+    $.getJSON( '/notification/detailnotification/' + notificationId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
@@ -79,7 +79,7 @@ function updateNotification(event) {
         $.ajax({
             type: 'POST',
             data: updateNotificationBody,
-            url: '/notification/updateNotification/' + notificationId,
+            url: '/notification/updatenotification/' + notificationId,
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
