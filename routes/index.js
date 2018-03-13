@@ -102,7 +102,7 @@ router.get('/notifications-single', auth, function(req, res) {
 });
 
 router.get('/add-notifications-single', auth, function(req, res) {
-    res.render('notification-single', {
+    res.render('add-notification-single', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
         'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
@@ -118,7 +118,7 @@ router.get('/notifications-all', auth, function(req, res) {
 });
 
 router.get('/add-notifications-all', auth, function(req, res) {
-    res.render('notification-all', {
+    res.render('add-notification-all', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
         'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
