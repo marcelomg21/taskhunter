@@ -5,7 +5,7 @@
 $(document).ready(function() {
 
     // Populate the user table on initial page load
-    populateTable();
+    //populateTable();
 
     // Username link click
     $('#saveNotificationAll').on('click', updateNotificationAll);
@@ -27,12 +27,12 @@ function populateTable() {
     //var tableContent = '';
 
     // Prevent Link from Firing
-    event.preventDefault();
+    /*event.preventDefault();
     
     var notificationAllId = $(location).attr('href').split('detail-notification-all/')[1];
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/notification-all/detailnotificationall/' + notificationAllId, function( data ) {
+    $.getJSON( '/notification/addnotificationall/' + notificationAllId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
@@ -46,7 +46,7 @@ function populateTable() {
             $('#notificationAllInfoMessageTitle').text(this.message_title);
             $('#notificationAllInfoMessageData').text(this.message_data);
             
-        });
+        });*/
 
         // Inject the whole content string into our existing HTML table
         //$('#paymentList table tbody').html(tableContent);
@@ -70,21 +70,22 @@ function updateNotificationAll(event) {
         var updateNotificationAllBody = {
             'message_title': $('#notificationAllInfoMessageTitle').val(),
             'message_data': $('#notificationAllInfoMessageData').val(),
+            'user_id': $('#notificationAllInfoUserId').val(),
             'is_notified': isNotifiedAll
         }
         
-        var notificationAllId = $('#notificationAllInfoID').text();
+        //var notificationAllId = $('#notificationAllInfoID').text();
 
         // Use AJAX to post the object to our adduser service
         $.ajax({
             type: 'POST',
             data: updateNotificationAllBody,
-            url: '/notification-all/updatenotificationall/' + notificationAllId,
+            url: '/notification/addnotificationall,
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
             if (response.msg === '') {
-                alert('Usuário salvo com sucesso.');
+                alert('Notificação Geral salva com sucesso.');
             }
             else {
                 alert('Erro ao salvar: ' + response.msg);
