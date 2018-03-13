@@ -46,10 +46,10 @@ router.post('/addnotificationall', function(req, res) {
 router.get('/detailnotificationall/:id', function(req, res) {    
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-    var userObjectId = ObjectId(req.params.id);
+    var notificationAllObjectId = ObjectId(req.params.id);
 	
-    db.collection('users').find({'_id' : userObjectId}).toArray(function (err, docs_users) {
-		return res.json(docs_users);
+    db.collection('notification_all_preferences').find({'_id' : notificationAllObjectId}).toArray(function (err, docs) {
+		return res.json(docs);
 	});
 });
 
