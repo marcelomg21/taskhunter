@@ -25,7 +25,6 @@ var routes = require('./routes/index');
 var user = require('./routes/user');
 var payment = require('./routes/payment');
 var notification = require('./routes/notification');
-var notificationAll = require('./routes/notification-all');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -41,7 +40,6 @@ app.use('/', routes);
 app.use('/user', user);
 app.use('/payment', payment);
 app.use('/notification', notification);
-app.use('/notification-all', notificationAll);
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
