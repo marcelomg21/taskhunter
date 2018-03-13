@@ -27,12 +27,12 @@ function populateTable() {
     //var tableContent = '';
 
     // Prevent Link from Firing
-    event.preventDefault();
+    /*event.preventDefault();
     
     var notificationId = $(location).attr('href').split('detail-notification/')[1];
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/notification/detailnotification/' + notificationId, function( data ) {
+    $.getJSON( '/notification/addnotification/' + notificationId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
@@ -46,7 +46,7 @@ function populateTable() {
             $('#notificationInfoMessageTitle').text(this.message_title);
             $('#notificationInfoMessageData').text(this.message_data);
             
-        });
+        });*/
 
         // Inject the whole content string into our existing HTML table
         //$('#paymentList table tbody').html(tableContent);
@@ -70,6 +70,7 @@ function updateNotification(event) {
         var updateNotificationBody = {
             'message_title': $('#notificationInfoMessageTitle').val(),
             'message_data': $('#notificationInfoMessageData').val(),
+            'user_id': $('#notificationInfoUserId').val(),
             'is_notified': isNotified
         }
         
@@ -79,12 +80,12 @@ function updateNotification(event) {
         $.ajax({
             type: 'POST',
             data: updateNotificationBody,
-            url: '/notification/updatenotification/' + notificationId,
+            url: '/notification/addnotification,
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
             if (response.msg === '') {
-                alert('Usuário salvo com sucesso.');
+                alert('Notificação Individual salva com sucesso.');
             }
             else {
                 alert('Erro ao salvar: ' + response.msg);
