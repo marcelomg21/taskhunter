@@ -56,11 +56,14 @@ router.get('/detailnotificationall/:id', function(req, res) {
 router.post('/updatenotificationall/:id', function(req, res) {
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-    var userObjectId = ObjectId(req.params.id);
+    var notificationAllObjectId = ObjectId(req.params.id);
 	
-    db.collection('users').update(
-	   {_id : userObjectId}, 
-	   {$set: {discount_rate : req.body.discount_rate}}, 
+    db.collection('notification_all_preferences').update(
+	   {_id : notificationAllObjectId}, 
+	   {$set: {is_notified : req.body.is_notified,
+		  message_title : req.body.message_title,
+		  message_data : req.body.message_data} 
+	   }, 
 	   {upsert:false},
 	   function (err, result) {
 	      res.send(
@@ -71,9 +74,10 @@ router.post('/updatenotificationall/:id', function(req, res) {
 
 router.delete('/deletenotificationall/:id', function(req, res) {
     var db = req.db;
-    var collection = db.collection('userlist');
-    var userToDelete = req.params.id;
-    collection.remove({ '_id' : userToDelete }, function(err) {
+    var ObjectId = require('mongodb').ObjectID;
+    var notificationAllObjectId = ObjectId(req.params.id);
+
+    db.collection('notification_all_preferences').remove({ '_id' : notificationAllObjectId }, function(err) {
         res.send((err === null) ? { msg: '' } : { msg:'error: ' + err });
     });
 });
