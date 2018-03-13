@@ -5,7 +5,7 @@
 $(document).ready(function() {
 
     // Populate the user table on initial page load
-    populateTable();
+    //populateTable();
 
     // Username link click
     $('#saveNotification').on('click', updateNotification);
