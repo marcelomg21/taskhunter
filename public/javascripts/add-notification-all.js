@@ -70,7 +70,6 @@ function updateNotificationAll(event) {
         var updateNotificationAllBody = {
             'message_title': $('#notificationAllInfoMessageTitle').val(),
             'message_data': $('#notificationAllInfoMessageData').val(),
-            'user_id': $('#notificationAllInfoUserId').val(),
             'is_notified': isNotifiedAll
         }
         
