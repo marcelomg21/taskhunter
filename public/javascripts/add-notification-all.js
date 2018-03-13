@@ -80,7 +80,7 @@ function updateNotificationAll(event) {
         $.ajax({
             type: 'POST',
             data: updateNotificationAllBody,
-            url: '/notification/addnotificationall,
+            url: '/notification/addnotificationall',
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
