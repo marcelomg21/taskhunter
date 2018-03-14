@@ -59,7 +59,7 @@ function populateTable() {
 
         // Get our User Object
         //var thisPaymentObject = paymentListData[arrayPosition];
-    });
+    //});
 };
 
 function updateNotificationAll(event) {
