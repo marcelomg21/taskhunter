@@ -40,7 +40,6 @@ function populateTable() {
         // For each item in our JSON, add a table row and cells to the content string
         $.each(data, function(){
             $('#notificationAllInfoID').text(this._id);
-            $('#notificationAllInfoUserId').text(this.user_id);
             $('#notificationAllInfoTimestamp').text(this.timestamp);
             $('#notificationAllInfoIsNotified').attr('checked', this.is_notified);
             $('#notificationAllInfoMessageTitle').val(this.message_title);
