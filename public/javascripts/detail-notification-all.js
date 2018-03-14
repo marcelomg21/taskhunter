@@ -20,6 +20,11 @@ $(document).ready(function() {
 
 });
 
+function goHome(event) {
+    event.preventDefault();
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/notifications-all');
+};
+
 // Fill table with data
 function populateTable() {
 
@@ -89,9 +94,4 @@ function updateNotificationAll(event) {
                 alert('Erro ao salvar: ' + response.msg);
             }
         });
-};
-
-function goHome(event) {
-    event.preventDefault();
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/notifications');
 };
