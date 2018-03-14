@@ -34,7 +34,6 @@ function populateTable() {
         $.each(data, function(){
             tableContent += '<tr>';
             tableContent += '<td><a href="#" class="linkshownotificationall" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
-            tableContent += '<td>' + this.user_id + '</td>';
             tableContent += '<td>' + this.timestamp + '</td>';
             tableContent += '<td>' + this.is_notified + '</td>';
             tableContent += '<td>' + this.message_title + '</td>';
