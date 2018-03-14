@@ -133,7 +133,7 @@ router.get('/detail-user/:id', function(req, res) {
     });
 });
 
-router.get('/detail-notification/:id', function(req, res) {
+router.get('/detail-notification-single/:id', function(req, res) {
     res.render('detail-notification-single', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
