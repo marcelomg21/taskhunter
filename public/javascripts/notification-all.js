@@ -25,7 +25,7 @@ function populateTable() {
     var tableContent = '';
 
     // jQuery AJAX call for JSON
-    $.getJSON( '/notification-all/notificationalllist', function( data ) {
+    $.getJSON( '/notification/notificationalllist', function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         notificationAllListData = data;
