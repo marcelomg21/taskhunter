@@ -57,7 +57,7 @@ function showNotificationInfo(event) {
     // Retrieve username from link rel attribute
     var thisID = $(this).attr('rel');
     
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/detail-notification/' + thisID);
+    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/detail-notification-single/' + thisID);
 
     // Get Index of object based on id value
     /*var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
