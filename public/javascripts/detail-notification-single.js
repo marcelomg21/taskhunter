@@ -34,7 +34,7 @@ function populateTable() {
     // Prevent Link from Firing
     event.preventDefault();
     
-    var notificationId = $(location).attr('href').split('detail-notification/')[1];
+    var notificationId = $(location).attr('href').split('detail-notification-single/')[1];
     
     // jQuery AJAX call for JSON
     $.getJSON( '/notification/detailnotification/' + notificationId, function( data ) {
