@@ -1204,7 +1204,8 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 
 				var item_conversation = {
 					id: docs_conversations[index_docs_conversations]._id,
-					creation_date: docs_conversations[index_docs_conversations].creation_date,              
+					is_read: docs_conversations[index_docs_conversations].is_read,
+					creation_date: docs_conversations[index_docs_conversations].creation_date,
 					real_participants: [
 					   {                  	
 						id: docs_conversations[index_docs_conversations].participants[0].user_id,									
