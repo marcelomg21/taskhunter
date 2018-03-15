@@ -47,7 +47,7 @@ function populateTable() {
             $('#notificationInfoID').text(this._id);
             $('#notificationInfoUserId').text(this.user_id);
             $('#notificationInfoTimestamp').text(this.timestamp);
-            $('#notificationInfoIsNotified').attr('checked', this.is_notified);
+            $('#notificationInfoIsNotified').attr('checked', (this.is_notified === "true"));
             $('#notificationInfoMessageTitle').val(this.message_title);
             $('#notificationInfoMessageData').val(this.message_data);
             
