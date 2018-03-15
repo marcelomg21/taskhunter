@@ -2927,7 +2927,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                             var item_conversation_all = {
                                 id: docs_conversations[index_docs_conversations]._id,                            
-                                is_read: false,
+                                is_read: docs_conversations[index_docs_conversations].is_read,
                                 creation_date: docs_conversations[index_docs_conversations].creation_date,              
                                 participants: [
                                     {                  
