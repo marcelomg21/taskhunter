@@ -1010,7 +1010,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
                   data: {
                     notification_key: "SENT_MESSAGE",
                     message: "",
-                    notification_custom_data: "{ag-id: " + req.body.sender + ", view-id:" + req.params.conversation_id + " }"
+                    notification_custom_data: "{ag-id: " + req.body.sender + ", view-id:" + req.params.conversation_id + ", nu-conv:1 }"
                   }
               };
 
