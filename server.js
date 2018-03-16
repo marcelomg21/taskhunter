@@ -381,6 +381,8 @@ app.post('/connect/oauth/token', function (req, res) {
 			   street_address: '',
 			   street_number: '',
 			   zip_code: '',
+			   unread_conversations: 0,
+			   unread_notifications: 0,
                            facebook_access_token: req.body.assertion,
                            facebook_picture: facebook_json.picture.data.url,
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
