@@ -974,14 +974,38 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
   }
   
   if (db) {
-    var col = db.collection('messages');
     
     var date = new Date();
     date.setHours(date.getHours() - 3);
     var dateFormat = date.toISOString().split('T')[0];
     var timeFormat = date.toISOString().split('T')[1];
       
-    col.insert({conversation_id: req.params.conversation_id, message: req.body.message, sender: parseInt(req.body.sender), recipient: parseInt(req.body.recipient), creation_date: dateFormat, creation_time: timeFormat});
+    db.collection('messages').insert({
+	    conversation_id: req.params.conversation_id, 
+	    message: req.body.message, 
+	    sender: parseInt(req.body.sender), 
+	    recipient: parseInt(req.body.recipient), 
+	    creation_date: dateFormat,
+	    creation_time: timeFormat},
+	    function (err, result) {
+	    
+	        var ObjectId = require('mongodb').ObjectID;
+		var conversationObjectId = ObjectId(req.params.conversation_id);	
+	    
+	        db.collection('conversations').update(
+		    { _id: conversationObjectId},                                    
+		    { $set: { "is_read": false } },
+		    { upsert : false },
+		    function (err, result) {
+
+			    db.collection('conversations').find({conversation_id: req.params.conversation_id}).toArray(function (err, docs) {
+
+				//docs.length
+
+			    } );
+		    });
+	    }
+    );
       
     var query = {
         user_id: parseInt(req.body.recipient)
