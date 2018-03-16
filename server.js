@@ -996,7 +996,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 		    { _id: conversationObjectId},                                    
 		    { $set: { "is_read": false } },
 		    { upsert : false },
-		    function (err, result) {
+		    function (err, result_conversations_update) {
 
 			    db.collection('conversations').find({'participants.user_id' : parseInt(req.body.recipient), is_read:false}).toArray(function (err, docs_conversations) {
 
@@ -1290,7 +1290,7 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 	    { _id: conversationObjectId},                                    
 	    { $set: { "is_read": true } },
 	    { upsert : false },
-	    function (err, result) {
+	    function (err, result_conversations_update) {
 	        return res.json(result);
 	    }
         );
@@ -3036,7 +3036,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                             var item_conversation_recipient = {
                                 id: docs_conversations_recipient[index_docs_conversations_recipient]._id,                            
-                                is_read: false,
+                                is_read: docs_conversations_recipient[index_docs_conversations_recipient].is_read,
                                 creation_date: docs_conversations_recipient[index_docs_conversations_recipient].creation_date,              
                                 participants: [
                                     {                  
@@ -3106,7 +3106,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
 
                                         var item_conversation_inserted = {
                                             id: docs_conversations_inserted[index_docs_conversations_inserted]._id,                            
-                                            is_read: false,
+                                            is_read: docs_conversations_inserted[index_docs_conversations_inserted].is_read,
                                             creation_date: docs_conversations_inserted[index_docs_conversations_inserted].creation_date,              
                                             participants: [
                                                 {                  
