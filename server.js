@@ -693,7 +693,7 @@ app.put('/api/users/:user_id', function (req, res) {
                       stats: { nb_invites: 0, nb_charms: 0, nb_crushes: 0 },                      
                       nb_photos: 0,
                       credits: 0,
-                      unread_conversations: 0,
+                      unread_conversations: user_docs[0].unread_conversations,
                       unread_notifications: 0
                   }        
             };
