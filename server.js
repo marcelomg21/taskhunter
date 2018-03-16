@@ -1263,14 +1263,16 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
     }
 
     if (db) {
-        db.collection('service_preferences').update(
+        db.collection('conversations').update(
 	    { _id: conversationObjectId},                                    
 	    { $set: { "is_read": true } },
-	    { upsert : false }
+	    { upsert : false },
+	    function (err, result) {
+	        return res.json(result);
+	    }
         );
     }
 
-    return res.json(result);
 });
 
 //get all crossings
