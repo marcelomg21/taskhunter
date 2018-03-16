@@ -1247,13 +1247,29 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 
 //get read messages
 app.put('/api/conversations/:conversation_id/messages', function (req, res) {
-  var result = {
-          success: true,
-          data: {
-              id: req.params.conversation_id,              
-          }
+    var result = {
+        success: true,
+        data: {
+            id: req.params.conversation_id,              
+        }
     };
-    
+	
+    var ObjectId = require('mongodb').ObjectID;
+    var conversationObjectId = ObjectId(req.params.conversation_id);
+	
+	
+    if (!db) {
+        initDb(function(err){});
+    }
+
+    if (db) {
+        db.collection('service_preferences').update(
+	    { _id: conversationObjectId},                                    
+	    { $set: { "is_read": true } },
+	    { upsert : false }
+        );
+    }
+
     return res.json(result);
 });
 
