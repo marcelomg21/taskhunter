@@ -987,7 +987,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 	    recipient: parseInt(req.body.recipient), 
 	    creation_date: dateFormat,
 	    creation_time: timeFormat},
-	    function (err, result) {
+	    function (err, result_messages_insert) {
 	    
 	        var ObjectId = require('mongodb').ObjectID;
 		var conversationObjectId = ObjectId(req.params.conversation_id);	
