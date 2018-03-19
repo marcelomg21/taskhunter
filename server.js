@@ -1322,10 +1322,10 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 						return res.json(result);
 					    }
 					);
-				    }
+				    });
 			        }
 			    );
-		    }
+		    });
 		}
 	    }
         );
