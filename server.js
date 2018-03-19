@@ -1303,29 +1303,32 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 	    { $set: { "is_read": true } },
 	    { upsert : false },
 	    function (err, result_conversations_update) {
-	        
-		if(result_conversations_update.length > 0 && result_conversations_update[0].participants.length >= 2){
-		    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_update[0].participants[0].user_id), is_read:false}).toArray(function (err, docs_conversations_sender) {
-			    
-			    db.collection('users').update(
-			        { user_id: parseInt(result_conversations_update[0].participants[0].user_id)},                                    
-			        { $set: { unread_conversations: docs_conversations_sender.length } },
-			        { upsert : false },
-			        function (err, result_user_sender_update) {
-				    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_update[0].participants[1].user_id), is_read:false}).toArray(function (err, docs_conversations_recipient) {
-				        db.collection('users').update(
-					    { user_id: parseInt(result_conversations_update[0].participants[1].user_id)},                                    
-					    { $set: { unread_conversations: docs_conversations_recipient.length } },
-					    { upsert : false },
-					    function (err, result_user_recipient_update) {
-						return res.json(result);
-					    }
-					);
-				    });
-			        }
-			    );
-		    });
-		}
+	        db.collection('conversations').find(
+			{_id : conversationObjectId}).toArray(function (err, result_conversations_select) {
+			
+			if(result_conversations_select.length > 0 && result_conversations_select[0].participants.length >= 2){
+			    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_select[0].participants[0].user_id), is_read:false}).toArray(function (err, docs_conversations_sender) {
+
+				    db.collection('users').update(
+					{ user_id: parseInt(result_conversations_select[0].participants[0].user_id)},                                    
+					{ $set: { unread_conversations: docs_conversations_sender.length } },
+					{ upsert : false },
+					function (err, result_user_sender_update) {
+					    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_select[0].participants[1].user_id), is_read:false}).toArray(function (err, docs_conversations_recipient) {
+						db.collection('users').update(
+						    { user_id: parseInt(result_conversations_select[0].participants[1].user_id)},                                    
+						    { $set: { unread_conversations: docs_conversations_recipient.length } },
+						    { upsert : false },
+						    function (err, result_user_recipient_update) {
+							return res.json(result);
+						    }
+						);
+					    });
+					}
+				    );
+			    });
+			}
+		});
 	    }
         );
     }
