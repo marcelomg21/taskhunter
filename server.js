@@ -1286,14 +1286,13 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
     var result = {
         success: true,
         data: {
-            id: req.params.conversation_id,              
+            id: req.params.conversation_id
         }
     };
 	
     var ObjectId = require('mongodb').ObjectID;
     var conversationObjectId = ObjectId(req.params.conversation_id);
-	
-	
+
     if (!db) {
         initDb(function(err){});
     }
