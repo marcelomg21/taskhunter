@@ -20,7 +20,7 @@ router.post('/addnotification', function(req, res) {
     db.collection('notification_preferences').insert({
 	user_id : parseInt(req.body.user_id),
 	timestamp : dateFormat,
-	is_notified : req.body.is_notified,
+	is_notified : (req.body.is_notified === "true"),
 	message_title : req.body.message_title,
 	message_data: req.body.message_data
     }, function(err, result){
@@ -48,7 +48,7 @@ router.post('/updatenotification/:id', function(req, res) {
 	
     db.collection('notification_preferences').update(
 	   {_id : notificationObjectId}, 
-	   {$set: {is_notified : req.body.is_notified,
+	   {$set: {is_notified : (req.body.is_notified === "true"),
 		  message_title : req.body.message_title,
 		  message_data : req.body.message_data} 
 	   }, 
@@ -110,7 +110,7 @@ router.post('/addnotificationall', function(req, res) {
 	
     db.collection('notification_all_preferences').insert({
 	timestamp : dateFormat,
-	is_notified : req.body.is_notified,
+	is_notified : (req.body.is_notified === "true"),
 	message_title : req.body.message_title,
 	message_data: req.body.message_data
     }, function(err, result){
@@ -145,7 +145,7 @@ router.post('/updatenotificationall/:id', function(req, res) {
 	
     db.collection('notification_all_preferences').update(
 	   {_id : notificationAllObjectId}, 
-	   {$set: {is_notified : req.body.is_notified,
+	   {$set: {is_notified : (req.body.is_notified === "true"),
 		  message_title : req.body.message_title,
 		  message_data : req.body.message_data} 
 	   }, 
