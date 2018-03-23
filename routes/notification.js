@@ -20,6 +20,7 @@ router.post('/addnotification', function(req, res) {
     db.collection('notification_preferences').insert({
 	user_id : parseInt(req.body.user_id),
 	timestamp : dateFormat,
+	is_all: false,
 	is_notified : (req.body.is_notified === "true"),
 	message_title : req.body.message_title,
 	message_data: req.body.message_data
@@ -110,6 +111,7 @@ router.post('/addnotificationall', function(req, res) {
 	
     db.collection('notification_all_preferences').insert({
 	timestamp : dateFormat,
+	is_all: true,
 	is_notified : (req.body.is_notified === "true"),
 	message_title : req.body.message_title,
 	message_data: req.body.message_data
