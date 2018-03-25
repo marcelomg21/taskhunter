@@ -2486,8 +2486,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 		    db.collection('notification_all_preferences').find(
 			{_id:{$nin : db.collection('notification_all_not_preferences').find(
 				{user_id:parseInt(req.params.user_id)}, 
-				{notification_id:1}).toArray().map( 
-				function(u) { return u.notification_id; } )}}).toArray(function (err, docs_notification_all) {
+				{notification_id:1}).toArray()}}).toArray(function (err, docs_notification_all) {
 
 				if (docs_notification_all.length > 0) {
 					
