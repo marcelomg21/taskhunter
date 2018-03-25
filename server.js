@@ -2262,7 +2262,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 });
 	
 //update notifications all
-app.put('/api/users/notifications/all/:notification_id', function (req, res) {
+/*app.put('/api/users/notifications/all/:notification_id', function (req, res) {
 
     if(!req.body.service_notification_preferences) {
         res.status(400).send('400 Bad Request')
@@ -2290,9 +2290,9 @@ app.put('/api/users/notifications/all/:notification_id', function (req, res) {
     };
     
     res.json(result);
-});
+});*/
 
-app.get('/api/users/notifications/all', function (req, res) {
+/*app.get('/api/users/notifications/all', function (req, res) {
     
     if (!db) {
       initDb(function(err){});
@@ -2366,7 +2366,7 @@ app.get('/api/users/notifications/all', function (req, res) {
 	    });
     }
 
-});
+});*/
 	
 //update notifications
 app.put('/api/users/:user_id/notifications/:notification_id', function (req, res) {
@@ -2389,6 +2389,7 @@ app.put('/api/users/:user_id/notifications/:notification_id', function (req, res
 		},
 		{ upsert : false }
 	);
+	    
     } else {
 	db.collection('notification_all_not_preferences').update({ 
 		user_id: parseInt(req.params.user_id) },
@@ -2484,7 +2485,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 		    
 		    db.collection('notification_all_preferences').find(
 			{_id:{$nin : db.collection('notification_all_not_preferences').find(
-				{user_id:parseInt(1520675761317155)}, 
+				{user_id:parseInt(req.params.user_id)}, 
 				{notification_id:1}).toArray().map( 
 				function(u) { return u.notification_id; } )}}).toArray(function (err, docs_notification_all) {
 
