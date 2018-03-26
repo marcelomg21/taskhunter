@@ -2483,69 +2483,79 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 			}
 		    }
 		    
-		    db.collection('notification_all_preferences').find(
-			{_id:{$nin : db.collection('notification_all_not_preferences').find(
-				{user_id:parseInt(req.params.user_id)}, 
-				{notification_id:1}).toArray()}}).toArray(function (err, docs_notification_all) {
-
-				if (docs_notification_all.length > 0) {
-					
-					for (var index_docs_notification_all = 0, len_docs_notification_all = docs_notification_all.length; index_docs_notification_all < len_docs_notification_all; index_docs_notification_all++) {
-				
-					    var notification_all = {
-						id: docs_notification_all[index_docs_notification_all]._id.toHexString(),              
-						modification_date: docs_notification_all[index_docs_notification_all].timestamp,
-						is_notified: docs_notification_all[index_docs_notification_all].is_notified,
-						is_all: docs_notification_all[index_docs_notification_all].is_all,
-						type: '471',
-						message_title: docs_notification_all[index_docs_notification_all].message_title,
-						message_data: docs_notification_all[index_docs_notification_all].message_data,
-						nb_times: 0,
-						notification_type: '471,524,525,526,529,530,531,565,791,792',
-						notifier: { 
-						    id: 30, 
-						    type: 'type',
-						    first_name: '',
-						    gender: 'M',
-						    my_relation: 0,
-						    has_charmed_me: false,
-						    age: 43,
-						    already_charmed: false,
-						    has_charmed_me: false,
-						    availability: {
-							time_left: 100,
-							availability_type: {
-							    color: '#FF4E00',
-							    duration: 10,
-							    label: 'label2',
-							    type: 'type2'
-							}
-						    },
-						    is_invited: false,
-						    last_invite_received: {
-							color: '#FF4E00',
-							    duration: 20,
-							    label: 'label3',
-							    type: 'type3'
-						    },
-						    profiles: [{
-							id: 130,
-							mode: 0,
-
-							width: 50,
-							height: 50
-						    }]
-						}
-					    };
-
-					    result.data.push(notification_all);
-					}
-				}
+		    db.collection('notification_all_not_preferences').find({user_id:parseInt(req.params.user_id)}).toArray(function (err, docs_notification_all_not) {
 			    
-			    	res.json(result);
+			var notification_all_not = [];
+			    
+			if (docs_notification_all_not.length > 0) {
+			    for (var index_docs_notification_all_not = 0, len_docs_notification_all_not = docs_notification_all_not.length; index_docs_notification_all_not < len_docs_notification_all_not; index_docs_notification_all_not++) {
+				notification_all_not.push(docs_notification_all_not[index_docs_notification_all_not].notification_id);
+			    }
+			}
+			    
+			db.collection('notification_all_preferences').find(
+				{_id:{$nin : notification_all_not }}).toArray(function (err, docs_notification_all) {
 
+					if (docs_notification_all.length > 0) {
+
+						for (var index_docs_notification_all = 0, len_docs_notification_all = docs_notification_all.length; index_docs_notification_all < len_docs_notification_all; index_docs_notification_all++) {
+
+						    var notification_all = {
+							id: docs_notification_all[index_docs_notification_all]._id.toHexString(),              
+							modification_date: docs_notification_all[index_docs_notification_all].timestamp,
+							is_notified: docs_notification_all[index_docs_notification_all].is_notified,
+							is_all: docs_notification_all[index_docs_notification_all].is_all,
+							type: '471',
+							message_title: docs_notification_all[index_docs_notification_all].message_title,
+							message_data: docs_notification_all[index_docs_notification_all].message_data,
+							nb_times: 0,
+							notification_type: '471,524,525,526,529,530,531,565,791,792',
+							notifier: { 
+							    id: 30, 
+							    type: 'type',
+							    first_name: '',
+							    gender: 'M',
+							    my_relation: 0,
+							    has_charmed_me: false,
+							    age: 43,
+							    already_charmed: false,
+							    has_charmed_me: false,
+							    availability: {
+								time_left: 100,
+								availability_type: {
+								    color: '#FF4E00',
+								    duration: 10,
+								    label: 'label2',
+								    type: 'type2'
+								}
+							    },
+							    is_invited: false,
+							    last_invite_received: {
+								color: '#FF4E00',
+								    duration: 20,
+								    label: 'label3',
+								    type: 'type3'
+							    },
+							    profiles: [{
+								id: 130,
+								mode: 0,
+
+								width: 50,
+								height: 50
+							    }]
+							}
+						    };
+
+						    result.data.push(notification_all);
+						}
+					}
+
+					res.json(result);
+
+			});
+			    
 		    });
-
+		    
 		    //res.json(result);
 	    });
     }
