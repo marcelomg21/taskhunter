@@ -2391,15 +2391,10 @@ app.put('/api/users/:user_id/notifications/:notification_id', function (req, res
 	);
 	    
     } else {
-	db.collection('notification_all_not_preferences').update({ 
-		user_id: parseInt(req.params.user_id) },
-		{ $set:
-		    {
-		      notification_id : notificationObjectId 
-		    }
-		},
-		{ upsert : true }
-    	);
+	db.collection('notification_all_not_preferences').insert({
+	    user_id : parseInt(req.params.user_id),
+	    notification_id : notificationObjectId
+	});
     }
          
     var result = {
