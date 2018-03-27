@@ -3208,6 +3208,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
       var date = new Date();
       date.setHours(date.getHours() - 3);
       var timestampISODate = new Date(date.toISOString());
+      var crossingDateFormat = date.toISOString().split('T')[0];
 
       //get near positions by user  
       db.collection('positions').aggregate([
@@ -3234,16 +3235,17 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
 
             if (docs_positions.length > 0) {
                 
-                //console.log("-----> docs_positions.length: " + docs_positions.length);
-                //console.log("-----> docs_positions[0]: " + docs_positions[0]);
-                //console.log("-----> docs_positions.crossings: " + docs_positions.crossings);
-                //console.log("-----> docs_positions.crossings.length: " + docs_positions[0].crossings.length);
-                
-                db.collection('crossings').insert({
+                /*db.collection('crossings').insert({
                     user_id:parseInt(req.params.user_id),
                     timestamp:timestampISODate,		    
                     crossings: docs_positions[0].crossings
-                });
+                });*/
+		    
+		db.collection('crossings').update(
+			{ user_id: parseInt(req.params.user_id)},                                    
+			{ $set: { timestamp : crossingDateFormat , crossings : docs_positions[0].crossings } },
+			{ upsert : true }
+		);
 		    
 		db.collection('crossings_positions').insert({
                     user_id:parseInt(req.params.user_id),
