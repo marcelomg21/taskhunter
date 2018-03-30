@@ -2282,23 +2282,23 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
     }     
 });
 	
-//update notifications
-app.put('/api/users/:user_id/notifications/:notification_id', function (req, res) {
+//delete notifications
+app.delete('/api/users/:user_id/notifications/:notification_id/type/:is_all', function (req, res) {
 
-    if(!req.body.service_notification_preferences) {
+    /*if(!req.body.service_notification_preferences) {
         res.status(400).send('400 Bad Request')
-    }
+    }*/
 	
     var ObjectId = require('mongodb').ObjectID;
     var notificationObjectId = ObjectId(req.params.notification_id);
 	
-    if(!req.body.service_notification_preferences.is_all){
+    if(!req.params.is_all){
   
 	db.collection('notification_preferences').update({ 
 		_id: notificationObjectId },
 		{ $set:
 		    {
-			is_notified: req.body.service_notification_preferences.is_notified
+			is_notified: false
 		    }
 		},
 		{ upsert : false }
@@ -2314,8 +2314,7 @@ app.put('/api/users/:user_id/notifications/:notification_id', function (req, res
     var result = {
         success: true,
         data: {               
-            id: req.params.user_id, 	
-            service_notification_preferences: req.body.service_notification_preferences
+            id: req.params.user_id
         }
     };
     
