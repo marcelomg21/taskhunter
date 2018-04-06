@@ -2297,7 +2297,7 @@ app.delete('/api/users/:user_id/notifications/:notification_id/type/:is_all', fu
     var ObjectId = require('mongodb').ObjectID;
     var notificationObjectId = ObjectId(req.params.notification_id);
 	
-    if(!req.params.is_all){
+    if(req.params.is_all == 'false'){
   
 	db.collection('notification_preferences').update({ 
 		_id: notificationObjectId },
@@ -2309,7 +2309,7 @@ app.delete('/api/users/:user_id/notifications/:notification_id/type/:is_all', fu
 		{ upsert : false }
 	);
 	    
-    } else {
+    } else if(req.params.is_all == 'true') {
 	db.collection('notification_all_not_preferences').insert({
 	    user_id : parseInt(req.params.user_id),
 	    notification_id : notificationObjectId
