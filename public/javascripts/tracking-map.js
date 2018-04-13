@@ -42,8 +42,6 @@ function initialize() {
 };
 
 function populateTracking(dataType, data) {
-    apiLoc = typeof apiLoc !== 'undefined' ? apiLoc : '/data/' + dataType + '.json';
-    // jQuery AJAX call for JSON
     //For each item in our JSON, add a new map marker
         $.each(data, function(i, ob) {
             var marker = new google.maps.Marker({
