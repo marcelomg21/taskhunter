@@ -14,7 +14,7 @@ var auth = function (req, res, next) {
     return unauthorized(res);
   };
 
-  if (user.name === 'task' && user.pass === 'hunter') {
+  if (user.name === 'task' && user.pass === 'hunter#2018') {
     return next();
   } else {
     return unauthorized(res);
