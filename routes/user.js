@@ -39,10 +39,10 @@ router.get('/detailUser/:id', function(req, res) {
 	});
 });
 
-router.get('/trackingUser/:id/timestamp/:date', function(req, res) {    
+router.get('/trackingUser/:id', function(req, res) {    
     var db = req.db;
 
-    db.collection('positions').find({'user_id' : parseInt(req.params.id), timestamp : { "$gte" : new Date(req.params.date + "T00:00:00Z") } }).toArray(function (err, docs_tracking) {
+    db.collection('positions').find({'user_id' : parseInt(req.params.id), timestamp : { "$gte" : new Date(req.body.date_tracking + "T00:00:00Z") } }).toArray(function (err, docs_tracking) {
         return res.json(docs_tracking);
     });
 });
