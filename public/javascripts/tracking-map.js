@@ -16,7 +16,7 @@ function goTracking(event) {
         'date_tracking': $('#dateTracking').val()
     }
 
-    var userId = $('#userTrackingId').text();
+    var userId = $('#userTrackingId').val();
 
     // Use AJAX to post the object to our adduser service
     $.ajax({
