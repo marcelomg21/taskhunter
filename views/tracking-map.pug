@@ -33,6 +33,12 @@ html(lang='en')
           a.navbar-brand(href='#') TASK hunter - Tracking Position Map
         
     .container
+      #trackingInfo
+        .row
+          .col-sm-4
+            ul.list-group
+              li.list-group-item Usuário: <input id='userTrackingId' type="text"/>
+              li.list-group-item Data: <input id='dateTracking' type="text"/>
     
       p
         button.btn.btn-lg.btn-default(id='goTracking', type='button') Tracking
