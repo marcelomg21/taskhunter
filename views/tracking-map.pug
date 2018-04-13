@@ -39,7 +39,9 @@ html(lang='en')
             ul.list-group
               li.list-group-item Usuário: <input id='userTrackingId' type="text"/>
               li.list-group-item Data: <input id='dateTracking' type="text"/>
-    
+              
+      #map_canvas
+
       p
         button.btn.btn-lg.btn-default(id='goTracking', type='button') Tracking
     
@@ -47,5 +49,6 @@ html(lang='en')
     // ==================================================
     // Placed at the end of the document so the pages load faster
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src='https://maps.googleapis.com/maps/api/js?&sensor=false')
     script(src=`${pathToAssets}/dist/js/bootstrap.min.js`)
     script(src=`${pathToOwnAssets}/tracking-map.js`)
