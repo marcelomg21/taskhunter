@@ -6,8 +6,28 @@ MAPAPP.pathName = window.location.pathname;
 
 $(document).ready(function() {
     initialize();
-    populateMarkers(MAPAPP.pathName);
+    $('#goTracking').on('click', goTracking);
 });
+
+function goTracking(event) {
+    event.preventDefault();
+    
+    var trackingUserBody = {
+        'date_tracking': $('#dateTracking').val()
+    }
+
+    var userId = $('#userTrackingId').text();
+
+    // Use AJAX to post the object to our adduser service
+    $.ajax({
+        type: 'POST',
+        data: trackingUserBody,
+        url: '/user/trackingUser/' + userId,
+        dataType: 'JSON'
+    }).done(function( response ) {
+        populateTracking(MAPAPP.pathName, response);
+    });
+};
 
 //Initialize our Google Map
 function initialize() {
@@ -19,6 +39,32 @@ function initialize() {
     };
     this.map = new google.maps.Map(document.getElementById('map_canvas'),
         mapOptions);
+};
+
+function populateTracking(dataType, data) {
+    apiLoc = typeof apiLoc !== 'undefined' ? apiLoc : '/data/' + dataType + '.json';
+    // jQuery AJAX call for JSON
+    //For each item in our JSON, add a new map marker
+        $.each(data, function(i, ob) {
+            var marker = new google.maps.Marker({
+                map: map,
+                position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
+                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            });
+    	//Build the content for InfoWindow
+            var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
+        	marker.infowindow = new google.maps.InfoWindow({
+            	content: content,
+            	maxWidth: 400
+            });
+    	//Add InfoWindow
+            google.maps.event.addListener(marker, 'click', function() {
+                if (MAPAPP.currentInfoWindow) MAPAPP.currentInfoWindow.close();
+                marker.infowindow.open(map, marker);
+                MAPAPP.currentInfoWindow = marker.infowindow;
+            });
+            MAPAPP.markers.push(marker);
+        });
 };
 
 // Fill map with markers
