@@ -149,6 +149,14 @@ router.get('/detail-notification-all/:id', function(req, res) {
     });
 });
 
+router.get('/tracking-map', auth, function(req, res) {
+    res.render('tracking-map', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
 router.get('/', function(req, res) {
     res.render('carousel', {
         'pathToAssets': '/bootstrap-3.3.1',
