@@ -1261,6 +1261,7 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 					id: docs_conversations[index_docs_conversations]._id,
 					is_read: docs_conversations[index_docs_conversations].is_read,
 					creation_date: docs_conversations[index_docs_conversations].creation_date,
+					last_message : docs_conversations[index_docs_conversations].last_message,
 					real_participants: [
 					   {                  	
 						id: docs_conversations[index_docs_conversations].participants[0].user_id,									
@@ -1326,14 +1327,14 @@ app.put('/api/conversations/:conversation_id/messages', function (req, res) {
 			{_id : conversationObjectId}).toArray(function (err, result_conversations_select) {
 			
 			if(result_conversations_select.length > 0 && result_conversations_select[0].participants.length >= 2){
-			    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_select[0].participants[0].user_id), is_read:false}).toArray(function (err, docs_conversations_sender) {
+			    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_select[0].participants[0].user_id), is_read:false, 'last_message.sender.id' : {$ne : parseInt(result_conversations_select[0].participants[0].user_id) } }).toArray(function (err, docs_conversations_sender) {
 
 				    db.collection('users').update(
 					{ user_id: parseInt(result_conversations_select[0].participants[0].user_id)},                                    
 					{ $set: { unread_conversations: docs_conversations_sender.length } },
 					{ upsert : false },
 					function (err, result_user_sender_update) {
-					    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_select[0].participants[1].user_id), is_read:false}).toArray(function (err, docs_conversations_recipient) {
+					    db.collection('conversations').find({'participants.user_id' : parseInt(result_conversations_select[0].participants[1].user_id), is_read:false, 'last_message.sender.id' : {$ne : parseInt(result_conversations_select[0].participants[1].user_id) } }).toArray(function (err, docs_conversations_recipient) {
 						db.collection('users').update(
 						    { user_id: parseInt(result_conversations_select[0].participants[1].user_id)},                                    
 						    { $set: { unread_conversations: docs_conversations_recipient.length } },
