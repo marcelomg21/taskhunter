@@ -3024,7 +3024,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             var item_conversation_all = {
                                 id: docs_conversations[index_docs_conversations]._id,                            
                                 is_read: docs_conversations[index_docs_conversations].is_read,
-                                creation_date: docs_conversations[index_docs_conversations].creation_date,              
+                                creation_date: docs_conversations[index_docs_conversations].creation_date,
+				last_message: docs_conversations[index_docs_conversations].last_message,
                                 participants: [
                                     {                  
                                         id: docs_conversations[index_docs_conversations].participants[0].user_id,
@@ -3091,7 +3092,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             var item_conversation_recipient = {
                                 id: docs_conversations_recipient[index_docs_conversations_recipient]._id,                            
                                 is_read: docs_conversations_recipient[index_docs_conversations_recipient].is_read,
-                                creation_date: docs_conversations_recipient[index_docs_conversations_recipient].creation_date,              
+                                creation_date: docs_conversations_recipient[index_docs_conversations_recipient].creation_date,
+				last_message: docs_conversations_recipient[index_docs_conversations_recipient].last_message,
                                 participants: [
                                     {                  
                                         id: docs_conversations_recipient[index_docs_conversations_recipient].participants[0].user_id,
@@ -3161,7 +3163,8 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                                         var item_conversation_inserted = {
                                             id: docs_conversations_inserted[index_docs_conversations_inserted]._id,                            
                                             is_read: docs_conversations_inserted[index_docs_conversations_inserted].is_read,
-                                            creation_date: docs_conversations_inserted[index_docs_conversations_inserted].creation_date,              
+                                            creation_date: docs_conversations_inserted[index_docs_conversations_inserted].creation_date,
+					    last_message: docs_conversations_inserted[index_docs_conversations_inserted].last_message,
                                             participants: [
                                                 {                  
                                                     id: docs_conversations_inserted[index_docs_conversations_inserted].participants[0].user_id,
