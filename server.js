@@ -997,15 +997,29 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 	    function (err, result_messages_insert) {
 	    
 	        var ObjectId = require('mongodb').ObjectID;
-		var conversationObjectId = ObjectId(req.params.conversation_id);	
+		var conversationObjectId = ObjectId(req.params.conversation_id);
 	    
 	        db.collection('conversations').update(
-		    { _id: conversationObjectId},                                    
-		    { $set: { "is_read": false } },
+		    { _id: conversationObjectId },                                    
+		    { $set: 
+		    	{ 
+			    is_read: false,
+			    last_message: {
+				creation_date: dateFormat,
+				message: req.body.message,
+				sender: {
+				    id: parseInt(req.body.sender), 
+				    type: '',
+				    first_name: '',
+				    gender: ''
+				}
+			    }
+			} 
+		    },
 		    { upsert : false },
 		    function (err, result_conversations_update) {
 
-			    db.collection('conversations').find({'participants.user_id' : parseInt(req.body.recipient), is_read:false}).toArray(function (err, docs_conversations) {
+			    db.collection('conversations').find({'participants.user_id' : parseInt(req.body.recipient), is_read:false, 'last_message.sender.id' : {$ne : parseInt(req.body.recipient) } }).toArray(function (err, docs_conversations) {
 
 				var query = {
 				    user_id: parseInt(req.body.recipient)
