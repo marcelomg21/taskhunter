@@ -832,6 +832,54 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
     return res.json(result);  
 });
 
+// service payment preferences all
+app.get('/api/users/:user_id/service/payment/preferences/all', function (req, res) {
+	
+    var result = {
+    	success: true,
+        data: {               
+            id: req.params.user_id,
+            service_payment_preferences: { payments: [] }
+        }
+    };
+	
+    //get all payments by user
+    db.collection('payment_preferences').aggregate([
+		{$match: 
+	   {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}], 
+		  $and: [{abandoned:false}] } }]).toArray(function (err, docs_payments) {
+
+			if (docs_payments.length > 0) {
+
+				for (var index_docs_payments = 0, len_docs_payments = docs_payments.length; index_docs_payments < len_docs_payments; index_docs_payments++) {
+
+					var item_payment = {
+						id: docs_payments[index_docs_payments]._id.toHexString(),
+						matching: docs_payments[index_docs_payments].matching,
+						working: docs_payments[index_docs_payments].working,
+						type: docs_payments[index_docs_payments].type,
+						name: docs_payments[index_docs_payments].name,
+						price: docs_payments[index_docs_payments].price,
+						date: docs_payments[index_docs_payments].date,
+						time: docs_payments[index_docs_payments].time,
+						card: docs_payments[index_docs_payments].card,
+						condition: docs_payments[index_docs_payments].condition,
+						tax: docs_payments[index_docs_payments].tax,
+						discount_rate: docs_payments[index_docs_payments].discount_rate,
+						paid: docs_payments[index_docs_payments].paid,
+						transfered: docs_payments[index_docs_payments].transfered,
+						abandoned: docs_payments[index_docs_payments].abandoned
+					};
+
+					result.data.service_payment_preferences.payments.push(item_payment); 
+				}
+			}
+
+			res.json(result);
+	});
+    
+});
+
 // update service feedback preferences
 app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) {
     
