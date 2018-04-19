@@ -1,5 +1,5 @@
 //Create a single global variable
-/*var MAPAPP = {};
+var MAPAPP = {};
 MAPAPP.markers = [];
 MAPAPP.currentInfoWindow;
 MAPAPP.pathName = window.location.pathname;
@@ -95,4 +95,4 @@ function populateMarkers(dataType) {
             MAPAPP.markers.push(marker);
         });
     });
-};*/
+};
