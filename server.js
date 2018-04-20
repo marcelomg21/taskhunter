@@ -1294,7 +1294,7 @@ app.get('/api/users/:user_id/conversations/:conversation_id', function (req, res
 		{$unwind:'$participants'}, 
 		{$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
 		{$unwind: '$participantsObjects'}, 
-		{$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, participants: {'$push':'$participantsObjects'} }},
+		{$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, last_message:{'$push':'$last_message'}, participants: {'$push':'$participantsObjects'} }},
 		{$match: {$and: [{'_id': conversationObjectId }]} }]).toArray(function (err, docs_conversations) {
 
 		//console.log('docs_conversations.length: ' + docs_conversations.length);
@@ -3060,7 +3060,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 {$unwind:'$participants'}, 
                 {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                 {$unwind: '$participantsObjects'}, 
-                {$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, participants: {'$push':'$participantsObjects'} }},
+                {$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, last_message:{'$push':'$last_message'}, participants: {'$push':'$participantsObjects'} }},
                 {$match: {$or: [{'participants.user_id':parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_conversations) {
                                    
                     //console.log("docs_conversations: " + docs_conversations);
@@ -3128,7 +3128,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                 {$unwind:'$participants'}, 
                 {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                 {$unwind: '$participantsObjects'}, 
-                {$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, participants: {'$push':'$participantsObjects'} }},
+                {$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, last_message:{'$push':'$last_message'}, participants: {'$push':'$participantsObjects'} }},
                 {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient[1])}]} }]).toArray(function (err, docs_conversations_recipient) {
                 
                     //console.log("docs_conversations_recipient: " + docs_conversations_recipient.length);
@@ -3199,7 +3199,7 @@ app.get('/api/users/:user_id/conversations', function (req, res) {
                             {$unwind:'$participants'}, 
                             {$lookup: {from: 'users', localField:'participants.user_id', foreignField:'user_id', as:'participantsObjects'}}, 
                             {$unwind: '$participantsObjects'}, 
-                            {$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, participants: {'$push':'$participantsObjects'} }},
+                            {$group: {_id:'$_id', is_read:{"$max":'$is_read'}, creation_date:{"$max":'$creation_date'}, last_message:{'$push':'$last_message'}, participants: {'$push':'$participantsObjects'} }},
                             {$match: {$and: [{'participants.user_id':parseInt(req.params.user_id)}, {'participants.user_id':parseInt(recipient[1])}]} }]).toArray(function (err, docs_conversations_inserted) {
 
                                 //console.log("docs_conversations_inserted: " + docs_conversations_inserted.length);
