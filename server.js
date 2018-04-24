@@ -521,7 +521,7 @@ app.get('/api/users/:user_id', function (req, res) {
             db.collection('payment_preferences').aggregate([
                 {$match: 
 		   {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}], 
-		      $and: [{paid:false}, {abandoned:false}] } }]).toArray(function (err, docs_payments) {
+		      $and: [{transfered:false}, {abandoned:false}] } }]).toArray(function (err, docs_payments) {
                                    
                     //console.log("docs_payments: " + docs_payments);
 
