@@ -513,7 +513,7 @@ app.get('/api/users/:user_id', function (req, res) {
                       nb_photos: 0,
                       credits: 0,
                       unread_conversations: user_docs[0].unread_conversations,
-                      unread_notifications: 0
+                      unread_notifications: user_docs[0].unread_notifications
                   }        
             };
             
@@ -700,7 +700,7 @@ app.put('/api/users/:user_id', function (req, res) {
                       nb_photos: 0,
                       credits: 0,
                       unread_conversations: user_docs[0].unread_conversations,
-                      unread_notifications: 0
+                      unread_notifications: user_docs[0].unread_notifications
                   }        
             };
 			
