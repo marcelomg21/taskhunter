@@ -251,7 +251,7 @@ function sendmail(email, subject, text, html){
 	});
 
      var mailOptions = {
-	  from: 'Task Hunter App <contato@taskhunterapp.com>',
+	  from: 'Task Factory <contato@taskfactory.com.br>',
 	  to: email,
 	  subject: subject,
 	  text: text,
@@ -404,8 +404,8 @@ app.post('/connect/oauth/token', function (req, res) {
                         refresh_token: '43p0v5m203kd9333goafve2qe9idqp0707'
                     };
 			
-		    sendmail(facebook_json.email, 'Task Hunter App', 'Task Hunter App', "<table border='0' width='600' cellspacing='0' cellpadding='0' align='center'><tbody><tr><td style='padding: 20px 0 10px 0;' align='center' bgcolor='#ff4e00'><img style='display: block;' src='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/images/logo_splash.png' alt='' width='165px' height='70px' /></td></tr><tr><td style='padding: 0px 0 30px 0; font-family: Trebuchet MS, Verdana, Arial, Helvetica, sans-serif; font-size: 18px; color: white;' align='center' bgcolor='#ff4e00'>Bem-vindo " + facebook_json.first_name + "</td></tr><tr><td style='padding: 0px 0px 0px 0px;' bgcolor='#ffffff'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td valign='top' width='260'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td><img style='display: block;' src='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/images/email_arrow_go.png' alt='' width='250px' height='188px' /></td></tr><tr><td style='padding: 35px 0 35px 0;'>O TASK hunter ajudar&aacute; voc&ecirc; a encontrar profissionais e clientes com prefer&ecirc;ncias em servi&ccedil;os em comum. Para isto, basta ativar sua localiza&ccedil;&atilde;o em seu smartphone, marcar os servi&ccedil;os de sua prefer&ecirc;ncia no menu e pronto! A captura foi iniciada.</td></tr></tbody></table></td><td style='font-size: 0; line-height: 0;' width='20'>&nbsp;</td><td valign='top' width='260'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td><img style='display: block;' src='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/images/email_crossed.png' alt='' width='250px' height='188px' /></td></tr><tr><td style='padding: 25px 0 0 0;'>Agora basta andar por por a&iacute; e cruzar com outras pessoas no mundo real. Sempre que cruzar com algu&eacute;m, sua Timeline ser&aacute; automaticamente preenchida, com esse usu&aacute;rio, cliente ou profissional. Tudo em tempo real!</td></tr></tbody></table></td></tr></tbody></table></td></tr><tr><td style='padding: 30px 30px 30px 30px;' bgcolor='#ff4e00'><table border='0' cellspacing='0' cellpadding='0'><tbody><tr><td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;'>&copy; 2018 TASK hunter.<br /> Acesse<a style='color: #ffffff;' href='www.taskhunterapp.com'><span style='color: #ffffff;'> www.taskhunterapp.com</span></a> para mais informa&ccedil;&otilde;es</td></tr></tbody></table></td></tr></tbody></table>");
-		    sendmail('marcelomg21@gmail.com', 'Task Hunter App [Novo Cadastro]', 'Task Hunter App', '<h1>Novo Usuário Cadastrado!</h1><p>Nome: ' + facebook_json.first_name + '<br/><br/> E-mail: ' + facebook_json.email + '</p>');
+		    sendmail(facebook_json.email, 'Task Factory', 'Task Factory', "<table border='0' width='600' cellspacing='0' cellpadding='0' align='center'><tbody><tr><td style='padding: 20px 0 10px 0;' align='center' bgcolor='#ff4e00'><img style='display: block;' src='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/images/logo_splash.png' alt='' width='165px' height='70px' /></td></tr><tr><td style='padding: 0px 0 30px 0; font-family: Trebuchet MS, Verdana, Arial, Helvetica, sans-serif; font-size: 18px; color: white;' align='center' bgcolor='#ff4e00'>Bem-vindo " + facebook_json.first_name + "</td></tr><tr><td style='padding: 0px 0px 0px 0px;' bgcolor='#ffffff'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td valign='top' width='260'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td><img style='display: block;' src='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/images/email_arrow_go.png' alt='' width='250px' height='188px' /></td></tr><tr><td style='padding: 35px 0 35px 0;'>O Task Factory ajudar&aacute; voc&ecirc; a encontrar profissionais e clientes com prefer&ecirc;ncias em servi&ccedil;os em comum. Para isto, basta ativar sua localiza&ccedil;&atilde;o em seu smartphone, marcar os servi&ccedil;os de sua prefer&ecirc;ncia no menu e pronto! A captura foi iniciada.</td></tr></tbody></table></td><td style='font-size: 0; line-height: 0;' width='20'>&nbsp;</td><td valign='top' width='260'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td><img style='display: block;' src='http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/images/email_crossed.png' alt='' width='250px' height='188px' /></td></tr><tr><td style='padding: 25px 0 0 0;'>Agora basta andar por por a&iacute; e cruzar com outras pessoas no mundo real. Sempre que cruzar com algu&eacute;m, sua Timeline ser&aacute; automaticamente preenchida, com esse usu&aacute;rio, cliente ou profissional. Tudo em tempo real!</td></tr></tbody></table></td></tr></tbody></table></td></tr><tr><td style='padding: 30px 30px 30px 30px;' bgcolor='#ff4e00'><table border='0' cellspacing='0' cellpadding='0'><tbody><tr><td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;'>&copy; 2018 Task Factory.<br /> Acesse<a style='color: #ffffff;' href='www.taskfactory.com.br'><span style='color: #ffffff;'> www.taskfactory.com.br</span></a> para mais informa&ccedil;&otilde;es</td></tr></tbody></table></td></tr></tbody></table>");
+		    sendmail('marcelomg21@gmail.com', 'Task Factory [Novo Cadastro]', 'Task Factory', '<h1>Novo Usuário Cadastrado!</h1><p>Nome: ' + facebook_json.first_name + '<br/><br/> E-mail: ' + facebook_json.email + '</p>');
                     
                     return res.json(result);
                     
@@ -508,7 +508,7 @@ app.get('/api/users/:user_id', function (req, res) {
 			  sponsor_link: { 
 		              code: 0, 
 			      id: req.params.user_id,
-			      destination: 'Olá, conheça o Task Hunter. Encontre pessoas que cruzaram seu caminho com 1 click. Saiba mais e instale em www.taskhunter.com' }
+			      destination: 'Olá, conheça o Task Factory. Encontre pessoas que cruzaram seu caminho com 1 click. Saiba mais e instale em www.taskfactory.com.br' }
 		      },
                       nb_photos: 0,
                       credits: 0,
@@ -959,7 +959,7 @@ app.put('/api/users/:user_id/service/contact/us/preferences', function (req, res
         }
     };
 	
-    sendmail('marcelomg21@gmail.com', 'Task Hunter App [Novo Fale Conosco]', 'Task Hunter App', '<h1>Nova Mensagem Enviada - Fale Conosco!</h1><p>Mensagem: ' + req.body.service_contact_us_preferences.message + '<br/><br/> E-mail: ' + req.body.service_contact_us_preferences.email + '</p>');
+    sendmail('marcelomg21@gmail.com', 'Task Factory [Novo Fale Conosco]', 'TaskFactory', '<h1>Nova Mensagem Enviada - Fale Conosco!</h1><p>Mensagem: ' + req.body.service_contact_us_preferences.message + '<br/><br/> E-mail: ' + req.body.service_contact_us_preferences.email + '</p>');
     
     return res.json(result);
 });
