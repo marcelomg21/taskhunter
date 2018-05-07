@@ -837,10 +837,7 @@ app.get('/api/users/:user_id/service/payment/preferences/all', function (req, re
 	
     var result = {
     	success: true,
-        data: {               
-            id: req.params.user_id,
-            service_payment_preferences: { payments: [] }
-        }
+        data: []
     };
 	
     //get all payments by user
@@ -871,7 +868,7 @@ app.get('/api/users/:user_id/service/payment/preferences/all', function (req, re
 						abandoned: docs_payments[index_docs_payments].abandoned
 					};
 
-					result.data.service_payment_preferences.payments.push(item_payment); 
+					result.data.push(item_payment); 
 				}
 			}
 
