@@ -808,6 +808,8 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 		{
 		    card : req.body.service_payment_preferences.payments[i].card,
 		    condition : req.body.service_payment_preferences.payments[i].condition,
+		    matching_name : req.body.service_payment_preferences.payments[i].matching_name,
+		    working_name : req.body.service_payment_preferences.payments[i].working_name,
 		    date : req.body.service_payment_preferences.payments[i].date,
 		    time : req.body.service_payment_preferences.payments[i].time,
 		    price : req.body.service_payment_preferences.payments[i].price,
