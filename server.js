@@ -533,6 +533,8 @@ app.get('/api/users/:user_id', function (req, res) {
 				id: docs_payments[index_docs_payments]._id.toHexString(),
                                 matching: docs_payments[index_docs_payments].matching,
                                 working: docs_payments[index_docs_payments].working,
+				matching_name: docs_payments[index_docs_payments].matching_name,
+                                working_name: docs_payments[index_docs_payments].working_name,
                                 type: docs_payments[index_docs_payments].type,
                                 name: docs_payments[index_docs_payments].name,
                                 price: docs_payments[index_docs_payments].price,
