@@ -1088,17 +1088,19 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 				db.collection('devices').find(query).toArray(function (err, docs) {
 
 					var firebase_token = "";
+					var app_type = "";
 					
 					if(docs.length > 0){
 						
 						for (var i = 0, len = docs.length; i < len; i++) {
 						    if (parseInt(docs[i].user_id) == parseInt(req.body.recipient)) {
 							firebase_token = docs[i].device.firebase_token;
+							app_type = docs[i].device.app_type;
 							break;
 						    }            
 						}
 
-						if (firebase_token != "") {
+						if (firebase_token != "" && app_type != "") {
 						      //send FCM message
 						      // This registration token comes from the client FCM SDKs.
 						      //var registrationToken = "d0Y999GwJLQ:APA91bFikkfLd5BwD3yW15pn1oxnR3o1bRY05lVHlH1lldAJNvuM95tF66xgi-1KnkD4nwzY09ofLe1R9TSJOO-gWDbJh8cnd0uk6xph1aI_Dm5RRPXJzpXHbMZVa9oRwH299OnHYtad";
@@ -1114,9 +1116,30 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 							  }
 						      };
 
+						      if(app_type == "matching"){
+						          global.serviceMessagingApp.sendToDevice(registrationToken, payload)
+								  .then(function(response) {
+								    // See the MessagingDevicesResponse reference documentation for
+								    // the contents of response.
+								    console.log("Successfully sent message:", response);
+								  })
+								  .catch(function(error) {
+								    console.log("Error sending message:", error);
+							      });
+						      } else if(app_type == "working"){
+							  global.serviceMessagingAppPro.sendToDevice(registrationToken, payload)
+								  .then(function(response) {
+								    // See the MessagingDevicesResponse reference documentation for
+								    // the contents of response.
+								    console.log("Successfully sent message pro:", response);
+								  })
+								  .catch(function(error) {
+								    console.log("Error sending message pro:", error);
+							      });
+						      }
+						
 						      // Send a message to the device corresponding to the provided
-						      // registration token.
-						      firebase.messaging().sendToDevice(registrationToken, payload)
+						      /*firebase.messaging().sendToDevice(registrationToken, payload)
 							  .then(function(response) {
 							    // See the MessagingDevicesResponse reference documentation for
 							    // the contents of response.
@@ -1124,7 +1147,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 							  })
 							  .catch(function(error) {
 							    console.log("Error sending message:", error);
-						      });             
+						      });*/             
 						 }
 					 }
 					
