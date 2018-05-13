@@ -1095,7 +1095,7 @@ app.post('/api/conversations/:conversation_id/messages/', function (req, res) {
 						for (var i = 0, len = docs.length; i < len; i++) {
 						    if (parseInt(docs[i].user_id) == parseInt(req.body.recipient)) {
 							firebase_token = docs[i].device.firebase_token;
-							app_type = docs[i].device.app_type;
+							app_type = docs[i].device.type;
 							break;
 						    }            
 						}
