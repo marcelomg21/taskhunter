@@ -120,14 +120,14 @@ var serviceAccountPro = require("./serviceAccountKeyPro.json");
 var serviceApp = firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: "https://taskfactory-60eea.firebaseio.com"
-});
+}, "taskfactory");
 
 global.serviceMessagingApp = firebase.messaging(serviceApp);
 
 var serviceAppPro = firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccountPro),
   databaseURL: "https://taskfactorypro.firebaseio.com"
-});
+}, "taskfactorypro");
 
 global.serviceMessagingAppPro = firebase.messaging(serviceAppPro);
 
