@@ -114,16 +114,25 @@ app.use(function(err, req, res, next) {
 
 // Fetch the service account key JSON file contents
 var serviceAccount = require("./serviceAccountKey.json");
+var serviceAccountPro = require("./serviceAccountKeyPro.json");
 
 // Initialize the app with a service account, granting admin privileges
-firebase.initializeApp({
+var serviceApp = firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   databaseURL: "https://taskfactory-60eea.firebaseio.com"
 });
 
-ref = firebase.database().ref();
+global.serviceMessagingApp = firebase.messaging(serviceApp);
 
-/*function listenForNotificationRequests() {
+var serviceAppPro = firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccountPro),
+  databaseURL: "https://taskfactorypro.firebaseio.com"
+});
+
+global.serviceMessagingAppPro = firebase.messaging(serviceAppPro);
+
+/*ref = firebase.database().ref();
+function listenForNotificationRequests() {
   var requests = ref.child('notificationRequests');
   requests.on('child_added', function(requestSnapshot) {
     var request = requestSnapshot.val();
