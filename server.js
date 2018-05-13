@@ -245,7 +245,7 @@ function sendmail(email, subject, text, html){
 	    secureConnection: true,
 	    port: 465,
 	    auth: {
-		user: "contato@taskhunterapp.com",
+		user: "contato@taskfactory.com.br",
 		pass: "Contato#2018"
 	    }
 	});
