@@ -118,7 +118,7 @@ var serviceAccount = require("./serviceAccountKey.json");
 // Initialize the app with a service account, granting admin privileges
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
-  databaseURL: "https://taskhunterapp.firebaseio.com"
+  databaseURL: "https://taskfactory-60eea.firebaseio.com"
 });
 
 ref = firebase.database().ref();
