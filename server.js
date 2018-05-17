@@ -3352,9 +3352,15 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
                     crossings: docs_positions[0].crossings
                 });*/
 		    
-		db.collection('crossings').update(
+		/*db.collection('crossings').update(
 			{ user_id: parseInt(req.params.user_id)},                                    
 			{ $set: { timestamp : crossingDateFormat , crossings : docs_positions[0].crossings } },
+			{ upsert : true }
+		);*/
+		    
+		db.collection('crossings').update(
+			{ user_id: parseInt(req.params.user_id), timestamp : crossingDateFormat },
+			{ $addToSet: { crossings: { $each: docs_positions[0].crossings } } },
 			{ upsert : true }
 		);
 		    
