@@ -519,6 +519,13 @@ app.get('/api/users/:user_id', function (req, res) {
 			      id: req.params.user_id,
 			      destination: 'Olá, conheça o Task Factory. Encontre pessoas que cruzaram seu caminho com 1 click. Saiba mais e instale em www.taskfactory.com.br' }
 		      },
+		      profiles: [{
+			   id: req.params.user_id,
+			   mode: 0,
+			   url: user_docs[0].facebook_picture,
+			   width: 50,
+			   height: 50
+		      }],
                       nb_photos: 0,
                       credits: 0,
                       unread_conversations: user_docs[0].unread_conversations,
