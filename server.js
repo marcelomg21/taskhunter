@@ -2521,7 +2521,7 @@ app.get('/api/users/:user_id/notifications', function (req, res) {
 			}
 			    
 			db.collection('notification_all_preferences').find(
-				{_id:{$nin : notification_all_not }}).toArray(function (err, docs_notification_all) {
+				{_id:{$nin : notification_all_not }, app_type : req.query.types }).toArray(function (err, docs_notification_all) {
 
 					if (docs_notification_all.length > 0) {
 
