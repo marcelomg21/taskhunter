@@ -587,6 +587,7 @@ app.get('/api/users/:user_id', function (req, res) {
 					payment: docs_feedbacks[index_docs_feedbacks].payment,
 					working: docs_feedbacks[index_docs_feedbacks].working,
 					working_name: docs_feedbacks[index_docs_feedbacks].working_name,
+					comment: docs_feedbacks[index_docs_feedbacks].comment,
 					type: docs_feedbacks[index_docs_feedbacks].type,
 					name: docs_feedbacks[index_docs_feedbacks].name,
 					evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
@@ -932,12 +933,13 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
 		working_name : req.body.service_feedback_preferences.feedbacks[i].working_name,
 		_id : feedbackObjectId,
 		payment: req.body.service_feedback_preferences.feedbacks[i].payment,
-                type : req.body.service_feedback_preferences.feedbacks[i].type, 
+                type : req.body.service_feedback_preferences.feedbacks[i].type,
                 name : req.body.service_feedback_preferences.feedbacks[i].name
             }, 
             { $set: 
                 {
                     evaluation : parseInt(req.body.service_feedback_preferences.feedbacks[i].evaluation),
+		    comment : req.body.service_feedback_preferences.feedbacks[i].comment,
                     date : timestampISODate
                  }
             },{upsert:true});
@@ -2350,6 +2352,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 						matching: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].matching,
 						working: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].working,
 						type: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].type,
+						comment: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].comment,
 						name: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].name,
 						payment: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].payment,
 						evaluation: docs_crossings[index_docs_crossings].crossings.crossing_feedback[index_docs_feedbacks].evaluation
