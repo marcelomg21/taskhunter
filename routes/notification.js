@@ -114,6 +114,7 @@ router.post('/addnotificationall', function(req, res) {
 	is_all: true,
 	is_notified : (req.body.is_notified === "true"),
 	message_title : req.body.message_title,
+	app_type : req.body.app_type,
 	message_data: req.body.message_data
     }, function(err, result){
         res.send(
