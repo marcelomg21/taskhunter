@@ -36,6 +36,7 @@ function populateTable() {
             tableContent += '<td><a href="#" class="linkshownotificationall" rel="' + this._id + '" title="Mostrar Detalhes">' + this._id + '</a></td>';
             tableContent += '<td>' + this.timestamp + '</td>';
             tableContent += '<td>' + this.is_notified + '</td>';
+            tableContent += '<td>' + this.app_type + '</td>';
             tableContent += '<td>' + this.message_title + '</td>';
             tableContent += '<td>' + this.message_data + '</td>';
             //tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
