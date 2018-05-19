@@ -47,6 +47,7 @@ function populateTable() {
             $('#notificationAllInfoID').text(this._id);
             $('#notificationAllInfoTimestamp').text(this.timestamp);
             $('#notificationAllInfoIsNotified').attr('checked', this.is_notified);
+            $('#notificationAllInfoMessageAppType').val(this.app_type);
             $('#notificationAllInfoMessageTitle').val(this.message_title);
             $('#notificationAllInfoMessageData').val(this.message_data);
             
@@ -74,6 +75,7 @@ function updateNotificationAll(event) {
         var updateNotificationAllBody = {
             'message_title': $('#notificationAllInfoMessageTitle').val(),
             'message_data': $('#notificationAllInfoMessageData').val(),
+            'app_type': $('#notificationAllInfoMessageAppType').val(),
             'is_notified': isNotifiedAll
         }
         
