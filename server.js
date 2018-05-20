@@ -255,7 +255,7 @@ function sendmail(email, subject, text, html){
 	    port: 465,
 	    auth: {
 		user: "contato@taskfactory.com.br",
-		pass: "Contato#2018"
+		pass: "TaskFactory#2018"
 	    }
 	});
 
