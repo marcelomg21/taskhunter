@@ -110,7 +110,7 @@ function populateTracking(data) {
             directionsDisplay.setDirections(response);
             directionsDisplay.setMap(map);
         } else {
-            alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+            alert("Directions Request from " + status);
         }
     });
 };
