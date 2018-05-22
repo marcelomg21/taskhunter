@@ -68,9 +68,6 @@ function populateTracking(data) {
         travelMode: google.maps.TravelMode.DRIVING
       };
     
-      alert(data.length);
-      alert(data[0].location.coordinates[0]);
-    
       for (i = 0; i < data.length; i++) {
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(data[i].location.coordinates[0], data[i].location.coordinates[1]),
