@@ -59,7 +59,7 @@ function initialize() {
     
 };
 
-function populateTracking(locations) {
+function populateTracking(data) {
     //For each item in our JSON, add a new map marker
     var infowindow = new google.maps.InfoWindow();
 
@@ -68,20 +68,20 @@ function populateTracking(locations) {
         travelMode: google.maps.TravelMode.DRIVING
       };
     
-      for (i = 0; i < locations.length; i++) {
+      for (i = 0; i < data.length; i++) {
         marker = new google.maps.Marker({
-          position: new google.maps.LatLng(locations[i].coordinates[1], locations[i].coordinates[2]),
+          position: new google.maps.LatLng(data[i].location.coordinates[0], data[i].location.coordinates[1]),
         });
 
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
-            infowindow.setContent(locations[i].coordinates[0]);
+            infowindow.setContent(data[i].location.coordinates[0]);
             infowindow.open(map, marker);
           }
         })(marker, i));
 
         if (i == 0) request.origin = marker.getPosition();
-        else if (i == locations.length - 1) request.destination = marker.getPosition();
+        else if (i == data.length - 1) request.destination = marker.getPosition();
         else {
           if (!request.waypoints) request.waypoints = [];
           request.waypoints.push({
