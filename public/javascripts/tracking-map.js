@@ -59,20 +59,45 @@ function initialize() {
     
 };
 
-function populateTracking(data) {
+function populateTracking(locations) {
     //For each item in our JSON, add a new map marker
-    var request = {
+    var infowindow = new google.maps.InfoWindow();
+
+      var marker, i;
+      var request = {
         travelMode: google.maps.TravelMode.DRIVING
-    };
+      };
     
-    if (!request.waypoints) request.waypoints = [];
+      for (i = 0; i < locations.length; i++) {
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i].coordinates[1], locations[i].coordinates[2]),
+        });
+
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            infowindow.setContent(locations[i].coordinates[0]);
+            infowindow.open(map, marker);
+          }
+        })(marker, i));
+
+        if (i == 0) request.origin = marker.getPosition();
+        else if (i == locations.length - 1) request.destination = marker.getPosition();
+        else {
+          if (!request.waypoints) request.waypoints = [];
+          request.waypoints.push({
+            location: marker.getPosition(),
+            stopover: true
+          });
+        }
+
+      }
     
-    $.each(data, function(i, ob) {
-        /*var marker = new google.maps.Marker({
+    /*$.each(data, function(i, ob) {
+        var marker = new google.maps.Marker({
             map: map,
             position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
             icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-        });*/
+        });
 
         //var start = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
         //var end = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
@@ -88,17 +113,9 @@ function populateTracking(data) {
             marker.infowindow.open(map, marker);
             MAPAPP.currentInfoWindow = marker.infowindow;
         });
-        MAPAPP.markers.push(marker);*/
+        MAPAPP.markers.push(marker);
         
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
-        });
-        
-        request.waypoints.push({
-            location: marker.getPosition(),
-            stopover: true
-        });
-    });
+    });*/
     
     var bounds = new google.maps.LatLngBounds();
     //bounds.extend(start);
