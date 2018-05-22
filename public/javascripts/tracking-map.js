@@ -4,6 +4,8 @@ MAPAPP.markers = [];
 MAPAPP.currentInfoWindow;
 MAPAPP.pathName = window.location.pathname;
 var map;
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
 
 $(document).ready(function() {
     initialize();
@@ -46,23 +48,50 @@ function initialize() {
     map = new google.maps.Map(mapCanvas, mapOptions);*/
     //map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
     
+    directionsDisplay = new google.maps.DirectionsRenderer();
+ 
     map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -30.397, lng: -29.644},
-      zoom: 8
+      center: {lat: -30.036786, lng: -51.150565},
+      zoom: 13
     });
+    
+    directionsDisplay.setMap(map);
     
 };
 
 function populateTracking(data) {
     //For each item in our JSON, add a new map marker
         $.each(data, function(i, ob) {
-            var marker = new google.maps.Marker({
+            /*var marker = new google.maps.Marker({
                 map: map,
                 position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
                 icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+            });*/
+            
+            var start = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
+            var end = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
+            
+            var bounds = new google.maps.LatLngBounds();
+            bounds.extend(start);
+            bounds.extend(end);
+            
+            map.fitBounds(bounds);
+            var request = {
+                origin: start,
+                destination: end,
+                travelMode: google.maps.TravelMode.DRIVING
+            };
+            
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    directionsDisplay.setMap(map);
+                } else {
+                    alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+                }
             });
     	    
-            var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
+            /*var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
         	marker.infowindow = new google.maps.InfoWindow({
             	content: content,
             	maxWidth: 400
@@ -73,7 +102,7 @@ function populateTracking(data) {
                 marker.infowindow.open(map, marker);
                 MAPAPP.currentInfoWindow = marker.infowindow;
             });
-            MAPAPP.markers.push(marker);
+            MAPAPP.markers.push(marker);*/
         });
 };
 
