@@ -25,6 +25,7 @@ function goTracking(event) {
         url: '/user/trackingUser/' + userId,
         dataType: 'JSON'
     }).done(function( response ) {
+        alert(response);
         populateTracking(MAPAPP.pathName, response);
     });
 };
