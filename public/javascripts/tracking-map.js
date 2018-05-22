@@ -61,49 +61,58 @@ function initialize() {
 
 function populateTracking(data) {
     //For each item in our JSON, add a new map marker
-        $.each(data, function(i, ob) {
-            /*var marker = new google.maps.Marker({
-                map: map,
-                position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
-                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-            });*/
-            
-            var start = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
-            var end = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
-            
-            var bounds = new google.maps.LatLngBounds();
-            bounds.extend(start);
-            bounds.extend(end);
-            
-            map.fitBounds(bounds);
-            var request = {
-                origin: start,
-                destination: end,
-                travelMode: google.maps.TravelMode.DRIVING
-            };
-            
-            directionsService.route(request, function (response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    directionsDisplay.setDirections(response);
-                    directionsDisplay.setMap(map);
-                } else {
-                    alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
-                }
-            });
-    	    
-            /*var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
-        	marker.infowindow = new google.maps.InfoWindow({
-            	content: content,
-            	maxWidth: 400
-            });
-    	    
-            google.maps.event.addListener(marker, 'click', function() {
-                if (MAPAPP.currentInfoWindow) MAPAPP.currentInfoWindow.close();
-                marker.infowindow.open(map, marker);
-                MAPAPP.currentInfoWindow = marker.infowindow;
-            });
-            MAPAPP.markers.push(marker);*/
+    var request = {
+        waypoints = [],
+        travelMode: google.maps.TravelMode.DRIVING
+    };
+    
+    $.each(data, function(i, ob) {
+        /*var marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+        });*/
+
+        //var start = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
+        //var end = new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]);
+
+        /*var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
+        marker.infowindow = new google.maps.InfoWindow({
+            content: content,
+            maxWidth: 400
         });
+
+        google.maps.event.addListener(marker, 'click', function() {
+            if (MAPAPP.currentInfoWindow) MAPAPP.currentInfoWindow.close();
+            marker.infowindow.open(map, marker);
+            MAPAPP.currentInfoWindow = marker.infowindow;
+        });
+        MAPAPP.markers.push(marker);*/
+        
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
+        });
+        
+        request.waypoints.push({
+            location: marker.getPosition(),
+            stopover: true
+        });
+    });
+    
+    var bounds = new google.maps.LatLngBounds();
+    //bounds.extend(start);
+    //bounds.extend(end);
+
+    map.fitBounds(bounds);
+
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+            directionsDisplay.setMap(map);
+        } else {
+            alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(6) + " failed: " + status);
+        }
+    });
 };
 
 // Fill map with markers
