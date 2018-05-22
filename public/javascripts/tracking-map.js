@@ -46,7 +46,7 @@ function initialize() {
     map = new google.maps.Map(mapCanvas, mapOptions);*/
     //map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
     
-    map = new google.maps.Map(document.getElementById('map_canvas'), {
+    map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8
     });
