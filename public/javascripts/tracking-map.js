@@ -122,15 +122,22 @@ function populateTracking(data) {
     //bounds.extend(end);
 
     map.fitBounds(bounds);
+    
+    directionsService.route(request, function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsDisplay.setDirections(result);
+        }
+    });
 
-    directionsService.route(request, function (response, status) {
+    /*directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
             directionsDisplay.setMap(map);
         } else {
             alert("Directions Request from " + status);
         }
-    });
+    });*/
+    
 };
 
 // Fill map with markers
