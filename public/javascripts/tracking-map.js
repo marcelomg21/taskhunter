@@ -3,6 +3,7 @@ var MAPAPP = {};
 MAPAPP.markers = [];
 MAPAPP.currentInfoWindow;
 MAPAPP.pathName = window.location.pathname;
+var map;
 
 $(document).ready(function() {
     initialize();
