@@ -33,7 +33,7 @@ function goTracking(event) {
 //Initialize our Google Map
 function initialize() {
     
-    var center = new google.maps.LatLng(39.9543926,-75.1627432);
+    /*var center = new google.maps.LatLng(39.9543926,-75.1627432);
     
     var mapOptions = {
         zoom: 13,
@@ -43,8 +43,13 @@ function initialize() {
     
     var mapCanvas = $('#map_canvas')[0];
     alert(mapCanvas);
-    map = new google.maps.Map(mapCanvas, mapOptions);
+    map = new google.maps.Map(mapCanvas, mapOptions);*/
     //map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    
+    map = new google.maps.Map($('#map_canvas')[0], {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8
+    });
     
 };
 
