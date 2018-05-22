@@ -129,6 +129,8 @@ function populateTracking(data) {
     directionsService.route(request, function(result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
           directionsDisplay.setDirections(result);
+        } else {
+            alert("Directions Request from " + status);
         }
     });
 
