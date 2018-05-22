@@ -62,9 +62,10 @@ function initialize() {
 function populateTracking(data) {
     //For each item in our JSON, add a new map marker
     var request = {
-        waypoints = [],
         travelMode: google.maps.TravelMode.DRIVING
     };
+    
+    if (!request.waypoints) request.waypoints = [];
     
     $.each(data, function(i, ob) {
         /*var marker = new google.maps.Marker({
