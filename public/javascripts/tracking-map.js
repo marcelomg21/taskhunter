@@ -26,7 +26,7 @@ function goTracking(event) {
         url: '/user/trackingUser/' + userId,
         dataType: 'JSON'
     }).done(function( response ) {
-        populateTracking(MAPAPP.pathName, response);
+        populateTracking(response);
     });
 };
 
@@ -53,7 +53,7 @@ function initialize() {
     
 };
 
-function populateTracking(dataType, data) {
+function populateTracking(data) {
     //For each item in our JSON, add a new map marker
         $.each(data, function(i, ob) {
             var marker = new google.maps.Marker({
@@ -61,19 +61,19 @@ function populateTracking(dataType, data) {
                 position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
                 icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
-    	//Build the content for InfoWindow
-            var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
+    	    
+            /*var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
         	marker.infowindow = new google.maps.InfoWindow({
             	content: content,
             	maxWidth: 400
             });
-    	//Add InfoWindow
+    	    
             google.maps.event.addListener(marker, 'click', function() {
                 if (MAPAPP.currentInfoWindow) MAPAPP.currentInfoWindow.close();
                 marker.infowindow.open(map, marker);
                 MAPAPP.currentInfoWindow = marker.infowindow;
             });
-            MAPAPP.markers.push(marker);
+            MAPAPP.markers.push(marker);*/
         });
 };
 
