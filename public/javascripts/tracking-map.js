@@ -47,7 +47,7 @@ function initialize() {
     //map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
     
     map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: -34.397, lng: 150.644},
+      center: {lat: -30.397, lng: -29.644},
       zoom: 8
     });
     
@@ -61,9 +61,8 @@ function populateTracking(data) {
                 position: new google.maps.LatLng(this.location.coordinates[0], this.location.coordinates[1]),
                 icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
-            alert(this.location.coordinates[0]);
     	    
-            /*var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
+            var content = '<h1 class="mt0"><a href="' + marker.website + '" target="_blank" title="' + 'marker.shopname' + '">' + 'marker.shopname' + '</a></h1><p>' + 'marker.details' + '</p>';
         	marker.infowindow = new google.maps.InfoWindow({
             	content: content,
             	maxWidth: 400
@@ -74,7 +73,7 @@ function populateTracking(data) {
                 marker.infowindow.open(map, marker);
                 MAPAPP.currentInfoWindow = marker.infowindow;
             });
-            MAPAPP.markers.push(marker);*/
+            MAPAPP.markers.push(marker);
         });
 };
 
