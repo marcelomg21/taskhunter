@@ -41,13 +41,14 @@ function initialize() {
         center: center,
     };
     
-    map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
-    alert(map);
+    var mapCanvas = $('#map_canvas')[0];
+    alert(mapCanvas);
+    map = new google.maps.Map(mapCanvas, mapOptions);
+    //map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
     
 };
 
 function populateTracking(dataType, data) {
-    alert('populateTracking');
     //For each item in our JSON, add a new map marker
         $.each(data, function(i, ob) {
             var marker = new google.maps.Marker({
