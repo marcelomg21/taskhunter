@@ -26,24 +26,28 @@ function goTracking(event) {
         url: '/user/trackingUser/' + userId,
         dataType: 'JSON'
     }).done(function( response ) {
-        alert(response);
         populateTracking(MAPAPP.pathName, response);
     });
 };
 
 //Initialize our Google Map
 function initialize() {
+    
     var center = new google.maps.LatLng(39.9543926,-75.1627432);
+    
     var mapOptions = {
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         center: center,
     };
-    this.map = new google.maps.Map(document.getElementById('map_canvas'),
-        mapOptions);
+    
+    map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+    alert(map);
+    
 };
 
 function populateTracking(dataType, data) {
+    alert('populateTracking');
     //For each item in our JSON, add a new map marker
         $.each(data, function(i, ob) {
             var marker = new google.maps.Marker({
