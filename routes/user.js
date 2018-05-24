@@ -44,7 +44,7 @@ router.post('/trackingUser/:id', function(req, res) {
 
     db.collection('positions').find(
 	    {'user_id' : parseInt(req.params.id), 
-	     timestamp : { "$gte" : new Date(req.body.date_tracking + "T00:00:00Z") } }).limit(req.body.limit_tracking).sort( { _id: -1 } ).toArray(function (err, docs_tracking) {
+	     timestamp : { "$gte" : new Date(req.body.date_tracking + "T00:00:00Z") } }).limit(parseInt(req.body.limit_tracking)).sort( { _id: -1 } ).toArray(function (err, docs_tracking) {
         return res.json(docs_tracking);
     });
 });
