@@ -16,7 +16,8 @@ function goTracking(event) {
     event.preventDefault();
     
     var trackingUserBody = {
-        'date_tracking': $('#dateTracking').val()
+        'date_tracking': $('#dateTracking').val(),
+        'limit_tracking': $('#limitTracking').val()
     }
 
     var userId = $('#userTrackingId').val();
