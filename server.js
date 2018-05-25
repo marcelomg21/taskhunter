@@ -3338,7 +3338,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
               {
                   type:'Point', 
                   coordinates:[parseFloat(req.body.latitude), parseFloat(req.body.longitude)] }, 
-                  maxDistance:0.50*1609, 
+                  maxDistance:0.80*1609, 
                   spherical:true, 
                   distanceField:'distance', 
                   distanceMultiplier:0.000621371 
@@ -3347,10 +3347,10 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
           {$project:
             {
                 'user_id':'$user_id',
-                'time_by_day':{$floor:{$divide:[{$subtract:['$timestamp', new Date()]},24*60*60*1000 ]} },
+                'time_by_day':{$floor:{$divide:[{$subtract:[new Date(), '$timestamp']},24*60*60*1000 ]} },
                 'date':'$timestamp' }
             }, 
-          {$match: {time_by_day:-1, user_id:{$ne:parseInt(req.params.user_id)}} }, 
+          {$match: {time_by_day : { '$lte' : 1 }, user_id:{$ne:parseInt(req.params.user_id)}} }, 
           {$group: {_id:null, crossings:{$addToSet:'$user_id'} } }
       ]).toArray(function (err, docs_positions) {
 
