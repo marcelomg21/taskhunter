@@ -392,6 +392,7 @@ app.post('/connect/oauth/token', function (req, res) {
 			   street_address: '',
 			   street_number: '',
 			   zip_code: '',
+			   is_blocked: false,
 			   unread_conversations: 0,
 			   unread_notifications: 0,
                            facebook_access_token: req.body.assertion,
@@ -508,6 +509,7 @@ app.get('/api/users/:user_id', function (req, res) {
 		      street_address: user_docs[0].street_address,
 		      street_number: user_docs[0].street_number,
 		      zip_code: user_docs[0].zip_code,
+		      is_blocked: user_docs[0].is_blocked,
                       matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                       notification_settings: { charms: 0, match: 0, messages:0 },
                       service_matching_preferences: user_docs[0].service_matching_preferences,                      
@@ -669,6 +671,7 @@ app.put('/api/users/:user_id', function (req, res) {
 		street_number : req.body.street_number,
 		neighborhood : req.body.neighborhood,
 		zip_code : req.body.zip_code,
+		is_blocked : req.body.is_blocked,
 		ddd_cell_phone : req.body.ddd_cell_phone,
 		cell_phone : req.body.cell_phone
             }
@@ -717,6 +720,7 @@ app.put('/api/users/:user_id', function (req, res) {
 		      street_address: user_docs[0].street_address,
 		      street_number: user_docs[0].street_number,
 		      zip_code: user_docs[0].zip_code,
+		      is_blocked: user_docs[0].is_blocked,
                       matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                       notification_settings: { charms: 0, match: 0, messages:0 },
                       service_matching_preferences: user_docs[0].service_matching_preferences,                      
@@ -1033,7 +1037,8 @@ app.put('/api/users/:user_id/service/configuration/preferences', function (req, 
 	        state: req.body.service_configuration_preferences.state,
 	        street_address: req.body.service_configuration_preferences.street_address,
 	        street_number: req.body.service_configuration_preferences.street_number,
-	        zip_code: req.body.service_configuration_preferences.zip_code
+	        zip_code: req.body.service_configuration_preferences.zip_code,
+		is_blocked: req.body.service_configuration_preferences.is_blocked
             }
         },
         { upsert : true }
