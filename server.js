@@ -670,8 +670,7 @@ app.put('/api/users/:user_id', function (req, res) {
 		street_address : req.body.street_address,
 		street_number : req.body.street_number,
 		neighborhood : req.body.neighborhood,
-		zip_code : req.body.zip_code,
-		is_blocked : req.body.is_blocked,
+		zip_code : req.body.zip_code,		
 		ddd_cell_phone : req.body.ddd_cell_phone,
 		cell_phone : req.body.cell_phone
             }
@@ -1037,8 +1036,7 @@ app.put('/api/users/:user_id/service/configuration/preferences', function (req, 
 	        state: req.body.service_configuration_preferences.state,
 	        street_address: req.body.service_configuration_preferences.street_address,
 	        street_number: req.body.service_configuration_preferences.street_number,
-	        zip_code: req.body.service_configuration_preferences.zip_code,
-		is_blocked: req.body.service_configuration_preferences.is_blocked
+	        zip_code: req.body.service_configuration_preferences.zip_code
             }
         },
         { upsert : true }
