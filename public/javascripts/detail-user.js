@@ -60,7 +60,7 @@ function populateTable() {
             $('#userInfoAccount').text(this.account);
             $('#userInfoDigit').text(this.digit);
             $('#userInfoDiscountRate').val(this.discount_rate);
-            $('#userInfoBlocked').val(this.is_blocked);
+            $('#userInfoBlocked').attr('checked', this.is_blocked);
         });
 
         // Inject the whole content string into our existing HTML table
