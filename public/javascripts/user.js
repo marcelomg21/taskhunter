@@ -40,6 +40,7 @@ function populateTable() {
             tableContent += '<td>' + this.email + '</td>';
             tableContent += '<td>' + this.gender + '</td>';
             tableContent += '<td>' + this.city + '</td>';
+            tableContent += '<td>' + this.is_blocked + '</td>';
             //tableContent += '<td><a href="#" class="linkdeleteuser" rel="' + this._id + '">delete</a></td>';
             tableContent += '</tr>';
         });
