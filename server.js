@@ -921,6 +921,25 @@ app.get('/api/users/:user_id/service/payment/preferences/all', function (req, re
     
 });
 
+// update service status preferences
+app.put('/api/users/:user_id/service/payment/preferences/update/status', function (req, res) {
+      
+    db.collection('payment_preferences').update(
+		{ _id: parseInt(req.params.payment_id), moip_payment_id: req.params.moip_payment_id },
+		{ $set: { moip_payment_status_id: req.params.moip_payment_status_id, moip_payment_status: req.params.moip_payment_status } },
+		{ upsert : false },
+		function (err, result_payment_update) {
+			
+		var result =  {
+			success: true,
+			data: {}
+		};
+
+		 res.json(result);
+		}
+	);
+});
+
 // update service feedback preferences
 app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) {
     
