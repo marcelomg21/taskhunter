@@ -923,9 +923,12 @@ app.get('/api/users/:user_id/service/payment/preferences/all', function (req, re
 
 // update service status preferences
 app.put('/api/users/:user_id/service/payment/preferences/update/status', function (req, res) {
+    
+    var ObjectId = require('mongodb').ObjectID;
+    var paymentObjectId = ObjectId(req.params.payment_id);
       
     db.collection('payment_preferences').update(
-		{ _id: parseInt(req.params.payment_id), moip_payment_id: req.params.moip_payment_id },
+		{ _id : paymentObjectId, moip_payment_id: req.params.moip_payment_id },
 		{ $set: { moip_payment_status_id: req.params.moip_payment_status_id, moip_payment_status: req.params.moip_payment_status } },
 		{ upsert : false },
 		function (err, result_payment_update) {
