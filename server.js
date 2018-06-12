@@ -75,11 +75,11 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 var paymentJob = new cronJob('*/40 * * * * *', function(){
 	
-    db.collection('payment_preferences').find( {moip_payment_status : "IN_ANALYSIS" } ).toArray(function (err_payment, payment_docs) {
+    db.collection('payment_preferences').find( {moip_payment_status : "IN_ANALYSIS" } ).toArray(function (err_payment, docs_payments_in_analysis) {
 
-        for (var i = 0, len = payment_docs.length; i < len; i++) {
+        for (var index_docs_payments_in_analysis = 0, len_docs_payments_in_analysis = docs_payments_in_analysis.length; index_docs_payments_in_analysis < len_docs_payments_in_analysis; index_docs_payments_in_analysis++) {
 		
-            moip.payment.getOne(payment_docs[i].moip_payment_id)
+            moip.payment.getOne(docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_id)
 			.then((response) => {
 
 				if(response.body.status == "AUTHORIZED"){
@@ -88,13 +88,13 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 					sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
 				}
 
-		    		console.log('payment_docs[i]: ' + payment_docs[i]);
-		    		console.log('payment_docs[i].moip_payment_status: ' + payment_docs[i].moip_payment_status);
+		    		console.log('payment_docs[i]: ' + docs_payments_in_analysis[index_docs_payments_in_analysis]);
+		    		console.log('payment_docs[i].moip_payment_status: ' + docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status);
 		    
-				if(payment_docs[i].moip_payment_status != undefined && response.body.status != payment_docs[i].moip_payment_status){
+				if(docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status != undefined && response.body.status != docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status){
 
 					db.collection('payment_preferences').update({ 
-					_id : payment_docs[i]._id
+					_id : docs_payments_in_analysis[index_docs_payments_in_analysis]._id
 					}, 
 					{ $set: 
 					{
