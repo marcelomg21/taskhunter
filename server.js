@@ -68,7 +68,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 }
 
 var paymentJob = new cronJob('*/30 * * * * *', function(){
-    console.info('cron job completed');
+    console.log('cron job completed');
 });
 
 paymentJob.start();
