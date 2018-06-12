@@ -11,6 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
+    cronJob = require('cron').CronJob,
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -65,6 +66,12 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
   }
 }
+
+var paymentJob = new cronJob('*/30 * * * * *', function(){
+    console.info('cron job completed');
+});
+
+paymentJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
