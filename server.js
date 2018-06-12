@@ -74,17 +74,39 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 }
 
 var paymentJob = new cronJob('*/40 * * * * *', function(){
-    moip.payment.getOne('PAY-TS2K02MAV69Z')
-        .then((response) => {
-	    console.log('------------------------------------> STATUS: ' + response.body.status);
-	    if(response.body.status == "AUTHORIZED")
-	    	console.log('------------------------------------> ' + 'FOI AUTORIZADO...');
-	    else
-		console.log('------------------------------------> ' + 'OUTRO STATUS...');
-        }).catch((err) => {
-	    console.log(err)
-    })
-    //console.log('cron job completed');
+	
+    db.collection('payment_preferences').find( {moip_payment_status : "IN_ANALYSIS" } ).toArray(function (err_payment, payment_docs) {
+
+        for (var i = 0, len = payment_docs.length; i < len; i++) {
+		
+            moip.payment.getOne(payment_docs[i].moip_payment_id)
+			.then((response) => {
+
+				if(response.body.status == "AUTHORIZED"){
+					sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
+				} else if(response.body.status == "CANCELLED"){
+					sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
+				}
+
+				if(response.body.status != payment_docs[i].moip_payment_status){
+
+					db.collection('payment_preferences').update({ 
+					_id : payment_docs[i]._id
+					}, 
+					{ $set: 
+					{
+						moip_payment_status : response.body.status
+					}
+					},
+					{upsert:false});
+				}
+
+			}).catch((err) => {
+			console.log(err)
+		});
+        }
+
+    });
 });
 
 //paymentJob.start();
