@@ -71,7 +71,7 @@ var paymentJob = new cronJob('*/10 * * * * *', function(){
     console.log('cron job completed');
 });
 
-paymentJob.start();
+//paymentJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
