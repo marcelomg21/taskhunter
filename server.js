@@ -78,10 +78,10 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
     db.collection('payment_preferences').find( {moip_payment_status : "IN_ANALYSIS" } ).toArray(function (err_payment, docs_payments_in_analysis) {
 
         for (var index_docs_payments_in_analysis = 0, len_docs_payments_in_analysis = docs_payments_in_analysis.length; index_docs_payments_in_analysis < len_docs_payments_in_analysis; index_docs_payments_in_analysis++) {
-		console.log('----------> index_docs_payments_in_analysis: ' + index_docs_payments_in_analysis);
+		console.log('----------> index_docs_payments_in_analysis 111: ' + index_docs_payments_in_analysis);
             moip.payment.getOne(docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_id)
 			.then((response) => {
-
+console.log('----------> index_docs_payments_in_analysis 222: ' + index_docs_payments_in_analysis);
 				if(response.body.status == "AUTHORIZED"){
 					//sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
 				} else if(response.body.status == "CANCELLED"){
@@ -89,7 +89,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 				}
 
 		    		console.log('payment_docs[length]: ' + docs_payments_in_analysis.length);
-		    		console.log('payment_docs[i].index_docs_payments_in_analysis: ' + index_docs_payments_in_analysis);
+		    		console.log('----------> index_docs_payments_in_analysis 333: ' + index_docs_payments_in_analysis);
 		    
 				if(response.body.status != docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status){
 
