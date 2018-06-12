@@ -73,7 +73,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-var paymentJob = new cronJob('*/20 * * * * *', function(){
+var paymentJob = new cronJob('*/40 * * * * *', function(){
     moip.payment.getOne('PAY-EAKSNL2MOPEP')
         .then((response) => {
 	    console.log(response)
