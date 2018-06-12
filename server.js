@@ -88,7 +88,10 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 					sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
 				}
 
-				if(response.body.status != payment_docs[i].moip_payment_status){
+		    		console.log('payment_docs[i]: ' + payment_docs[i]);
+		    		console.log('payment_docs[i].moip_payment_status: ' + payment_docs[i].moip_payment_status);
+		    
+				if(payment_docs[i].moip_payment_status != undefined && response.body.status != payment_docs[i].moip_payment_status){
 
 					db.collection('payment_preferences').update({ 
 					_id : payment_docs[i]._id
@@ -102,7 +105,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 				}
 
 			}).catch((err) => {
-			console.log(err)
+			console.log(err);
 		});
         }
 
