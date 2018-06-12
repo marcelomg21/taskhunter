@@ -112,7 +112,7 @@ console.log('----------> index_docs_payments_in_analysis 222: ' + index_docs_pay
     });
 });
 
-paymentJob.start();
+//paymentJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
