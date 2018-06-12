@@ -21,7 +21,8 @@ app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 
 const moip = require('moip-sdk-node').default({
-  accessToken: 'SKJ4UCDQRG7XRXLWCOLFT8AKUSV2HXX6',
+  token: 'SKJ4UCDQRG7XRXLWCOLFT8AKUSV2HXX6',
+  key: 'EBFKJBAAA8HCSMYY78QJPSLPOBT0K2AFDXJEFATY',
   production: false
 })
 
