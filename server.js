@@ -87,7 +87,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
     //console.log('cron job completed');
 });
 
-paymentJob.start();
+//paymentJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
