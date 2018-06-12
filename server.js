@@ -83,15 +83,15 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 			.then((response) => {
 
 				if(response.body.status == "AUTHORIZED"){
-					sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
+					//sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
 				} else if(response.body.status == "CANCELLED"){
-					sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
+					//sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
 				}
 
-		    		console.log('payment_docs[i]: ' + docs_payments_in_analysis[index_docs_payments_in_analysis]);
-		    		console.log('payment_docs[i].moip_payment_status: ' + docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status);
+		    		console.log('payment_docs[length]: ' + docs_payments_in_analysis.length);
+		    		console.log('payment_docs[i].index_docs_payments_in_analysis: ' + index_docs_payments_in_analysis);
 		    
-				if(docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status != undefined && response.body.status != docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status){
+				if(response.body.status != docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status){
 
 					db.collection('payment_preferences').update({ 
 					_id : docs_payments_in_analysis[index_docs_payments_in_analysis]._id
