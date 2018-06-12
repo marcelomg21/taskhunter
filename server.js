@@ -109,7 +109,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
     });
 });
 
-//paymentJob.start();
+paymentJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
