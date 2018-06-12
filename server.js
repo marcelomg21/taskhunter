@@ -74,9 +74,12 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 }
 
 var paymentJob = new cronJob('*/40 * * * * *', function(){
-    moip.payment.getOne('PAY-EAKSNL2MOPEP')
+    moip.payment.getOne('PAY-TS2K02MAV69Z')
         .then((response) => {
-	    console.log('------------------------------------> ' + response.status)
+	    if(response.status == "AUTHORIZED")
+	    	console.log('------------------------------------> ' + 'FOI AUTORIZADO...')
+	    else
+		console.log('------------------------------------> ' + 'OUTRO STATUS...')
         }).catch((err) => {
 	    console.log(err)
     })
