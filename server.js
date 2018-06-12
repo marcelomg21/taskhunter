@@ -77,7 +77,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
     moip.payment.getOne('PAY-TS2K02MAV69Z')
         .then((response) => {
 	    console.log('------------------------------------> STATUS: ' + response.status);
-	    if(response.status = 'AUTHORIZED')
+	    if(response.status == "AUTHORIZED")
 	    	console.log('------------------------------------> ' + 'FOI AUTORIZADO...');
 	    else
 		console.log('------------------------------------> ' + 'OUTRO STATUS...');
