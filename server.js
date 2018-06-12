@@ -20,6 +20,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 
+const moip = require('moip-sdk-node').default({
+  accessToken: 'SKJ4UCDQRG7XRXLWCOLFT8AKUSV2HXX6',
+  production: false
+})
+
 var db = null,
     dbDetails = new Object();
 var routes = require('./routes/index');
@@ -67,11 +72,17 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-var paymentJob = new cronJob('*/10 * * * * *', function(){
-    console.log('cron job completed');
+var paymentJob = new cronJob('*/20 * * * * *', function(){
+    moip.payment.getOne('PAY-EAKSNL2MOPEP')
+        .then((response) => {
+	    console.log(response)
+        }).catch((err) => {
+	    console.log(err)
+    })
+    //console.log('cron job completed');
 });
 
-//paymentJob.start();
+paymentJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
