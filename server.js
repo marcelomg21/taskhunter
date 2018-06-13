@@ -26,8 +26,6 @@ const moip = require('moip-sdk-node').default({
   production: false
 });
 
-var jobs = kue.createQueue();
-
 var db = null,
     dbDetails = new Object();
 var routes = require('./routes/index');
