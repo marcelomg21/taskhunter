@@ -92,11 +92,11 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 
 paymentJob.start();
 
-function newJob(name, id, status){
+function newJob(name, payment, status){
   name = name || 'Default_Name';
   var job = jobs.create('new job', {
     name: name,
-    id: id,
+    payment: payment,
     status: status
   });
 
@@ -112,7 +112,7 @@ function newJob(name, id, status){
 }
 
 jobs.process('new job', function (job, done){
-  moip.payment.getOne(job.data.id)
+  moip.payment.getOne(job.data.payment)
 		.then((response) => {
 			if(response.body.status == "AUTHORIZED"){
 				//sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
@@ -120,12 +120,12 @@ jobs.process('new job', function (job, done){
 				//sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
 			}
 
-	  		console.log('...EXECUTING JOG QUEUE ' + job.data.id);
+	  		console.log('...EXECUTING JOG QUEUE ' + job.data.payment);
 	  
 			if(response.body.status != job.data.status){
 
 				db.collection('payment_preferences').update({ 
-				moip_payment_id : job.data.id
+				moip_payment_id : job.data.payment
 				}, 
 				{ $set: 
 				{
