@@ -73,38 +73,33 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-var paymentJob = new cronJob('*/40 * * * * *', function(){
+var paymentJob = new cronJob('0 0 */3 * * *', function(){
 	
     db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
-        //for (var index_docs_payments_in_analysis = 0, len_docs_payments_in_analysis = docs_payments_in_analysis.length; index_docs_payments_in_analysis < len_docs_payments_in_analysis; index_docs_payments_in_analysis++) {
-	    console.log('----------> index_docs_payments_in_analysis: ' + docs_payments_in_analysis);
-            moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
-			.then((response) => {
-	
-				if(response.body.status == "AUTHORIZED"){
-					sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]' + docs_payments_in_analysis.moip_payment_id, 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
-				} else if(response.body.status == "CANCELLED"){
-					sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]' + docs_payments_in_analysis.moip_payment_id, 'Task Factory', '<h1>status == "CANCELLED"</h1>');
-				}
-		    
-				if(response.body.status != docs_payments_in_analysis.moip_payment_status){
+        moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
+		.then((response) => {
 
-					db.collection('payment_preferences').update({ 
-					_id : docs_payments_in_analysis._id
-					}, 
-					{ $set: 
-					{
-						moip_payment_status : response.body.status
-					}
-					},
-					{upsert:false});
-				}
+			if(response.body.status == "AUTHORIZED"){
+				sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED] ' + docs_payments_in_analysis.moip_payment_id, 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
+			} else if(response.body.status == "CANCELLED"){
+				sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED] ' + docs_payments_in_analysis.moip_payment_id, 'Task Factory', '<h1>status == "CANCELLED"</h1>');
+			}
 
-			}).catch((err) => {
-			console.log(err);
-		});
-        //}
+			if(response.body.status != docs_payments_in_analysis.moip_payment_status){
+
+				db.collection('payment_preferences').update({ _id : docs_payments_in_analysis._id}, 
+				{ $set: 
+				    {
+					moip_payment_status : response.body.status
+				    }
+				},
+				{upsert:false});
+			}
+
+		}).catch((err) => {
+		console.log(err);
+	});
 
     });
 });
