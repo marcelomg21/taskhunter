@@ -12,6 +12,7 @@ var express = require('express'),
     path = require('path'),
     nodemailer = require('nodemailer'),
     cronJob = require('cron').CronJob,
+    kue = require('kue'),
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -24,7 +25,9 @@ const moip = require('moip-sdk-node').default({
   token: 'SKJ4UCDQRG7XRXLWCOLFT8AKUSV2HXX6',
   key: 'EBFKJBAAA8HCSMYY78QJPSLPOBT0K2AFDXJEFATY',
   production: false
-})
+});
+
+var jobs = kue.createQueue();
 
 var db = null,
     dbDetails = new Object();
@@ -113,6 +116,28 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 });
 
 paymentJob.start();
+
+function newJob (name){
+  name = name || 'Default_Name';
+  var job = jobs.create('new job', {
+    name: name
+  });
+
+  job
+    .on('complete', function (){
+      console.log('Job', job.id, 'with name', job.data.name, 'is done');
+    })
+    .on('failed', function (){
+      console.log('Job', job.id, 'with name', job.data.name, 'has failed');
+    })
+
+  job.save();
+}
+
+jobs.process('new job', function (job, done){
+  /* carry out all the job function here */
+  done && done();
+});
 
 //var db = null,
 //    dbDetails = new Object();
