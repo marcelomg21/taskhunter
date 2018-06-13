@@ -75,26 +75,26 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 var paymentJob = new cronJob('*/40 * * * * *', function(){
 	
-    const cursor = db.collection('payment_preferences').find( {moip_payment_status : "IN_ANALYSIS" } );
+    db.collection('payment_preferences').find( {moip_payment_status : "IN_ANALYSIS" } ).toArray(function (err_payment, docs_payments_in_analysis) {
 
-        for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
-		console.log('----------> index_docs_payments_in_analysis 111: ' + doc);
-            await moip.payment.getOne(doc.moip_payment_id)
+        for (var index_docs_payments_in_analysis = 0, len_docs_payments_in_analysis = docs_payments_in_analysis.length; index_docs_payments_in_analysis < len_docs_payments_in_analysis; index_docs_payments_in_analysis++) {
+		console.log('----------> index_docs_payments_in_analysis 111: ' + index_docs_payments_in_analysis);
+            moip.payment.getOne(docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_id)
 			.then((response) => {
-		console.log('----------> index_docs_payments_in_analysis 222: ' + doc);
+		console.log('----------> index_docs_payments_in_analysis 222: ' + index_docs_payments_in_analysis);
 				if(response.body.status == "AUTHORIZED"){
 					//sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
 				} else if(response.body.status == "CANCELLED"){
 					//sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
 				}
 
-		    		//console.log('payment_docs[length]: ' + doc.length);
-		    		console.log('----------> index_docs_payments_in_analysis 333: ' + doc);
+		    		console.log('payment_docs[length]: ' + docs_payments_in_analysis.length);
+		    		console.log('----------> index_docs_payments_in_analysis 333: ' + index_docs_payments_in_analysis);
 		    
-				if(response.body.status != doc.moip_payment_status){
+				if(response.body.status != docs_payments_in_analysis[index_docs_payments_in_analysis].moip_payment_status){
 
 					db.collection('payment_preferences').update({ 
-					_id : doc._id
+					_id : docs_payments_in_analysis[index_docs_payments_in_analysis]._id
 					}, 
 					{ $set: 
 					{
@@ -109,7 +109,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 		});
         }
 
-    //});
+    });
 });
 
 paymentJob.start();
