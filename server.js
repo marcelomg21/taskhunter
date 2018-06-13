@@ -83,9 +83,9 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 			.then((response) => {
 	
 				if(response.body.status == "AUTHORIZED"){
-					//sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]', 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
+					sendmail('marcelomg21@gmail.com', 'Task Factory [AUTHORIZED]' + docs_payments_in_analysis.moip_payment_id, 'Task Factory', '<h1>status == "AUTHORIZED"</h1>');
 				} else if(response.body.status == "CANCELLED"){
-					//sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
+					sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]' + docs_payments_in_analysis.moip_payment_id, 'Task Factory', '<h1>status == "CANCELLED"</h1>');
 				}
 		    
 				if(response.body.status != docs_payments_in_analysis.moip_payment_status){
