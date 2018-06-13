@@ -79,7 +79,7 @@ var paymentJob = new cronJob('*/40 * * * * *', function(){
 
         for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
 		console.log('----------> index_docs_payments_in_analysis 111: ' + doc);
-            moip.payment.getOne(doc.moip_payment_id)
+            await moip.payment.getOne(doc.moip_payment_id)
 			.then((response) => {
 		console.log('----------> index_docs_payments_in_analysis 222: ' + doc);
 				if(response.body.status == "AUTHORIZED"){
