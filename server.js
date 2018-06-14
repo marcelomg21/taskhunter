@@ -73,7 +73,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-var paymentJob = new cronJob('0 0 */3 * * *', function(){
+var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
     db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
