@@ -88,6 +88,10 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
 
 			if(response.body.status != docs_payments_in_analysis.moip_payment_status){
 				
+				if(response.body.status == "AUTHORIZED"){
+				    //TODO: envia email cliente e profissional quando autorizado
+				}
+				
 				sendmail('marcelomg21@gmail.com', 'Task Factory [MOIP - PAYMENT CHANGED]', 'Task Factory', '<b>status : ' + response.body.status + '</b><br/> <b>id: ' + docs_payments_in_analysis._id + '</b><br/> <b>moip_payment_id : ' + docs_payments_in_analysis.moip_payment_id + '</b> <br/><b>cliente : ' + docs_payments_in_analysis.working + '</b> <br/> <b>profissional : ' + docs_payments_in_analysis.matching + '</b>');
 
 				db.collection('payment_preferences').update({ _id : docs_payments_in_analysis._id}, 
