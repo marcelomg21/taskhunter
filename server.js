@@ -609,7 +609,6 @@ app.get('/api/users/:user_id', function (req, res) {
 			    	working_email: docs_payments[index_docs_payments].working_email,
 				moip_order_id: docs_payments[index_docs_payments].moip_order_id,
 				moip_payment_id: docs_payments[index_docs_payments].moip_payment_id,
-				moip_payment_status_id: docs_payments[index_docs_payments].moip_payment_status_id,
 				moip_payment_status: docs_payments[index_docs_payments].moip_payment_status,
                                 type: docs_payments[index_docs_payments].type,
                                 name: docs_payments[index_docs_payments].name,
@@ -894,7 +893,6 @@ app.put('/api/users/:user_id/service/payment/preferences', function (req, res) {
 		    working_email : req.body.service_payment_preferences.payments[i].working_email,
 		    moip_order_id : req.body.service_payment_preferences.payments[i].moip_order_id,
 		    moip_payment_id : req.body.service_payment_preferences.payments[i].moip_payment_id,
-		    moip_payment_status_id : req.body.service_payment_preferences.payments[i].moip_payment_status_id,
 		    moip_payment_status : req.body.service_payment_preferences.payments[i].moip_payment_status,
 		    date : req.body.service_payment_preferences.payments[i].date,
 		    time : req.body.service_payment_preferences.payments[i].time,
@@ -948,7 +946,6 @@ app.get('/api/users/:user_id/service/payment/preferences/all', function (req, re
 						working_email: docs_payments[index_docs_payments].working_email,
 						moip_order_id: docs_payments[index_docs_payments].moip_order_id,
 						moip_payment_id: docs_payments[index_docs_payments].moip_payment_id,
-						moip_payment_status_id: docs_payments[index_docs_payments].moip_payment_status_id,
 						moip_payment_status: docs_payments[index_docs_payments].moip_payment_status,
 						type: docs_payments[index_docs_payments].type,
 						name: docs_payments[index_docs_payments].name,
@@ -981,7 +978,7 @@ app.put('/api/users/:user_id/service/payment/preferences/update/status', functio
     
     db.collection('payment_preferences').update(
 		{ _id : paymentObjectId, moip_payment_id: req.body.moip_payment_id },
-		{ $set: { moip_payment_status_id: req.body.moip_payment_status_id, moip_payment_status: req.body.moip_payment_status } },
+		{ $set: { moip_payment_status: req.body.moip_payment_status } },
 		{ upsert : false },
 		function (err, result_payment_update) {
 			
