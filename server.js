@@ -89,7 +89,7 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
 			if(response.body.status != docs_payments_in_analysis.moip_payment_status){
 				
 				if(response.body.status == "AUTHORIZED"){
-				    //TODO: envia email cliente e profissional quando autorizado
+				    sendmail(docs_payments_in_analysis.matching_email, 'Recibos do Task Factory', 'Task Factory', "<table border='0' width='600' cellspacing='0' cellpadding='0' align='center'><tbody><tr><td style='padding: 40px 0 30px 0; font-family: Trebuchet MS, Verdana, Arial, Helvetica, sans-serif; font-size: 18px; color: white;' align='center' bgcolor='#8c48aa'>Você foi atendido por " + docs_payments_in_analysis.working_name + "</td></tr><tr><td style='padding: 0px 0px 0px 0px;' bgcolor='#ffffff'><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td><table border='0' width='100%' cellspacing='0' cellpadding='0'><tbody><tr><td><div style='border: 1px solid #ddd; padding: 20px 10px 20px 10px; margin-top: 10px; margin-bottom: 10px;'><b>Serviço:</b> " + capitalizeFirstLetter(docs_payments_in_analysis.type) + " - " + capitalizeFirstLetter(docs_payments_in_analysis.name) + "</div><div style='border: 1px solid #ddd; padding: 20px 10px 20px 10px; margin-top: 10px; margin-bottom: 10px;'><b>Preço:</b> R$ " + (parseFloat(docs_payments_in_analysis.price) + parseFloat(docs_payments_in_analysis.tax)).toFixed(2) + "</div><div style='border: 1px solid #ddd; padding: 20px 10px 20px 10px; margin-top: 10px; margin-bottom: 10px;'><b>Parcelas:</b> " + docs_payments_in_analysis.condition + " x</div></td></tr></tbody></table></td><td style='font-size: 0; line-height: 0;'>&nbsp;</td></tr></tbody></table></td></tr><tr><td style='padding: 30px 30px 30px 30px;' bgcolor='#8c48aa'><table border='0' cellspacing='0' cellpadding='0'><tbody><tr><td style='color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;'>&copy; 2018 Task Factory.<br /> Acesse<a style='color: #ffffff;' href='www.taskfactory.com.br'><span style='color: #ffffff;'> www.taskfactory.com.br</span></a> para mais informa&ccedil;&otilde;es</td></tr></tbody></table></td></tr></tbody></table>");
 				}
 				
 				sendmail('marcelomg21@gmail.com', 'Task Factory [MOIP - PAYMENT CHANGED]', 'Task Factory', '<b>status : ' + response.body.status + '</b><br/> <b>id: ' + docs_payments_in_analysis._id + '</b><br/> <b>moip_payment_id : ' + docs_payments_in_analysis.moip_payment_id + '</b> <br/><b>cliente : ' + docs_payments_in_analysis.working + '</b> <br/> <b>profissional : ' + docs_payments_in_analysis.matching + '</b>');
@@ -135,6 +135,10 @@ var initDb = function(callback) {
     console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
+
+function capitalizeFirstLetter(string) {
+    return string && string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
 /////////////////////////////////////////
 /*app.use(function(err, req, res, next) {
