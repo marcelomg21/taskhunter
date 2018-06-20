@@ -364,7 +364,7 @@ app.post('/connect/oauth/token', function (req, res) {
         res.status(400).send('400 Bad Request')
     }
  
-    const user_field_set = 'id,name,first_name,gender,birthday,email,location,picture.type(large)';
+    const user_field_set = 'id,name,first_name,birthday,email,location,picture.type(large)';
 
     const options = {
         method: 'GET',
@@ -413,7 +413,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            user_id: parseInt(facebook_json.id),
                            user_name: facebook_json.first_name, 
                            full_user_name: facebook_json.name,
-                           gender: facebook_json.gender, 
+                           //gender: facebook_json.gender, 
                            email: facebook_json.email,
                            location: facebook_json.location,
                            access_token: jwt_access_token,
