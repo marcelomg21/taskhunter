@@ -113,8 +113,8 @@ paymentJob.start();*/
 var positionsCleanupJob = new cronJob('0 */1 * * * *', function(){
     var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
-    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
-    console.log('......................................EXPURGON POSITIONS......................................');
+	//now_date.toISOString()
+    db.collection('positions').remove({ "timestamp" : { '$lte' : '2018-07-04T19:56:41.439Z' }});
 });
 
 positionsCleanupJob.start();
