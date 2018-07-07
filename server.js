@@ -73,9 +73,9 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-//var paymentJob = new cronJob('0 0 */1 * * *', function(){
+var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
-/*    db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
+    db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
         moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
 		.then((response) => {
@@ -108,13 +108,12 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
     });
 });
 
-paymentJob.start();*/
+paymentJob.start();
 
-var positionsCleanupJob = new cronJob('0 */1 * * * *', function(){
+var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
     var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
-	//now_date.toISOString()
-    db.collection('positions').remove({ "timestamp" : { '$lte' : '2018-07-04T19:56:41.439Z' }});
+    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
 });
 
 positionsCleanupJob.start();
