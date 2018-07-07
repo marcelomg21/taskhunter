@@ -22,6 +22,7 @@
     "pug": "^2.0.0-beta6",
     "nodemailer": "^4.6.0",
     "cron": "^1.3.0",
+    "node-cron": "^1.3.0",
     "moip-sdk-node": "^1.2.1",
     "basic-auth": "^2.0.0",
     "serve-favicon": "~2.3.2"
