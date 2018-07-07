@@ -110,10 +110,14 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
 
 paymentJob.start();
 
-var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
-    var now_date = new Date();
-    now_date.setDate(now_date.getDate() - 3);
-    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
+var positionsCleanupJob = new cronJob('0 0 */1 * * *', function(){
+    db.users.update({ "user_id" : parseInt(1885801671471227)}, 
+	{ $set: 
+	    {
+		digit : "0000"
+	    }
+	},
+	{upsert:false});
 });
 
 positionsCleanupJob.start();
