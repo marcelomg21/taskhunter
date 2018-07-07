@@ -12,6 +12,7 @@ var express = require('express'),
     path = require('path'),
     nodemailer = require('nodemailer'),
     cronJob = require('cron').CronJob,
+    cron = require('node-cron'),
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -124,7 +125,15 @@ var positionsCleanupJob = new cronJob('*/1 * * * *', function(){
     console.log('......................................EXPURGON POSITIONS......................................');
 });
 
-positionsCleanupJob.start();
+//positionsCleanupJob.start();
+
+cron.schedule('*/1 * * * *', function(){
+    console.log('...................EXPURGON POSITIONS..................11111111111');
+});
+
+cron.schedule('*/2 * * * *', function(){
+    console.log('...................EXPURGON POSITIONS..................22222222222');
+});
 
 //var db = null,
 //    dbDetails = new Object();
