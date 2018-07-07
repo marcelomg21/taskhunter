@@ -114,7 +114,14 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
     });
 });
 
+var positionsCleanupJob = new cronJob('0 0 */1 * * *', function(){
+    var now_date = new Date();
+    now_date.setDate(now_date.getDate() - 5);
+    db.collection('positions').remove({ "timestamp" : { "$lt" : ISODate(now_date) }})
+});
+
 paymentJob.start();
+positionsCleanupJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
