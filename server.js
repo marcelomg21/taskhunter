@@ -110,7 +110,7 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 paymentJob.start();*/
 
-var positionsCleanupJob = new cronJob('*/1 * * * *', function(){
+var positionsCleanupJob = new cronJob('0 */1 * * * *', function(){
     var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
     db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
