@@ -11,7 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
-    cronJob = require('cron').CronJob,
+    //cronJob = require('cron').CronJob,
     cron = require('node-cron'),
     cookieParser = require('cookie-parser');
     
@@ -74,18 +74,12 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-var paymentJob = new cronJob('0 0 */1 * * *', function(){
+//var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
-    db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
+/*    db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
         moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
 		.then((response) => {
-
-			/*if(response.body.status == "AUTHORIZED"){
-				sendmail('marcelomg21@gmail.com', 'Task Factory [MOIP - PAYMENT CHANGED]', 'Task Factory', '<b>status : ' + response.body.status + '</b><br/> <b>id: ' + docs_payments_in_analysis._id + '</b><br/> <b>moip_payment_id : ' + docs_payments_in_analysis.moip_payment_id + '</b> <br/><b>cliente : ' + docs_payments_in_analysis.working + '</b> <br/> <b>profissional : ' + docs_payments_in_analysis.matching + '</b>');
-			} else if(response.body.status == "CANCELLED"){
-				sendmail('marcelomg21@gmail.com', 'Task Factory [CANCELLED]', 'Task Factory', '<h1>status == "CANCELLED"</h1>');
-			}*/
 
 			if(response.body.status != docs_payments_in_analysis.moip_payment_status){
 				
@@ -115,17 +109,7 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
     });
 });
 
-paymentJob.start();
-
-//var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
-var positionsCleanupJob = new cronJob('*/1 * * * *', function(){
-    //var now_date = new Date();
-    //now_date.setDate(now_date.getDate() - 3);
-    //db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
-    console.log('......................................EXPURGON POSITIONS......................................');
-});
-
-//positionsCleanupJob.start();
+paymentJob.start();*/
 
 cron.schedule('*/1 * * * *', function(){
     console.log('...................EXPURGON POSITIONS..................11111111111');
