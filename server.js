@@ -11,8 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
-    //cronJob = require('cron').CronJob,
-    cron = require('node-cron'),
+    cronJob = require('cron').CronJob,
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -111,13 +110,14 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 paymentJob.start();*/
 
-cron.schedule('*/1 * * * *', function(){
-    console.log('...................EXPURGON POSITIONS..................11111111111');
+var positionsCleanupJob = new cronJob('*/1 * * * *', function(){
+    var now_date = new Date();
+    now_date.setDate(now_date.getDate() - 3);
+    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
+    console.log('......................................EXPURGON POSITIONS......................................');
 });
 
-cron.schedule('*/2 * * * *', function(){
-    console.log('...................EXPURGON POSITIONS..................22222222222');
-});
+positionsCleanupJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
