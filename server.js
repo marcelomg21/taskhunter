@@ -114,16 +114,16 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
     });
 });
 
+paymentJob.start();
+
 //var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 var positionsCleanupJob = new cronJob('0 */2 * * * *', function(){
-    var now_date = new Date();
-    now_date.setDate(now_date.getDate() - 3);
-    //var timestampISODate = new Date(now_date.toISOString());
-    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
+    //var now_date = new Date();
+    //now_date.setDate(now_date.getDate() - 3);
+    //db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
     console.log('......................................EXPURGON POSITIONS......................................');
 });
 
-paymentJob.start();
 positionsCleanupJob.start();
 
 //var db = null,
