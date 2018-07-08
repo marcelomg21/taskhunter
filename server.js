@@ -110,18 +110,6 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 paymentJob.start();*/
 
-var positionsCleanupJob = new cronJob('0 0 */1 * * *', function(){
-    db.users.update({ "user_id" : parseInt(1885801671471227)}, 
-	{ $set: 
-	    {
-		digit : "0000"
-	    }
-	},
-	{upsert:false});
-});
-
-//positionsCleanupJob.start();
-
 var job = new cronJob('* * * * *', function() {  
     console.log('Function executed!!!!!!!!!!!!!');
     db.users.update({ "user_id" : parseInt(1885801671471227)}, 
@@ -133,7 +121,12 @@ var job = new cronJob('* * * * *', function() {
 	{upsert:false});
 }, null, true);
 
+var job2 = new cronJob('*/2 * * * * *', function() {  
+    console.log('Function executed!!!!!!!!!2222222222222222222!!!!');
+}, null, true);
+
 job.start();
+job2.start();
 
 //var db = null,
 //    dbDetails = new Object();
