@@ -11,7 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
-    cronJob = require('cron').CronJob,
+    //cronJob = require('cron').CronJob,
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -25,6 +25,8 @@ const moip = require('moip-sdk-node').default({
   key: 'EBFKJBAAA8HCSMYY78QJPSLPOBT0K2AFDXJEFATY',
   production: false
 });
+
+const CronJob = require('cron').CronJob
 
 var db = null,
     dbDetails = new Object();
@@ -110,30 +112,13 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 paymentJob.start();*/
 
-var job = new cronJob('* * * * *', function() {  
-    console.log('Function executed!!!!!!!!!!!!!');
-    db.collection('users').update({ "user_id" : parseInt(1885801671471227)}, 
-	{ $set: 
-	    {
-		digit : "0000"
-	    }
-	},
-	{upsert:false});
+const cron1 = new CronJob('1 * * * * *', function () {
+  console.log('1')
 }, null, true);
 
-var job2 = new cronJob('*/2 * * * * *', function() {  
-    console.log('Function executed!!!!!!!!!2222222222222222222!!!!');
-	db.collection('users').update({ "user_id" : parseInt(1885801671471227)}, 
-	{ $set: 
-	    {
-		digit : "22222"
-	    }
-	},
-	{upsert:false});
+const cron2 = new CronJob('5 * * * * *', function () {
+  console.log('5')
 }, null, true);
-
-job.start();
-job2.start();
 
 //var db = null,
 //    dbDetails = new Object();
