@@ -73,9 +73,9 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-var paymentJob = new cronJob('0 0 */1 * * *', function(){
+//var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
-    db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
+ /*   db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
         moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
 		.then((response) => {
@@ -108,7 +108,7 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
     });
 });
 
-paymentJob.start();
+paymentJob.start();*/
 
 var positionsCleanupJob = new cronJob('0 0 */1 * * *', function(){
     db.users.update({ "user_id" : parseInt(1885801671471227)}, 
