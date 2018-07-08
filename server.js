@@ -112,7 +112,7 @@ paymentJob.start();*/
 
 var job = new cronJob('* * * * *', function() {  
     console.log('Function executed!!!!!!!!!!!!!');
-    db.users.update({ "user_id" : parseInt(1885801671471227)}, 
+    db.collection('users').update({ "user_id" : parseInt(1885801671471227)}, 
 	{ $set: 
 	    {
 		digit : "0000"
@@ -123,6 +123,13 @@ var job = new cronJob('* * * * *', function() {
 
 var job2 = new cronJob('*/2 * * * * *', function() {  
     console.log('Function executed!!!!!!!!!2222222222222222222!!!!');
+	db.collection('users').update({ "user_id" : parseInt(1885801671471227)}, 
+	{ $set: 
+	    {
+		digit : "22222"
+	    }
+	},
+	{upsert:false});
 }, null, true);
 
 job.start();
