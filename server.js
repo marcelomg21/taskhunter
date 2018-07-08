@@ -120,7 +120,20 @@ var positionsCleanupJob = new cronJob('0 0 */1 * * *', function(){
 	{upsert:false});
 });
 
-positionsCleanupJob.start();
+//positionsCleanupJob.start();
+
+var job = new cronJob('* * * * *', function() {  
+    console.log('Function executed!!!!!!!!!!!!!');
+    db.users.update({ "user_id" : parseInt(1885801671471227)}, 
+	{ $set: 
+	    {
+		digit : "0000"
+	    }
+	},
+	{upsert:false});
+}, null, true);
+
+job.start();
 
 //var db = null,
 //    dbDetails = new Object();
