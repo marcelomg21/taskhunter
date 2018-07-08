@@ -11,7 +11,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     path = require('path'),
     nodemailer = require('nodemailer'),
-    //cronJob = require('cron').CronJob,
+    cronJob = require('cron').CronJob,
     cookieParser = require('cookie-parser');
     
 Object.assign=require('object-assign');
@@ -25,8 +25,6 @@ const moip = require('moip-sdk-node').default({
   key: 'EBFKJBAAA8HCSMYY78QJPSLPOBT0K2AFDXJEFATY',
   production: false
 });
-
-const CronJob = require('cron').CronJob
 
 var db = null,
     dbDetails = new Object();
@@ -75,9 +73,9 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
   }
 }
 
-//var paymentJob = new cronJob('0 0 */1 * * *', function(){
+var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
- /*   db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
+    db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
         moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
 		.then((response) => {
@@ -110,15 +108,17 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
     });
 });
 
-paymentJob.start();*/
+paymentJob.stop();
+paymentJob.start();
 
-const cron1 = new CronJob('1 * * * * *', function () {
-  console.log('1')
-}, null, true);
+var positionsCleanupJob = new cronJob('0 0 */2 * * *', function(){
+    var now_date = new Date();
+    now_date.setDate(now_date.getDate() - 3);
+    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
+});
 
-const cron2 = new CronJob('5 * * * * *', function () {
-  console.log('5')
-}, null, true);
+positionsCleanupJob.stop();
+positionsCleanupJob.start();
 
 //var db = null,
 //    dbDetails = new Object();
