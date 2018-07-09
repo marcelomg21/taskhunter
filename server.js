@@ -77,7 +77,7 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
     var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
-    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
+    db.collection('positions').remove({ "timestamp" : { "$lte" : ISODate(now_date.toISOString()) }});
 	
     db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
