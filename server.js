@@ -110,28 +110,18 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
 
 paymentJob.start();
 
-it('should run every second for 5 seconds (*/1 * * * * *)', function() {
-	var c = 0;
+try {
+	var positionsCleanupJob = new cronJob('0 */5 * * * *', function(){
+	    var now_date = new Date();
+	    now_date.setDate(now_date.getDate() - 3);
+	    console.log('DATE CLEANUP....... ' + now_date);
+	    db.collection('positions').remove({ "timestamp" : { $lte : now_date }});
+	});
 
-	var job = new cronJob('*/1 * * * * *', function() {
-		c++;
-		console.log(c);
-	}, null, true);
-
-	console.log('---------->' + c);
-
-	job.stop();
-	
-});
-
-//var positionsCleanupJob = new cronJob('0 */5 * * * *', function(){
-/*    var now_date = new Date();
-    now_date.setDate(now_date.getDate() - 3);
-    console.log('DATE CLEANUP....... ' + now_date);
-    db.collection('positions').remove({ "timestamp" : { $lte : now_date }});
-});
-
-positionsCleanupJob.start();*/
+	positionsCleanupJob.start();
+} catch(ex) {
+	console.log("cron pattern not valid: " + ex);
+}
 
 //var db = null,
 //    dbDetails = new Object();
