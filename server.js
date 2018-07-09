@@ -75,6 +75,10 @@ if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
 
 var paymentJob = new cronJob('0 0 */1 * * *', function(){
 	
+    var now_date = new Date();
+    now_date.setDate(now_date.getDate() - 3);
+    db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
+	
     db.collection('payment_preferences').find( { moip_payment_status : "IN_ANALYSIS" } ).forEach(function(docs_payments_in_analysis) {
 
         moip.payment.getOne(docs_payments_in_analysis.moip_payment_id)
@@ -108,17 +112,15 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
     });
 });
 
-paymentJob.stop();
 paymentJob.start();
 
-var positionsCleanupJob = new cronJob('0 0 */2 * * *', function(){
-    var now_date = new Date();
+//var positionsCleanupJob = new cronJob('0 0 */2 * * *', function(){
+/*    var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
     db.collection('positions').remove({ "timestamp" : { '$lte' : now_date.toISOString() }});
 });
 
-positionsCleanupJob.stop();
-positionsCleanupJob.start();
+positionsCleanupJob.start();*/
 
 //var db = null,
 //    dbDetails = new Object();
