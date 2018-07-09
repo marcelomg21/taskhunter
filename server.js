@@ -113,7 +113,8 @@ paymentJob.start();
 var positionsCleanupJob = new cronJob('0 */5 * * * *', function(){
     var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
-    db.collection('positions').remove({ "timestamp" : { "$lte" : ISODate(now_date.toISOString()) }});
+    console.log('DATE CLEANUP....... ' + now_date);
+    db.collection('positions').remove({ "timestamp" : { "$lte" : now_date }});
 });
 
 positionsCleanupJob.start();
