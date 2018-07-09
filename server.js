@@ -110,14 +110,28 @@ var paymentJob = new cronJob('0 0 */1 * * *', function(){
 
 paymentJob.start();
 
-var positionsCleanupJob = new cronJob('0 */5 * * * *', function(){
-    var now_date = new Date();
+it('should run every second for 5 seconds (*/1 * * * * *)', function() {
+	var c = 0;
+
+	var job = new cronJob('*/1 * * * * *', function() {
+		c++;
+		console.log(c);
+	}, null, true);
+
+	console.log('---------->' + c);
+
+	job.stop();
+	
+});
+
+//var positionsCleanupJob = new cronJob('0 */5 * * * *', function(){
+/*    var now_date = new Date();
     now_date.setDate(now_date.getDate() - 3);
     console.log('DATE CLEANUP....... ' + now_date);
     db.collection('positions').remove({ "timestamp" : { $lte : now_date }});
 });
 
-positionsCleanupJob.start();
+positionsCleanupJob.start();*/
 
 //var db = null,
 //    dbDetails = new Object();
