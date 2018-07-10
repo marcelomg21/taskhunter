@@ -732,7 +732,9 @@ app.put('/api/users/:user_id', function (req, res) {
 		neighborhood : req.body.neighborhood,
 		zip_code : req.body.zip_code,		
 		ddd_cell_phone : req.body.ddd_cell_phone,
-		cell_phone : req.body.cell_phone
+		cell_phone : req.body.cell_phone,
+		city : req.body.city,
+		state : req.body.state
             }
         },
         { upsert : true }
