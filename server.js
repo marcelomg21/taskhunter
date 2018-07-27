@@ -21,9 +21,9 @@ app.engine('html', require('ejs').renderFile);
 app.use(morgan('combined'));
 
 const moip = require('moip-sdk-node').default({
-  token: 'SKJ4UCDQRG7XRXLWCOLFT8AKUSV2HXX6',
-  key: 'EBFKJBAAA8HCSMYY78QJPSLPOBT0K2AFDXJEFATY',
-  production: false
+  token: 'GOVLKWQBXMUAPSTE6KKDFRTB0QHADIRC',
+  key: '0PR56631TRTNV8CYBJKJUQH5FF5AB4STFAFPF507',
+  production: true
 });
 
 var db = null,
