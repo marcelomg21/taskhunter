@@ -49,8 +49,8 @@ app.use('/payment', payment);
 app.use('/notification', notification);
 
 //mlab connect
-var port = 3000,
-    ip = '18.228.9.130',
+var port = 8080,
+    ip = '172.31.12.166',
     mongoURL = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21',
     mongoURLLabel = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21';
 
