@@ -50,29 +50,9 @@ app.use('/notification', notification);
 
 //mlab connect
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = '18.228.9.130',
+    ip   = 18.228.9.130,
     mongoURL = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21',
-    mongoURLLabel = "";
-
-if (mongoURL == null && process.env.DATABASE_SERVICE_NAME) {
-  var mongoServiceName = process.env.DATABASE_SERVICE_NAME.toUpperCase(),
-      mongoHost = 'ds259865.mlab.com',
-      mongoPort = '59865',
-      mongoDatabase = 'marcelomg21',
-      mongoPassword = 'Admin#2018',
-      mongoUser = 'admin';
-
-  if (mongoHost && mongoPort && mongoDatabase) {
-    mongoURLLabel = mongoURL = 'mongodb://';
-    if (mongoUser && mongoPassword) {
-      mongoURL += mongoUser + ':' + mongoPassword + '@';
-    }
-    // Provide UI label that excludes user id and pw
-    mongoURLLabel += mongoHost + ':' + mongoPort + '/' + mongoDatabase;
-    mongoURL += mongoHost + ':' +  mongoPort + '/' + mongoDatabase;
-
-  }
-}
+    mongoURLLabel = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21';
 
 /*var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
