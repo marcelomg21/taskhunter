@@ -50,7 +50,7 @@ app.use('/notification', notification);
 
 //mlab connect
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
-    ip   = 18.228.9.130,
+    ip   = '18.228.9.130',
     mongoURL = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21',
     mongoURLLabel = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21';
 
