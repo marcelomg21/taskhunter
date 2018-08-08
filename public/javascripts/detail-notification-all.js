@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/notifications-all');
+    $(location).attr('href','http://ec2-18-228-85-34.sa-east-1.compute.amazonaws.com/notifications-all');
 };
 
 // Fill table with data
