@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/notifications');
+    $(location).attr('href','http://ec2-18-228-85-34.sa-east-1.compute.amazonaws.com/notifications');
 };
 
 // Fill table with data
@@ -57,6 +57,6 @@ function showNotificationAllInfo(event) {
     // Retrieve username from link rel attribute
     var thisID = $(this).attr('rel');
     
-    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/detail-notification-all/' + thisID);
+    $(location).attr('href','http://ec2-18-228-85-34.sa-east-1.compute.amazonaws.com/detail-notification-all/' + thisID);
 
 };
