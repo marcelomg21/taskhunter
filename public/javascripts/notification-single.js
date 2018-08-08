@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/notifications');
+    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/notifications');
 };
 
 // Fill table with data
@@ -57,7 +57,7 @@ function showNotificationInfo(event) {
     // Retrieve username from link rel attribute
     var thisID = $(this).attr('rel');
     
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/detail-notification-single/' + thisID);
+    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/detail-notification-single/' + thisID);
 
     // Get Index of object based on id value
     /*var arrayPosition = userListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
