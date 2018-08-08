@@ -107,7 +107,7 @@ function updatePayment(event) {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/payments');
+    $(location).attr('href','http://ec2-18-228-85-34.sa-east-1.compute.amazonaws.com/payments');
 };
 
 // Show User Info
