@@ -22,7 +22,7 @@ $(document).ready(function() {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/notifications');
+    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/notifications');
 };
 
 // Fill table with data
