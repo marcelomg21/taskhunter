@@ -57,7 +57,7 @@ function populateTable() {
 
 function goHome(event) {
     event.preventDefault();
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/payments');
+    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/payments');
 };
 
 // Show User Info
@@ -69,7 +69,7 @@ function showPaymentInfo(event) {
     // Retrieve username from link rel attribute
     var thisID = $(this).attr('rel');
     
-    $(location).attr('href','http://nodejs-mongo-persistent-marcelomg21.1d35.starter-us-east-1.openshiftapps.com/detail-payment/' + thisID);
+    $(location).attr('href','http://ec2-18-228-9-130.sa-east-1.compute.amazonaws.com/detail-payment/' + thisID);
 
     // Get Index of object based on id value
     /*var arrayPosition = paymentListData.map(function(arrayItem) { return arrayItem._id; }).indexOf(thisID);
