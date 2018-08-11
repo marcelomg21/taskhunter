@@ -14,6 +14,7 @@ var express = require('express'),
     cronJob = require('cron').CronJob,
     cookieParser = require('cookie-parser');
     
+require('dotenv').config();
 Object.assign=require('object-assign');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -48,11 +49,16 @@ app.use('/user', user);
 app.use('/payment', payment);
 app.use('/notification', notification);
 
+var port = process.env.NODEJS_PORT,
+    ip = process.env.NODEJS_IP,
+    mongoURL = process.env.MONGODB_DB_URL,
+    mongoURLLabel = process.env.MONGODB_DB_URL;
 //mlab connect
-var port = 3000,
+/*var port = 3000,
     ip = '172.31.12.166',
     mongoURL = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21',
     mongoURLLabel = 'mongodb://admin:Admin#2018@ds259865.mlab.com:59865/marcelomg21';
+    */
 
 /*var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
