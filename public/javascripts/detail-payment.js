@@ -54,6 +54,7 @@ function populateTable() {
             $('#paymentInfoDate').text(this.date + ' ' + this.time);
             $('#paymentInfoPrice').text(this.price);
             $('#paymentInfoTax').text(this.tax);
+            $('#paymentInfoFee').text(this.fee);
             $('#paymentInfoPaid').text((this.paid ? 'Sim' : 'Não'));
             $('#paymentInfoBank').text(this.user.bank);
             $('#paymentInfoAgency').text(this.user.agency);
@@ -136,6 +137,7 @@ function showPaymentInfo(event) {
     $('#paymentInfoDate').text(thisPaymentObject.date);
     $('#paymentInfoPrice').text(thisPaymentObject.price);
     $('#paymentInfoTax').text(thisPaymentObject.tax);
+    $('#paymentInfoFee').text(thisPaymentObject.fee);
     $('#paymentInfoPaid').text(thisPaymentObject.paid);
     $('#paymentInfoTransfered').text(thisPaymentObject.transfered);
 
