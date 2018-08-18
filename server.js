@@ -133,15 +133,6 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
-var crossingsPositionsCleanupJob = new cronJob('0 0 */10 * * *', function(){
-    var now_date = new Date();
-    now_date.setDate(now_date.getDate() - 8);
-    //console.log('DATE CLEANUP....... ' + now_date);
-    db.collection('crossings_positions').remove({ "timestamp" : { $lte : now_date }});
-});
-
-crossingsPositionsCleanupJob.start();
-
 //var db = null,
 //    dbDetails = new Object();
 
