@@ -134,7 +134,14 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 positionsCleanupJob.start();
 
 var facebookPictureJob = new cronJob('0 0 */1 * * *', function(){
-    db.collection('users').find().toArray(function (err, docs) {
+	
+    var now_date = new Date();
+	
+    var query = { 
+	"refresh_picture" : { $lte : now_date }
+    };
+	
+    db.collection('users').find(query).toArray(function (err, docs) {
 	if (docs.length > 0) {
 	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
 		const user_field_set = 'picture.type(large)';
@@ -150,12 +157,16 @@ var facebookPictureJob = new cronJob('0 0 */1 * * *', function(){
 
 	        request(options)
 	        .then(fbRes => {
-		    var facebook_json = JSON.parse(fbRes);        
+		    var facebook_json = JSON.parse(fbRes);
+			var refresh_picture_date = new Date();
+    			refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
+			
 		        db.collection('users').update({ 
 			    user_id: parseInt(docs[index_docs].user_id) },
 			    { $set:
 			        {
-				    facebook_picture: facebook_json.picture.data.url
+				    facebook_picture: facebook_json.picture.data.url,
+				    refresh_picture: refresh_picture_date
 			        }
 			    },
 			    { upsert : false }
@@ -461,7 +472,8 @@ app.post('/connect/oauth/token', function (req, res) {
 		    if(facebook_json.birthday != undefined)
 		    	birthDateFormat = facebook_json.birthday.split('/')[2] + '-' + facebook_json.birthday.split('/')[1] + '-' + facebook_json.birthday.split('/')[0];
 		    //var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
-
+		    var refresh_picture_date = new Date();
+    		    refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
                     col.insert({
@@ -472,6 +484,7 @@ app.post('/connect/oauth/token', function (req, res) {
                            email: facebook_json.email,
                            location: facebook_json.location,
                            access_token: jwt_access_token,
+			   refresh_picture: refresh_picture_date,
 			   app_type : req.body.app_type,
 			   card_customer_name: '',
 			   card_brand: '',
