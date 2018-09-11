@@ -467,8 +467,8 @@ app.post('/connect/oauth/token', function (req, res) {
 			   unread_conversations: 0,
 			   unread_notifications: 0,
                            facebook_access_token: req.body.assertion,
-                           //facebook_picture: facebook_json.picture.data.url,
-			   facebook_picture: 'https://graph.facebook.com/' + facebook_json.id + '/picture?type=large',
+                           facebook_picture: facebook_json.picture.data.url,
+			   //facebook_picture: 'https://graph.facebook.com/' + facebook_json.id + '/picture?type=large',
                            matching_preferences: { age_max: 30, age_min: 20, female:1, male: 0 },
                            notification_settings: { charms: 0, match: 0, messages:0 },
                            service_matching_preferences: { services: [] },
@@ -503,7 +503,17 @@ app.post('/connect/oauth/token', function (req, res) {
                     
                 } else {
                     
-                    var result = {        
+		    db.collection('users').update({ 
+			user_id: parseInt(req.params.user_id) },
+			{ $set:
+			    {
+				facebook_picture: facebook_json.picture.data.url
+			    }
+			},
+			{ upsert : false }
+		    );
+			
+                    var result = {
                         access_token: docs[0].access_token,
                         expires_in: 86400,        
                         scope: 'achievement_type_read countries_read language_read locale_read pack_read subscription_type_read report_type_read user_mode_read notification_type_read search_user all_user_read all_image_read user_device_create user_device_read user_device_update user_device_delete user_position_read user_position_update user_notifications_read user_poke_create user_message_create user_message_read user_message_update user_message_delete user_image_create user_image_read user_image_update user_image_delete user_conversation_create user_conversation_read user_conversation_update user_conversation_delete user_order_create user_order_read user_order_update user_applications_read user_applications_update user_applications_delete user_blocked_read user_blocked_create user_blocked_delete user_accepted_read user_accepted_create user_accepted_delete user_rejected_read user_rejected_create user_rejected_delete user_subscription_create user_subscription_read user_subscription_update user_subscription_delete user_achievement_create user_achievement_read user_achievement_update user_achievement_delete user_availability_create user_availability_read user_availability_update user_availability_delete user_social_create user_social_read user_social_update user_social_delete user_update user_delete user_read user_report_read user_report_create user_report_update user_report_delete',            
