@@ -133,7 +133,7 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
-var facebookPictureJob = new cronJob('0 0 */1 * * *', function(){
+var facebookPictureJob = new cronJob('0 */5 * * * *', function(){
 	
     var now_date = new Date();
 	
