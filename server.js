@@ -161,7 +161,7 @@ var facebookPictureJob = new cronJob('0 0 */1 * * *', function(){
 		    );
 		});
 	}
-    };
+    });
 });
 
 facebookPictureJob.start();
