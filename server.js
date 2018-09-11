@@ -502,16 +502,6 @@ app.post('/connect/oauth/token', function (req, res) {
                     return res.json(result);
                     
                 } else {
-                    
-		    db.collection('users').update({ 
-			user_id: parseInt(req.params.user_id) },
-			{ $set:
-			    {
-				facebook_picture: facebook_json.picture.data.url
-			    }
-			},
-			{ upsert : false }
-		    );
 			
                     var result = {
                         access_token: docs[0].access_token,
