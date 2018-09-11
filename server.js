@@ -136,32 +136,34 @@ positionsCleanupJob.start();
 var facebookPictureJob = new cronJob('0 0 */1 * * *', function(){
     db.collection('users').find().toArray(function (err, docs) {
 	if (docs.length > 0) {
-	    const user_field_set = 'picture.type(large)';
+	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
+		const user_field_set = 'picture.type(large)';
 
-	    const options = {
-		method: 'GET',
-		uri: 'https://graph.facebook.com/me',
-		qs: {
-		  access_token: docs.facebook_access_token,
-		  fields: user_field_set
-		}
-	    };
+	        const options = {
+		    method: 'GET',
+		    uri: 'https://graph.facebook.com/me',
+		    qs: {
+		      access_token: docs[index_docs].facebook_access_token,
+		      fields: user_field_set
+		    }
+	        };
 
-	    request(options)
-	    .then(fbRes => {
-		var facebook_json = JSON.parse(fbRes);        
-		    db.collection('users').update({ 
-			user_id: parseInt(docs.user_id) },
-			{ $set:
-			    {
-				facebook_picture: facebook_json.picture.data.url
-			    }
-			},
-			{ upsert : false }
-		    );
-		});
-	}
-    });
+	        request(options)
+	        .then(fbRes => {
+		    var facebook_json = JSON.parse(fbRes);        
+		        db.collection('users').update({ 
+			    user_id: parseInt(docs[index_docs].user_id) },
+			    { $set:
+			        {
+				    facebook_picture: facebook_json.picture.data.url
+			        }
+			    },
+			    { upsert : false }
+		        );
+		    });
+	        }
+	    }
+        });
 });
 
 facebookPictureJob.start();
