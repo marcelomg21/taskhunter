@@ -133,6 +133,39 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
+var facebookPictureJob = new cronJob('0 0 */1 * * *', function(){
+    db.collection('users').find().toArray(function (err, docs) {
+	if (docs.length > 0) {
+	    const user_field_set = 'picture.type(large)';
+
+	    const options = {
+		method: 'GET',
+		uri: 'https://graph.facebook.com/me',
+		qs: {
+		  access_token: docs.facebook_access_token,
+		  fields: user_field_set
+		}
+	    };
+
+	    request(options)
+	    .then(fbRes => {
+		var facebook_json = JSON.parse(fbRes);        
+		    db.collection('users').update({ 
+			user_id: parseInt(docs.user_id) },
+			{ $set:
+			    {
+				facebook_picture: facebook_json.picture.data.url
+			    }
+			},
+			{ upsert : false }
+		    );
+		});
+	}
+    };
+});
+
+facebookPictureJob.start();
+
 //var db = null,
 //    dbDetails = new Object();
 
