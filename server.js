@@ -134,8 +134,9 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 positionsCleanupJob.start();
 
 var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
-	
+    
     var now_date = new Date();
+    var facebook_graph_requests = [];
 	
     var query = { 
 	"refresh_picture" : { $lte : now_date }
@@ -144,10 +145,11 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
     //console.log('FACEBOOK PICTURE.......');
 	
     db.collection('users').find(query).toArray(function (err, docs) {
+	    
 	if (docs.length > 0) {
 		
 	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
-		const user_field_set = 'picture.type(large)';
+		const user_field_set = 'id,picture.type(large)';
 		var user_id = docs[index_docs].user_id;		
 
 	        const options = {
@@ -158,30 +160,29 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 		      fields: user_field_set
 		    }
 	        };
-
-	        request(options)
-	        .then(fbRes => {
-		    var facebook_json = JSON.parse(fbRes);
-			var refresh_picture_date = new Date();
-    			refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
-			console.log('---2----> ' + user_id);
-		        db.collection('users').update({ 
-			    user_id: parseInt(user_id) },
-			    { $set:
-			        {
-				    facebook_picture: facebook_json.picture.data.url,
-				    refresh_picture: refresh_picture_date
-			        }
-			    },
-			    { upsert : false }
-		        );
-		    });
-	        }
+		    
+		facebook_graph_requests.push(request(options));	        
 	    }
-        });
+	}
+    });
+	
+    Promise.all(facebook_graph_requests)
+      .then((arrayOfFbRes) => {
+      // arrayOfHtml[0] is the results from google,
+      // arrayOfHtml[1] is the results from someOtherUrl
+      // ...etc
+      arrayOfFbRes.forEach(facebook_promise_iterator);
+    })
+  .catch(/* handle error */);
 });
 
 facebookPictureJob.start();
+
+function facebook_promise_iterator(facebook_response){
+    console.log('facebook_response.......' + facebook_response);
+    var facebook_json = JSON.parse(facebook_response);
+    console.log('facebook_json.......' + facebook_json);
+}
 
 //var db = null,
 //    dbDetails = new Object();
