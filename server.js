@@ -180,9 +180,22 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 facebookPictureJob.start();
 
 function facebook_promise_iterator(facebook_response){
-    console.log('facebook_response.......' + facebook_response);
+	
     var facebook_json = JSON.parse(facebook_response);
-    console.log('facebook_json.......' + facebook_json);
+    var refresh_picture_date = new Date();
+    refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
+	
+	db.collection('users').update({ 
+	    user_id: parseInt(facebook_json.id) },
+	    { $set:
+		{
+		    facebook_picture: facebook_json.picture.data.url,
+		    refresh_picture: refresh_picture_date
+		}
+	    },
+	    { upsert : false }
+	);
+    });
 }
 
 //var db = null,
