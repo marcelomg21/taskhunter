@@ -163,17 +163,18 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 		    
 		facebook_graph_requests.push(request(options));	        
 	    }
+		
+	    Promise.all(facebook_graph_requests)
+	      .then((arrayOfFbRes) => {
+	      // arrayOfHtml[0] is the results from google,
+	      // arrayOfHtml[1] is the results from someOtherUrl
+	      // ...etc
+	      arrayOfFbRes.forEach(facebook_promise_iterator);
+	    })
+	  .catch(/* handle error */);
 	}
     });
-	
-    Promise.all(facebook_graph_requests)
-      .then((arrayOfFbRes) => {
-      // arrayOfHtml[0] is the results from google,
-      // arrayOfHtml[1] is the results from someOtherUrl
-      // ...etc
-      arrayOfFbRes.forEach(facebook_promise_iterator);
-    })
-  .catch(/* handle error */);
+    
 });
 
 facebookPictureJob.start();
