@@ -149,7 +149,7 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 		
 	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
 		const user_field_set = 'picture.type(large)';
-		console.log('-------> ' + docs[index_docs]);
+		console.log('---1----> ' + docs[index_docs].user_id);
 
 	        const options = {
 		    method: 'GET',
@@ -165,7 +165,7 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 		    var facebook_json = JSON.parse(fbRes);
 			var refresh_picture_date = new Date();
     			refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
-			
+			console.log('---2----> ' + docs[index_docs].user_id);
 		        db.collection('users').update({ 
 			    user_id: parseInt(docs[index_docs].user_id) },
 			    { $set:
