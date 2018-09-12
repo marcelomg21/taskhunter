@@ -133,16 +133,14 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
-var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
+var facebookPictureJob = new cronJob('0 0 */10 * * *', function(){
     
     var now_date = new Date();
     var facebook_graph_requests = [];
 	
     var query = { 
 	"refresh_picture" : { $lte : now_date }
-    };
-	
-    //console.log('FACEBOOK PICTURE.......');
+    };    
 	
     db.collection('users').find(query).toArray(function (err, docs) {
 	    
@@ -180,7 +178,7 @@ function facebook_promise_iterator(facebook_response){
 	
     var facebook_json = JSON.parse(facebook_response);
     var refresh_picture_date = new Date();
-    refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
+    refresh_picture_date.setDate(refresh_picture_date.getDate() + 30);
 	
     db.collection('users').update({ 
         user_id: parseInt(facebook_json.id) },
