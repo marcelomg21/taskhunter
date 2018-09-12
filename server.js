@@ -133,7 +133,7 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
-var facebookPictureJob = new cronJob('0 */5 * * * *', function(){
+var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 	
     var now_date = new Date();
 	
@@ -141,8 +141,11 @@ var facebookPictureJob = new cronJob('0 */5 * * * *', function(){
 	"refresh_picture" : { $lte : now_date }
     };
 	
+    console.log('FACEBOOK PICTURE.......');
+	
     db.collection('users').find(query).toArray(function (err, docs) {
 	if (docs.length > 0) {
+		console.log('FACEBOOK PICTURE.......ARRAY');
 	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
 		const user_field_set = 'picture.type(large)';
 
