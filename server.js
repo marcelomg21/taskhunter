@@ -145,7 +145,8 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 	
     db.collection('users').find(query).toArray(function (err, docs) {
 	if (docs.length > 0) {
-		console.log('FACEBOOK PICTURE.......ARRAY');
+		console.log('FACEBOOK PICTURE.......ARRAY' + docs.length);
+		console.log(docs[index_docs]);
 	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
 		const user_field_set = 'picture.type(large)';
 
