@@ -486,7 +486,7 @@ app.post('/connect/oauth/token', function (req, res) {
 		    	birthDateFormat = facebook_json.birthday.split('/')[2] + '-' + facebook_json.birthday.split('/')[1] + '-' + facebook_json.birthday.split('/')[0];
 		    //var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
 		    var refresh_picture_date = new Date();
-    		    refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
+    		    refresh_picture_date.setDate(refresh_picture_date.getDate() + 30);
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
                     col.insert({
