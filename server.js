@@ -141,15 +141,14 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 	"refresh_picture" : { $lte : now_date }
     };
 	
-    console.log('FACEBOOK PICTURE.......');
+    //console.log('FACEBOOK PICTURE.......');
 	
     db.collection('users').find(query).toArray(function (err, docs) {
 	if (docs.length > 0) {
-		console.log('FACEBOOK PICTURE.......ARRAY ' + docs.length);
 		
 	    for (var index_docs = 0, len_docs = docs.length; index_docs < len_docs; index_docs++) {
 		const user_field_set = 'picture.type(large)';
-		console.log('---1----> ' + docs[index_docs].user_id);
+		var user_id = docs[index_docs].user_id;		
 
 	        const options = {
 		    method: 'GET',
@@ -165,9 +164,9 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 		    var facebook_json = JSON.parse(fbRes);
 			var refresh_picture_date = new Date();
     			refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
-			console.log('---2----> ' + docs[index_docs].user_id);
+			console.log('---2----> ' + user_id);
 		        db.collection('users').update({ 
-			    user_id: parseInt(docs[index_docs].user_id) },
+			    user_id: parseInt(user_id) },
 			    { $set:
 			        {
 				    facebook_picture: facebook_json.picture.data.url,
