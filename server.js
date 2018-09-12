@@ -165,10 +165,7 @@ var facebookPictureJob = new cronJob('0 */1 * * * *', function(){
 	    }
 		
 	    Promise.all(facebook_graph_requests)
-	      .then((arrayOfFbRes) => {
-	      // arrayOfHtml[0] is the results from google,
-	      // arrayOfHtml[1] is the results from someOtherUrl
-	      // ...etc
+	      .then((arrayOfFbRes) => {	      
 	      arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
 	  .catch(/* handle error */);
@@ -185,17 +182,16 @@ function facebook_promise_iterator(facebook_response){
     var refresh_picture_date = new Date();
     refresh_picture_date.setDate(refresh_picture_date.getDate() + 1);
 	
-	db.collection('users').update({ 
-	    user_id: parseInt(facebook_json.id) },
-	    { $set:
-		{
-		    facebook_picture: facebook_json.picture.data.url,
-		    refresh_picture: refresh_picture_date
-		}
-	    },
-	    { upsert : false }
-	);
-    });
+    db.collection('users').update({ 
+        user_id: parseInt(facebook_json.id) },
+        { $set:
+	    {
+	        facebook_picture: facebook_json.picture.data.url,
+	        refresh_picture: refresh_picture_date
+	    }
+        },
+        { upsert : false }
+    );
 }
 
 //var db = null,
