@@ -3640,7 +3640,9 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
                         osBuild : req.body.os_build,
                         firebase_token : req.body.token,
                         type : req.body.type
-                    }}, 
+                    }
+	        }
+	   },
 	   { upsert:true},
 	   function (err, result) {
 		   
