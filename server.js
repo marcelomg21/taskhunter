@@ -3695,8 +3695,22 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
   }
   
   if (db) {
-      
-    var query = {
+	  
+    db.collection('devices').update(
+	   {user_id: parseInt(req.params.user_id)}, 
+	   {$set: {firebase_token : req.body.token}}, 
+	   {upsert:false},
+	   function (err, result) {
+		   
+	      var result = {
+		      success: true,
+		      data: {}
+	      };
+		   
+	      return res.json(result);
+    });
+	  
+    /*var query = {
         user_id: parseInt(req.params.user_id)
     };
 
@@ -3705,14 +3719,11 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
         var result = {
               success: true,
               data: {}
-        };
-
-        //console.log(req.params.user_id + " docs: " + docs.length);
+        };        
         
         if (docs.length <= 0) {
             var col = db.collection('devices');
-            //col.insert({position: req.body.name, date: Date.now()});
-            //var point = {"type" : "Point", "coordinates" : [req.body.lat, req.body.lon]};
+            
             col.insert(
                 {
                     user_id: parseInt(req.params.user_id),
@@ -3726,15 +3737,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
                         firebase_token : req.body.token,
                         type : req.body.type
                     }
-                });    
-            //}
-        
-            /*var result =  {
-                 success: true,
-                 data: {
-                     id: req.params.device_id
-                 }
-            };*/
+                });
 		
 	    result.data = {
 	        id: req.params.device_id
@@ -3747,35 +3750,8 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
 	}
 	    
 	return res.json(result);
-    });
-      
-  }
-      
-    /*var col = db.collection('devices');
-    col.insert(
-        {
-            user_id: req.params.user_id, 
-            device: {
-                device_id: req.params.device_id,                
-                androidId : req.body.android_id,
-                appBuild : req.body.app_build,
-                countryId : req.body.country_id,                
-                languageId : req.body.language_id,
-                osBuild : req.body.os_build,
-                token : req.body.token,
-                type : req.body.type
-            }
-        });    
-  } 
-    
-  var result =  {
-         success: true,
-         data: {
-             id: req.params.device_id
-         }
-   };
-        
-    res.json(result);*/
+    });*/      
+  }          
 });
 
 // error handling
