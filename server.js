@@ -3627,8 +3627,36 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
   }
   
   if (db) {
+	  
+    db.collection('devices').update(
+	   { user_id: parseInt(req.params.user_id)}, 
+	   { $set: {
+	   device: {
+                        device_id: req.params.user_id + '_' + req.body.android_id,                
+                        androidId : req.body.android_id,
+                        appBuild : req.body.app_build,
+                        countryId : req.body.country_id,                
+                        languageId : req.body.language_id,
+                        osBuild : req.body.os_build,
+                        firebase_token : req.body.token,
+                        type : req.body.type
+                    }}, 
+	   { upsert:true},
+	   function (err, result) {
+		   
+	      var result = {
+		      success: true,
+		      data: {}
+	      };
+		   
+	      result.data = {
+	          id: req.params.user_id + '_' + req.body.android_id
+	      };
+		   
+	      return res.json(result);
+    });
     
-    var query = {
+    /*var query = {
         user_id: parseInt(req.params.user_id)
     };
 
@@ -3658,15 +3686,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
                         firebase_token : req.body.token,
                         type : req.body.type
                     }
-                });    
-            //}
-        
-            /*var result =  {
-                 success: true,
-                 data: {
-                     id: req.params.user_id + '_' + req.body.android_id
-                 }
-            };*/
+                });                
 		
 	    result.data = {
 	        id: req.params.user_id + '_' + req.body.android_id
@@ -3679,7 +3699,7 @@ app.post('/api/users/:user_id/devices/', function (req, res) {
 	}
 	
 	return res.json(result);
-    });
+    });*/
   }
 });
 
@@ -3694,23 +3714,9 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
     initDb(function(err){});
   }
   
-  if (db) {
+  if (db) {	      
 	  
-    db.collection('devices').update(
-	   {user_id: parseInt(req.params.user_id)}, 
-	   {$set: {firebase_token : req.body.token}}, 
-	   {upsert:false},
-	   function (err, result) {
-		   
-	      var result = {
-		      success: true,
-		      data: {}
-	      };
-		   
-	      return res.json(result);
-    });
-	  
-    /*var query = {
+    var query = {
         user_id: parseInt(req.params.user_id)
     };
 
@@ -3750,7 +3756,7 @@ app.put('/api/users/:user_id/devices/:device_id', function (req, res) {
 	}
 	    
 	return res.json(result);
-    });*/      
+    });
   }          
 });
 
