@@ -662,7 +662,7 @@ app.get('/api/users/:user_id', function (req, res) {
 			  sponsor_link: { 
 		              code: 0, 
 			      id: req.params.user_id,
-			      destination: 'Olá, conheça o Task Factory. Encontre pessoas que cruzaram seu caminho com 1 click. Saiba mais e instale em www.taskfactory.com.br' }
+			      destination: 'Olá, conheça o Task Factory. Encontre pessoas que cruzaram seu caminho com 1 clique. Saiba mais e instale em www.taskfactory.com.br' }
 		      },
 		      profiles: [{
 			   id: req.params.user_id,
