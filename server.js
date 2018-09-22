@@ -722,7 +722,7 @@ app.get('/api/users/:user_id', function (req, res) {
 		    
 		    //get all feedbacks by user
 		    db.collection('feedback_preferences').aggregate([
-			{$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }]).toArray(function (err, docs_feedbacks) {
+			{$match: {$or: [{matching:parseInt(req.params.user_id)}, {working:parseInt(req.params.user_id)}]} }, {$sort:{_id:-1}} ]).toArray(function (err, docs_feedbacks) {
 
 			    //console.log("docs_feedbacks: " + docs_feedbacks);
 
