@@ -737,6 +737,7 @@ app.get('/api/users/:user_id', function (req, res) {
 					working: docs_feedbacks[index_docs_feedbacks].working,
 					working_name: docs_feedbacks[index_docs_feedbacks].working_name,
 					comment: docs_feedbacks[index_docs_feedbacks].comment,
+					approved: docs_feedbacks[index_docs_feedbacks].approved,
 					type: docs_feedbacks[index_docs_feedbacks].type,
 					name: docs_feedbacks[index_docs_feedbacks].name,
 					evaluation: docs_feedbacks[index_docs_feedbacks].evaluation
@@ -1125,6 +1126,7 @@ app.put('/api/users/:user_id/service/feedback/preferences', function (req, res) 
                 {
                     evaluation : parseInt(req.body.service_feedback_preferences.feedbacks[i].evaluation),
 		    comment : req.body.service_feedback_preferences.feedbacks[i].comment,
+		    approved : req.body.service_feedback_preferences.feedbacks[i].approved,
                     date : timestampISODate
                  }
             },{upsert:true});
