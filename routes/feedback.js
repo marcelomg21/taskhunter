@@ -1,13 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-router.get('/userlist', function(req, res) {
-    /*var db = req.db;
-    var collection = db.collection('feedback_preferences');
-    collection.find({},function(e,docs){
-        res.json(docs);
-    });*/
-    
+router.get('/feedbacklist', function(req, res) {
     var db = req.db;
     var query = {};    
 
@@ -16,25 +10,25 @@ router.get('/userlist', function(req, res) {
     });
 });
 
-router.get('/detailUser/:id', function(req, res) {    
+router.get('/detailFeedback/:id', function(req, res) {    
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-    var userObjectId = ObjectId(req.params.id);
+    var feedbackObjectId = ObjectId(req.params.id);
 	
-    db.collection('feedback_preferences').find({'_id' : userObjectId}).toArray(function (err, docs_users) {
-		return res.json(docs_users);
+    db.collection('feedback_preferences').find({'_id' : feedbackObjectId}).toArray(function (err, docs_feedbacks) {
+		return res.json(docs_feedbacks);
 	});
 });
 
-router.post('/updateUser/:id', function(req, res) {
+router.post('/updateFeedback/:id', function(req, res) {
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
-    var userObjectId = ObjectId(req.params.id);
-    var isBlocked = req.body.is_blocked == "true" ? true : false;
+    var feedbackObjectId = ObjectId(req.params.id);
+    var isApproved = req.body.is_approved == "true" ? 1 : 0;
 	
     db.collection('feedback_preferences').update(
-	   {_id : userObjectId}, 
-	   {$set: { discount_rate : req.body.discount_rate, is_blocked : isBlocked }},
+	   {_id : feedbackObjectId}, 
+	   {$set: { approved : isApproved }},
 	   {upsert:false},
 	   function (err, result) {
 	      res.send(
