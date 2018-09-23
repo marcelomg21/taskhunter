@@ -33,6 +33,7 @@ var routes = require('./routes/index');
 var user = require('./routes/user');
 var payment = require('./routes/payment');
 var notification = require('./routes/notification');
+var feedback = require('./routes/feedback');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -48,6 +49,7 @@ app.use('/', routes);
 app.use('/user', user);
 app.use('/payment', payment);
 app.use('/notification', notification);
+app.use('/feedback', feedback);
 
 var port = process.env.NODEJS_PORT,
     ip = process.env.NODEJS_IP,
