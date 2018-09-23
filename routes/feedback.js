@@ -3,9 +3,10 @@ var router = express.Router();
 
 router.get('/feedbacklist', function(req, res) {
     var db = req.db;
-    var query = {};    
+    var query = {};
+    var desc_sort = { _id: -1 };
 
-    db.collection('feedback_preferences').find(query).toArray(function (err, docs) {                                   
+    db.collection('feedback_preferences').find(query).sort(desc_sort).toArray(function (err, docs) {                                   
             return res.json(docs);                
     });
 });
