@@ -85,6 +85,14 @@ router.get('/users', auth, function(req, res) {
     });
 });
 
+router.get('/feedbacks', auth, function(req, res) {
+    res.render('feedback', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
 router.get('/notifications', auth, function(req, res) {
     res.render('notification', {
         'pathToAssets': '/bootstrap-3.3.1',
@@ -127,6 +135,14 @@ router.get('/add-notifications-all', auth, function(req, res) {
 
 router.get('/detail-user/:id', function(req, res) {
     res.render('detail-user', {
+        'pathToAssets': '/bootstrap-3.3.1',
+        'pathToOwnAssets': '/javascripts',
+        'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
+    });
+});
+
+router.get('/detail-feedback/:id', function(req, res) {
+    res.render('detail-feedback', {
         'pathToAssets': '/bootstrap-3.3.1',
         'pathToOwnAssets': '/javascripts',
         'pathToSelectedTemplateWithinBootstrap' : '/bootstrap-3.3.1/docs/examples/theme'
