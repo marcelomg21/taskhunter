@@ -1,1 +1,77 @@
-x
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='description', content='')
+    meta(name='author', content='')    
+    title Task Factory
+    // Bootstrap core CSS
+    link(href=`${pathToAssets}/dist/css/bootstrap.min.css`, rel='stylesheet')
+    // Custom styles for this template
+    link(href=`${pathToSelectedTemplateWithinBootstrap}/theme.css`, rel='stylesheet')
+    // Just for debugging purposes. Don't actually copy these 2 lines!
+    //if lt IE 9
+    script(src=`${pathToAssets}/docs/assets/js/ie8-responsive-file-warning.js`)
+    script(src=`${pathToAssets}/docs/assets/js/ie-emulation-modes-warning.js`)
+    // IE10 viewport hack for Surface/desktop Windows 8 bug
+    script(src=`${pathToAssets}/docs/assets/js/ie10-viewport-bug-workaround.js`)
+    // HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    //if lt IE 9
+    script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+    script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+  body
+    .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .container
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#') Task Factory - Detalhe do Usuário
+        
+    .container
+      #userInfo
+        .row
+          .col-sm-4
+            ul.list-group
+              li.list-group-item ID: <span id='userInfoID'></span>
+              li.list-group-item Número Cliente: <span id='userInfoUserId'></span>
+              li.list-group-item Nome Completo: <span id='userInfoFullUserName'></span>
+              li.list-group-item Gênero: <span id='userInfoGender'></span>
+              li.list-group-item CPF: <span id='userInfoCpf'></span>
+              li.list-group-item Celular: <span id='userInfoCellPhone'></span>
+              li.list-group-item Data de Nascimento: <span id='userInfoBirthDate'></span>
+              li.list-group-item Email: <span id='userInfoEmail'></span>
+              li.list-group-item Data Cadastro: <span id='userInfoRegisterDate'></span>
+          .col-sm-4
+            ul.list-group
+              li.list-group-item País: <span id='userInfoCountry'></span>
+              li.list-group-item Cidade: <span id='userInfoCity'></span>
+              li.list-group-item Bairro: <span id='userInfoNeighborhood'></span>
+              li.list-group-item Estado: <span id='userInfoState'></span>
+              li.list-group-item Endereço/Rua: <span id='userInfoStreetAddress'></span>
+              li.list-group-item Número: <span id='userInfoStreetNumber'></span>
+              li.list-group-item CEP: <span id='userInfoZipCode'></span>
+              li.list-group-item Desconto: <input id='userInfoDiscountRate' type="text"/>
+              li.list-group-item Bloqueado: <input id='userInfoBlocked' type="checkbox"/>
+          .col-sm-4
+            ul.list-group
+              li.list-group-item Banco: <span id='userInfoBank'></span>
+              li.list-group-item Agência: <span id='userInfoAgency'></span>
+              li.list-group-item Conta: <span id='userInfoAccount'></span>
+              li.list-group-item Dígito: <span id='userInfoDigit'></span>
+
+      p
+        button.btn.btn-lg.btn-default(id='goHome', type='button') Voltar Usuários
+        |  
+        button.btn.btn-lg.btn-primary(id='saveUser', type='button') Salvar
+    
+    // Bootstrap core JavaScript
+    // ==================================================
+    // Placed at the end of the document so the pages load faster
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js')
+    script(src=`${pathToAssets}/dist/js/bootstrap.min.js`)
+    script(src=`${pathToOwnAssets}/detail-user.js`)
