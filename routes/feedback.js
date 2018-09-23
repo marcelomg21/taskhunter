@@ -24,7 +24,7 @@ router.post('/updateFeedback/:id', function(req, res) {
     var db = req.db;
     var ObjectId = require('mongodb').ObjectID;
     var feedbackObjectId = ObjectId(req.params.id);
-    var isApproved = req.body.is_approved == "true" ? 1 : 0;
+    var isApproved = req.body.is_approved == "true" ? true : false;
 	
     db.collection('feedback_preferences').update(
 	   {_id : feedbackObjectId}, 
