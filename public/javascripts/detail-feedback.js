@@ -31,7 +31,7 @@ function populateTable() {
     var feedbackId = $(location).attr('href').split('detail-feedback/')[1];
     
     // jQuery AJAX call for JSON
-    $.getJSON( '/user/detailFeedback/' + feedbackId, function( data ) {
+    $.getJSON( '/feedback/detailFeedback/' + feedbackId, function( data ) {
 
         // Stick our user data array into a userlist variable in the global object
         //detailPaymentData = data;
@@ -75,7 +75,7 @@ function updateFeedback(event) {
         $.ajax({
             type: 'POST',
             data: updateFeedbackBody,
-            url: '/user/updateFeedback/' + feedbackId,
+            url: '/feedback/updateFeedback/' + feedbackId,
             dataType: 'JSON'
         }).done(function( response ) {
             // Check for successful (blank) response
