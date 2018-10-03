@@ -135,6 +135,34 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
+var crossingPositionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
+    db.collection('crossings_positions').aggregate([
+	{$sort: {
+		timestamp: 1
+		}
+	    },
+	 {
+	     "$group": {
+		 _id: {crossings: "$crossings"},
+		 dups: { $addToSet: "$_id" } ,
+		 count: { $sum : 1 }
+	     }
+	 },
+	 {
+	     "$match": {
+		 count: { "$gt": 1 }
+	     }
+	 } 
+	]).forEach(function(doc) {
+	   doc.dups.shift();
+	   db.collection('crossings_positions').remove({
+	       _id: {$in: doc.dups}
+	   });
+	})
+});
+
+crossingPositionsCleanupJob.start();
+
 var facebookPictureJob = new cronJob('0 0 */10 * * *', function(){
     
     var now_date = new Date();
