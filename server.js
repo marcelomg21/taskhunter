@@ -3633,6 +3633,7 @@ app.get('/api/positions/:user_id/lastmeetposition/:crossing_user_id', function (
     db.collection('crossings_positions').aggregate([            
 	{$unwind:'$crossings'},            
 	{$match:{$and:[{'user_id' : parseInt(req.params.user_id), 'crossings' : parseInt(req.params.crossing_user_id)}]} },
+	{$sort: { timestamp: 1 } },
 	{$group:{_id:'$user_id', lat: { $last: '$lat' }, lon: { $last: '$lon' }, date: { $last: '$timestamp' }, crossings:{'$addToSet':'$crossings'} } }]).toArray(function (err, docs_last_meet) {
 	    if (docs_last_meet.length > 0) {
 		for (var index_docs_last_meet = 0, len_docs_last_meet = docs_last_meet.length; index_docs_last_meet < len_docs_last_meet; index_docs_last_meet++) {
