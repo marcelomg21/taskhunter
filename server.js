@@ -2515,7 +2515,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
 
 				    var item_crossings = {
-					id: parseInt(req.params.user_id),
+					//id: parseInt(req.params.user_id),
+					id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user._id),
 					//modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
 					notification_type: '471,524,525,526,529,530,531,565,791,792',
 					notifier: { 
