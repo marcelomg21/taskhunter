@@ -2520,7 +2520,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				    var item_crossings = {
 					//id: parseInt(req.params.user_id),
 					id: docs_crossings[index_docs_crossings].crossings.crossing_user._id.toHexString(),
-					modification_date: now_modification_date,
+					modification_date: now_modification_date.toISOString().split('T')[0],
 					notification_type: '471,524,525,526,529,530,531,565,791,792',
 					notifier: { 
 					    id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id),
