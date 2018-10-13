@@ -2511,13 +2511,16 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				    working: timeline_matching_crossings.services,                            
 				    matching: timeline_working_crossings.services
 				};
+				    
+				var now_modification_date = new Date();
+				now_modification_date.setDate(now_modification_date.getDate() - 3);
 
 				if(timeline_matching_crossings.services.length > 0 || timeline_working_crossings.services.length > 0){
 
 				    var item_crossings = {
 					//id: parseInt(req.params.user_id),
 					id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user._id),
-					//modification_date: docs_crossings[index_docs_crossings].timestamp.split('T')[0],
+					modification_date: now_modification_date,
 					notification_type: '471,524,525,526,529,530,531,565,791,792',
 					notifier: { 
 					    id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id),
