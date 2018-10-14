@@ -192,13 +192,15 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 		    
 		//facebook_graph_requests.push(request(options));
 		facebook_graph_requests.push(request(options)
-		.catch(errors.StatusCodeError, function (reason) {
-		// The server responded with a status codes other than 2xx.
-		// Check reason.statusCode
+		    .catch(errors.StatusCodeError, function (reason) {
+		    // The server responded with a status codes other than 2xx.
+		    // Check reason.statusCode
+		    console.log(reason);
 		})
-	    .catch(errors.RequestError, function (reason) {
-		// The request failed due to technical reasons.
-		// reason.cause is the Error object Request would pass into a callback.
+		    .catch(errors.RequestError, function (reason) {
+		    // The request failed due to technical reasons.
+		    // reason.cause is the Error object Request would pass into a callback.
+		    console.log(reason);
 		}));
 	    }
 	
@@ -217,15 +219,13 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 facebookPictureJob.start();
 
 function facebook_promise_iterator(facebook_response){
+    if(facebook_response != undefined){
     console.log(facebook_response);
     var facebook_json = JSON.parse(facebook_response);
     var refresh_picture_date = new Date();
     refresh_picture_date.setDate(refresh_picture_date.getDate() + 15);
-	
-    if(facebook_json.error != undefined){
-        console.log(facebook_json.error.message);
-    } else {
-        if (facebook_json.id != undefined && facebook_json.picture != undefined && facebook_json.picture.data != undefined){
+	    
+	if (facebook_json.id != undefined && facebook_json.picture != undefined && facebook_json.picture.data != undefined){
 	    db.collection('users').update({ 
 		user_id: parseInt(facebook_json.id) },
 		{ $set:
