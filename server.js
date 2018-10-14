@@ -213,16 +213,22 @@ function facebook_promise_iterator(facebook_response){
     var refresh_picture_date = new Date();
     refresh_picture_date.setDate(refresh_picture_date.getDate() + 15);
 	
-    db.collection('users').update({ 
-        user_id: parseInt(facebook_json.id) },
-        { $set:
-	    {
-	        facebook_picture: facebook_json.picture.data.url,
-	        refresh_picture: refresh_picture_date
-	    }
-        },
-        { upsert : false }
-    );
+    if(facebook_json.error != undefined){
+        console.log(facebook_json.error.message);
+    } else {
+        if (facebook_json.id != undefined && facebook_json.picture != undefined && facebook_json.picture.data != undefined){
+	    db.collection('users').update({ 
+		user_id: parseInt(facebook_json.id) },
+		{ $set:
+		    {
+			facebook_picture: facebook_json.picture.data.url,
+			refresh_picture: refresh_picture_date
+		    }
+		},
+		{ upsert : false }
+	    );
+        }
+    }
 }
 		       
 function promiseRequest(options) {
