@@ -196,7 +196,9 @@ var facebookPictureJob = new cronJob('0 */5 * * * *', function(){
 	      .then((arrayOfFbRes) => {	      
 	      arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
-	  .catch(/* handle error */);
+	  .catch(function(err) {
+	    console.log(err)
+	  });
 	}
     });
     
