@@ -237,9 +237,16 @@ function promiseRequest(options) {
 	    resolve(body);
 	});        
     })
-    .catch(function(err){
-        return err;	
-    });
+    .catch(errors.StatusCodeError, function (reason) {
+        // The server responded with a status codes other than 2xx.
+        // Check reason.statusCode
+	    console.log(reason);
+	})
+    .catch(errors.RequestError, function (reason) {
+        // The request failed due to technical reasons.
+        // reason.cause is the Error object Request would pass into a callback.
+	    console.log(reason);
+	});
 }
 
 //var db = null,
