@@ -164,7 +164,7 @@ var crossingPositionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 crossingPositionsCleanupJob.start();
 
-var facebookPictureJob = new cronJob('0 0 */10 * * *', function(){
+var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
     
     var now_date = new Date();
     var facebook_graph_requests = [];
