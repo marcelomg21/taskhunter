@@ -198,7 +198,7 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 	      	arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
 	    .catch(function(err) {
-	        console.error('err', err);
+	        console.log(err);
 	    });
 	}
     });
@@ -242,11 +242,16 @@ function promiseRequest(options) {
         // Check reason.statusCode
 	    console.log(reason);
 	})
+    .catch(errors.ReferenceError, function (reason) {
+        // The server responded with a status codes other than 2xx.
+        // Check reason.statusCode
+	    console.log(reason);
+	})
     .catch(errors.RequestError, function (reason) {
         // The request failed due to technical reasons.
         // reason.cause is the Error object Request would pass into a callback.
 	    console.log(reason);
-	});
+	});		
 }
 
 //var db = null,
