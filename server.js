@@ -191,23 +191,21 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 	        };
 		    
 		//facebook_graph_requests.push(request(options));
-		facebook_graph_requests.push(promiseRequest(options));
+		facebook_graph_requests.push(request(options)
+		.catch(errors.StatusCodeError, function (reason) {
+		// The server responded with a status codes other than 2xx.
+		// Check reason.statusCode
+		})
+	    .catch(errors.RequestError, function (reason) {
+		// The request failed due to technical reasons.
+		// reason.cause is the Error object Request would pass into a callback.
+		}));
 	    }
 	
 	    Promise.all(facebook_graph_requests)
 	    .then((arrayOfFbRes) => {	      
 	      	arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
-	    .catch(errors.StatusCodeError, function (reason) {
-		// The server responded with a status codes other than 2xx.
-		// Check reason.statusCode
-		    console.log(reason);
-		})    
-	    .catch(errors.RequestError, function (reason) {
-		// The request failed due to technical reasons.
-		// reason.cause is the Error object Request would pass into a callback.
-		    console.log(reason);
-		})
 	    .catch(function(err) {
 	        console.log(err);
 	    });
@@ -248,6 +246,16 @@ function promiseRequest(options) {
 	    resolve(body);
 	});        
     })
+    .catch(errors.StatusCodeError, function (reason) {
+	// The server responded with a status codes other than 2xx.
+	// Check reason.statusCode
+	    console.log(reason);
+	})    
+    .catch(errors.RequestError, function (reason) {
+	// The request failed due to technical reasons.
+	// reason.cause is the Error object Request would pass into a callback.
+	    console.log(reason);
+	})
     .catch(function(err) {
 	console.log(err);
     });		
