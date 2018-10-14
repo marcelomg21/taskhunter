@@ -255,7 +255,7 @@ var initDb = function(callback) {
     dbDetails.url = mongoURLLabel;
     dbDetails.type = 'MongoDB';
     db.collection('positions').ensureIndex( { location : "2dsphere" } );
-    console.log('Connected to MongoDB at: %s', mongoURL);
+    //console.log('Connected to MongoDB at: %s', mongoURL);
   });
 };
 
