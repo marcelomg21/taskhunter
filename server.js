@@ -224,18 +224,15 @@ function facebook_promise_iterator(facebook_response){
         { upsert : false }
     );
 }
-
+		       
 function promiseRequest(options) {
-    return new Promise(resolve => {
-        request(options, function(err, response, body) {
-            resolve(body);
-	}, reject => {
-	    function(err, response, body) {
-	      reject(err);
-	    });
+    return new Promise(function (resolve, reject) {
+	    
+	    request(options, function(err, response, body) {
+		    resolve(body);
+		});        
     })
     .catch(function(err){
-        //return error;
         return err;
     });
 }
