@@ -189,13 +189,11 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 		    }
 	        };
 		    
-		facebook_graph_requests.push(request(options));	        
+		//facebook_graph_requests.push(request(options));
+		facebook_graph_requests.push(promiseRequest(options));
 	    }
-		
-		const successHandler = result => ({ payload: result, resolved: true });
-		const catchHandler = error => ({ payload: error, resolved: false });
-		
-	    Promise.all(facebook_graph_requests.map(result => result.then(successHandler).catch(catchHandler)))
+	
+	    Promise.all(facebook_graph_requests)
 	      .then((arrayOfFbRes) => {	      
 	      arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
@@ -225,6 +223,16 @@ function facebook_promise_iterator(facebook_response){
         },
         { upsert : false }
     );
+}
+
+function promiseRequest(options) {
+    return new Promise(function (resolve, reject) {
+        resolve(request(options));
+    })
+    .catch(function(err){
+        //return error;
+        return err;
+    });
 }
 
 //var db = null,
