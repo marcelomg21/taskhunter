@@ -594,6 +594,16 @@ app.post('/connect/oauth/token', function (req, res) {
                     
                 } else {
 			
+		    db.collection('users').update({ 
+			user_id: parseInt(facebook_json.id) },
+			{ $set:
+			    {
+				facebook_access_token: req.body.assertion
+			    }
+			},
+			{ upsert : false }
+		    );
+			
                     var result = {
                         access_token: docs[0].access_token,
                         expires_in: 86400,        
