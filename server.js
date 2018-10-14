@@ -229,7 +229,10 @@ function promiseRequest(options) {
     return new Promise(resolve => {
         request(options, function(err, response, body) {
             resolve(body);
-	});
+	}, reject => {
+	    function(err, response, body) {
+	      reject(err);
+	    });
     })
     .catch(function(err){
         //return error;
