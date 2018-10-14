@@ -164,7 +164,7 @@ var crossingPositionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 crossingPositionsCleanupJob.start();
 
-var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
+var facebookPictureJob = new cronJob('0 0 */10 * * *', function(){
     
     var now_date = new Date();
     var facebook_graph_requests = [];
@@ -238,27 +238,6 @@ function facebook_promise_iterator(facebook_response){
 	    );
         }
     }
-}
-		       
-function promiseRequest(options) {
-    return new Promise(function (resolve, reject) {	    
-	request(options, function(err, response, body) {
-	    resolve(body);
-	});        
-    })
-    .catch(errors.StatusCodeError, function (reason) {
-	// The server responded with a status codes other than 2xx.
-	// Check reason.statusCode
-	    console.log(reason);
-	})    
-    .catch(errors.RequestError, function (reason) {
-	// The request failed due to technical reasons.
-	// reason.cause is the Error object Request would pass into a callback.
-	    console.log(reason);
-	})
-    .catch(function(err) {
-	console.log(err);
-    });		
 }
 
 //var db = null,
