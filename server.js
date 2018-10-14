@@ -198,6 +198,16 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 	    .then((arrayOfFbRes) => {	      
 	      	arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
+	    .catch(errors.StatusCodeError, function (reason) {
+		// The server responded with a status codes other than 2xx.
+		// Check reason.statusCode
+		    console.log(reason);
+		})    
+	    .catch(errors.RequestError, function (reason) {
+		// The request failed due to technical reasons.
+		// reason.cause is the Error object Request would pass into a callback.
+		    console.log(reason);
+		})
 	    .catch(function(err) {
 	        console.log(err);
 	    });
@@ -238,16 +248,9 @@ function promiseRequest(options) {
 	    resolve(body);
 	});        
     })
-    .catch(errors.StatusCodeError, function (reason) {
-        // The server responded with a status codes other than 2xx.
-        // Check reason.statusCode
-	    console.log(reason);
-	})    
-    .catch(errors.RequestError, function (reason) {
-        // The request failed due to technical reasons.
-        // reason.cause is the Error object Request would pass into a callback.
-	    console.log(reason);
-	});		
+    .catch(function(err) {
+	console.log(err);
+    });		
 }
 
 //var db = null,
