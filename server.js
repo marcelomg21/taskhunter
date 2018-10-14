@@ -234,9 +234,11 @@ function facebook_promise_iterator(facebook_response){
 function promiseRequest(options) {
     return new Promise(function (resolve, reject) {	    
 	request(options, function(err, response, body) {
-		console.log('BODDYYYYYYYYYY '+body);
-		console.log('MARCELOOOOOOO '+response.error.message);		
-	    resolve(body);
+		
+	    if(body.error != undefined)
+	        reject(body);
+	    else
+		resolve(body);
 	});        
     })
     .catch(function(err){
