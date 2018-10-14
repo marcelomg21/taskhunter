@@ -208,7 +208,7 @@ function facebook_promise_iterator(facebook_response){
 	
     var facebook_json = JSON.parse(facebook_response);
     var refresh_picture_date = new Date();
-    refresh_picture_date.setDate(refresh_picture_date.getDate() + 30);
+    refresh_picture_date.setDate(refresh_picture_date.getDate() + 15);
 	
     db.collection('users').update({ 
         user_id: parseInt(facebook_json.id) },
@@ -516,7 +516,7 @@ app.post('/connect/oauth/token', function (req, res) {
 		    	birthDateFormat = facebook_json.birthday.split('/')[2] + '-' + facebook_json.birthday.split('/')[1] + '-' + facebook_json.birthday.split('/')[0];
 		    //var registerDateFormat = register_date.getDate() + '/' + (register_date.getMonth() + 1) + '/' + register_date.getFullYear();
 		    var refresh_picture_date = new Date();
-    		    refresh_picture_date.setDate(refresh_picture_date.getDate() + 30);
+    		    refresh_picture_date.setDate(refresh_picture_date.getDate() + 15);
                     var jwt_access_token = jwt.sign(tokenData, 'fb106701ca07d55d53e66648b2cc2d4a');
                     
                     col.insert({
