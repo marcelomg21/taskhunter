@@ -236,14 +236,14 @@ function promiseRequest(options) {
 	request(options, function(err, response, body) {
 		
 	    if(body.error != undefined)
-	        reject(body);
+	        reject(new Error(body));
 	    else
 		resolve(body);
 	});        
     })
     .catch(function(err){
         //return err;
-	console.log(err);
+	return new Error(err);
     });
 }
 
