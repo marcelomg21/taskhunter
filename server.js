@@ -195,12 +195,12 @@ var facebookPictureJob = new cronJob('0 0 */10 * * *', function(){
 		    .catch(errors.StatusCodeError, function (reason) {
 		    // The server responded with a status codes other than 2xx.
 		    // Check reason.statusCode
-		    console.log(reason);
-		})
+		    console.log(reason.statusCode);
+		    })
 		    .catch(errors.RequestError, function (reason) {
 		    // The request failed due to technical reasons.
 		    // reason.cause is the Error object Request would pass into a callback.
-		    console.log(reason);
+		    console.log(reason.statusCode);
 		}));
 	    }
 	
