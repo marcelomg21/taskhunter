@@ -195,7 +195,7 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 		const successHandler = result => ({ payload: result, resolved: true });
 		const catchHandler = error => ({ payload: error, resolved: false });
 		
-	    Promise.all(facebook_graph_requests.map(result => result.then(successHandler).catch(catchHandler))
+	    Promise.all(facebook_graph_requests.map(result => result.then(successHandler).catch(catchHandler)))
 	      .then((arrayOfFbRes) => {	      
 	      arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
