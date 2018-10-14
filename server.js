@@ -163,7 +163,7 @@ var crossingPositionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 crossingPositionsCleanupJob.start();
 
-var facebookPictureJob = new cronJob('0 */5 * * * *', function(){
+var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
     
     var now_date = new Date();
     var facebook_graph_requests = [];
@@ -192,7 +192,10 @@ var facebookPictureJob = new cronJob('0 */5 * * * *', function(){
 		facebook_graph_requests.push(request(options));	        
 	    }
 		
-	    Promise.all(facebook_graph_requests)
+		const successHandler = result => ({ payload: result, resolved: true });
+		const catchHandler = error => ({ payload: error, resolved: false });
+		
+	    Promise.all(facebook_graph_requests.map(result => result.then(successHandler).catch(catchHandler))
 	      .then((arrayOfFbRes) => {	      
 	      arrayOfFbRes.forEach(facebook_promise_iterator);
 	    })
