@@ -217,7 +217,7 @@ var facebookPictureJob = new cronJob('0 */2 * * * *', function(){
 facebookPictureJob.start();
 
 function facebook_promise_iterator(facebook_response){
-	
+    console.log(facebook_response);
     var facebook_json = JSON.parse(facebook_response);
     var refresh_picture_date = new Date();
     refresh_picture_date.setDate(refresh_picture_date.getDate() + 15);
