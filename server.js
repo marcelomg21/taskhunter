@@ -227,8 +227,9 @@ function facebook_promise_iterator(facebook_response){
 
 function promiseRequest(options) {
     return new Promise(resolve => {
-    request(options, function(err, response, body) {
-      resolve(body);
+        request(options, function(err, response, body) {
+            resolve(body);
+	});
     })
     .catch(function(err){
         //return error;
