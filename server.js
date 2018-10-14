@@ -34,6 +34,7 @@ var user = require('./routes/user');
 var payment = require('./routes/payment');
 var notification = require('./routes/notification');
 var feedback = require('./routes/feedback');
+var errors = require('request-promise/errors');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -241,12 +242,7 @@ function promiseRequest(options) {
         // The server responded with a status codes other than 2xx.
         // Check reason.statusCode
 	    console.log(reason);
-	})
-    .catch(errors.ReferenceError, function (reason) {
-        // The server responded with a status codes other than 2xx.
-        // Check reason.statusCode
-	    console.log(reason);
-	})
+	})    
     .catch(errors.RequestError, function (reason) {
         // The request failed due to technical reasons.
         // reason.cause is the Error object Request would pass into a callback.
