@@ -3594,7 +3594,7 @@ app.put('/api/users/:user_id/devices/:device_id/position', function (req, res) {
               {
                   type:'Point', 
                   coordinates:[parseFloat(req.body.latitude), parseFloat(req.body.longitude)] }, 
-                  maxDistance:0.90*1609, 
+                  maxDistance:4.90*1609, 
                   spherical:true, 
                   distanceField:'distance', 
                   distanceMultiplier:0.000621371 
