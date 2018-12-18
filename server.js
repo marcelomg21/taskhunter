@@ -153,9 +153,9 @@ var crossingNotificationsJob = new cronJob('0 */5 * * * *', function(){
 		        // on how to define a message payload.
 		        var payload = {
 			    data: {
-			    notification_key: "SENT_CROSSING_NOTIFICATION",
+			    notification_key: "MATCH",
 			    message: "",
-			    notification_custom_data: " { ag-id: " + docs_notifications[index_docs_notifications].user_id + ", view-id:" + "crossing_notification" + " } "
+			    notification_custom_data: " { ag-id: " + "null" + ", view-id:" + "null" + " } "
 			  }
 		        };
 
