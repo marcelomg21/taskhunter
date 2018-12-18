@@ -181,11 +181,11 @@ var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
 			      });
 		      }
 		 }
-		)};
+		});
 	    }
 	}
 
-    }
+    });
 });
 
 crossingNotificationsJob.start();
