@@ -141,6 +141,11 @@ var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
 				
 	if (docs_notifications.length > 0) {
 	    for (var index_docs_notifications = 0, len_docs_notifications = docs_notifications.length; index_docs_notifications < len_docs_notifications; index_docs_notifications++) {
+		db.collection('devices').find(user_id: parseInt(docs_notifications[index_docs_notifications].user_id)).toArray(function (err, docs_device) {
+		    if (docs_device.length > 0) {
+			//
+		    }
+		};
 	    }
 	}
 
