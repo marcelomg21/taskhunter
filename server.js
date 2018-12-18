@@ -136,6 +136,19 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
+var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
+    db.collection('crossings_notifications').find({'notification.users.is_conversation' : true }).toArray(function (err, docs_notifications) {
+				
+	if (docs_notifications.length > 0) {
+	    for (var index_docs_notifications = 0, len_docs_notifications = docs_notifications.length; index_docs_notifications < len_docs_notifications; index_docs_notifications++) {
+	    }
+	}
+
+    }
+});
+
+crossingNotificationsJob.start();
+
 var crossingPositionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
     db.collection('crossings_positions').aggregate([
 	{$sort: {
