@@ -141,17 +141,11 @@ var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
 				
 	if (docs_notifications.length > 0) {
 	    for (var index_docs_notifications = 0, len_docs_notifications = docs_notifications.length; index_docs_notifications < len_docs_notifications; index_docs_notifications++) {
-		db.collection('devices').find(user_id: parseInt(docs_notifications[index_docs_notifications].user_id)).toArray(function (err, docs_device) {
+		db.collection('devices').find({user_id: parseInt(docs_notifications[index_docs_notifications].user_id)}).toArray(function (err, docs_device) {
 		    if (docs_device.length > 0) {
-			var firebase_token = "";
-				
-			for (var i = 0, len = docs.length; i < len; i++) {
-			    if (parseInt(docs[i].user_id) == parseInt(req.body.recipient)) {
-				firebase_token = docs[i].device.firebase_token;
-				app_type = docs[i].device.type;
-				break;
-			    }            
-			}
+			    
+			var firebase_token = docs_device[0].device.firebase_token;
+			var app_type = docs_device[0].device.type;
 			    
 			var registrationToken = firebase_token;
 
@@ -159,21 +153,33 @@ var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
 		        // on how to define a message payload.
 		        var payload = {
 			    data: {
-			    notification_key: "SENT_MESSAGE",
+			    notification_key: "SENT_CROSSING_NOTIFICATION",
 			    message: "",
-			    notification_custom_data: "{ag-id: " + req.body.sender + ", view-id:" + req.params.conversation_id + ", nu-conv:" + docs_conversations.length + " }"
+			    notification_custom_data: " { ag-id: " + docs_notifications[index_docs_notifications].user_id + ", view-id:" + "crossing_notification" + " } "
 			  }
 		        };
 
-			global.serviceMessagingApp.sendToDevice(registrationToken, payload)
-			  .then(function(response) {
-			    // See the MessagingDevicesResponse reference documentation for
-			    // the contents of response.
-			    console.log("Successfully sent message:", response);
-			  })
-			  .catch(function(error) {
-			    console.log("Error sending message:", error);
-		      });
+			if(app_type == "matching"){
+			  global.serviceMessagingApp.sendToDevice(registrationToken, payload)
+				  .then(function(response) {
+				    // See the MessagingDevicesResponse reference documentation for
+				    // the contents of response.
+				    console.log("Successfully sent notification:", response);
+				  })
+				  .catch(function(error) {
+				    console.log("Error sending notification:", error);
+			      });
+		      } else if(app_type == "working"){
+			  global.serviceMessagingAppPro.sendToDevice(registrationToken, payload)
+				  .then(function(response) {
+				    // See the MessagingDevicesResponse reference documentation for
+				    // the contents of response.
+				    console.log("Successfully sent notification pro:", response);
+				  })
+				  .catch(function(error) {
+				    console.log("Error sending notification pro:", error);
+			      });
+		      }
 		    }
 		};
 	    }
