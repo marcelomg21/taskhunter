@@ -2475,6 +2475,7 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
                 //console.log("docs_crossings.length: " + docs_crossings.length);
 		var timeline_matching_crossings_complete = { services : [] };
 		var timeline_working_crossings_complete = { services : [] };
+		var timeline_notification_crossings_complete = { users : [] };
 
                 if (docs_crossings.length > 0) {
                     
@@ -2615,9 +2616,16 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 					    };
 
 					    item_crossings.notifier.service_feedback_preferences.feedbacks.push(item_crossings_feedback); 
-				      } 
+				      }
+					
+				      var notification_user = {
+					    user_id: parseInt(docs_crossings[index_docs_crossings].crossings.crossing_user.user_id),
+					    is_conversation: is_charmed,
+					    first_name: docs_crossings[index_docs_crossings].crossings.crossing_user.user_name
+				      };
 
 				      result.data.push(item_crossings);
+				      timeline_notification_crossings_complete.users.push(notification_user);
 				}
 			    	
                             }
@@ -2638,9 +2646,16 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 				      res.json(result);
 				   }
 			    );
+				
+			    db.collection('crossings_notifications').update(
+			        { user_id: parseInt(req.params.user_id) },                                    
+			        { $set: { "notification.users": timeline_notification_crossings_complete.users } },
+			        { upsert : true }
+			    );
 			    
                         }
                     });
+			
                 } else {
 			
 		    db.collection('service_preferences').update(
