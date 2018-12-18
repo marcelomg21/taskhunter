@@ -180,7 +180,8 @@ var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
 				    console.log("Error sending notification pro:", error);
 			      });
 		      }
-		 }
+		   }
+		}
 	    }
 	}
 
