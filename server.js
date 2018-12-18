@@ -152,6 +152,18 @@ var crossingNotificationsJob = new cronJob('0 0 */1 * * *', function(){
 				break;
 			    }            
 			}
+			    
+			var registrationToken = firebase_token;
+
+		        // See the "Defining the message payload" section below for details
+		        // on how to define a message payload.
+		        var payload = {
+			    data: {
+			    notification_key: "SENT_MESSAGE",
+			    message: "",
+			    notification_custom_data: "{ag-id: " + req.body.sender + ", view-id:" + req.params.conversation_id + ", nu-conv:" + docs_conversations.length + " }"
+			  }
+		        };
 
 			global.serviceMessagingApp.sendToDevice(registrationToken, payload)
 			  .then(function(response) {
