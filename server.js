@@ -153,7 +153,7 @@ var crossingNotificationsJob = new cronJob('0 */1 * * * *', function(){
 			    data: {
 			    notification_key: "MATCH",
 			    message: "",
-			    notification_custom_data: " { ag-id: " + "Você cruzou com usuários! Clique para ver linha do tempo" + ", view-id:" + docs_device[0].user_id + " } "
+			    notification_custom_data: " { ag-id: " + app_type + ", view-id:" + docs_device[0].user_id + " } "
 			  }
 		        };
 
