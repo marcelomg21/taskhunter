@@ -136,7 +136,7 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
-var crossingNotificationsJob = new cronJob('0 0 */8 * * *', function(){
+var crossingNotificationsJob = new cronJob('0 */1 * * * *', function(){
     db.collection('crossings_notifications').find({'notification.users.is_conversation' : false }).toArray(function (err, docs_notifications) {
 				
 	if (docs_notifications.length > 0) {
@@ -155,7 +155,7 @@ var crossingNotificationsJob = new cronJob('0 0 */8 * * *', function(){
 			    data: {
 			    notification_key: "MATCH",
 			    message: "",
-			    notification_custom_data: " { ag-id: " + "null" + ", view-id:" + "null" + " } "
+			    notification_custom_data: " { ag-id: " + "null" + ", view-id:" + docs_notifications[index_docs_notifications].user_id + " } "
 			  }
 		        };
 
