@@ -146,16 +146,21 @@ var crossingNotificationsJob = new cronJob('0 */1 * * * *', function(){
 			    
 			var firebase_token = docs_device[0].device.firebase_token;
 			var app_type = docs_device[0].device.type;
-			    
+			var customMessage = "";
 			var registrationToken = firebase_token;
 
-		        // See the "Defining the message payload" section below for details
+			if(app_type == "matching"){
+			    customMessage = "Você cruzou com profissionais! Clique para ver linha do tempo";
+			} else if(app_type == "working"){
+			    customMessage = "Você cruzou com clientes! Clique para ver sua linha do tempo";
+			}
+		        
 		        // on how to define a message payload.
 		        var payload = {
 			    data: {
 			    notification_key: "MATCH",
 			    message: "",
-			    notification_custom_data: " { ag-id: " + "null" + ", view-id:" + docs_device[0].user_id + " } "
+			    notification_custom_data: " { ag-id: " + customMessage + ", view-id:" + docs_device[0].user_id + " } "
 			  }
 		        };
 
