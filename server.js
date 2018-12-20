@@ -155,7 +155,7 @@ var crossingNotificationsJob = new cronJob('0 */1 * * * *', function(){
 			    data: {
 			    notification_key: "MATCH",
 			    message: "",
-			    notification_custom_data: " { ag-id: " + "null" + ", view-id:" + docs_notifications[index_docs_notifications].user_id + " } "
+			    notification_custom_data: " { ag-id: " + "null" + ", view-id:" + docs_device[0].user_id + " } "
 			  }
 		        };
 
