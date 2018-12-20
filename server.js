@@ -146,7 +146,7 @@ var crossingNotificationsJob = new cronJob('0 */1 * * * *', function(){
 			    
 			var firebase_token = docs_device[0].device.firebase_token;
 			var app_type = docs_device[0].device.type;
-			var customMessage = "";
+			var customMessage = "null";
 			var registrationToken = firebase_token;
 
 			if(app_type == "matching"){
