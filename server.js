@@ -136,7 +136,7 @@ var positionsCleanupJob = new cronJob('0 0 */8 * * *', function(){
 
 positionsCleanupJob.start();
 
-var crossingNotificationsJob = new cronJob('0 0 */8 * * *', function(){
+var crossingNotificationsJob = new cronJob('0 0 */3 * * *', function(){
     db.collection('crossings_notifications').find({'notification.users.is_conversation' : false }).toArray(function (err, docs_notifications) {
 				
 	if (docs_notifications.length > 0) {
