@@ -2522,7 +2522,8 @@ app.get('/api/users/:user_id/crossings', function (req, res) {
 	    {$group:{_id:'$_id', crossings: {'$push': {'crossing_user': '$crossingsObjects', 'crossing_feedback': '$feedbackObjects', 'crossing_mutual': '$mutualObjects', 'crossing_conversations': '$conversationObjects'} } } }, 
 	    {$unwind:'$crossings'},
 	    {$unwind:'$crossings.crossing_user'},
-            {$match:{$and:[{'_id' : parseInt(req.params.user_id), 'crossings.crossing_mutual.crossings': parseInt(req.params.user_id) }]} }]).toArray(function (err, docs_crossings) {
+            {$match:{$and:[{'_id' : parseInt(req.params.user_id), 'crossings.crossing_mutual.crossings': parseInt(req.params.user_id) }]} },
+	    {$sort: { 'crossings.crossing_mutual.timestamp': -1 } }]).toArray(function (err, docs_crossings) {
 
                 //console.log("docs_crossings.length: " + docs_crossings.length);
 		var timeline_matching_crossings_complete = { services : [] };
